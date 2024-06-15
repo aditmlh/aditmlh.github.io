@@ -4,47 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Name - Resume</title>
-    <link rel="stylesheet" href="styles.css">
+    <!-- Include Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="bg-gray-100">
 
-    <header>
+    <header class="bg-gray-800 text-white py-4">
         <!-- Navigation bar -->
-        <nav>
-            <ul>
-                <li><a href="#about">About</a></li>
-                <li><a href="#experience">Experience</a></li>
-                <li><a href="#portfolio">Portfolio</a></li>
-                <li><a href="#contact">Contact</a></li>
+        <nav class="container mx-auto">
+            <ul class="flex justify-center">
+                <li><a href="#about" class="hover:text-gray-300 px-4">About</a></li>
+                <li><a href="#experience" class="hover:text-gray-300 px-4">Experience</a></li>
+                <li><a href="#portfolio" class="hover:text-gray-300 px-4">Portfolio</a></li>
+                <li><a href="#contact" class="hover:text-gray-300 px-4">Contact</a></li>
             </ul>
         </nav>
     </header>
 
     <section id="about" class="section">
         <!-- About section with parallax background -->
-        <div class="parallax">
-            <div class="content">
-                <h1>About Me</h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam aliquet purus sed sem varius, at auctor felis gravida.</p>
+        <div class="parallax bg-cover bg-center py-24 text-center">
+            <div class="container mx-auto">
+                <h1 class="text-4xl font-bold mb-4">About Me</h1>
+                <p class="text-lg text-gray-800">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam aliquet purus sed sem varius, at auctor felis gravida.</p>
             </div>
         </div>
     </section>
 
     <section id="experience" class="section">
         <!-- Experience section -->
-        <div class="content">
-            <h2>Experience</h2>
-            <div class="timeline">
+        <div class="container mx-auto py-12">
+            <h2 class="text-3xl font-bold mb-8 text-center">Experience</h2>
+            <div class="flex flex-col gap-8">
                 <!-- Timeline items -->
-                <div class="timeline-item">
-                    <h3>Senior Web Developer</h3>
-                    <p>Developed responsive and dynamic websites using HTML, CSS, JavaScript, and frameworks like React.</p>
-                    <span class="date">2018 - Present</span>
+                <div class="timeline-item bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold mb-2">Senior Web Developer</h3>
+                    <p class="text-gray-700">Developed responsive and dynamic websites using HTML, CSS, JavaScript, and frameworks like React.</p>
+                    <span class="text-gray-500">2018 - Present</span>
                 </div>
-                <div class="timeline-item">
-                    <h3>Junior Developer</h3>
-                    <p>Assisted in front-end development tasks, including UI/UX design and implementation.</p>
-                    <span class="date">2015 - 2018</span>
+                <div class="timeline-item bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold mb-2">Junior Developer</h3>
+                    <p class="text-gray-700">Assisted in front-end development tasks, including UI/UX design and implementation.</p>
+                    <span class="text-gray-500">2015 - 2018</span>
                 </div>
             </div>
         </div>
@@ -52,23 +53,23 @@
 
     <section id="portfolio" class="section">
         <!-- Portfolio section with Lottie animations -->
-        <div class="content">
-            <h2>Portfolio</h2>
-            <div class="portfolio-items">
+        <div class="container mx-auto py-12">
+            <h2 class="text-3xl font-bold mb-8 text-center">Portfolio</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Dummy portfolio items with Lottie animations -->
-                <div class="portfolio-item">
-                    <div class="lottie-animation">
+                <div class="portfolio-item bg-white p-6 rounded-lg shadow-md">
+                    <div class="lottie-animation mx-auto mb-4">
                         <!-- Lottie animation placeholder -->
                     </div>
-                    <h3>Personal Website</h3>
-                    <p>Designed and developed my personal portfolio website showcasing skills and projects.</p>
+                    <h3 class="text-xl font-semibold mb-2">Personal Website</h3>
+                    <p class="text-gray-700">Designed and developed my personal portfolio website showcasing skills and projects.</p>
                 </div>
-                <div class="portfolio-item">
-                    <div class="lottie-animation">
+                <div class="portfolio-item bg-white p-6 rounded-lg shadow-md">
+                    <div class="lottie-animation mx-auto mb-4">
                         <!-- Lottie animation placeholder -->
                     </div>
-                    <h3>E-commerce App</h3>
-                    <p>Contributed to the development of an e-commerce application with React and Node.js.</p>
+                    <h3 class="text-xl font-semibold mb-2">E-commerce App</h3>
+                    <p class="text-gray-700">Contributed to the development of an e-commerce application with React and Node.js.</p>
                 </div>
             </div>
         </div>
@@ -76,26 +77,26 @@
 
     <section id="contact" class="section">
         <!-- Contact section -->
-        <div class="content">
-            <h2>Contact Me</h2>
-            <form>
-                <label for="name">Name</label>
-                <input type="text" id="name" name="name" required>
+        <div class="container mx-auto py-12">
+            <h2 class="text-3xl font-bold mb-8 text-center">Contact Me</h2>
+            <form class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
+                <label for="name" class="block mb-2">Name</label>
+                <input type="text" id="name" name="name" class="w-full px-4 py-2 mb-4 border rounded-lg focus:outline-none focus:border-blue-500" required>
 
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" required>
+                <label for="email" class="block mb-2">Email</label>
+                <input type="email" id="email" name="email" class="w-full px-4 py-2 mb-4 border rounded-lg focus:outline-none focus:border-blue-500" required>
 
-                <label for="message">Message</label>
-                <textarea id="message" name="message" required></textarea>
+                <label for="message" class="block mb-2">Message</label>
+                <textarea id="message" name="message" class="w-full px-4 py-2 mb-4 border rounded-lg resize-none focus:outline-none focus:border-blue-500" rows="6" required></textarea>
 
-                <button type="submit">Send</button>
+                <button type="submit" class="bg-gray-800 text-white px-4 py-2 rounded-lg hover:bg-gray-700 focus:outline-none">Send</button>
             </form>
         </div>
     </section>
 
     <!-- Morphism animation example -->
-    <div class="morph-example">
-        <button class="morph-button">Morph Shape</button>
+    <div class="morph-example text-center mt-16">
+        <button class="morph-button bg-gray-800 text-white px-4 py-2 rounded-lg hover:bg-gray-700 focus:outline-none">Morph Shape</button>
         <svg class="morph-shape" width="100" height="100">
             <path class="morph-target" d="M10 10 L90 10 L50 90 Z" fill="#FF5722"></path>
         </svg>
