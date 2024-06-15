@@ -1,70 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aditya Malah - Astronaut Resume</title>
-<link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Resume Game</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Aditya Malah</h1>
-            <p>Astronaut Resume</p>
-        </header>
-        <main>
-            <section id="earth" class="stage level-1">
-                <h2>About Me (Earth)</h2>
-                <div class="avatar"></div>
-                <p>Hi, my name is Aditya Malah. I'm a Full Stack Web Developer with expertise in PHP, Python, C++, CSS, JavaScript, AJAX, and frameworks like Django, Laravel, CodeIgniter, Bootstrap, and Tailwind. I have experience working in various roles including as a freelancer and in government organizations.</p>
-                <button id="exploreMercury">Explore Mercury</button>
-            </section>
-            <section id="mercury" class="stage level-2 hidden">
-                <h2>Career Highlights (Mercury)</h2>
-                <div class="career-item">
-                    <h3>Lead Developer @ Returnless</h3>
-                    <p>Eindhoven | <a href="https://returnless.com" target="_blank">returnless.com</a></p>
-                    <p>As the Lead Developer at Returnless, I oversee the development of an all-in-one Return Platform using Laravel, Vapor, Vue3, and Tailwind.</p>
-                </div>
-                <div class="career-item">
-                    <h3>Freelance Full Stack Web Developer</h3>
-                    <p>Worked on various projects involving web development and graphic design since 2016.</p>
-                </div>
-                <button id="exploreJupiter">Explore Jupiter</button>
-            </section>
-            <section id="jupiter" class="stage level-3 hidden">
-                <h2>Education (Jupiter)</h2>
-                <p>SMK COKROAMINOTO KOTAMOBAGU</p>
-                <p>Jurusan Teknik Komputer dan Jaringan, 2014 - 2016</p>
-                <button id="exploreMars">Explore Mars</button>
-            </section>
-            <section id="mars" class="stage level-4 hidden">
-                <h2>Portfolio (Mars)</h2>
-                <div class="portfolio-item">
-                    <h3>Medical Record Application @ Puskesmas Tanoyan</h3>
-                    <p>Developed a medical record application for Puskesmas Tanoyan in 2023.</p>
-                </div>
-                <button id="endGame">End Exploration</button>
-            </section>
-            <section id="end-credits" class="stage end hidden">
-                <h2>End Credits</h2>
-                <div class="client-logos">
-                    <img src="dummy-logo1.png" alt="Client Logo">
-                    <img src="dummy-logo2.png" alt="Client Logo">
-                    <!-- Add more client logos as needed -->
-                </div>
-                <div class="social-links">
-                    <ul>
-                        <li><a href="https://instagram.com/aditmlh" target="_blank">Instagram</a></li>
-                        <li><a href="https://tiktok.com/aditmlh" target="_blank">TikTok</a></li>
-                        <li><a href="https://facebook.com/aditmlh" target="_blank">Facebook</a></li>
-                        <li><a href="https://github.com/aditmlh" target="_blank">GitHub</a></li>
-                    </ul>
-                </div>
-            </section>
-        </main>
+    <canvas id="gameCanvas"></canvas>
+
+    <div id="content">
+        <!-- Sections for different resume stages (planets) -->
+        <section id="aboutMe" class="stage level-1">
+            <h2>About Me (Earth)</h2>
+            <p>Hi, I'm an astronaut exploring the depths of space...</p>
+            <button id="exploreMercury">Explore Mercury</button>
+        </section>
+
+        <section id="careerHighlights" class="stage level-2 hidden">
+            <h2>Career Highlights (Mercury)</h2>
+            <p>My achievements on the planet Mercury...</p>
+            <button id="exploreJupiter">Explore Jupiter</button>
+        </section>
+
+        <section id="education" class="stage level-3 hidden">
+            <h2>Education (Jupiter)</h2>
+            <p>What I learned on the planet Jupiter...</p>
+            <button id="exploreMars">Explore Mars</button>
+        </section>
+
+        <section id="portfolio" class="stage level-4 hidden">
+            <h2>Portfolio (Mars)</h2>
+            <p>Projects I've completed on the planet Mars...</p>
+            <button id="endGame">End Game</button>
+        </section>
+
+        <section id="endCredits" class="stage level-5 hidden">
+            <h2>End Credits</h2>
+            <p>Thanks for exploring my resume game!</p>
+        </section>
     </div>
-    <div id="threejs-container"></div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="script.js"></script>
 </body>
