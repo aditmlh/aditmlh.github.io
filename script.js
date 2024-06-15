@@ -1,112 +1,134 @@
 document.addEventListener('DOMContentLoaded', function () {
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+
+    const contentContainer = document.getElementById('content');
     const stages = document.querySelectorAll('.stage');
     let currentStage = 0;
 
-    // Initialize Three.js
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    document.getElementById('threejs-container').appendChild(renderer.domElement);
+    // Canvas size adjustment
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
-    // Create a basic sphere as an example of a planet
-    const geometry = new THREE.SphereGeometry(10, 32, 32);
-    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-    const planet = new THREE.Mesh(geometry, material);
-    scene.add(planet);
-
-    camera.position.z = 50;
-
-    // Add keyboard and touch controls for spaceship movement
-    const spaceship = new THREE.Object3D(); // Replace with your spaceship model
-
-    // Keyboard controls
-    const keyboard = {};
-    document.addEventListener('keydown', (e) => {
-        keyboard[e.code] = true;
-    });
-    document.addEventListener('keyup', (e) => {
-        keyboard[e.code] = false;
-    });
-
-    // Touch controls
-    let touchStartX = 0;
-    let touchStartY = 0;
-    let touchEndX = 0;
-    let touchEndY = 0;
-
-    document.addEventListener('touchstart', (e) => {
-        touchStartX = e.touches[0].clientX;
-        touchStartY = e.touches[0].clientY;
-    });
-
-    document.addEventListener('touchmove', (e) => {
-        touchEndX = e.touches[0].clientX;
-        touchEndY = e.touches[0].clientY;
-
-        const deltaX = touchEndX - touchStartX;
-        const deltaY = touchEndY - touchStartY;
-
-        // Adjust spaceship position based on deltaX and deltaY
-        // Example: spaceship.position.x += deltaX * sensitivity;
-        // Example: spaceship.position.y -= deltaY * sensitivity;
-
-        touchStartX = touchEndX;
-        touchStartY = touchEndY;
-    });
-
-    // Function to animate the planet
-    function animatePlanet() {
-        planet.rotation.y += 0.005;
+    // Game initialization
+    function initGame() {
+        drawBackground();
+        animateStory(); // Call story animation function
+        drawScene(); // Draw the initial scene
     }
 
-    // Function to animate the scene
-    function animate() {
-        requestAnimationFrame(animate);
-        animateSpaceship(); // Animate the spaceship
-        animatePlanet(); // Animate the planet or other 3D elements
-        renderer.render(scene, camera);
+    // Draw background
+    function drawBackground() {
+        ctx.fillStyle = '#1a202c'; // Background color
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
 
-    // Function to animate the spaceship
-    function animateSpaceship() {
-        // Example: Update spaceship position based on keyboard or touch controls
-        if (keyboard['KeyW']) {
-            spaceship.position.z -= 0.1;
-        }
-        if (keyboard['KeyS']) {
-            spaceship.position.z += 0.1;
-        }
-        if (keyboard['KeyA']) {
-            spaceship.position.x -= 0.1;
-        }
-        if (keyboard['KeyD']) {
-            spaceship.position.x += 0.1;
-        }
+    // Draw scene
+    function drawScene() {
+        // Example: Implementing a simple scene with buildings, roads, houses, mountains, etc.
+        // Buildings
+        ctx.fillStyle = '#555';
+        ctx.fillRect(100, 200, 200, 400);
+        ctx.fillRect(400, 100, 150, 500);
 
-        // Example: Limit spaceship movement within certain boundaries
-        // Adjust according to your scene
-        spaceship.position.x = Math.min(Math.max(spaceship.position.x, -50), 50);
-        spaceship.position.z = Math.min(Math.max(spaceship.position.z, -50), 50);
+        // Roads
+        ctx.fillStyle = '#888';
+        ctx.fillRect(0, canvas.height - 100, canvas.width, 100);
+
+        // Houses
+        ctx.fillStyle = '#b88';
+        ctx.fillRect(600, 300, 100, 200);
+
+        // Mountains
+        ctx.fillStyle = '#444';
+        ctx.beginPath();
+        ctx.moveTo(200, 200);
+        ctx.lineTo(300, 50);
+        ctx.lineTo(400, 200);
+        ctx.closePath();
+        ctx.fill();
+
+        // Sun
+        ctx.beginPath();
+        ctx.arc(canvas.width - 100, 100, 50, 0, Math.PI * 2);
+        ctx.fillStyle = 'yellow';
+        ctx.fill();
+
+        // Beach
+        ctx.fillStyle = '#fcba03';
+        ctx.fillRect(0, canvas.height - 100, canvas.width, 50);
+
+        // Birds
+        ctx.fillStyle = '#fff';
+        ctx.beginPath();
+        ctx.moveTo(100, 100);
+        ctx.lineTo(120, 90);
+        ctx.lineTo(120, 110);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.moveTo(150, 120);
+        ctx.lineTo(170, 110);
+        ctx.lineTo(170, 130);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.moveTo(200, 90);
+        ctx.lineTo(220, 80);
+        ctx.lineTo(220, 100);
+        ctx.closePath();
+        ctx.fill();
     }
 
-    // Button click to explore Mercury
-    document.getElementById('exploreMercury').addEventListener('click', () => {
+    // Animate story
+    function animateStory() {
+        // Example: Implementing a simple story animation
+        let textX = canvas.width / 2;
+        let textY = canvas.height / 2;
+        let storyText = [
+            "Welcome to the Interactive Resume Game!",
+            "Explore different planets to learn about me...",
+            "Let's begin!"
+        ];
+
+        ctx.fillStyle = '#fff';
+        ctx.font = '30px Arial';
+
+        let index = 0;
+        let intervalId = setInterval(() => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawBackground();
+            ctx.fillText(storyText[index], textX, textY);
+            index++;
+
+            if (index === storyText.length) {
+                clearInterval(intervalId);
+                contentContainer.classList.remove('hidden');
+                stages[currentStage].classList.remove('hidden');
+            }
+        }, 2000); // 2 seconds per text animation
+    }
+
+    // Button click to navigate stages
+    const exploreMercuryButton = document.getElementById('exploreMercury');
+    exploreMercuryButton.addEventListener('click', () => {
         unlockStage(1); // Unlock Mercury
     });
 
-    // Button click to explore Jupiter
-    document.getElementById('exploreJupiter').addEventListener('click', () => {
+    const exploreJupiterButton = document.getElementById('exploreJupiter');
+    exploreJupiterButton.addEventListener('click', () => {
         unlockStage(2); // Unlock Jupiter
     });
 
-    // Button click to explore Mars
-    document.getElementById('exploreMars').addEventListener('click', () => {
+    const exploreMarsButton = document.getElementById('exploreMars');
+    exploreMarsButton.addEventListener('click', () => {
         unlockStage(3); // Unlock Mars
     });
 
-    // Button click to end exploration
-    document.getElementById('endGame').addEventListener('click', () => {
+    const endGameButton = document.getElementById('endGame');
+    endGameButton.addEventListener('click', () => {
         unlockStage(4); // End the game
     });
 
@@ -116,37 +138,17 @@ document.addEventListener('DOMContentLoaded', function () {
             stages[currentStage].classList.add('hidden');
             currentStage = stageIndex;
             stages[currentStage].classList.remove('hidden');
-
-            // Update the planet appearance based on the current stage
-            switch (currentStage) {
-                case 0: // Earth
-                    planet.material.color.set(0x00ff00); // Green
-                    break;
-                case 1: // Mercury
-                    planet.material.color.set(0xff0000); // Red
-                    break;
-                case 2: // Jupiter
-                    planet.material.color.set(0xffff00); // Yellow
-                    break;
-                case 3: // Mars
-                    planet.material.color.set(0xff00ff); // Magenta
-                    break;
-                case 4: // End credits
-                    planet.material.color.set(0xffffff); // White
-                    break;
-                default:
-                    break;
-            }
         }
     }
 
     // Responsive canvas resizing
     window.addEventListener('resize', function () {
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        drawBackground();
+        drawScene(); // Redraw the scene on resize
     });
 
-    // Start the animation
-    animate();
+    // Initiate game
+    initGame();
 });
