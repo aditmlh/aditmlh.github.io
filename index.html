@@ -4,7 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interactive Resume Game</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+        canvas {
+            display: block;
+        }
+        #content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            text-align: center;
+        }
+        .stage {
+            display: none;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <canvas id="gameCanvas"></canvas>
@@ -41,7 +63,186 @@
         </section>
     </div>
 
+    <!-- Include Three.js library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="script.js"></script>
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+
+    const contentContainer = document.getElementById('content');
+    const stages = document.querySelectorAll('.stage');
+    let currentStage = 0;
+
+    // Three.js variables
+    let scene, camera, renderer, rocket;
+
+    // Movement variables
+    const rocketSpeed = 0.1;
+    const rotationSpeed = 0.01;
+    let keys = {};
+
+    // Canvas size adjustment
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // Game initialization
+    function initGame() {
+        // Initialize Three.js
+        initThreeJS();
+
+        drawBackground();
+        animateStory(); // Call story animation function
+        drawScene(); // Draw the initial scene
+        setupControls(); // Setup keyboard controls
+    }
+
+    // Initialize Three.js
+    function initThreeJS() {
+        // Create a scene
+        scene = new THREE.Scene();
+        
+        // Create a camera
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 5;
+
+        // Create a renderer
+        renderer = new THREE.WebGLRenderer({ canvas: canvas });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+        // Add a rocket (Indonesian flag)
+        const geometry = new THREE.CylinderGeometry(0.5, 0.5, 2, 16);
+        const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+        rocket = new THREE.Mesh(geometry, material);
+        scene.add(rocket);
+
+        // Example: Add a light
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(ambientLight);
+
+        const pointLight = new THREE.PointLight(0xffffff, 1);
+        pointLight.position.set(5, 5, 5);
+        scene.add(pointLight);
+    }
+
+    // Draw background (2D canvas)
+    function drawBackground() {
+        ctx.fillStyle = '#1a202c'; // Background color
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
+    // Draw scene (Three.js)
+    function drawScene() {
+        renderer.render(scene, camera);
+    }
+
+    // Animate story (2D canvas)
+    function animateStory() {
+        // Example: Implementing a simple story animation
+        let textX = canvas.width / 2;
+        let textY = canvas.height / 2;
+        let storyText = [
+            "Welcome to the Interactive Resume Game!",
+            "Explore different planets to learn about me...",
+            "Let's begin!"
+        ];
+
+        ctx.fillStyle = '#fff';
+        ctx.font = '30px Arial';
+
+        let index = 0;
+        let intervalId = setInterval(() => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawBackground();
+            ctx.fillText(storyText[index], textX, textY);
+            index++;
+
+            if (index === storyText.length) {
+                clearInterval(intervalId);
+                contentContainer.classList.remove('hidden');
+                stages[currentStage].classList.remove('hidden');
+            }
+        }, 2000); // 2 seconds per text animation
+    }
+
+    // Setup keyboard controls
+    function setupControls() {
+        document.addEventListener('keydown', function(event) {
+            keys[event.code] = true;
+        });
+        document.addEventListener('keyup', function(event) {
+            keys[event.code] = false;
+        });
+    }
+
+    // Update rocket position and rotation based on controls
+    function updateRocket() {
+        if (keys['ArrowUp']) {
+            rocket.position.y += rocketSpeed;
+        }
+        if (keys['ArrowDown']) {
+            rocket.position.y -= rocketSpeed;
+        }
+        if (keys['ArrowLeft']) {
+            rocket.rotation.z += rotationSpeed;
+        }
+        if (keys['ArrowRight']) {
+            rocket.rotation.z -= rotationSpeed;
+        }
+    }
+
+    // Button click to navigate stages
+    const exploreMercuryButton = document.getElementById('exploreMercury');
+    exploreMercuryButton.addEventListener('click', () => {
+        unlockStage(1); // Unlock Mercury
+    });
+
+    const exploreJupiterButton = document.getElementById('exploreJupiter');
+    exploreJupiterButton.addEventListener('click', () => {
+        unlockStage(2); // Unlock Jupiter
+    });
+
+    const exploreMarsButton = document.getElementById('exploreMars');
+    exploreMarsButton.addEventListener('click', () => {
+        unlockStage(3); // Unlock Mars
+    });
+
+    const endGameButton = document.getElementById('endGame');
+    endGameButton.addEventListener('click', () => {
+        unlockStage(4); // End the game
+    });
+
+    // Function to unlock stages based on currentStage index
+    function unlockStage(stageIndex) {
+        if (stageIndex >= 0 && stageIndex < stages.length) {
+            stages[currentStage].classList.add('hidden');
+            currentStage = stageIndex;
+            stages[currentStage].classList.remove('hidden');
+        }
+    }
+
+    // Responsive canvas resizing
+    window.addEventListener('resize', function () {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        drawBackground();
+        drawScene(); // Redraw the scene on resize
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+    });
+
+    // Game loop
+    function animate() {
+        requestAnimationFrame(animate);
+        updateRocket();
+        drawScene();
+    }
+
+    // Initiate game and start animation loop
+    initGame();
+    animate();
+});
+</script>
 </body>
 </html>
