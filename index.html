@@ -1,201 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pascal van Gemert - Interactive Resume</title>
-<link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pascal van Gemert | Interactive Resume</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-    <div class="container">
-        <header>
-            <h1>Pascal van Gemert</h1>
-            <p>Interactive Resume</p>
-        </header>
-        <main>
-            <section class="about">
-                <h2>About Me</h2>
-                <div class="avatar"></div>
-                <p>Hi, my name is Pascal van Gemert. I'm a Creative / Full Stack Developer from the Netherlands. Over the years I developed a skill set in a range of technologies and frameworks, including Laravel, VueJS and Tailwind. Where I really value clean and readable code. Also I'm very passionate about UX / UI. And last but not least, I am the proud father of two boys. I enjoy playing sports and I'm a little bit of a geek now and then.</p>
-            </section>
-            <section class="careers">
-                <h2>Careers</h2>
-                <div class="career-item">
-                    <h3>Lead Developer @ Returnless (fulltime)</h3>
-                    <p>Eindhoven | <a href="https://returnless.com" target="_blank">returnless.com</a></p>
-                    <p>As the Lead Developer at Returnless, me and the team are developing an all-in-one Return Platform. Using Laravel combined with Vapor and a beautiful Vue3 / Tailwind front-end we deliver a sweatless return experience for our customers.</p>
+
+    <canvas id="gameCanvas"></canvas>
+
+    <div id="content" class="hidden">
+        <!-- Main Content -->
+        <main id="main-content">
+            <!-- Stage 1: Introduction -->
+            <section id="introduction" class="stage">
+                <div class="container">
+                    <h1>Welcome to Pascal's Interactive Resume!</h1>
+                    <p>Embark on a journey through my career and skills...</p>
+                    <button id="startButton">Start Journey</button>
                 </div>
-                <!-- Add more career items as needed -->
             </section>
-            <section class="education">
-                <h2>Education</h2>
-                <p>Computer Science @ Avans (bachelor) - 's-Hertogenbosch</p>
-                <p>During my bachelor's degree, I started off with Java and gained a thorough understanding of algorithms. I also completed a minor in web and game development (multimedia).</p>
-            </section>
-            <section class="abilities">
-                <h2>Abilities</h2>
-                <ul>
-                    <li>HTML/5</li>
-                    <li>CSS/3 (+ SASS)</li>
-                    <li>Tailwind 3.x</li>
-                    <li>Vue 2 / 3</li>
-                    <li>PHP 8.1 (16 years)</li>
-                    <li>Laravel 9.x (8 years) + certified</li>
-                    <!-- Add more skills as needed -->
-                </ul>
-            </section>
-            <section class="projects">
-                <h2>Projects</h2>
-                <div class="project-item">
-                    <h3>Samsung S6 - Next is now</h3>
-                    <p>The Next is Now campaign, for the completely redesigned Galaxy S6 and S6 edge, is part of one of Samsung’s biggest launches in recent years. Next is Now will be featured around the globe, supporting all campaign components, including television, digital, experiential, OOH and retail activations.</p>
-                    <p>Technologies: PHP, Laravel, JS / ES5, CSS / SASS, AWS S3</p>
+
+            <!-- Stage 2: About Me -->
+            <section id="about" class="stage hidden">
+                <div class="container">
+                    <h2>About Me</h2>
+                    <p>Hi, my name is Pascal van Gemert. I'm a Creative / Full Stack Developer from the Netherlands...</p>
                 </div>
-                <!-- Add more project items as needed -->
             </section>
-            <section class="footer">
-                <p>© Pascal van Gemert | All rights reserved</p>
-                <p>Don't forget to follow me..</p>
-                <ul class="social-links">
-                    <li><a href="https://instagram.com/aditmlh" target="_blank">Instagram</a></li>
-                    <li><a href="https://tiktok.com/aditmlh" target="_blank">TikTok</a></li>
-                    <li><a href="https://facebook.com/aditmlh" target="_blank">Facebook</a></li>
-                    <li><a href="https://github.com/aditmlh" target="_blank">GitHub</a></li>
-                </ul>
+
+            <!-- Stage 3: Career -->
+            <section id="career" class="stage hidden">
+                <div class="container">
+                    <h2>Career</h2>
+                    <!-- Career Timeline -->
+                    <div class="career-item">
+                        <h3>Lead Developer @ Returnless (fulltime)</h3>
+                        <p>Eindhoven | <a href="https://returnless.com">https://returnless.com</a></p>
+                        <p>As the Lead Developer at Returnless, I lead the team in developing an all-in-one Return Platform...</p>
+                    </div>
+                    <!-- Add more career items as needed -->
+                </div>
+            </section>
+
+            <!-- Stage 4: Education -->
+            <section id="education" class="stage hidden">
+                <div class="container">
+                    <h2>Education</h2>
+                    <!-- Education Items -->
+                    <div class="education-item">
+                        <h3>Course @ Gamification (online)</h3>
+                        <p>Penn University</p>
+                        <p>I successfully completed a course on gamification...</p>
+                    </div>
+                    <!-- Add more education items as needed -->
+                </div>
+            </section>
+
+            <!-- Stage 5: Abilities -->
+            <section id="abilities" class="stage hidden">
+                <div class="container">
+                    <h2>Abilities</h2>
+                    <!-- Abilities List -->
+                    <ul class="abilities-list">
+                        <li>Coding: HTML/5, CSS/3 (+ SASS), Tailwind 3.x, Vue 2 / 3, PHP 8.1 (16 years)...</li>
+                        <!-- Add more abilities as needed -->
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Stage 6: Projects -->
+            <section id="projects" class="stage hidden">
+                <div class="container">
+                    <h2>Projects</h2>
+                    <!-- Project Cards -->
+                    <div class="project-card">
+                        <h3>Samsung S6 - Next is Now</h3>
+                        <p>The Next is Now campaign, featuring the Samsung Galaxy S6 and S6 edge, was a global initiative...</p>
+                        <p>Company: Caviar Digital</p>
+                        <button class="project-details-btn">More details</button>
+                    </div>
+                    <!-- Add more project cards as needed -->
+                </div>
+            </section>
+
+            <!-- Stage 7: Contact -->
+            <section id="contact" class="stage hidden">
+                <div class="container">
+                    <h2>Contact Me</h2>
+                    <p>Do you have any questions or want to work together? Feel free to reach out!</p>
+                    <!-- Social Media Links -->
+                    <div class="social-links">
+                        <a href="#" class="social-link">Instagram</a>
+                        <a href="#" class="social-link">TikTok</a>
+                        <a href="#" class="social-link">Facebook</a>
+                        <a href="#" class="social-link">GitHub</a>
+                    </div>
+                    <p>&copy; 2024 Pascal van Gemert. All rights reserved.</p>
+                </div>
             </section>
         </main>
     </div>
-    <canvas id="gameCanvas"></canvas>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const canvas = document.getElementById('gameCanvas');
-            const ctx = canvas.getContext('2d');
 
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-
-            // Shadows and gradients for buildings
-            function drawBuildings() {
-                ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
-                ctx.shadowBlur = 10;
-
-                const buildingGradient1 = ctx.createLinearGradient(100, 200, 100, 600);
-                buildingGradient1.addColorStop(0, '#555');
-                buildingGradient1.addColorStop(1, '#333');
-
-                ctx.fillStyle = buildingGradient1;
-                ctx.fillRect(100, 200, 200, 400);
-
-                const buildingGradient2 = ctx.createLinearGradient(400, 100, 400, 600);
-                buildingGradient2.addColorStop(0, '#777');
-                buildingGradient2.addColorStop(1, '#555');
-
-                ctx.fillStyle = buildingGradient2;
-                ctx.fillRect(400, 100, 150, 500);
-
-                ctx.shadowColor = 'transparent';
-            }
-
-            // Animation for birds
-            let bird1X = 100;
-            let bird1Y = 100;
-            let bird2X = 150;
-            let bird2Y = 120;
-            let bird3X = 200;
-            let bird3Y = 90;
-
-            function animateBirds() {
-                bird1X += 1;
-                bird2X += 1.5;
-                bird3X += 0.8;
-
-                if (bird1X > canvas.width) bird1X = -20;
-                if (bird2X > canvas.width) bird2X = -20;
-                if (bird3X > canvas.width) bird3X = -20;
-
-                drawBirds();
-                requestAnimationFrame(animateBirds);
-            }
-
-            function drawBirds() {
-                ctx.fillStyle = '#fff';
-                ctx.beginPath();
-                ctx.moveTo(bird1X, bird1Y);
-                ctx.lineTo(bird1X + 20, bird1Y - 10);
-                ctx.lineTo(bird1X + 20, bird1Y + 10);
-                ctx.closePath();
-                ctx.fill();
-
-                ctx.beginPath();
-                ctx.moveTo(bird2X, bird2Y);
-                ctx.lineTo(bird2X + 20, bird2Y - 10);
-                ctx.lineTo(bird2X + 20, bird2Y + 10);
-                ctx.closePath();
-                ctx.fill();
-
-                ctx.beginPath();
-                ctx.moveTo(bird3X, bird3Y);
-                ctx.lineTo(bird3X + 20, bird3Y - 10);
-                ctx.lineTo(bird3X + 20, bird3Y + 10);
-                ctx.closePath();
-                ctx.fill();
-            }
-
-            // Gradients and texture for mountains
-            function drawMountains() {
-                const mountainGradient = ctx.createLinearGradient(0, canvas.height - 100, 0, 200);
-                mountainGradient.addColorStop(0, '#888');
-                mountainGradient.addColorStop(1, '#444');
-
-                ctx.fillStyle = mountainGradient;
-                ctx.beginPath();
-                ctx.moveTo(200, 200);
-                ctx.lineTo(300, 50);
-                ctx.lineTo(400, 200);
-                ctx.closePath();
-                ctx.fill();
-
-                ctx.fillStyle = '#666';
-                ctx.beginPath();
-                ctx.moveTo(250, 150);
-                ctx.lineTo(275, 100);
-                ctx.lineTo(300, 150);
-                ctx.closePath();
-                ctx.fill();
-
-                ctx.beginPath();
-                ctx.moveTo(275, 150);
-                ctx.lineTo(300, 100);
-                ctx.lineTo(325, 150);
-                ctx.closePath();
-                ctx.fill();
-            }
-
-            // Drawing beach with texture
-            function drawBeach() {
-                const sandTexture = new Image();
-                sandTexture.src = 'sand-texture.png'; // Replace with your texture image
-                sandTexture.onload = function () {
-                    ctx.drawImage(sandTexture, 0, canvas.height - 100, canvas.width, 100);
-                };
-            }
-
-            // Animation loop
-            function animate() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-                drawBuildings();
-                drawMountains();
-                drawBeach();
-                drawBirds();
-
-                requestAnimationFrame(animate);
-            }
-
-            // Start animations
-            animate();
-            animateBirds();
-        });
-    </script>
+    <script src="scripts.js"></script>
 </body>
+
 </html>
