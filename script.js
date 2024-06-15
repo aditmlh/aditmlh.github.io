@@ -1,119 +1,58 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const canvas = document.getElementById('gameCanvas');
-    const ctx = canvas.getContext('2d');
-    const contentContainer = document.querySelector('.container');
     const stages = document.querySelectorAll('.stage');
-    const startButton = document.getElementById('startButton');
     let currentStage = 0;
 
-    // Canvas size adjustment
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    // Initialize Three.js
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.getElementById('threejs-container').appendChild(renderer.domElement);
 
-    // Game initialization
-    function initGame() {
-        drawBackground();
-        animateStory(); // Call story animation function
-        drawScene(); // Draw the initial scene
+    // Create a basic sphere as an example of a planet
+    const geometry = new THREE.SphereGeometry(10, 32, 32);
+    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+    const planet = new THREE.Mesh(geometry, material);
+    scene.add(planet);
+
+    camera.position.z = 50;
+
+    // Function to animate the planet
+    function animatePlanet() {
+        planet.rotation.y += 0.005;
     }
 
-    // Draw background
-    function drawBackground() {
-        ctx.fillStyle = '#1a202c'; // Background color
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // Function to animate the scene
+    function animate() {
+        requestAnimationFrame(animate);
+        animatePlanet(); // Animate the planet or other 3D elements
+        renderer.render(scene, camera);
     }
 
-    // Draw scene
-    function drawScene() {
-        // Example: Implementing a simple scene with buildings, roads, houses, mountains, etc.
-        // Buildings
-        ctx.fillStyle = '#555';
-        ctx.fillRect(100, 200, 200, 400);
-        ctx.fillRect(400, 100, 150, 500);
-
-        // Roads
-        ctx.fillStyle = '#888';
-        ctx.fillRect(0, canvas.height - 100, canvas.width, 100);
-
-        // Houses
-        ctx.fillStyle = '#b88';
-        ctx.fillRect(600, 300, 100, 200);
-
-        // Mountains
-        ctx.fillStyle = '#444';
-        ctx.beginPath();
-        ctx.moveTo(200, 200);
-        ctx.lineTo(300, 50);
-        ctx.lineTo(400, 200);
-        ctx.closePath();
-        ctx.fill();
-
-        // Sun
-        ctx.beginPath();
-        ctx.arc(canvas.width - 100, 100, 50, 0, Math.PI * 2);
-        ctx.fillStyle = 'yellow';
-        ctx.fill();
-
-        // Beach
-        ctx.fillStyle = '#fcba03';
-        ctx.fillRect(0, canvas.height - 100, canvas.width, 50);
-
-        // Birds
-        ctx.fillStyle = '#fff';
-        ctx.beginPath();
-        ctx.moveTo(100, 100);
-        ctx.lineTo(120, 90);
-        ctx.lineTo(120, 110);
-        ctx.closePath();
-        ctx.fill();
-
-        ctx.beginPath();
-        ctx.moveTo(150, 120);
-        ctx.lineTo(170, 110);
-        ctx.lineTo(170, 130);
-        ctx.closePath();
-        ctx.fill();
-
-        ctx.beginPath();
-        ctx.moveTo(200, 90);
-        ctx.lineTo(220, 80);
-        ctx.lineTo(220, 100);
-        ctx.closePath();
-        ctx.fill();
+    // Function to start exploration from Earth
+    function exploreEarth() {
+        animate(); // Start the animation loop
+        unlockStage(1); // Unlock Mercury after animation starts
     }
 
-    // Animate story
-    function animateStory() {
-        // Example: Implementing a simple story animation
-        let textX = canvas.width / 2;
-        let textY = canvas.height / 2;
-        let storyText = [
-            "Welcome to Aditya's Interactive Resume!",
-            "Explore my career and skills...",
-            "Let's begin!"
-        ];
+    // Button click to explore Mercury
+    document.getElementById('exploreMercury').addEventListener('click', () => {
+        unlockStage(2); // Unlock Mercury
+    });
 
-        ctx.fillStyle = '#fff';
-        ctx.font = '30px Arial';
+    // Button click to explore Jupiter
+    document.getElementById('exploreJupiter').addEventListener('click', () => {
+        unlockStage(3); // Unlock Jupiter
+    });
 
-        let index = 0;
-        let intervalId = setInterval(() => {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            drawBackground();
-            ctx.fillText(storyText[index], textX, textY);
-            index++;
+    // Button click to explore Mars
+    document.getElementById('exploreMars').addEventListener('click', () => {
+        unlockStage(4); // Unlock Mars
+    });
 
-            if (index === storyText.length) {
-                clearInterval(intervalId);
-                contentContainer.classList.remove('hidden');
-                stages[currentStage].classList.remove('hidden');
-            }
-        }, 2000); // 2 seconds per text animation
-    }
-
-    // Button click to navigate stages
-    startButton.addEventListener('click', () => {
-        unlockStage(1); // Start with the second stage (index 1)
+    // Button click to end exploration
+    document.getElementById('endGame').addEventListener('click', () => {
+        unlockStage(5); // End Credits
     });
 
     // Function to unlock stages based on currentStage index
@@ -127,12 +66,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Responsive canvas resizing
     window.addEventListener('resize', function () {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        drawBackground();
-        drawScene(); // Redraw the scene on resize
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
-    // Initiate game
-    initGame();
+    // Initiate exploration from Earth
+    exploreEarth();
 });
