@@ -1,86 +1,46 @@
-/* Global Styles */
-body {
+/* Add your styles for layout, typography, and other design elements here */
+body, html {
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
-    overflow: hidden; /* Prevent scrolling */
-    background-color: #000;
+    overflow: hidden;
+    height: 100%;
 }
 
 .container {
-    max-width: 800px;
-    margin: 0 auto;
-    text-align: center;
-    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
-/* Canvas */
-#gameCanvas {
+canvas {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #000;
     z-index: -1;
 }
 
-/* Sections */
 .stage {
-    display: none;
-    padding: 100px 20px;
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #fff;
+    transition: opacity 0.5s ease-in-out;
+    opacity: 0;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
 }
 
-.stage h2 {
-    font-size: 2.5rem;
-}
-
-.stage p {
-    font-size: 1.2rem;
-}
-
-/* Buttons */
-button {
-    background-color: #3498db;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
-    border-radius: 5px;
-}
-
-button:hover {
-    background-color: #2980b9;
-}
-
-/* Social Links */
-.social-links {
-    margin-top: 20px;
-}
-
-.social-link {
-    color: #3498db;
-    margin: 0 10px;
-    font-size: 1.2rem;
-    transition: color 0.3s ease;
-}
-
-.social-link:hover {
-    color: #2980b9;
-}
-
-/* Hide Loader when content is ready */
 .hidden {
     display: none;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .container {
-        padding: 10px;
-    }
+.social-links {
+    display: flex;
+    gap: 10px;
+    list-style-type: none;
+    padding: 0;
+}
+
+.social-links li {
+    font-size: 1.2rem;
 }
