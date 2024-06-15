@@ -40,3 +40,14 @@
     background-color: #333;
     color: #fff;
 }
+
+/* Slider (Tiny Slider) */
+.tns-nav {
+    display: none; /* Hide default navigation buttons */
+}
+
+/* Modal */
+#portfolio-modal {
+    z-index: 1000;
+}
+
