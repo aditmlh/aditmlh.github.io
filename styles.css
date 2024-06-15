@@ -1,120 +1,58 @@
-/* Loader Animation */
-.loader {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.line1, .line2, .line3 {
-    animation: loading 1.5s infinite ease-in-out;
-}
-
-@keyframes loading {
-    0% {
-        transform: scaleY(1);
-    }
-    50% {
-        transform: scaleY(2);
-    }
-    100% {
-        transform: scaleY(1);
-    }
-}
-
-/* Navbar styles */
-.nav-link {
-    color: #fff;
-    text-decoration: none;
-    padding: 10px 15px;
-    transition: all 0.3s ease;
-}
-
-.nav-link:hover {
-    font-weight: bold;
-}
-
-/* Dark Mode */
-.dark {
-    background-color: #333;
-    color: #fff;
-}
-
-/* Modal */
-#portfolio-modal {
-    z-index: 1000;
-}
-
-/* Full Page Animations */
-section {
-    opacity: 0;
-    transform: translateY(50px);
-    transition: opacity 1s ease, transform 1s ease;
-}
-
-section.active {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Interactive Items */
-.interactive {
-    transition: all 0.3s ease;
-}
-
-.interactive:hover {
-    transform: scale(1.1) rotate(12deg);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Game-like Item */
-.game-item {
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.game-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Typewriter Text */
-.typewriter {
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
     overflow: hidden;
-    border-right: .15em solid orange;
-    white-space: nowrap;
+}
+
+.container {
+    max-width: 800px;
     margin: 0 auto;
-    letter-spacing: .15em;
-    animation:
-        typing 3.5s steps(30, end),
-        blink-caret .5s step-end infinite;
+    padding: 20px;
 }
 
-@keyframes typing {
-    from {
-        width: 0
-    }
-
-    to {
-        width: 20.5em
-    }
+header {
+    text-align: center;
+    margin-bottom: 20px;
 }
 
-@keyframes blink-caret {
-    from, to {
-        border-color: transparent
-    }
-
-    50% {
-        border-color: orange;
-    }
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 5px;
 }
 
-/* Clients Carousel */
-.slider {
-    overflow: hidden;
+p {
+    font-size: 1rem;
+    line-height: 1.5;
 }
 
-.tns-slide-active .slider-item {
-    transform: scale(1.2);
-    transition: all 0.3s ease;
+main {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.about, .careers, .education, .abilities, .projects, .footer {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.social-links {
+    display: flex;
+    gap: 10px;
+    list-style-type: none;
+    padding: 0;
+}
+
+.social-links li {
+    font-size: 1.2rem;
+}
+
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
 }
