@@ -1,146 +1,138 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Loader
-    setTimeout(function () {
-        document.getElementById('loader').style.display = 'none';
-    }, 3000);
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const contentContainer = document.querySelector('.container');
+    const stages = document.querySelectorAll('.stage');
+    const startButton = document.getElementById('startButton');
+    let currentStage = 0;
 
-    // Mobile menu toggle
-    document.getElementById('mobile-menu-toggle').addEventListener('click', function () {
-        document.getElementById('mobile-menu').classList.toggle('hidden');
-    });
+    // Canvas size adjustment
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
-    // Smooth scroll and active section
-    const sections = document.querySelectorAll('section');
-    const navLinks = document.querySelectorAll('.nav-link');
-
-    navLinks.forEach(link => {
-        link.addEventListener('click', function (e) {
-            e.preventDefault();
-
-            const targetId = this.getAttribute('href').substring(1);
-            const targetSection = document.getElementById(targetId);
-
-            window.scrollTo({
-                top: targetSection.offsetTop,
-                behavior: 'smooth'
-            });
-        });
-    });
-
-    // Intersection Observer for section activation
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.5
-    };
-
-    const observer = new IntersectionObserver(function (entries, observer) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('active');
-            }
-        });
-    }, observerOptions);
-
-    sections.forEach(section => {
-        observer.observe(section);
-    });
-
-    // Portfolio modal
-    const portfolioItems = document.querySelectorAll('.portfolio-item');
-    const portfolioModal = document.getElementById('portfolio-modal');
-    const closeModal = document.getElementById('close-modal');
-
-    portfolioItems.forEach(item => {
-        item.addEventListener('click', function () {
-            portfolioModal.classList.remove('hidden');
-        });
-    });
-
-    closeModal.addEventListener('click', function () {
-        portfolioModal.classList.add('hidden');
-    });
-
-    // Tiny Slider (Clients Carousel)
-    var slider = tns({
-        container: '.slider',
-        items: 3,
-        slideBy: 'page',
-        autoplay: true,
-        autoplayButtonOutput: false,
-        nav: false,
-        controls: false,
-        responsive: {
-            640: {
-                items: 3
-            },
-            768: {
-                items: 4
-            },
-            1024: {
-                items: 6
-            }
-        }
-    });
-
-    // Interactive Effects
-    const interactiveItems = document.querySelectorAll('.interactive');
-
-    interactiveItems.forEach(item => {
-        item.addEventListener('mouseenter', function () {
-            item.classList.add('transform', 'rotate-12', 'shadow-lg');
-        });
-
-        item.addEventListener('mouseleave', function () {
-            item.classList.remove('transform', 'rotate-12', 'shadow-lg');
-        });
-    });
-
-    // Typewriter Effect
-    const typewriterText = document.getElementById('typewriter-text');
-    const texts = ["Creative Developer", "Full Stack Developer", "UX/UI Enthusiast", "Proud Father", "Sports Lover", "Geek"];
-
-    let index = 0;
-    let charIndex = 0;
-
-    function type() {
-        if (charIndex < texts[index].length) {
-            typewriterText.textContent += texts[index].charAt(charIndex);
-            charIndex++;
-            setTimeout(type, 100);
-        } else {
-            setTimeout(erase, 1500);
-        }
+    // Game initialization
+    function initGame() {
+        drawBackground();
+        animateStory(); // Call story animation function
+        drawScene(); // Draw the initial scene
     }
 
-    function erase() {
-        if (charIndex > 0) {
-            typewriterText.textContent = texts[index].substring(0, charIndex - 1);
-            charIndex--;
-            setTimeout(erase, 50);
-        } else {
+    // Draw background
+    function drawBackground() {
+        ctx.fillStyle = '#1a202c'; // Background color
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
+    // Draw scene
+    function drawScene() {
+        // Example: Implementing a simple scene with buildings, roads, houses, mountains, etc.
+        // Buildings
+        ctx.fillStyle = '#555';
+        ctx.fillRect(100, 200, 200, 400);
+        ctx.fillRect(400, 100, 150, 500);
+
+        // Roads
+        ctx.fillStyle = '#888';
+        ctx.fillRect(0, canvas.height - 100, canvas.width, 100);
+
+        // Houses
+        ctx.fillStyle = '#b88';
+        ctx.fillRect(600, 300, 100, 200);
+
+        // Mountains
+        ctx.fillStyle = '#444';
+        ctx.beginPath();
+        ctx.moveTo(200, 200);
+        ctx.lineTo(300, 50);
+        ctx.lineTo(400, 200);
+        ctx.closePath();
+        ctx.fill();
+
+        // Sun
+        ctx.beginPath();
+        ctx.arc(canvas.width - 100, 100, 50, 0, Math.PI * 2);
+        ctx.fillStyle = 'yellow';
+        ctx.fill();
+
+        // Beach
+        ctx.fillStyle = '#fcba03';
+        ctx.fillRect(0, canvas.height - 100, canvas.width, 50);
+
+        // Birds
+        ctx.fillStyle = '#fff';
+        ctx.beginPath();
+        ctx.moveTo(100, 100);
+        ctx.lineTo(120, 90);
+        ctx.lineTo(120, 110);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.moveTo(150, 120);
+        ctx.lineTo(170, 110);
+        ctx.lineTo(170, 130);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.moveTo(200, 90);
+        ctx.lineTo(220, 80);
+        ctx.lineTo(220, 100);
+        ctx.closePath();
+        ctx.fill();
+    }
+
+    // Animate story
+    function animateStory() {
+        // Example: Implementing a simple story animation
+        let textX = canvas.width / 2;
+        let textY = canvas.height / 2;
+        let storyText = [
+            "Welcome to Aditya's Interactive Resume!",
+            "Explore my career and skills...",
+            "Let's begin!"
+        ];
+
+        ctx.fillStyle = '#fff';
+        ctx.font = '30px Arial';
+
+        let index = 0;
+        let intervalId = setInterval(() => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawBackground();
+            ctx.fillText(storyText[index], textX, textY);
             index++;
-            if (index >= texts.length) index = 0;
-            setTimeout(type, 500);
+
+            if (index === storyText.length) {
+                clearInterval(intervalId);
+                contentContainer.classList.remove('hidden');
+                stages[currentStage].classList.remove('hidden');
+            }
+        }, 2000); // 2 seconds per text animation
+    }
+
+    // Button click to navigate stages
+    startButton.addEventListener('click', () => {
+        unlockStage(1); // Start with the second stage (index 1)
+    });
+
+    // Function to unlock stages based on currentStage index
+    function unlockStage(stageIndex) {
+        if (stageIndex >= 0 && stageIndex < stages.length) {
+            stages[currentStage].classList.add('hidden');
+            currentStage = stageIndex;
+            stages[currentStage].classList.remove('hidden');
         }
     }
 
-    type();
-
-    // Game-like interactions (example)
-    const gameItems = document.querySelectorAll('.game-item');
-
-    gameItems.forEach(item => {
-        item.addEventListener('click', function () {
-            const randomNumber = Math.floor(Math.random() * 100) + 1;
-            if (randomNumber > 50) {
-                item.classList.add('bg-green-300', 'text-green-900');
-                item.textContent = 'You won!';
-            } else {
-                item.classList.add('bg-red-300', 'text-red-900');
-                item.textContent = 'You lost!';
-            }
-        });
+    // Responsive canvas resizing
+    window.addEventListener('resize', function () {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        drawBackground();
+        drawScene(); // Redraw the scene on resize
     });
 
+    // Initiate game
+    initGame();
 });
