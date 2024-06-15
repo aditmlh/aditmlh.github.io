@@ -1,37 +1,164 @@
-## Welcome to GitHub Pages
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Name - Resume</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
 
-You can use the [editor on GitHub](https://github.com/aditmlh/aditmlh.github.io/edit/main/index.md) to maintain and preview the content for your website in Markdown files.
+    <header>
+        <!-- Navigation bar -->
+        <nav>
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+    <section id="about" class="section">
+        <!-- About section with parallax background -->
+        <div class="parallax">
+            <div class="content">
+                <h1>About Me</h1>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam aliquet purus sed sem varius, at auctor felis gravida.</p>
+            </div>
+        </div>
+    </section>
 
-### Markdown
+    <section id="experience" class="section">
+        <!-- Experience section -->
+        <div class="content">
+            <h2>Experience</h2>
+            <div class="timeline">
+                <!-- Timeline items -->
+                <div class="timeline-item">
+                    <h3>Senior Web Developer</h3>
+                    <p>Developed responsive and dynamic websites using HTML, CSS, JavaScript, and frameworks like React.</p>
+                    <span class="date">2018 - Present</span>
+                </div>
+                <div class="timeline-item">
+                    <h3>Junior Developer</h3>
+                    <p>Assisted in front-end development tasks, including UI/UX design and implementation.</p>
+                    <span class="date">2015 - 2018</span>
+                </div>
+            </div>
+        </div>
+    </section>
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+    <section id="portfolio" class="section">
+        <!-- Portfolio section with Lottie animations -->
+        <div class="content">
+            <h2>Portfolio</h2>
+            <div class="portfolio-items">
+                <!-- Dummy portfolio items with Lottie animations -->
+                <div class="portfolio-item">
+                    <div class="lottie-animation">
+                        <!-- Lottie animation placeholder -->
+                    </div>
+                    <h3>Personal Website</h3>
+                    <p>Designed and developed my personal portfolio website showcasing skills and projects.</p>
+                </div>
+                <div class="portfolio-item">
+                    <div class="lottie-animation">
+                        <!-- Lottie animation placeholder -->
+                    </div>
+                    <h3>E-commerce App</h3>
+                    <p>Contributed to the development of an e-commerce application with React and Node.js.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-```markdown
-Syntax highlighted code block
+    <section id="contact" class="section">
+        <!-- Contact section -->
+        <div class="content">
+            <h2>Contact Me</h2>
+            <form>
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required>
 
-# Header 1
-## Header 2
-### Header 3
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
 
-- Bulleted
-- List
+                <label for="message">Message</label>
+                <textarea id="message" name="message" required></textarea>
 
-1. Numbered
-2. List
+                <button type="submit">Send</button>
+            </form>
+        </div>
+    </section>
 
-**Bold** and _Italic_ and `Code` text
+    <!-- Morphism animation example -->
+    <div class="morph-example">
+        <button class="morph-button">Morph Shape</button>
+        <svg class="morph-shape" width="100" height="100">
+            <path class="morph-target" d="M10 10 L90 10 L50 90 Z" fill="#FF5722"></path>
+        </svg>
+    </div>
 
-[Link](url) and ![Image](src)
-```
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.7/lottie.min.js"></script>
+    <script src="script.js"></script>
 
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
+    <!-- Inline JavaScript for reveal animations -->
+    <script>
+        // Initialize GSAP ScrollTrigger
+        gsap.registerPlugin(ScrollTrigger);
 
-### Jekyll Themes
+        // Function to animate elements on scroll
+        function animateOnScroll() {
+            // Define animations
+            const sections = document.querySelectorAll('.section');
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/aditmlh/aditmlh.github.io/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+            sections.forEach((section, index) => {
+                const title = section.querySelector('h1, h2, h3');
+                const paragraph = section.querySelector('p');
+                const timelineItems = section.querySelectorAll('.timeline-item');
+                const portfolioItems = section.querySelectorAll('.portfolio-item');
 
-### Support or Contact
+                // Animation timeline
+                const tl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: section,
+                        start: 'top 80%',
+                        end: '+=300',
+                        scrub: 1,
+                        markers: false
+                    }
+                });
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+                // Title and paragraph animation
+                if (title) {
+                    tl.from(title, { opacity: 0, y: 50, duration: 0.6 });
+                }
+                if (paragraph) {
+                    tl.from(paragraph, { opacity: 0, y: 50, duration: 0.6 });
+                }
+
+                // Timeline items animation
+                timelineItems.forEach((item, index) => {
+                    tl.from(item, { opacity: 0, y: 50, duration: 0.6 }, `-=${index * 0.3}`);
+                });
+
+                // Portfolio items animation
+                portfolioItems.forEach((item, index) => {
+                    tl.from(item, { opacity: 0, y: 50, duration: 0.6 }, `-=${index * 0.3}`);
+                });
+            });
+        }
+
+        // Call function on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            animateOnScroll();
+        });
+    </script>
+
+</body>
+</html>
