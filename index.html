@@ -1,111 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pascal van Gemert | Interactive Resume</title>
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aditya Malah - Interactive Resume</title>
+<link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-
-    <canvas id="gameCanvas"></canvas>
-
-    <div id="content" class="hidden">
-        <!-- Main Content -->
-        <main id="main-content">
-            <!-- Stage 1: Introduction -->
-            <section id="introduction" class="stage">
-                <div class="container">
-                    <h1>Welcome to Pascal's Interactive Resume!</h1>
-                    <p>Embark on a journey through my career and skills...</p>
-                    <button id="startButton">Start Journey</button>
+    <div class="container">
+        <header>
+            <h1>Aditya Malah</h1>
+            <p>Interactive Resume</p>
+        </header>
+        <main>
+            <section class="about stage">
+                <h2>About Me</h2>
+                <div class="avatar"></div>
+                <p>Hi, my name is Aditya Malah. I'm a Full Stack Web Developer with expertise in PHP, Python, C++, CSS, JavaScript, AJAX, and frameworks like Django, Laravel, CodeIgniter, Bootstrap, and Tailwind. I have experience working in various roles including as a freelancer and in government organizations.</p>
+            </section>
+            <section class="careers stage hidden">
+                <h2>Career Highlights</h2>
+                <div class="career-item">
+                    <h3>Lead Developer @ Returnless</h3>
+                    <p>Eindhoven | <a href="https://returnless.com" target="_blank">returnless.com</a></p>
+                    <p>As the Lead Developer at Returnless, I oversee the development of an all-in-one Return Platform using Laravel, Vapor, Vue3, and Tailwind.</p>
+                </div>
+                <div class="career-item">
+                    <h3>Freelance Full Stack Web Developer</h3>
+                    <p>Worked on various projects involving web development and graphic design since 2016.</p>
+                </div>
+                <!-- Add more career items as needed -->
+            </section>
+            <section class="education stage hidden">
+                <h2>Education</h2>
+                <p>SMK COKROAMINOTO KOTAMOBAGU</p>
+                <p>Jurusan Teknik Komputer dan Jaringan, 2014 - 2016</p>
+            </section>
+            <section class="portfolio stage hidden">
+                <h2>Portfolio</h2>
+                <div class="portfolio-item">
+                    <h3>Medical Record Application @ Puskesmas Tanoyan</h3>
+                    <p>Developed a medical record application for Puskesmas Tanoyan in 2023.</p>
+                </div>
+                <!-- Add more portfolio items with modals as needed -->
+            </section>
+            <section class="clients stage hidden">
+                <h2>Clients</h2>
+                <div class="client-logos">
+                    <img src="dummy-logo1.png" alt="Client Logo">
+                    <img src="dummy-logo2.png" alt="Client Logo">
+                    <!-- Add more client logos as needed -->
                 </div>
             </section>
-
-            <!-- Stage 2: About Me -->
-            <section id="about" class="stage hidden">
-                <div class="container">
-                    <h2>About Me</h2>
-                    <p>Hi, my name is Pascal van Gemert. I'm a Creative / Full Stack Developer from the Netherlands...</p>
-                </div>
-            </section>
-
-            <!-- Stage 3: Career -->
-            <section id="career" class="stage hidden">
-                <div class="container">
-                    <h2>Career</h2>
-                    <!-- Career Timeline -->
-                    <div class="career-item">
-                        <h3>Lead Developer @ Returnless (fulltime)</h3>
-                        <p>Eindhoven | <a href="https://returnless.com">https://returnless.com</a></p>
-                        <p>As the Lead Developer at Returnless, I lead the team in developing an all-in-one Return Platform...</p>
-                    </div>
-                    <!-- Add more career items as needed -->
-                </div>
-            </section>
-
-            <!-- Stage 4: Education -->
-            <section id="education" class="stage hidden">
-                <div class="container">
-                    <h2>Education</h2>
-                    <!-- Education Items -->
-                    <div class="education-item">
-                        <h3>Course @ Gamification (online)</h3>
-                        <p>Penn University</p>
-                        <p>I successfully completed a course on gamification...</p>
-                    </div>
-                    <!-- Add more education items as needed -->
-                </div>
-            </section>
-
-            <!-- Stage 5: Abilities -->
-            <section id="abilities" class="stage hidden">
-                <div class="container">
-                    <h2>Abilities</h2>
-                    <!-- Abilities List -->
-                    <ul class="abilities-list">
-                        <li>Coding: HTML/5, CSS/3 (+ SASS), Tailwind 3.x, Vue 2 / 3, PHP 8.1 (16 years)...</li>
-                        <!-- Add more abilities as needed -->
-                    </ul>
-                </div>
-            </section>
-
-            <!-- Stage 6: Projects -->
-            <section id="projects" class="stage hidden">
-                <div class="container">
-                    <h2>Projects</h2>
-                    <!-- Project Cards -->
-                    <div class="project-card">
-                        <h3>Samsung S6 - Next is Now</h3>
-                        <p>The Next is Now campaign, featuring the Samsung Galaxy S6 and S6 edge, was a global initiative...</p>
-                        <p>Company: Caviar Digital</p>
-                        <button class="project-details-btn">More details</button>
-                    </div>
-                    <!-- Add more project cards as needed -->
-                </div>
-            </section>
-
-            <!-- Stage 7: Contact -->
-            <section id="contact" class="stage hidden">
-                <div class="container">
-                    <h2>Contact Me</h2>
-                    <p>Do you have any questions or want to work together? Feel free to reach out!</p>
-                    <!-- Social Media Links -->
-                    <div class="social-links">
-                        <a href="#" class="social-link">Instagram</a>
-                        <a href="#" class="social-link">TikTok</a>
-                        <a href="#" class="social-link">Facebook</a>
-                        <a href="#" class="social-link">GitHub</a>
-                    </div>
-                    <p>&copy; 2024 Pascal van Gemert. All rights reserved.</p>
-                </div>
+            <section class="social stage hidden">
+                <h2>Social Media</h2>
+                <ul class="social-links">
+                    <li><a href="https://instagram.com/aditmlh" target="_blank">Instagram</a></li>
+                    <li><a href="https://tiktok.com/aditmlh" target="_blank">TikTok</a></li>
+                    <li><a href="https://facebook.com/aditmlh" target="_blank">Facebook</a></li>
+                    <li><a href="https://github.com/aditmlh" target="_blank">GitHub</a></li>
+                </ul>
             </section>
         </main>
     </div>
-
-    <script src="scripts.js"></script>
+    <canvas id="gameCanvas"></canvas>
+    <button id="startButton">Start Game</button>
+    <script src="script.js"></script>
 </body>
-
 </html>
