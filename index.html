@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aditya Malah - Personal Website</title>
+    <title>Pascal van Gemert - Interactive Resume</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.3/tiny-slider.css">
 </head>
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
 
@@ -22,16 +21,7 @@
 
     <header class="bg-gray-800 dark:bg-gray-900 shadow-lg">
         <div class="container mx-auto flex justify-between items-center py-4">
-            <h1 class="text-3xl font-bold text-white">Aditya Malah</h1>
-            <nav class="hidden md:block">
-                <ul class="flex space-x-6">
-                    <li><a href="#about" class="nav-link">About</a></li>
-                    <li><a href="#skills" class="nav-link">Skills</a></li>
-                    <li><a href="#experience" class="nav-link">Experience</a></li>
-                    <li><a href="#portfolio" class="nav-link">Portfolio</a></li>
-                    <li><a href="#contact" class="nav-link">Contact</a></li>
-                </ul>
-            </nav>
+            <h1 class="text-3xl font-bold text-white">Pascal van Gemert</h1>
             <!-- Mobile menu button -->
             <div class="md:hidden">
                 <button id="mobile-menu-toggle" class="text-gray-300 focus:outline-none">
@@ -46,106 +36,129 @@
     <!-- Mobile menu -->
     <div id="mobile-menu" class="md:hidden bg-gray-800 dark:bg-gray-900 py-4">
         <ul class="flex flex-col items-center">
-            <li><a href="#about" class="nav-link">About</a></li>
-            <li><a href="#skills" class="nav-link">Skills</a></li>
-            <li><a href="#experience" class="nav-link">Experience</a></li>
-            <li><a href="#portfolio" class="nav-link">Portfolio</a></li>
+            <li><a href="#about" class="nav-link">About Me</a></li>
+            <li><a href="#career" class="nav-link">Career</a></li>
+            <li><a href="#education" class="nav-link">Education</a></li>
+            <li><a href="#abilities" class="nav-link">Abilities</a></li>
+            <li><a href="#projects" class="nav-link">Projects</a></li>
             <li><a href="#contact" class="nav-link">Contact</a></li>
         </ul>
     </div>
 
     <main>
-        <section id="about" class="py-16">
+        <section id="about" class="py-16 min-h-screen">
             <div class="container mx-auto">
                 <div class="flex flex-col md:flex-row items-center">
                     <div class="md:w-1/3 mb-6 md:mb-0">
-                        <img src="profile.jpg" alt="Profile Image" class="rounded-full w-48 h-48 mx-auto md:mx-0">
+                        <img src="avatar.jpg" alt="Profile Image" class="rounded-full w-48 h-48 mx-auto md:mx-0">
                     </div>
                     <div class="md:w-2/3 md:ml-6">
                         <h2 class="text-4xl font-semibold mb-4">About Me</h2>
-                        <p class="text-lg">Insert a brief introduction about yourself here.</p>
-                        <p class="text-lg mt-4">Education: SMK COKROAMINOTO KOTAMOBAGU, Jurusan Teknik Komputer dan Jaringan, 2014 - 2016</p>
+                        <p class="text-lg">Hi, my name is Pascal van Gemert. I'm a Creative / Full Stack Developer from the Netherlands. Over the years, I have developed a skill set in a range of technologies and frameworks, including Laravel, VueJS, and Tailwind CSS. I value clean and readable code and am passionate about UX/UI. I am also the proud father of two boys and enjoy playing sports and indulging my inner geek.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="skills" class="bg-gray-200 dark:bg-gray-800 py-16">
+        <section id="career" class="bg-gray-200 dark:bg-gray-800 py-16 min-h-screen">
             <div class="container mx-auto">
-                <h2 class="text-4xl font-semibold mb-8">Skills</h2>
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
-                    <div class="p-4 bg-white dark:bg-gray-700 rounded-lg shadow-md">
-                        <h3 class="text-xl font-semibold mb-4">Programming Languages</h3>
-                        <p>PHP, Python, C++, JavaScript</p>
+                <h2 class="text-4xl font-semibold mb-8">Career</h2>
+                <!-- Career Timeline -->
+                <div class="timeline">
+                    <!-- Current Job -->
+                    <div class="timeline-item">
+                        <h3 class="text-xl font-semibold mb-2">Lead Developer @ Returnless</h3>
+                        <p class="text-lg mb-4">Eindhoven | <a href="https://returnless.com" class="text-blue-500">returnless.com</a></p>
+                        <p class="mb-6">As the Lead Developer at Returnless, I lead a team in developing an all-in-one Return Platform using Laravel with Vapor and a Vue3 / Tailwind front-end, delivering a seamless return experience for our customers.</p>
                     </div>
-                    <div class="p-4 bg-white dark:bg-gray-700 rounded-lg shadow-md">
-                        <h3 class="text-xl font-semibold mb-4">Web Technologies</h3>
-                        <p>CSS, HTML, AJAX</p>
-                    </div>
-                    <div class="p-4 bg-white dark:bg-gray-700 rounded-lg shadow-md">
-                        <h3 class="text-xl font-semibold mb-4">Frameworks</h3>
-                        <p>Django, Laravel, CodeIgniter, Bootstrap, Tailwind CSS</p>
-                    </div>
+                    <!-- Previous Jobs -->
+                    <!-- Add more career timeline items as needed -->
                 </div>
             </div>
         </section>
 
-        <section id="experience" class="py-16">
+        <section id="education" class="py-16 min-h-screen">
             <div class="container mx-auto">
-                <h2 class="text-4xl font-semibold mb-8">Experience</h2>
-                <ul class="list-disc pl-8">
-                    <li>Pemerintah Kota Kotamobagu - Hubungan Masyarakat (Year - Year)</li>
-                    <li>Operator Caraka & Fotografer (April 2016 - January 2018)</li>
-                    <li>Aplikasi Rekam Medis di Puskesmas Tanoyan (2023)</li>
-                    <li>Freelancer Full Stack Web & Graphic Design (2016 - Present)</li>
-                </ul>
+                <h2 class="text-4xl font-semibold mb-8">Education</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">Course @ Gamification (online)</h3>
+                        <p class="text-lg mb-4">Penn University</p>
+                        <p class="mb-6">I successfully completed a course on gamification, learning how to incorporate gaming elements and techniques into my daily work. I also enjoyed the close connection with UX that this approach brings.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">Computer Science @ Avans (bachelor)</h3>
+                        <p class="text-lg mb-4">'s-Hertogenbosch | Minor: Multimedia</p>
+                        <p class="mb-6">I graduated with excellent grades. I started off with Java and gained a thorough understanding of algorithms. I also completed a minor in web and game development (multimedia).</p>
+                    </div>
+                    <!-- Add more education items as needed -->
+                </div>
             </div>
         </section>
 
-        <section id="portfolio" class="bg-gray-200 dark:bg-gray-800 py-16">
+        <section id="abilities" class="bg-gray-200 dark:bg-gray-800 py-16 min-h-screen">
             <div class="container mx-auto">
-                <h2 class="text-4xl font-semibold mb-8">Portfolio</h2>
+                <h2 class="text-4xl font-semibold mb-8">Abilities</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="ability-item bg-white dark:bg-gray-700 p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-semibold mb-2">Coding</h3>
+                        <ul class="list-disc list-inside">
+                            <li>HTML/5</li>
+                            <li>CSS/3 (+ SASS)</li>
+                            <li>Tailwind 3.x</li>
+                            <li>Vue 2 / 3</li>
+                            <li>PHP 8.1 (16 years)</li>
+                            <li>Laravel 9.x (8 years) + certified</li>
+                            <li>NodeJS / Express</li>
+                            <li>Typescript</li>
+                            <li>MySQL (16 years)</li>
+                            <li>Postgress</li>
+                            <li>JSON / XML</li>
+                            <li>Elasticsearch / Cloudsearch</li>
+                            <li>AWS / Google Cloud</li>
+                            <li>GIT</li>
+                            <li>CLI</li>
+                            <li>Docker</li>
+                            <li>CI / CD</li>
+                        </ul>
+                    </div>
+                    <!-- Add more ability items as needed -->
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="py-16 min-h-screen">
+            <div class="container mx-auto">
+                <h2 class="text-4xl font-semibold mb-8">Projects</h2>
+                <!-- Project Cards -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Portfolio item 1 -->
-                    <div class="portfolio-item">
-                        <div class="relative overflow-hidden rounded-lg shadow-md">
-                            <img src="portfolio-1.jpg" alt="Portfolio Item 1" class="w-full h-auto">
-                            <div class="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition duration-300 bg-black bg-opacity-50">
-                                <button class="text-white font-bold text-lg">View Details</button>
-                            </div>
-                        </div>
+                    <!-- Project Card -->
+                    <div class="project-item bg-white dark:bg-gray-700 p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-semibold mb-2">Samsung S6 - Next is Now</h3>
+                        <p class="text-lg mb-4">The Next is Now campaign, featuring the Samsung Galaxy S6 and S6 edge, was a global initiative encompassing television, digital, and experiential platforms.</p>
+                        <p class="mb-6">Company: Caviar Digital</p>
+                        <button class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg focus:outline-none">More details</button>
                     </div>
-                    <!-- Portfolio item 2 -->
-                    <div class="portfolio-item">
-                        <div class="relative overflow-hidden rounded-lg shadow-md">
-                            <img src="portfolio-2.jpg" alt="Portfolio Item 2" class="w-full h-auto">
-                            <div class="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition duration-300 bg-black bg-opacity-50">
-                                <button class="text-white font-bold text-lg">View Details</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Portfolio item 3 -->
-                    <div class="portfolio-item">
-                        <div class="relative overflow-hidden rounded-lg shadow-md">
-                            <img src="portfolio-3.jpg" alt="Portfolio Item 3" class="w-full h-auto">
-                            <div class="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition duration-300 bg-black bg-opacity-50">
-                                <button class="text-white font-bold text-lg">View Details</button>
-                            </div>
-                        </div>
-                    </div>
+                    <!-- Add more project cards as needed -->
                 </div>
             </div>
         </section>
 
-        <section id="clients" class="bg-gray-100 dark:bg-gray-800 py-16">
+        <section id="contact" class="bg-gray-200 dark:bg-gray-800 py-16 min-h-screen">
             <div class="container mx-auto">
-                <h2 class="text-4xl font-semibold mb-8">Our Clients</h2>
-                <div class="mb-10">
-                    <div class="slider">
-                        <div><img src="client1.png" alt="Client Logo 1"></div>
-                        <div><img src="client2.png" alt="Client Logo 2"></div>
-                        <div><img src="client3.png" alt="Client Logo 3"></div>
-                        <!-- Add more client logos as needed -->
+                <h2 class="text-4xl font-semibold mb-8">Contact</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <p class="text-lg mb-4">Do you love this website? If you want to use this template for your own personal website, you can purchase an anonymous, customizable version for only € ??.?</p>
+                    </div>
+                    <div>
+                        <p class="text-lg mb-4">Don't forget to follow me...</p>
+                        <div class="flex">
+                            <a href="https://instagram.com" target="_blank" class="text-blue-500 hover:text-blue-600 mx-2"><i class="fab fa-instagram"></i></a>
+                            <a href="https://tiktok.com" target="_blank" class="text-blue-500 hover:text-blue-600 mx-2"><i class="fab fa-tiktok"></i></a>
+                            <a href="https://facebook.com" target="_blank" class="text-blue-500 hover:text-blue-600 mx-2"><i class="fab fa-facebook"></i></a>
+                            <a href="https://github.com" target="_blank" class="text-blue-500 hover:text-blue-600 mx-2"><i class="fab fa-github"></i></a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -153,15 +166,9 @@
 
     </main>
 
-    <footer class="bg-gray-800 dark:bg-gray-900 py-4 mt-16">
+    <footer class="bg-gray-800 dark:bg-gray-900 py-4">
         <div class="container mx-auto text-center text-white">
-            <p>&copy; 2024 Aditya Malah. All rights reserved.</p>
-            <div class="mt-4 flex justify-center">
-                <a href="https://instagram.com/aditmlh" target="_blank" class="text-white mx-2 hover:text-gray-400"><i class="fab fa-instagram"></i></a>
-                <a href="https://tiktok.com/@aditmlh" target="_blank" class="text-white mx-2 hover:text-gray-400"><i class="fab fa-tiktok"></i></a>
-                <a href="https://facebook.com/aditmlh" target="_blank" class="text-white mx-2 hover:text-gray-400"><i class="fab fa-facebook"></i></a>
-                <a href="https://github.com/aditmlh" target="_blank" class="text-white mx-2 hover:text-gray-400"><i class="fab fa-github"></i></a>
-            </div>
+            <p>&copy; 2024 Pascal van Gemert. All rights reserved.</p>
         </div>
     </footer>
 
