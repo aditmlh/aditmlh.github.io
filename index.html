@@ -6,159 +6,48 @@
     <title>Your Name - Resume</title>
     <!-- Include Tailwind CSS -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Custom CSS for gradient animation -->
     <style>
-        /* General styles */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-}
-
-header {
-    background-color: #333;
-    padding: 10px 0;
-}
-
-nav ul {
-    list-style-type: none;
-    text-align: center;
-}
-
-nav ul li {
-    display: inline;
-    margin: 0 10px;
-}
-
-nav ul li a {
-    color: #fff;
-    text-decoration: none;
-}
-
-/* Parallax section */
-.parallax {
-    background-image: url('dummy-image.jpg'); /* Replace with actual background image */
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 500px; /* Adjust height as needed */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
-}
-
-/* Content sections */
-.content {
-    padding: 50px 20px;
-}
-
-/* Timeline */
-.timeline {
-    display: flex;
-    flex-direction: column;
-}
-
-.timeline-item {
-    margin-bottom: 30px;
-}
-
-.timeline-item h3 {
-    margin-bottom: 10px;
-}
-
-.timeline-item .date {
-    color: #777;
-}
-
-/* Portfolio items */
-.portfolio-items {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.portfolio-item {
-    flex: 1 1 300px; /* Adjust item width as needed */
-    padding: 20px;
-    background-color: #f0f0f0;
-    text-align: center;
-}
-
-.portfolio-item h3 {
-    margin-bottom: 10px;
-}
-
-/* Contact form */
-form {
-    max-width: 600px;
-    margin: 0 auto;
-    background-color: #f0f0f0;
-    padding: 20px;
-    border-radius: 5px;
-}
-
-form label {
-    display: block;
-    margin-bottom: 5px;
-}
-
-form input,
-form textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-form button {
-    background-color: #333;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-/* Lottie animation placeholder */
-.lottie-animation {
-    width: 100px; /* Adjust animation size as needed */
-    height: 100px;
-    margin: 0 auto 20px;
-}
-
-/* Morphism animation example */
-.morph-example {
-    text-align: center;
-    margin-top: 50px;
-}
-
-.morph-shape {
-    fill: #FF5722; /* Adjust shape color */
-}
-
-.morph-button {
-    background-color: #333;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 5px;
-}
+        body {
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+        .gradient-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            z-index: -1;
+            animation: gradientAnimation 10s ease alternate infinite;
+        }
+        @keyframes gradientAnimation {
+            0% {
+                background: linear-gradient(135deg, #3498db, #2c3e50);
+            }
+            100% {
+                background: linear-gradient(135deg, #2c3e50, #3498db);
+            }
+        }
     </style>
 </head>
-<body class="bg-gray-100">
+<body class="bg-gray-100 relative">
 
-    <header class="bg-gray-800 text-white py-4">
+    <!-- Gradient background animation -->
+    <div class="gradient-background"></div>
+
+    <header class="bg-transparent fixed top-0 left-0 right-0 z-50">
         <!-- Navigation bar -->
-        <nav class="container mx-auto">
-            <ul class="flex justify-center">
-                <li><a href="#about" class="hover:text-gray-300 px-4">About</a></li>
-                <li><a href="#experience" class="hover:text-gray-300 px-4">Experience</a></li>
-                <li><a href="#portfolio" class="hover:text-gray-300 px-4">Portfolio</a></li>
-                <li><a href="#contact" class="hover:text-gray-300 px-4">Contact</a></li>
+        <nav class="container mx-auto flex justify-between items-center py-4">
+            <div>
+                <h1 class="text-white text-2xl font-bold">Your Name</h1>
+            </div>
+            <ul class="flex space-x-4">
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#experience" class="nav-link">Experience</a></li>
+                <li><a href="#portfolio" class="nav-link">Portfolio</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+                <li><button id="theme-toggle" class="bg-gray-800 text-white px-4 py-2 rounded-lg hover:bg-gray-700 focus:outline-none">Dark Mode</button></li>
             </ul>
         </nav>
     </header>
@@ -250,7 +139,7 @@ form button {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.7/lottie.min.js"></script>
     <script src="script.js"></script>
 
-    <!-- Inline JavaScript for reveal animations -->
+    <!-- Inline JavaScript for reveal animations and theme toggle -->
     <script>
         // Initialize GSAP ScrollTrigger
         gsap.registerPlugin(ScrollTrigger);
@@ -300,6 +189,28 @@ form button {
         // Call function on page load
         document.addEventListener('DOMContentLoaded', function () {
             animateOnScroll();
+        });
+
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        themeToggle.addEventListener('click', function () {
+            body.classList.toggle('dark');
+            const theme = body.classList.contains('dark') ? 'Light Mode' : 'Dark Mode';
+            themeToggle.textContent = theme;
+        });
+
+        // Navbar active link highlighting
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', function () {
+                // Remove active class from all links
+                navLinks.forEach(navLink => navLink.classList.remove('text-blue-500', 'font-semibold'));
+                // Add active class to the clicked link
+                link.classList.add('text-blue-500', 'font-semibold');
+            });
         });
     </script>
 
