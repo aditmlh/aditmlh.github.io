@@ -1,5 +1,3 @@
-/* No need to include Tailwind specific styles here */
-
 /* Loader Animation */
 .loader {
     display: flex;
@@ -41,13 +39,82 @@
     color: #fff;
 }
 
-/* Slider (Tiny Slider) */
-.tns-nav {
-    display: none; /* Hide default navigation buttons */
-}
-
 /* Modal */
 #portfolio-modal {
     z-index: 1000;
 }
 
+/* Full Page Animations */
+section {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+section.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Interactive Items */
+.interactive {
+    transition: all 0.3s ease;
+}
+
+.interactive:hover {
+    transform: scale(1.1) rotate(12deg);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Game-like Item */
+.game-item {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.game-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Typewriter Text */
+.typewriter {
+    overflow: hidden;
+    border-right: .15em solid orange;
+    white-space: nowrap;
+    margin: 0 auto;
+    letter-spacing: .15em;
+    animation:
+        typing 3.5s steps(30, end),
+        blink-caret .5s step-end infinite;
+}
+
+@keyframes typing {
+    from {
+        width: 0
+    }
+
+    to {
+        width: 20.5em
+    }
+}
+
+@keyframes blink-caret {
+    from, to {
+        border-color: transparent
+    }
+
+    50% {
+        border-color: orange;
+    }
+}
+
+/* Clients Carousel */
+.slider {
+    overflow: hidden;
+}
+
+.tns-slide-active .slider-item {
+    transform: scale(1.2);
+    transition: all 0.3s ease;
+}
