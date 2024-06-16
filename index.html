@@ -255,13 +255,67 @@
         }
     }
 
-    // Function to append output to CLI
-    function appendOutput(text) {
-        const p = document.createElement('p');
-        p.textContent = text;
-        outputElement.appendChild(p);
-        outputElement.scrollTop = outputElement.scrollHeight; // Auto scroll to bottom
+// Function to execute command
+function executeCommand(command) {
+    appendOutput(`~$ ${command}`);
+    
+    if (command === 'help') {
+        displayHelp();
+    } else if (commands[command]) {
+        if (typeof commands[command] === 'function') {
+            commands[command]();
+        } else {
+            appendOutput(commands[command]);
+        }
+    } else {
+        appendOutput(`Command not found: ${command}`);
     }
+}
+
+// Function to append output to CLI
+function appendOutput(text) {
+    const p = document.createElement('p');
+    p.textContent = text;
+    outputElement.appendChild(p);
+    outputElement.scrollTop = outputElement.scrollHeight; // Auto scroll to bottom
+}
+
+// Function to display structured help output
+function displayHelp() {
+    const helpText = `
+Available commands:
+  about     - Display information about me
+  education - Display education details
+  career    - Display career details
+  ability   - Display skills and abilities
+  portfolio - Display my portfolio
+  sosmed    - Display social media links
+  luv       - Surprise animation of love and fireworks
+  retak     - Create a cracking effect on the screen
+  move      - Moves one or more files from the source to the destination.
+  del       - Deletes one or more files.
+  copy      - Copies one or more files from the source to the destination.
+  xcopy     - Copies directories and subdirectories, with additional options for copying file attributes and permissions.
+  ren       - Renames a file.
+  type      - Displays the contents of a text file.
+  find      - Searches for a specific string in a file.
+  more      - Displays the contents of a text file one page at a time.
+  fc        - Compares the contents of two files or sets of files and displays the differences.
+  attrib    - Displays or changes file attributes (such as hidden, read-only, etc.) of files or directories.
+  mkdir     - Creates a new directory.
+  rmdir     - Deletes a directory. Add /s to remove a directory and all its contents.
+  cd        - Changes the current directory to the specified path.
+  chdir     - Same as cd, changes the current directory.
+  pushd     - Saves the current directory onto a stack and changes the directory.
+  popd      - Retrieves the most recent directory saved by pushd and makes it the current directory.
+  dir       - Lists the contents of a directory. If no directory is specified, it shows the contents of the current directory.
+  tree      - Graphically displays the folder structure of a specified drive or path.
+  robocopy  - Robust file and folder copying tool with many advanced options.
+`;
+
+    appendOutput(helpText);
+}
+
 
     // Function to clear output
     function clearOutput() {
