@@ -132,7 +132,8 @@
         { pattern: 'portfolio', response: commands.portfolio },
         { pattern: 'sosmed', response: commands.sosmed },
         { pattern: 'luv', response: commands.luv },
-        { pattern: 'retak', response: commands.retake }
+        { pattern: 'retak', response: commands.retake },
+        { pattern: 'cuaca', response: getWeatherInfo }
     ];
 
     // Execute command when Enter is pressed
@@ -158,7 +159,11 @@
         // Check for recognized patterns
         const response = getResponse(input);
         if (response) {
-            appendOutput(response);
+            if (typeof response === 'function') {
+                response(); // Execute function response
+            } else {
+                appendOutput(response); // Display text response
+            }
         } else {
             appendOutput(`Command not found: ${input}`);
         }
@@ -204,6 +209,57 @@
         typingTimeout = setTimeout(() => {
             // You can add typing sound logic here if needed
         }, 100); // Delay typing sound slightly
+    }
+
+    // Function to fetch current weather information based on device's geolocation
+    function getWeatherInfo() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+        } else {
+            appendOutput("Geolocation is not supported by this browser.");
+        }
+    }
+
+    // Success callback for geolocation API
+    function successCallback(position) {
+        const { latitude, longitude } = position.coords;
+        const apiKey = '9d457d497054b6be5ff2cdf3f392462f'; // Replace with your OpenWeatherMap API key
+        const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
+
+        fetch(apiUrl)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch weather data.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const city = data.name;
+                const description = data.weather[0].description;
+                const temperature = data.main.temp;
+                const response = `Weather in ${city}: ${description}, Temperature: ${temperature}°C`;
+                appendOutput(response);
+            })
+            .catch(error => {
+                appendOutput(`Failed to fetch weather data: ${error.message}`);
+            });
+    }
+
+    // Error callback for geolocation API
+    function errorCallback(error) {
+        switch(error.code) {
+            case error.PERMISSION_DENIED:
+                appendOutput("User denied the request for Geolocation.");
+                break;
+            case error.POSITION_UNAVAILABLE:
+                appendOutput("Location information is unavailable.");
+                break;
+            case error.TIMEOUT:
+                appendOutput("The request to get user location timed out.");
+                break;
+            default:
+                appendOutput(`An unknown error occurred: ${error.message}`);
+        }
     }
 </script>
 
