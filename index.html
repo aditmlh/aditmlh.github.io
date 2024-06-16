@@ -57,11 +57,81 @@
             outline: none;
         }
 
-        img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            margin-top: 20px;
+        .love-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            font-size: 3em;
+            background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+            background-size: 200% 200%;
+            animation: gradientAnimation 10s ease infinite;
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @keyframes fireworks {
+            0% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 0;
+            }
+            100% {
+                display: none;
+            }
+        }
+
+        .fireworks {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            display: none;
+        }
+
+        .firework {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: radial-gradient(circle, #ff7a7a, transparent);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            animation: fireworks 20s ease-out infinite;
+        }
+
+        .firework:nth-child(2) {
+            animation-delay: 1s;
+        }
+
+        .firework:nth-child(3) {
+            animation-delay: 2s;
+        }
+
+        .firework:nth-child(4) {
+            animation-delay: 3s;
+        }
+
+        .firework:nth-child(5) {
+            animation-delay: 4s;
         }
     </style>
 </head>
@@ -76,21 +146,34 @@
         <span>~$</span>
         <input type="text" id="commandInput" placeholder="Type a command...">
     </div>
+    <div class="love-animation" id="loveAnimation">Love ❤️</div>
+    <div class="fireworks" id="fireworks">
+        <div class="firework"></div>
+        <div class="firework"></div>
+        <div class="firework"></div>
+        <div class="firework"></div>
+        <div class="firework"></div>
+    </div>
 </div>
 
 <script>
     const outputElement = document.getElementById('output');
     const commandInput = document.getElementById('commandInput');
+    const loveAnimation = document.getElementById('loveAnimation');
+    const fireworks = document.getElementById('fireworks');
 
     // Commands object (add more commands as needed)
     const commands = {
-        help: "Available commands:\nabout - Display information about me\neducation - Display education details\ncareer - Display career details\nability - Display skills and abilities\nportfolio - Display my portfolio\nsosmed - Display social media links\nclear - Clear the output",
+        help: "Available commands:\nabout - Display information about me\neducation - Display education details\ncareer - Display career details\nability - Display skills and abilities\nportfolio - Display my portfolio\nsosmed - Display social media links\nluv - Surprise animation of love and fireworks\n",
         about: "I am Aditya Malah, a Full Stack Web Developer and Graphic Designer.",
         education: "I have a degree in Computer Science from XYZ University.",
         career: "I have worked as a web developer at Company X for 5 years.",
         ability: "Skills: HTML, CSS, JavaScript, Python\nAbilities: Problem-solving, teamwork, communication",
         portfolio: "Here are some of my latest works:\n1. Project A - Description of Project A\n2. Project B - Description of Project B",
         sosmed: "You can find me on:\n- LinkedIn: linkedin.com/aditya\n- GitHub: github.com/aditya\n- Twitter: twitter.com/aditya",
+        luv: function() {
+            showLoveAnimation();
+        },
         clear: function() {
             clearOutput();
         }
@@ -131,6 +214,18 @@
     // Function to clear output
     function clearOutput() {
         outputElement.innerHTML = ''; // Clear all child elements
+    }
+
+    // Function to show love animation and fireworks
+    function showLoveAnimation() {
+        loveAnimation.style.display = 'flex';
+        fireworks.style.display = 'flex';
+
+        // Hide animation after 20 seconds
+        setTimeout(() => {
+            loveAnimation.style.display = 'none';
+            fireworks.style.display = 'none';
+        }, 20000);
     }
 </script>
 
