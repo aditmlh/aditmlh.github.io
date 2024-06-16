@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -88,6 +88,20 @@
             border: 2px solid #444;
             background-color: #222;
         }
+
+        #closeButton {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            background-color: #333;
+            border: none;
+            color: white;
+            font-family: 'Courier New', Courier, monospace;
+            cursor: pointer;
+            border-radius: 5px;
+            outline: none;
+        }
     </style>
 </head>
 <body>
@@ -106,6 +120,8 @@
     const outputElement = document.getElementById('output');
     const commandInput = document.getElementById('commandInput');
     let typingTimeout;
+    let gameInterval;
+    let canvas;
 
     // Commands object (add more commands as needed)
     const commands = {
@@ -236,25 +252,28 @@
         clearOutput();
         appendOutput("Starting Snake game...");
 
-        const canvas = document.createElement('canvas');
+        canvas = document.createElement('canvas');
         canvas.id = 'snakeCanvas';
         canvas.width = 400; // Adjust canvas size as needed
-        canvas.height = 400;
-        canvas.style.border = '2px solid #444';
-        const ctx = canvas.getContext('2d');
-        document.body.appendChild(canvas);
+        canvas.height = 400; // Adjust canvas size as needed
+        outputElement.appendChild(canvas);
 
-        // Snake game logic
-        let snake = [{ x: 200, y: 200 }];
-        let food = { x: 0, y: 0 };
+        const closeButton = document.createElement('button');
+        closeButton.id = 'closeButton';
+        closeButton.textContent = 'Close';
+        closeButton.addEventListener('click', closeSnakeGame);
+        outputElement.appendChild(closeButton);
+
+        const ctx = canvas.getContext('2d');
         let dx = 10;
         let dy = 0;
         let score = 0;
+        let snake = [{ x: 200, y: 200 }];
+        let food = { x: 0, y: 0 };
 
         function drawSnake() {
-            ctx.fillStyle = 'lime';
-            ctx.strokeStyle = 'black';
-            ctx.lineWidth = 2;
+            ctx.fillStyle = 'limegreen';
+            ctx.strokeStyle = 'darkgreen';
             snake.forEach(segment => {
                 ctx.fillRect(segment.x, segment.y, 10, 10);
                 ctx.strokeRect(segment.x, segment.y, 10, 10);
@@ -352,8 +371,16 @@
         }
 
         generateFood();
-        const gameInterval = setInterval(gameLoop, 100); // Adjust speed as needed
+        gameInterval = setInterval(gameLoop, 100); // Adjust speed as needed
         document.addEventListener('keydown', handleKeyDown);
+    }
+
+    // Function to close Snake game
+    function closeSnakeGame() {
+        clearInterval(gameInterval); // Stop game loop
+        canvas.remove(); // Remove canvas from DOM
+        outputElement.querySelector('#closeButton').remove(); // Remove close button
+        appendOutput("Snake game closed.");
     }
 
     // Function to get weather information based on user's location
