@@ -214,7 +214,9 @@
 
     // Play typing sound on each input change
     commandInput.addEventListener('input', function(event) {
-        playTypingSound();
+        if (this.value.trim() !== '') {
+            playTypingSound();
+        }
     });
 
     // Function to execute command
