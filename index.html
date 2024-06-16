@@ -105,6 +105,11 @@
         const output = document.createElement('p');
         output.textContent = `~$ ${command}`;
 
+        if (command === 'clear') {
+            clearOutput();
+            return;
+        }
+
         if (commands[command]) {
             output.textContent += '\n' + commands[command];
         } else {
@@ -115,7 +120,7 @@
         output.scrollIntoView({ behavior: 'smooth' });
     }
 
-    // Clear command line output
+    // Function to clear command line output
     function clearOutput() {
         const commandLine = document.querySelector('.command-line');
         while (commandLine.firstChild) {
