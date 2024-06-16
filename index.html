@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aditya Malah - Portfolio</title>
+    <title>Aditya Malah - CLI Portfolio</title>
     <style>
         body {
             font-family: 'Courier New', Courier, monospace;
@@ -24,6 +24,7 @@
             flex-direction: column;
             text-align: center;
             white-space: pre-wrap;
+            position: relative;
         }
 
         .command-line p {
@@ -43,6 +44,28 @@
             from, to { border-color: transparent }
             50% { border-color: white; }
         }
+
+        .input-line {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: black;
+            border-top: 2px solid white;
+        }
+
+        .input-line input {
+            background-color: transparent;
+            border: none;
+            color: white;
+            font-family: 'Courier New', Courier, monospace;
+            width: calc(100% - 20px);
+            margin-left: 10px;
+            outline: none;
+        }
     </style>
 </head>
 <body>
@@ -50,33 +73,43 @@
 <div class="command-line">
     <p>~$ Welcome to Aditya Malah's Portfolio</p>
     <p>~$ Full Stack Web Developer & Graphic Designer</p>
-    <p>~$</p>
+    <p>~$ Type "help" for navigation options</p>
+    <div class="input-line">
+        <span>~$</span>
+        <input type="text" id="commandInput" autofocus>
+    </div>
 </div>
 
 <script>
-    // Delayed typing effect for command-line interface
-    const textElements = document.querySelectorAll('.command-line p');
-    let delay = 0;
-    
-    textElements.forEach((element, index) => {
-        const text = element.textContent.trim();
-        element.textContent = '';
-        
-        setTimeout(() => {
-            let charIndex = 0;
-            const typingInterval = setInterval(() => {
-                element.textContent += text[charIndex];
-                charIndex++;
-                
-                if (charIndex === text.length) {
-                    clearInterval(typingInterval);
-                    element.textContent += '\n~$';
-                }
-            }, 100); // Typing speed in milliseconds
-        }, delay);
-        
-        delay += text.length * 100 + 500; // Delay between sentences
+    const commands = {
+        help: "Available commands:\nabout - Display information about me\nportfolio - View my portfolio\ncontact - Contact me\n",
+        about: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam sed diam ligula.",
+        portfolio: "Here are some of my latest works:\n1. Project A - Description of Project A\n2. Project B - Description of Project B\n",
+        contact: "You can reach me via email at contact@example.com or use the contact form below.\n"
+    };
+
+    const commandInput = document.getElementById('commandInput');
+    commandInput.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            const command = this.value.trim().toLowerCase();
+            executeCommand(command);
+            this.value = '';
+        }
     });
+
+    function executeCommand(command) {
+        const output = document.createElement('p');
+        output.textContent = `~$ ${command}`;
+
+        if (commands[command]) {
+            output.textContent += '\n' + commands[command];
+        } else {
+            output.textContent += `\nCommand not found: ${command}`;
+        }
+
+        document.querySelector('.command-line').appendChild(output);
+        output.scrollIntoView({ behavior: 'smooth' });
+    }
 </script>
 
 </body>
