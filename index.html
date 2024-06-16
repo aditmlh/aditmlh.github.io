@@ -4,229 +4,78 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aditya Malah - Portfolio</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- Custom CSS -->
     <style>
-        /* Custom styles */
-        .section {
-            padding: 80px 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .bg-light {
-            background-color: #f8f9fa !important;
-        }
-
-        footer {
-            background-color: #343a40;
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: black;
             color: white;
-            padding: 20px 0;
-            text-align: center;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
         }
 
-        /* Rocket Animation */
-        .rocket-section {
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #111;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .rocket {
-            width: 100px;
-            height: 200px;
-            position: absolute;
-            bottom: -100px;
-            left: calc(50% - 50px);
-            animation: rocketMove 3s linear infinite, rocketBounce 1s ease-in-out infinite alternate;
-        }
-
-        @keyframes rocketMove {
-            0% {
-                transform: translateY(0) translateX(0);
-            }
-            50% {
-                transform: translateY(-50px) translateX(50px);
-            }
-            100% {
-                transform: translateY(0) translateX(0);
-            }
-        }
-
-        @keyframes rocketBounce {
-            0% {
-                transform: translateY(0);
-            }
-            100% {
-                transform: translateY(-10px);
-            }
-        }
-
-        /* Magic Navigation Indicator Curve Outside Effect */
-        .nav-indicator {
-            position: absolute;
-            bottom: -20px;
-            left: 0;
+        .command-line {
             width: 100%;
-            height: 4px;
-            background-color: #007bff;
-            transform-origin: left;
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            white-space: pre-wrap;
         }
 
-        .nav-item {
-            position: relative;
+        .command-line p {
+            margin: 10px 0;
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 2px solid white;
+            animation: typing 3s steps(40, end), blink-caret 0.5s step-end infinite;
         }
 
-        .nav-link {
-            padding: 10px 15px;
-            position: relative;
-            z-index: 1;
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
         }
 
-        .nav-item.active .nav-indicator {
-            transform-origin: right;
-            transform: scaleX(1);
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: white; }
         }
     </style>
 </head>
 <body>
 
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Aditya Malah</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="#home">Home <span class="sr-only">(current)</span></a>
-                <div class="nav-indicator"></div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#about">About</a>
-                <div class="nav-indicator"></div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#portfolio">Portfolio</a>
-                <div class="nav-indicator"></div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#contact">Contact</a>
-                <div class="nav-indicator"></div>
-            </li>
-        </ul>
-    </div>
-</nav>
+<div class="command-line">
+    <p>~$ Welcome to Aditya Malah's Portfolio</p>
+    <p>~$ Full Stack Web Developer & Graphic Designer</p>
+    <p>~$</p>
+</div>
 
-<!-- Home Section -->
-<section id="home" class="section">
-    <div class="container text-center">
-        <h1>Welcome to My Portfolio</h1>
-        <p class="lead">Full Stack Web Developer & Graphic Designer</p>
-    </div>
-</section>
-
-<!-- About Section -->
-<section id="about" class="section">
-    <div class="container">
-        <h2>About Me</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam sed diam ligula.</p>
-    </div>
-</section>
-
-<!-- Portfolio Section -->
-<section id="portfolio" class="section bg-light">
-    <div class="container">
-        <h2>Portfolio</h2>
-        <div class="row">
-            <!-- Portfolio items will be dynamically added here -->
-        </div>
-    </div>
-</section>
-
-<!-- Contact Section -->
-<section id="contact" class="section">
-    <div class="container">
-        <h2>Contact Me</h2>
-        <form id="contactForm">
-            <div class="form-group">
-                <label for="name">Your Name</label>
-                <input type="text" class="form-control" id="name" name="name" required>
-            </div>
-            <div class="form-group">
-                <label for="email">Your Email</label>
-                <input type="email" class="form-control" id="email" name="email" required>
-            </div>
-            <div class="form-group">
-                <label for="message">Message</label>
-                <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Send Message</button>
-        </form>
-    </div>
-</section>
-
-<!-- Rocket SVG Animation -->
-<section class="rocket-section">
-    <svg class="rocket" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-        <!-- Rocket SVG path and styling -->
-    </svg>
-</section>
-
-<!-- Footer -->
-<footer class="text-center py-4">
-    <p>&copy; 2024 Aditya Malah. All rights reserved.</p>
-</footer>
-
-<!-- Bootstrap JS, Popper.js, and jQuery -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<!-- Custom JS -->
 <script>
-    // Smooth scrolling on nav links and nav indicator animation
-    $(document).ready(function() {
-        $("a.nav-link").on('click', function(event) {
-            if (this.hash !== "") {
-                event.preventDefault();
-                var hash = this.hash;
-                $('html, body').animate({
-                    scrollTop: $(hash).offset().top
-                }, 800, function(){
-                    window.location.hash = hash;
-                });
-            }
-        });
-
-        $(window).on('scroll', function() {
-            var scrollPos = $(window).scrollTop();
-            $('.nav-item').each(function() {
-                var currLink = $(this);
-                var refElement = $(currLink.find("a").attr("href"));
-                if (refElement.position().top <= scrollPos && refElement.position().top + refElement.height() > scrollPos) {
-                    $('.nav-item').removeClass("active");
-                    currLink.addClass("active");
+    // Delayed typing effect for command-line interface
+    const textElements = document.querySelectorAll('.command-line p');
+    let delay = 0;
+    
+    textElements.forEach((element, index) => {
+        const text = element.textContent.trim();
+        element.textContent = '';
+        
+        setTimeout(() => {
+            let charIndex = 0;
+            const typingInterval = setInterval(() => {
+                element.textContent += text[charIndex];
+                charIndex++;
+                
+                if (charIndex === text.length) {
+                    clearInterval(typingInterval);
+                    element.textContent += '\n~$';
                 }
-                else {
-                    currLink.removeClass("active");
-                }
-            });
-        });
-
-        // Submit contact form
-        $("#contactForm").submit(function(event) {
-            event.preventDefault();
-            // Perform AJAX submission or other action
-            alert("Form submitted!");
-        });
+            }, 100); // Typing speed in milliseconds
+        }, delay);
+        
+        delay += text.length * 100 + 500; // Delay between sentences
     });
 </script>
 
