@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aditya Malah - CLI Portfolio</title>
+    <title>CLI Portfolio with Duck Drawing</title>
     <style>
         body {
             font-family: 'Courier New', Courier, monospace;
@@ -35,6 +35,10 @@
             max-height: 300px;
             overflow-y: auto;
             padding: 10px;
+            display: flex;
+            justify-content: center; /* Center SVG horizontally */
+            align-items: center; /* Center SVG vertically */
+            background-color: #222; /* Dark background for SVG area */
         }
 
         .input-line {
@@ -60,129 +64,50 @@
             outline: none;
         }
 
-        .love-animation {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: none;
-            font-size: 3em;
+        .color-picker {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
         }
 
-        @keyframes fireworks {
-            0% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 0;
-            }
-            100% {
-                display: none;
-            }
+        .color-picker button {
+            width: 30px;
+            height: 30px;
+            margin: 0 5px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            outline: none;
         }
 
-        .fireworks {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: transparent;
-            display: none;
-        }
-
-        .firework {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background: radial-gradient(circle, #ff7a7a, transparent);
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            opacity: 0;
-            animation: fireworks 20s ease-out infinite;
-        }
-
-        .firework:nth-child(2) {
-            animation-delay: 1s;
-        }
-
-        .firework:nth-child(3) {
-            animation-delay: 2s;
-        }
-
-        .firework:nth-child(4) {
-            animation-delay: 3s;
-        }
-
-        .firework:nth-child(5) {
-            animation-delay: 4s;
-        }
-
-        .crack {
-            position: absolute;
-            width: 0;
-            height: 0;
-            border-style: solid;
-            border-width: 0 0 200px 200px;
-            border-color: transparent transparent rgba(255, 255, 255, 0.5) transparent;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation: crackAnimation 0.5s ease forwards;
-            z-index: 9999;
-            pointer-events: none;
-        }
-
-        @keyframes crackAnimation {
-            0% {
-                transform: translate(-50%, -50%) rotate(0deg) scale(1);
-                opacity: 1;
-            }
-            100% {
-                transform: translate(-50%, -50%) rotate(360deg) scale(50);
-                opacity: 0;
-            }
-        }
-
-        /* Added for mechanical keyboard typing sound */
-        .typing-sound {
-            display: none;
+        .color-picker button:hover {
+            opacity: 0.8;
         }
     </style>
 </head>
 <body>
 
-<audio id="typingAudio">
-    <source src="typing-6458.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-</audio>
-
 <div class="command-line">
     <div class="output" id="output">
-        <p>Welcome to aditmlh!</p>
-        <p>Type 'help' for commands.</p>
+        <!-- SVG container for duck -->
+        <svg id="duckSvg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <!-- Duck drawing elements will be added here -->
+        </svg>
     </div>
     <div class="input-line">
         <span>~$</span>
         <input type="text" id="commandInput" placeholder="Type a command...">
     </div>
-    <div class="love-animation" id="loveAnimation">Love</div>
-    <div class="fireworks" id="fireworks">
-        <div class="firework"></div>
-        <div class="firework"></div>
-        <div class="firework"></div>
-        <div class="firework"></div>
-        <div class="firework"></div>
+    <div class="color-picker">
+        <button onclick="changeColor('#duckBody', '#ffeb3b')" style="background-color: #ffeb3b;"></button>
+        <button onclick="changeColor('#duckBeak', '#ff9800')" style="background-color: #ff9800;"></button>
+        <button onclick="changeColor('#duckWing', '#b2dfdb')" style="background-color: #b2dfdb;"></button>
     </div>
 </div>
 
 <script>
     const outputElement = document.getElementById('output');
     const commandInput = document.getElementById('commandInput');
-    const loveAnimation = document.getElementById('loveAnimation');
-    const fireworks = document.getElementById('fireworks');
-    const typingAudio = document.getElementById('typingAudio');
     let typingTimeout;
 
     // Commands object (add more commands as needed)
@@ -255,67 +180,13 @@
         }
     }
 
-// Function to execute command
-function executeCommand(command) {
-    appendOutput(`~$ ${command}`);
-    
-    if (command === 'help') {
-        displayHelp();
-    } else if (commands[command]) {
-        if (typeof commands[command] === 'function') {
-            commands[command]();
-        } else {
-            appendOutput(commands[command]);
-        }
-    } else {
-        appendOutput(`Command not found: ${command}`);
+    // Function to append output to CLI
+    function appendOutput(text) {
+        const p = document.createElement('p');
+        p.textContent = text;
+        outputElement.appendChild(p);
+        outputElement.scrollTop = outputElement.scrollHeight; // Auto scroll to bottom
     }
-}
-
-// Function to append output to CLI
-function appendOutput(text) {
-    const p = document.createElement('p');
-    p.textContent = text;
-    outputElement.appendChild(p);
-    outputElement.scrollTop = outputElement.scrollHeight; // Auto scroll to bottom
-}
-
-// Function to display structured help output
-function displayHelp() {
-    const helpText = `
-Available commands:
-  about     - Display information about me
-  education - Display education details
-  career    - Display career details
-  ability   - Display skills and abilities
-  portfolio - Display my portfolio
-  sosmed    - Display social media links
-  luv       - Surprise animation of love and fireworks
-  retak     - Create a cracking effect on the screen
-  move      - Moves one or more files from the source to the destination.
-  del       - Deletes one or more files.
-  copy      - Copies one or more files from the source to the destination.
-  xcopy     - Copies directories and subdirectories, with additional options for copying file attributes and permissions.
-  ren       - Renames a file.
-  type      - Displays the contents of a text file.
-  find      - Searches for a specific string in a file.
-  more      - Displays the contents of a text file one page at a time.
-  fc        - Compares the contents of two files or sets of files and displays the differences.
-  attrib    - Displays or changes file attributes (such as hidden, read-only, etc.) of files or directories.
-  mkdir     - Creates a new directory.
-  rmdir     - Deletes a directory. Add /s to remove a directory and all its contents.
-  cd        - Changes the current directory to the specified path.
-  chdir     - Same as cd, changes the current directory.
-  pushd     - Saves the current directory onto a stack and changes the directory.
-  popd      - Retrieves the most recent directory saved by pushd and makes it the current directory.
-  dir       - Lists the contents of a directory. If no directory is specified, it shows the contents of the current directory.
-  tree      - Graphically displays the folder structure of a specified drive or path.
-  robocopy  - Robust file and folder copying tool with many advanced options.
-`;
-
-    appendOutput(helpText);
-}
-
 
     // Function to clear output
     function clearOutput() {
@@ -324,14 +195,34 @@ Available commands:
 
     // Function to show love animation and fireworks
     function showLoveAnimation() {
-        loveAnimation.style.display = 'block';
-        fireworks.style.display = 'flex';
+        appendOutput("Here's a surprise for you!");
 
-        // Hide animation after 20 seconds
-        setTimeout(() => {
-            loveAnimation.style.display = 'none';
-            fireworks.style.display = 'none';
-        }, 20000);
+        const duckSvg = document.getElementById('duckSvg');
+
+        // Clear existing SVG content
+        duckSvg.innerHTML = '';
+
+        // Draw the duck using SVG elements
+        const duckBody = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
+        duckBody.setAttribute('id', 'duckBody');
+        duckBody.setAttribute('cx', '50');
+        duckBody.setAttribute('cy', '50');
+        duckBody.setAttribute('rx', '30');
+        duckBody.setAttribute('ry', '20');
+        duckBody.setAttribute('fill', '#ffeb3b');
+        duckSvg.appendChild(duckBody);
+
+        const duckBeak = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+        duckBeak.setAttribute('id', 'duckBeak');
+        duckBeak.setAttribute('points', '55,50 60,55 60,45');
+        duckBeak.setAttribute('fill', '#ff9800');
+        duckSvg.appendChild(duckBeak);
+
+        const duckWing = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        duckWing.setAttribute('id', 'duckWing');
+        duckWing.setAttribute('d', 'M 40,40 Q 35,35 30,40 L 30,50 Q 35,55 40,50 Z');
+        duckWing.setAttribute('fill', '#b2dfdb');
+        duckSvg.appendChild(duckWing);
     }
 
     // Function to create crack effect on the screen
@@ -344,6 +235,14 @@ Available commands:
         crack.addEventListener('animationend', () => {
             crack.remove();
         });
+    }
+
+    // Function to change color of SVG elements
+    function changeColor(elementId, newColor) {
+        const element = document.querySelector(elementId);
+        if (element) {
+            element.setAttribute('fill', newColor);
+        }
     }
 
     // Function to play typing sound
