@@ -26,6 +26,7 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
             overflow: hidden;
+            position: relative; /* Added for relative positioning */
         }
 
         .output {
@@ -59,17 +60,12 @@
 
         .love-animation {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             display: none;
-            justify-content: center;
-            align-items: center;
             font-size: 3em;
-            background: transparent;
         }
-
 
         @keyframes fireworks {
             0% {
@@ -102,7 +98,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             opacity: 0;
-            animation: fireworks 8s ease-out infinite;
+            animation: fireworks 20s ease-out infinite;
         }
 
         .firework:nth-child(2) {
@@ -120,9 +116,45 @@
         .firework:nth-child(5) {
             animation-delay: 4s;
         }
+
+        .crack {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 0 200px 200px;
+            border-color: transparent transparent rgba(255, 255, 255, 0.5) transparent;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: crackAnimation 0.5s ease forwards;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        @keyframes crackAnimation {
+            0% {
+                transform: translate(-50%, -50%) rotate(0deg) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) rotate(360deg) scale(50);
+                opacity: 0;
+            }
+        }
+
+        /* Added for mechanical keyboard typing sound */
+        .typing-sound {
+            display: none;
+        }
     </style>
 </head>
 <body>
+
+<audio id="typingAudio">
+    <source src="typing-sound.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+</audio>
 
 <div class="command-line">
     <div class="output" id="output">
@@ -133,7 +165,7 @@
         <span>~$</span>
         <input type="text" id="commandInput" placeholder="Type a command...">
     </div>
-    <div class="love-animation" id="loveAnimation">Love ❤️</div>
+    <div class="love-animation" id="loveAnimation">Love</div>
     <div class="fireworks" id="fireworks">
         <div class="firework"></div>
         <div class="firework"></div>
@@ -148,10 +180,11 @@
     const commandInput = document.getElementById('commandInput');
     const loveAnimation = document.getElementById('loveAnimation');
     const fireworks = document.getElementById('fireworks');
+    const typingAudio = document.getElementById('typingAudio');
 
     // Commands object (add more commands as needed)
     const commands = {
-        help: "Available commands:\nabout - Display information about me\neducation - Display education details\ncareer - Display career details\nability - Display skills and abilities\nportfolio - Display my portfolio\nsosmed - Display social media links\nluv - Surprise animation of love and fireworks\n",
+        help: "Available commands:\nabout - Display information about me\neducation - Display education details\ncareer - Display career details\nability - Display skills and abilities\nportfolio - Display my portfolio\nsosmed - Display social media links\nluv - Surprise animation of love and fireworks\nretak - Create a cracking effect on the screen\n",
         about: "I am Aditya Malah, a Full Stack Web Developer and Graphic Designer.",
         education: "I have a degree in Computer Science from XYZ University.",
         career: "I have worked as a web developer at Company X for 5 years.",
@@ -160,6 +193,9 @@
         sosmed: "You can find me on:\n- LinkedIn: linkedin.com/aditya\n- GitHub: github.com/aditya\n- Twitter: twitter.com/aditya",
         luv: function() {
             showLoveAnimation();
+        },
+        retak: function() {
+            createCrackEffect();
         },
         clear: function() {
             clearOutput();
@@ -172,6 +208,9 @@
             const command = this.value.trim().toLowerCase();
             executeCommand(command);
             this.value = '';
+        } else {
+            // Play typing sound
+            playTypingSound();
         }
     });
 
@@ -205,7 +244,7 @@
 
     // Function to show love animation and fireworks
     function showLoveAnimation() {
-        loveAnimation.style.display = 'flex';
+        loveAnimation.style.display = 'block';
         fireworks.style.display = 'flex';
 
         // Hide animation after 20 seconds
@@ -213,6 +252,24 @@
             loveAnimation.style.display = 'none';
             fireworks.style.display = 'none';
         }, 20000);
+    }
+
+    // Function to create crack effect on the screen
+    function createCrackEffect() {
+        const crack = document.createElement('div');
+        crack.classList.add('crack');
+        document.body.appendChild(crack);
+
+        // Remove crack after animation completes
+        crack.addEventListener('animationend', () => {
+            crack.remove();
+        });
+    }
+
+    // Function to play typing sound
+    function playTypingSound() {
+        typingAudio.currentTime = 0;
+        typingAudio.play();
     }
 </script>
 
