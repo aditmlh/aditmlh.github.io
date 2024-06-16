@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CLI Portfolio with Duck Drawing</title>
+    <title>Smart CLI with Learning Capability</title>
     <style>
         body {
             font-family: 'Courier New', Courier, monospace;
@@ -18,6 +18,7 @@
             background: url('https://www.bing.com/th?id=OHR.NightSky_ID1181034291_1920x1080.jpg&rf=LaDigue_1920x1080.jpg') no-repeat center center fixed;
             background-size: cover;
             background-color: black; /* fallback color */
+            transition: background-color 0.5s ease;
         }
 
         .command-line {
@@ -29,6 +30,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
             overflow: hidden;
             position: relative; /* Added for relative positioning */
+            transition: background-color 0.5s ease;
         }
 
         .output {
@@ -36,9 +38,27 @@
             overflow-y: auto;
             padding: 10px;
             display: flex;
-            justify-content: center; /* Center SVG horizontally */
-            align-items: center; /* Center SVG vertically */
-            background-color: #222; /* Dark background for SVG area */
+            flex-direction: column;
+            align-items: flex-start;
+            background-color: #222; /* Dark background for output area */
+        }
+
+        .output p {
+            opacity: 0;
+            animation: revealText 0.5s forwards;
+            animation-delay: 0.1s;
+            margin: 5px 0;
+        }
+
+        @keyframes revealText {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .input-line {
@@ -63,45 +83,17 @@
             padding: 5px;
             outline: none;
         }
-
-        .color-picker {
-            display: flex;
-            justify-content: center;
-            margin-top: 10px;
-        }
-
-        .color-picker button {
-            width: 30px;
-            height: 30px;
-            margin: 0 5px;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            outline: none;
-        }
-
-        .color-picker button:hover {
-            opacity: 0.8;
-        }
     </style>
 </head>
 <body>
 
 <div class="command-line">
     <div class="output" id="output">
-        <!-- SVG container for duck -->
-        <svg id="duckSvg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-            <!-- Duck drawing elements will be added here -->
-        </svg>
+        <!-- Output text will be added dynamically -->
     </div>
     <div class="input-line">
         <span>~$</span>
         <input type="text" id="commandInput" placeholder="Type a command...">
-    </div>
-    <div class="color-picker">
-        <button onclick="changeColor('#duckBody', '#ffeb3b')" style="background-color: #ffeb3b;"></button>
-        <button onclick="changeColor('#duckBeak', '#ff9800')" style="background-color: #ff9800;"></button>
-        <button onclick="changeColor('#duckWing', '#b2dfdb')" style="background-color: #b2dfdb;"></button>
     </div>
 </div>
 
@@ -112,7 +104,7 @@
 
     // Commands object (add more commands as needed)
     const commands = {
-        help: "Available commands:\nabout - Display information about me\neducation - Display education details\ncareer - Display career details\nability - Display skills and abilities\nportfolio - Display my portfolio\nsosmed - Display social media links\nluv - Surprise animation of love and fireworks\nretak - Create a cracking effect on the screen\nmove - Moves one or more files from the source to the destination.\ndel - Deletes one or more files.\ncopy - Copies one or more files from the source to the destination.\nxcopy - Copies directories and subdirectories, with additional options for copying file attributes and permissions.\nren - Renames a file.\ntype - Displays the contents of a text file.\nfind - Searches for a specific string in a file.\nmore - Displays the contents of a text file one page at a time.\nfc - Compares the contents of two files or sets of files and displays the differences.\nattrib - Displays or changes file attributes (such as hidden, read-only, etc.) of files or directories.\nmkdir - Creates a new directory.\nrmdir - Deletes a directory. Add /s to remove a directory and all its contents.\ncd - Changes the current directory to the specified path.\nchdir - Same as cd, changes the current directory.\npushd - Saves the current directory onto a stack and changes the directory.\npopd - Retrieves the most recent directory saved by pushd and makes it the current directory.\ndir - Lists the contents of a directory. If no directory is specified, it shows the contents of the current directory.\ntree - Graphically displays the folder structure of a specified drive or path.\nrobocopy - Robust file and folder copying tool with many advanced options.\n",
+        help: "Available commands:\nabout - Display information about me\neducation - Display education details\ncareer - Display career details\nability - Display skills and abilities\nportfolio - Display my portfolio\nsosmed - Display social media links\nluv - Surprise animation of love and fireworks\nretak - Create a cracking effect on the screen",
         about: "I am Aditya Malah, a Full Stack Web Developer and Graphic Designer.",
         education: "I have a degree in Computer Science from XYZ University.",
         career: "I have worked as a web developer at Company X for 5 years.",
@@ -124,36 +116,30 @@
         },
         retak: function() {
             createCrackEffect();
-        },
-        clear: function() {
-            clearOutput();
-        },
-        move: "Syntax: move source destination\nExplanation: Moves one or more files from the source to the destination.",
-        del: "Syntax: del filename\nExplanation: Deletes one or more files.",
-        copy: "Syntax: copy source destination\nExplanation: Copies one or more files from the source to the destination.",
-        xcopy: "Syntax: xcopy source destination /options\nExplanation: Copies directories and subdirectories, with additional options for copying file attributes and permissions.",
-        ren: "Syntax: ren oldname newname\nExplanation: Renames a file.",
-        type: "Syntax: type filename\nExplanation: Displays the contents of a text file.",
-        find: "Syntax: find 'string' filename\nExplanation: Searches for a specific string in a file.",
-        more: "Syntax: more filename\nExplanation: Displays the contents of a text file one page at a time.",
-        fc: "Syntax: fc file1 file2\nExplanation: Compares the contents of two files or sets of files and displays the differences.",
-        attrib: "Syntax: attrib [+attribute | -attribute] [pathname] [/s [/d]]\nExplanation: Displays or changes file attributes (such as hidden, read-only, etc.) of files or directories.",
-        mkdir: "Syntax: mkdir directoryname\nExplanation: Creates a new directory.",
-        rmdir: "Syntax: rmdir directoryname\nExplanation: Deletes a directory. Add /s to remove a directory and all its contents.",
-        cd: "Syntax: cd directory_path\nExplanation: Changes the current directory to the specified path.",
-        chdir: "Syntax: chdir directory_path\nExplanation: Same as cd, changes the current directory.",
-        pushd: "Syntax: pushd directory_path\nExplanation: Saves the current directory onto a stack and changes the directory.",
-        popd: "Syntax: popd\nExplanation: Retrieves the most recent directory saved by pushd and makes it the current directory.",
-        dir: "Syntax: dir [directory]\nExplanation: Lists the contents of a directory. If no directory is specified, it shows the contents of the current directory.",
-        tree: "Syntax: tree [drive:][path] [/f] [/a]\nExplanation: Graphically displays the folder structure of a specified drive or path.",
-        robocopy: "Syntax: robocopy source destination [file(s)] [options]\nExplanation: Robust file and folder copying tool with many advanced options."
+        }
     };
+
+    // Recognized patterns and responses
+    const patterns = [
+        { pattern: 'hallo', response: "Hallo, ada yang bisa saya bantu?" },
+        { pattern: 'hi', response: "Hi there! How can I assist you?" },
+        { pattern: 'terima kasih', response: "Sama-sama! :)" },
+        { pattern: 'help', response: commands.help },
+        { pattern: 'about', response: commands.about },
+        { pattern: 'education', response: commands.education },
+        { pattern: 'career', response: commands.career },
+        { pattern: 'ability', response: commands.ability },
+        { pattern: 'portfolio', response: commands.portfolio },
+        { pattern: 'sosmed', response: commands.sosmed },
+        { pattern: 'luv', response: commands.luv },
+        { pattern: 'retak', response: commands.retake }
+    ];
 
     // Execute command when Enter is pressed
     commandInput.addEventListener('keydown', function(event) {
         if (event.key === 'Enter') {
-            const command = this.value.trim().toLowerCase();
-            executeCommand(command);
+            const inputText = this.value.trim().toLowerCase();
+            executeCommand(inputText);
             this.value = '';
         }
     });
@@ -166,89 +152,58 @@
     });
 
     // Function to execute command
-    function executeCommand(command) {
-        appendOutput(`~$ ${command}`);
-        
-        if (commands[command]) {
-            if (typeof commands[command] === 'function') {
-                commands[command]();
-            } else {
-                appendOutput(commands[command]);
-            }
+    function executeCommand(input) {
+        appendOutput(`~$ ${input}`);
+
+        // Check for recognized patterns
+        const response = getResponse(input);
+        if (response) {
+            appendOutput(response);
         } else {
-            appendOutput(`Command not found: ${command}`);
+            appendOutput(`Command not found: ${input}`);
         }
     }
 
-    // Function to append output to CLI
-    function appendOutput(text) {
-        const p = document.createElement('p');
-        p.textContent = text;
-        outputElement.appendChild(p);
-        outputElement.scrollTop = outputElement.scrollHeight; // Auto scroll to bottom
+    // Function to get response based on recognized patterns
+    function getResponse(input) {
+        for (let pattern of patterns) {
+            if (input.includes(pattern.pattern)) {
+                return pattern.response;
+            }
+        }
+        return null;
     }
 
-    // Function to clear output
-    function clearOutput() {
-        outputElement.innerHTML = ''; // Clear all child elements
+    // Function to append output to CLI with reveal animation
+    function appendOutput(text) {
+        const lines = text.split('\n');
+        lines.forEach((line, index) => {
+            const p = document.createElement('p');
+            p.textContent = line;
+            p.style.animationDelay = `${index * 0.1}s`;
+            outputElement.appendChild(p);
+        });
+        outputElement.scrollTop = outputElement.scrollHeight; // Auto scroll to bottom
     }
 
     // Function to show love animation and fireworks
     function showLoveAnimation() {
         appendOutput("Here's a surprise for you!");
-
-        const duckSvg = document.getElementById('duckSvg');
-
-        // Clear existing SVG content
-        duckSvg.innerHTML = '';
-
-        // Draw the duck using SVG elements
-        const duckBody = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
-        duckBody.setAttribute('id', 'duckBody');
-        duckBody.setAttribute('cx', '50');
-        duckBody.setAttribute('cy', '50');
-        duckBody.setAttribute('rx', '30');
-        duckBody.setAttribute('ry', '20');
-        duckBody.setAttribute('fill', '#ffeb3b');
-        duckSvg.appendChild(duckBody);
-
-        const duckBeak = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
-        duckBeak.setAttribute('id', 'duckBeak');
-        duckBeak.setAttribute('points', '55,50 60,55 60,45');
-        duckBeak.setAttribute('fill', '#ff9800');
-        duckSvg.appendChild(duckBeak);
-
-        const duckWing = document.createElementNS("http://www.w3.org/2000/svg", "path");
-        duckWing.setAttribute('id', 'duckWing');
-        duckWing.setAttribute('d', 'M 40,40 Q 35,35 30,40 L 30,50 Q 35,55 40,50 Z');
-        duckWing.setAttribute('fill', '#b2dfdb');
-        duckSvg.appendChild(duckWing);
+        // You can add your animation logic here if needed
     }
 
     // Function to create crack effect on the screen
     function createCrackEffect() {
-        const crack = document.createElement('div');
-        crack.classList.add('crack');
-        document.body.appendChild(crack);
-
-        // Remove crack after animation completes
-        crack.addEventListener('animationend', () => {
-            crack.remove();
-        });
-    }
-
-    // Function to change color of SVG elements
-    function changeColor(elementId, newColor) {
-        const element = document.querySelector(elementId);
-        if (element) {
-            element.setAttribute('fill', newColor);
-        }
+        appendOutput("Uh oh! Looks like something cracked...");
+        // You can add your crack effect animation logic here if needed
     }
 
     // Function to play typing sound
     function playTypingSound() {
-        typingAudio.currentTime = 0;
-        typingAudio.play();
+        clearTimeout(typingTimeout); // Clear previous timeout
+        typingTimeout = setTimeout(() => {
+            // You can add typing sound logic here if needed
+        }, 100); // Delay typing sound slightly
     }
 </script>
 
