@@ -7,7 +7,6 @@
     <style>
         body {
             font-family: 'Courier New', Courier, monospace;
-            background-color: black;
             color: white;
             line-height: 1.6;
             margin: 0;
@@ -16,12 +15,15 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            background: url('https://www.bing.com/th?id=OHR.NightSky_ID1181034291_1920x1080.jpg&rf=LaDigue_1920x1080.jpg') no-repeat center center fixed;
+            background-size: cover;
+            background-color: black; /* fallback color */
         }
 
         .command-line {
             width: 80%;
             max-width: 600px;
-            background-color: #222;
+            background-color: rgba(34, 34, 34, 0.7); /* Dark overlay for readability */
             border: 2px solid #444;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
@@ -185,7 +187,7 @@
 
     // Commands object (add more commands as needed)
     const commands = {
-        help: "Available commands:\nabout - Display information about me\neducation - Display education details\ncareer - Display career details\nability - Display skills and abilities\nportfolio - Display my portfolio\nsosmed - Display social media links\nluv - Surprise animation of love and fireworks\nretak - Create a cracking effect on the screen\n",
+        help: "Available commands:\nabout - Display information about me\neducation - Display education details\ncareer - Display career details\nability - Display skills and abilities\nportfolio - Display my portfolio\nsosmed - Display social media links\nluv - Surprise animation of love and fireworks\nretak - Create a cracking effect on the screen\nmove - Moves one or more files from the source to the destination.\ndel - Deletes one or more files.\ncopy - Copies one or more files from the source to the destination.\nxcopy - Copies directories and subdirectories, with additional options for copying file attributes and permissions.\nren - Renames a file.\ntype - Displays the contents of a text file.\nfind - Searches for a specific string in a file.\nmore - Displays the contents of a text file one page at a time.\nfc - Compares the contents of two files or sets of files and displays the differences.\nattrib - Displays or changes file attributes (such as hidden, read-only, etc.) of files or directories.\nmkdir - Creates a new directory.\nrmdir - Deletes a directory. Add /s to remove a directory and all its contents.\ncd - Changes the current directory to the specified path.\nchdir - Same as cd, changes the current directory.\npushd - Saves the current directory onto a stack and changes the directory.\npopd - Retrieves the most recent directory saved by pushd and makes it the current directory.\ndir - Lists the contents of a directory. If no directory is specified, it shows the contents of the current directory.\ntree - Graphically displays the folder structure of a specified drive or path.\nrobocopy - Robust file and folder copying tool with many advanced options.\n",
         about: "I am Aditya Malah, a Full Stack Web Developer and Graphic Designer.",
         education: "I have a degree in Computer Science from XYZ University.",
         career: "I have worked as a web developer at Company X for 5 years.",
@@ -200,7 +202,26 @@
         },
         clear: function() {
             clearOutput();
-        }
+        },
+        move: "Syntax: move source destination\nExplanation: Moves one or more files from the source to the destination.",
+        del: "Syntax: del filename\nExplanation: Deletes one or more files.",
+        copy: "Syntax: copy source destination\nExplanation: Copies one or more files from the source to the destination.",
+        xcopy: "Syntax: xcopy source destination /options\nExplanation: Copies directories and subdirectories, with additional options for copying file attributes and permissions.",
+        ren: "Syntax: ren oldname newname\nExplanation: Renames a file.",
+        type: "Syntax: type filename\nExplanation: Displays the contents of a text file.",
+        find: "Syntax: find 'string' filename\nExplanation: Searches for a specific string in a file.",
+        more: "Syntax: more filename\nExplanation: Displays the contents of a text file one page at a time.",
+        fc: "Syntax: fc file1 file2\nExplanation: Compares the contents of two files or sets of files and displays the differences.",
+        attrib: "Syntax: attrib [+attribute | -attribute] [pathname] [/s [/d]]\nExplanation: Displays or changes file attributes (such as hidden, read-only, etc.) of files or directories.",
+        mkdir: "Syntax: mkdir directoryname\nExplanation: Creates a new directory.",
+        rmdir: "Syntax: rmdir directoryname\nExplanation: Deletes a directory. Add /s to remove a directory and all its contents.",
+        cd: "Syntax: cd directory_path\nExplanation: Changes the current directory to the specified path.",
+        chdir: "Syntax: chdir directory_path\nExplanation: Same as cd, changes the current directory.",
+        pushd: "Syntax: pushd directory_path\nExplanation: Saves the current directory onto a stack and changes the directory.",
+        popd: "Syntax: popd\nExplanation: Retrieves the most recent directory saved by pushd and makes it the current directory.",
+        dir: "Syntax: dir [directory]\nExplanation: Lists the contents of a directory. If no directory is specified, it shows the contents of the current directory.",
+        tree: "Syntax: tree [drive:][path] [/f] [/a]\nExplanation: Graphically displays the folder structure of a specified drive or path.",
+        robocopy: "Syntax: robocopy source destination [file(s)] [options]\nExplanation: Robust file and folder copying tool with many advanced options."
     };
 
     // Execute command when Enter is pressed
