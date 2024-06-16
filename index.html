@@ -27,7 +27,7 @@
             position: relative;
         }
 
-        .command-line p {
+        .command-line span {
             margin: 10px 0;
             overflow: hidden;
             white-space: nowrap;
@@ -75,9 +75,9 @@
 <body>
 
 <div class="command-line">
-    <p>~$ Welcome to Aditya Malah's Portfolio</p>
-    <p>~$ Full Stack Web Developer & Graphic Designer</p>
-    <p>~$ Type "help" for navigation options</p>
+    <span>~$ Welcome to Aditya Malah's Portfolio</span>
+    <span>~$ Full Stack Web Developer & Graphic Designer</span>
+    <span>~$ Type "help" for navigation options</span>
     <div class="input-line">
         <span>~$</span>
         <input type="text" id="commandInput" autofocus autocomplete="off">
@@ -123,10 +123,8 @@
 
     // Function to clear command line output
     function clearOutput() {
-        const commandLine = document.querySelector('.command-line');
-        while (commandLine.firstChild) {
-            commandLine.removeChild(commandLine.firstChild);
-        }
+        const outputs = document.querySelectorAll('.command-line p');
+        outputs.forEach(output => output.remove());
     }
 
     // Auto complete command input based on available commands
