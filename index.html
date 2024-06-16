@@ -57,6 +57,10 @@
             border-top: 2px solid white;
         }
 
+        .input-line span {
+            color: #00ff00; /* green color for the prompt */
+        }
+
         .input-line input {
             background-color: transparent;
             border: none;
@@ -76,7 +80,7 @@
     <p>~$ Type "help" for navigation options</p>
     <div class="input-line">
         <span>~$</span>
-        <input type="text" id="commandInput" autofocus>
+        <input type="text" id="commandInput" autofocus autocomplete="off">
     </div>
 </div>
 
@@ -110,6 +114,25 @@
         document.querySelector('.command-line').appendChild(output);
         output.scrollIntoView({ behavior: 'smooth' });
     }
+
+    // Clear command line output
+    function clearOutput() {
+        const commandLine = document.querySelector('.command-line');
+        while (commandLine.firstChild) {
+            commandLine.removeChild(commandLine.firstChild);
+        }
+    }
+
+    // Auto complete command input based on available commands
+    commandInput.addEventListener('input', function() {
+        const input = this.value.toLowerCase();
+        const possibleCommands = Object.keys(commands).filter(cmd => cmd.startsWith(input));
+
+        if (possibleCommands.length > 0) {
+            const autocompleteCommand = possibleCommands[0];
+            this.value = autocompleteCommand;
+        }
+    });
 </script>
 
 </body>
