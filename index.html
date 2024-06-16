@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart CLI with Learning Capability</title>
+    <title>aditmlh -  Aditya Malah</title>
     <style>
         body {
             font-family: 'Courier New', Courier, monospace;
@@ -104,7 +104,7 @@
 
     // Commands object (add more commands as needed)
     const commands = {
-        help: "Available commands:\nabout - Display information about me\neducation - Display education details\ncareer - Display career details\nability - Display skills and abilities\nportfolio - Display my portfolio\nsosmed - Display social media links\nluv - Surprise animation of love and fireworks\nretak - Create a cracking effect on the screen",
+        help: "Available commands:\nabout - Display information about me\neducation - Display education details\ncareer - Display career details\nability - Display skills and abilities\nportfolio - Display my portfolio\nsosmed - Display social media links\nluv - Surprise animation of love and fireworks\nretak - Create a cracking effect on the screen\nclear - Clear the output",
         about: "I am Aditya Malah, a Full Stack Web Developer and Graphic Designer.",
         education: "I have a degree in Computer Science from XYZ University.",
         career: "I have worked as a web developer at Company X for 5 years.",
@@ -116,6 +116,9 @@
         },
         retak: function() {
             createCrackEffect();
+        },
+        clear: function() {
+            clearOutput();
         }
     };
 
@@ -133,6 +136,7 @@
         { pattern: 'sosmed', response: commands.sosmed },
         { pattern: 'luv', response: commands.luv },
         { pattern: 'retak', response: commands.retake },
+        { pattern: 'clear', response: commands.clear },
         { pattern: 'cuaca', response: getWeatherInfo }
     ];
 
@@ -191,6 +195,13 @@
         outputElement.scrollTop = outputElement.scrollHeight; // Auto scroll to bottom
     }
 
+    // Function to clear output
+    function clearOutput() {
+        while (outputElement.firstChild) {
+            outputElement.removeChild(outputElement.firstChild);
+        }
+    }
+
     // Function to show love animation and fireworks
     function showLoveAnimation() {
         appendOutput("Here's a surprise for you!");
@@ -223,7 +234,7 @@
     // Success callback for geolocation API
     function successCallback(position) {
         const { latitude, longitude } = position.coords;
-        const apiKey = '9d457d497054b6be5ff2cdf3f392462f'; // Replace with your OpenWeatherMap API key
+        const apiKey = 'YOUR_OPENWEATHERMAP_API_KEY'; // Replace with your OpenWeatherMap API key
         const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
 
         fetch(apiUrl)
