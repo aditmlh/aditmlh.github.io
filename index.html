@@ -181,6 +181,7 @@
     const loveAnimation = document.getElementById('loveAnimation');
     const fireworks = document.getElementById('fireworks');
     const typingAudio = document.getElementById('typingAudio');
+    let typingTimeout;
 
     // Commands object (add more commands as needed)
     const commands = {
@@ -208,10 +209,12 @@
             const command = this.value.trim().toLowerCase();
             executeCommand(command);
             this.value = '';
-        } else {
-            // Play typing sound
-            playTypingSound();
         }
+    });
+
+    // Play typing sound on each input change
+    commandInput.addEventListener('input', function(event) {
+        playTypingSound();
     });
 
     // Function to execute command
