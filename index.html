@@ -135,7 +135,74 @@ h1 {
     transform: translateY(-10px);
     box-shadow: 0 6px 12px rgba(255, 255, 255, 0.4);
 }
+/* Team section styling */
+.team {
+    padding: 1rem;
+    text-align: center;
+}
 
+.team h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.team-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.team-member {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    width: 250px; /* Adjust as needed */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.team-member img {
+    border-radius: 50%;
+    width: 100px; /* Adjust size as needed */
+    height: 100px; /* Adjust size as needed */
+    object-fit: cover;
+    margin-bottom: 1rem;
+}
+
+.team-member h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.team-member p {
+    font-size: 1rem;
+    color: #666;
+}
+
+.social-media {
+    margin-top: 1rem;
+}
+
+.social-media a {
+    margin: 0 0.5rem;
+    text-decoration: none;
+    color: #007bff;
+    font-size: 0.9rem;
+}
+
+.social-media a:hover {
+    text-decoration: underline;
+}
+
+/* Hover effect for team members */
+.team-member:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
 .app-card h3, .why-card h3 {
     margin-top: 0;
     font-weight: 500;
@@ -696,7 +763,101 @@ section {
                 </div>
                 <p>Apakah Anda siap untuk bergabung dengan daftar klien kami yang puas? Hubungi kami hari ini untuk mendiskusikan proyek Anda!</p>
             </section>
-    
+            <section class="team">
+                <h2>Our Team</h2>
+                <div class="team-container">
+                    <div class="team-member">
+                        <img src="https://via.placeholder.com/100" alt="Aditya Malah">
+                        <h3>Aditya Malah</h3>
+                        <p>Creative Director</p>
+                        <div class="social-media">
+                            <a href="https://twitter.com" target="_blank">Twitter</a>
+                            <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+                            <a href="https://facebook.com" target="_blank">Facebook</a>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <img src="https://via.placeholder.com/100" alt="Aldi Paputungan">
+                        <h3>Aldi Paputungan</h3>
+                        <p>Lead Developer</p>
+                        <div class="social-media">
+                            <a href="https://twitter.com" target="_blank">Twitter</a>
+                            <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+                            <a href="https://facebook.com" target="_blank">Facebook</a>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <img src="https://via.placeholder.com/100" alt="Alhardjo">
+                        <h3>Alhardjo</h3>
+                        <p>Graphic Designer</p>
+                        <div class="social-media">
+                            <a href="https://twitter.com" target="_blank">Twitter</a>
+                            <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+                            <a href="https://facebook.com" target="_blank">Facebook</a>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <img src="https://via.placeholder.com/100" alt="Wahyu Loloy">
+                        <h3>Wahyu Loloy</h3>
+                        <p>Project Manager</p>
+                        <div class="social-media">
+                            <a href="https://twitter.com" target="_blank">Twitter</a>
+                            <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+                            <a href="https://facebook.com" target="_blank">Facebook</a>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <img src="https://via.placeholder.com/100" alt="Fatrah Makalalag">
+                        <h3>Fatrah Makalalag</h3>
+                        <p>UX/UI Designer</p>
+                        <div class="social-media">
+                            <a href="https://twitter.com" target="_blank">Twitter</a>
+                            <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+                            <a href="https://facebook.com" target="_blank">Facebook</a>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <img src="https://via.placeholder.com/100" alt="Cipto Dolot">
+                        <h3>Cipto Dolot</h3>
+                        <p>Front-end Developer</p>
+                        <div class="social-media">
+                            <a href="https://twitter.com" target="_blank">Twitter</a>
+                            <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+                            <a href="https://facebook.com" target="_blank">Facebook</a>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <img src="https://via.placeholder.com/100" alt="Diki Tegema">
+                        <h3>Diki Tegema</h3>
+                        <p>Back-end Developer</p>
+                        <div class="social-media">
+                            <a href="https://twitter.com" target="_blank">Twitter</a>
+                            <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+                            <a href="https://facebook.com" target="_blank">Facebook</a>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <img src="https://via.placeholder.com/100" alt="Alif Malah">
+                        <h3>Alif Malah</h3>
+                        <p>Marketing Specialist</p>
+                        <div class="social-media">
+                            <a href="https://twitter.com" target="_blank">Twitter</a>
+                            <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+                            <a href="https://facebook.com" target="_blank">Facebook</a>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <img src="https://via.placeholder.com/100" alt="Yunda Kasnawi">
+                        <h3>Yunda Kasnawi</h3>
+                        <p>Content Strategist</p>
+                        <div class="social-media">
+                            <a href="https://twitter.com" target="_blank">Twitter</a>
+                            <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+                            <a href="https://facebook.com" target="_blank">Facebook</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
             <!-- Contact Section -->
             <section id="contact">
                 <h2>Hubungi Kami</h2>
@@ -705,7 +866,9 @@ section {
                 <p>WhatsApp: <a href="https://wa.me/6285757043312">+62 857-5704-3312</a></p>
                 <p>Jangan ragu untuk menghubungi kami kapan saja. Kami akan dengan senang hati menjawab pertanyaan Anda dan membantu Anda memulai proyek Anda.</p>
             </section>
+            
         </main>
+        
     </section>
     
     <style>
