@@ -142,6 +142,45 @@ h1 {
     font-size: 1.5rem;
 }
 
+/* Container for the services list */
+.services-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* Space between items */
+  padding: 1rem;
+  max-width: 800px; /* Adjust as needed */
+  margin: auto; /* Center the list */
+}
+
+/* Individual service item */
+.service-item {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Service title */
+.service-item h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+/* Service description */
+.service-item p {
+  font-size: 1rem;
+  color: #666;
+}
+
+/* Optional: Add a hover effect for interactivity */
+.service-item:hover {
+  background: #eaf4f4;
+  border-color: #ccc;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
 .btn {
     display: inline-block;
     padding: 10px 15px;
@@ -357,9 +396,10 @@ svg {
 }
 
 .scroll-btn {
+   
     margin-top: 20px;
     display: inline-block;
-    padding: 10px 15px;
+    padding: 19px 100px;
     background-color: #ffffff;
     color: #1e1e1e;
     text-decoration: none;
@@ -482,8 +522,7 @@ section {
         <div class="title">
             <h1>MRKS. Studio<br>
             <button class="scroll-btn" onclick="showContent('content-1')">Tentang MRKS.</button>
-            <button class="scroll-btn" onclick="showContent('content-2')">Order Jasa</button>
-            <a href="https://une8wtc.localto.net/emasigi/"><button class="scroll-btn">Demo App</button></a></h1>
+          </a></h1>
         </div>
     </main>
     
@@ -528,6 +567,38 @@ section {
             <p>Portofolio kami mencerminkan kualitas dan keberagaman proyek yang telah kami selesaikan. Kami bangga dengan hasil kerja kami dan siap untuk menunjukkan bagaimana kami dapat memberikan hasil yang luar biasa untuk Anda.</p>
         </div>
     </div>
+</section>
+<!-- Services Offered Section -->
+<section id="services">
+    <h2>Jasa yang Kami Tawarkan</h2>
+    <div class="why-choose-us-list">
+        <div class="service-card">
+            <h3><i class="fas fa-paint-brush"></i> Desain Grafis</h3>
+            <p>Kami menyediakan layanan desain grafis untuk kebutuhan branding, seperti logo, brosur, poster, dan materi promosi lainnya. Desain kami selalu dibuat dengan mempertimbangkan identitas brand dan pesan yang ingin disampaikan.</p>
+        </div>
+        <div class="service-card">
+            <h3><i class="fas fa-video"></i> Video Editing</h3>
+            <p>Jasa editing video kami meliputi pembuatan video promosi, video konten, dan editing footage untuk berbagai keperluan. Kami menggunakan software terkini untuk menghasilkan video yang berkualitas tinggi dan sesuai dengan kebutuhan Anda.</p>
+        </div>
+        <div class="service-card">
+            <h3><i class="fas fa-code"></i> Pembuatan Website</h3>
+            <p>Kami menawarkan layanan pembuatan website yang responsif, user-friendly, dan sesuai dengan kebutuhan bisnis Anda. Dari desain hingga pengembangan, kami memastikan website Anda tampil profesional dan fungsional.</p>
+        </div>
+        <div class="service-card">
+            <h3><i class="fas fa-photo-video"></i> Fotografi dan Videografi</h3>
+            <p>Kami juga menyediakan jasa fotografi dan videografi untuk berbagai keperluan seperti event, produk, dan dokumentasi lainnya. Tim kami siap mengabadikan momen penting Anda dengan hasil yang memukau.</p>
+        </div>
+        <div class="service-card">
+            <h3><i class="fas fa-bullhorn"></i> Digital Marketing</h3>
+            <p>Kami membantu mempromosikan bisnis Anda secara online melalui strategi digital marketing yang efektif. Layanan ini mencakup manajemen media sosial, SEO, content marketing, dan iklan online.</p>
+        </div>
+        <div class="service-card">
+            <h3><i class="fas fa-pencil-alt"></i> Penulisan Konten</h3>
+            <p>Kami menyediakan jasa penulisan konten berkualitas tinggi untuk website, blog, dan media sosial. Konten yang kami buat disesuaikan dengan target audiens dan tujuan bisnis Anda.</p>
+        </div>
+    </div>
+    <div style="text-align: center;"><button class="scroll-btn" onclick="showContent('content-2')">Order Jasa</button>
+    <a href="https://une8wtc.localto.net/emasigi/"><button class="scroll-btn">Demo App</button></a></div>
 </section>
 
     
