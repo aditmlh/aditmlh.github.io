@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ID">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -50,8 +50,7 @@
             "areaServed": "Global",
             "availableLanguage": "Indonesia"
           }
-        }
-        </script>
+        }        </script>
         
         <!-- Google Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
@@ -65,35 +64,7 @@
         <!-- Slick Carousel CSS -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
-   <!-- Custom JS -->
-   <script>
-       $(document).ready(function(){
-    $('.client-carousel').slick({
-        slidesToShow: 5,
-        slidesToScroll: 1,
-        autoplay: true,
-        autoplaySpeed: 2000,
-        arrows: true,
-        dots: false,
-        pauseOnHover: false,
-        responsive: [
-            {
-                breakpoint: 768,
-                settings: {
-                    slidesToShow: 2
-                }
-            },
-            {
-                breakpoint: 480,
-                settings: {
-                    slidesToShow: 1
-                }
-            }
-        ]
-    });
-});
-   </script>
+       
         <!-- CSS Styles -->
     <style>
 body {
@@ -1426,7 +1397,35 @@ section {
 
     </main>
         </section>
-
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+        <!-- Custom JS -->
+        <script>
+            $(document).ready(function(){
+         $('.client-carousel').slick({
+             slidesToShow: 5,
+             slidesToScroll: 1,
+             autoplay: true,
+             autoplaySpeed: 2000,
+             arrows: true,
+             dots: false,
+             pauseOnHover: false,
+             responsive: [
+                 {
+                     breakpoint: 768,
+                     settings: {
+                         slidesToShow: 2
+                     }
+                 },
+                 {
+                     breakpoint: 480,
+                     settings: {
+                         slidesToShow: 1
+                     }
+                 }
+             ]
+         });
+     });
+        </script>
     
 
     </main>
