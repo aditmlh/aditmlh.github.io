@@ -11,13 +11,13 @@
         <meta name="author" content="MRKS. Studio">
         <meta name="robots" content="index, follow">
         <meta name="google-site-verification" content="your-google-site-verification-code-here">
-        <link rel="canonical" href="https://une8wtc.localto.net/">
+        <link rel="canonical" href="https://aditmlh.github.io/">
         
         <!-- Open Graph / Facebook -->
         <meta property="og:title" content="MRKS. Studio | Creative Design & Development Agency">
         <meta property="og:description" content="Discover MRKS. Studio, your partner in creating stunning brands and digital experiences.">
-        <meta property="og:image" content="https://une8wtc.localto.net/og-image.jpg">
-        <meta property="og:url" content="https://une8wtc.localto.net/">
+        <meta property="og:image" content="https://aditmlh.github.io/og-image.jpg">
+        <meta property="og:url" content="https://aditmlh.github.io/">
         <meta property="og:type" content="website">
         <meta property="og:site_name" content="MRKS. Studio">
         
@@ -25,7 +25,7 @@
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:title" content="MRKS. Studio | Creative Design & Development Agency">
         <meta name="twitter:description" content="Discover MRKS. Studio, your partner in creating stunning brands and digital experiences.">
-        <meta name="twitter:image" content="https://une8wtc.localto.net/twitter-image.jpg">
+        <meta name="twitter:image" content="https://aditmlh.github.io/twitter-image.jpg">
         <meta name="twitter:site" content="@mrksstudio">
         <meta name="twitter:creator" content="@mrksstudio">
     
@@ -35,8 +35,8 @@
           "@context": "https://schema.org",
           "@type": "Organization",
           "name": "MRKS. Studio",
-          "url": "https://une8wtc.localto.net/",
-          "logo": "https://une8wtc.localto.net/logo.png",
+          "url": "https://aditmlh.github.io/",
+          "logo": "https://aditmlh.github.io/logo.png",
           "sameAs": [
             "https://www.facebook.com/mrksstudio",
             "https://www.twitter.com/mrksstudio",
@@ -65,7 +65,35 @@
         <!-- Slick Carousel CSS -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
-        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+   <!-- Custom JS -->
+   <script>
+       $(document).ready(function(){
+    $('.client-carousel').slick({
+        slidesToShow: 5,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 2000,
+        arrows: true,
+        dots: false,
+        pauseOnHover: false,
+        responsive: [
+            {
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 2
+                }
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 1
+                }
+            }
+        ]
+    });
+});
+   </script>
         <!-- CSS Styles -->
     <style>
 body {
@@ -219,23 +247,37 @@ h1 {
     padding: 5px;
 }
 
-#clients {
-    text-align: center;
-    margin-top: 40px;
-    animation: fadeIn 1.5s ease-in-out;
-}
-
 .client-carousel {
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
 }
 
-.client-carousel img {
-    margin: 10px;
+.client-carousel div {
     display: block;
-    height: auto;
+    font-size: 1.5rem;
+    color: #000000;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
+    text-align: center;
 }
+
+.client-carousel p{
+    display: flex;
+    gap: 20px;
+    animation: scroll 20s linear infinite;
+}
+
+@keyframes scroll {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(calc(-100% / 3));
+    }
+}
+
 
 .line-text {
     color: #ffffff;
@@ -521,18 +563,35 @@ section {
 
 <section id="clients">
     <h2>Client Kami</h2>
-<div class="client-carousel">
-<div><img src="logo.png" alt="Client Logo 1"></div>
-<div><img src="logo1.png" alt="Client Logo 2"></div>
-<div><img src="logo2.png" alt="Client Logo 3"></div>
-<div><img src="logo3.png" alt="Client Logo 4"></div>
-<div><img src="logo4.png" alt="Client Logo 4"></div>
-<div><img src="logo5.png" alt="Client Logo 4"></div>
-<div><img src="logo6.png" alt="Client Logo 4"></div>
-<div><img src="logo7.png" alt="Client Logo 4"></div>
-
-<!-- Add more logos as needed -->
-</div>
+    <div class="client-carousel">
+        <div><p>Kotamobagukota.go.id</p></div>
+        <div><p>Kroniktotabuan.com</p></div>
+        <div><p>Mongondownet.tv</p></div>
+        <div><p>Puskesmas Tanoyan</p></div>
+        <div><p>Vita Collection Kotamobagu</p></div>
+        <div><p>Affshen Car Wash Kotamobagu</p></div>
+        <div><p>Dapur Botugs</p></div>
+        <div><p>Zea Store</p></div>
+        <div><p>Smkcokroaminotoktg</p></div>
+        <div><p>Rakyatnews.net</p></div>
+        <div><p>BaluanaAtjo.co.id</p></div>
+        <div><p>PortalMongondow</p></div>
+        <div><p>Pedagogi.id</p></div>
+        <div><p>Kontras.id</p></div>
+        <div><p>DutaPendidikanSulut</p></div>
+        <div><p>Kampus.kontras.id</p></div>
+        <div><p>B-townkids.com.au</p></div>
+        <div><p>Kontras.co.id</p></div>
+        <div><p>Sulutplus.com</p></div>
+        <div><p>ToyotaKotamobagu.com</p></div>
+        <div><p>Hondasulut.com</p></div>
+        <div><p>ToyotaSulut.com</p></div>
+        <div><p>HondaKotamobagu.com</p></div>
+        <div><p>Toyota-Kotamobagu.com</p></div>
+   
+        <!-- Add more clients as needed -->
+    </div>
+    
 </section>
 
  <!-- Contact Section -->
@@ -1371,53 +1430,12 @@ section {
     
 
     </main>
+         <!-- Slick Carousel JS -->
+   
 
     <footer class="footer">
         &copy; 2024 Webserver Aditya Malah
     </footer>
-
-
-     <!-- Slick Carousel JS -->
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
-   <!-- Custom JS -->
-   <script>
-       $(document).ready(function() {
-           $('.client-carousel').slick({
-               slidesToShow: 4,
-               slidesToScroll: 1,
-               autoplay: true,
-               autoplaySpeed: 2000,
-               arrows: false,
-               dots: false,
-               responsive: [
-                   {
-                       breakpoint: 768,
-                       settings: {
-                           slidesToShow: 2
-                       }
-                   },
-                   {
-                       breakpoint: 480,
-                       settings: {
-                           slidesToShow: 1
-                       }
-                   }
-               ]
-           });
-
-           // Example progress bar animation
-           function updateProgressBar() {
-               $('.progress-bar-inner').each(function() {
-                   var $this = $(this);
-                   var percentage = $this.data('progress');
-                   $this.animate({
-                       width: percentage + '%'
-                   }, 1000);
-               });
-           }
-           updateProgressBar();
-       });
-   </script>
 
   <!-- JavaScript Animations -->
   <script>
