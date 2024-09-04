@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>MRKS. Studio | Creative Design & Development Agency based in Kotamobagu, Indonesia</title>
+        <title>MRKS. Studio | Creative Design & Development Agency</title>
         
         <!-- SEO Meta Tags -->
         <meta name="description" content="MRKS. Studio is a leading creative design and development agency specializing in delivering top-notch branding, web development, and digital marketing solutions.">
@@ -239,6 +239,29 @@ h1 {
     transition: transform 0.3s, box-shadow 0.3s;
     animation: fadeIn 1.5s ease-in-out;
 
+}
+
+svg {
+	font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	width: 100%; height: 100%;
+}
+svg text {
+	animation: stroke 5s infinite alternate;
+	stroke-width: 2;
+	stroke: #365FA0;
+	font-size: 0px;
+}
+@keyframes stroke {
+	0%   {
+		fill: rgba(72,138,204,0); stroke: rgba(54,95,160,1);
+		stroke-dashoffset: 25%; stroke-dasharray: 0 50%; stroke-width: 2;
+	}
+	70%  {fill: rgba(72,138,204,0); stroke: rgba(54,95,160,1); }
+	80%  {fill: rgba(72,138,204,0); stroke: rgba(54,95,160,1); stroke-width: 3; }
+	100% {
+		fill: rgba(72,138,204,1); stroke: rgba(54,95,160,0);
+		stroke-dashoffset: -25%; stroke-dasharray: 50% 0; stroke-width: 0;
+	}
 }
 
 .team-card:hover img {
@@ -534,6 +557,11 @@ section {
 
     <main>
         <div class="title">
+            <svg>
+                <text x="50%" y="50%" dy=".35em" text-anchor="middle">
+                    MRKS. Studio
+                </text>
+            </svg>
             <h1>MRKS. Studio<br>
             <button class="scroll-btn" onclick="showContent('content-1')">Tentang MRKS.</button>
           </a></h1>
