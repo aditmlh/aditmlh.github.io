@@ -532,6 +532,38 @@ svg {
     background-color: #FFF;
     color: #122;
 }
+.faq-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.faq-item {
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.faq-question {
+    background-color: #f4f4f4;
+    border: none;
+    width: 100%;
+    padding: 10px;
+    text-align: left;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    outline: none;
+    border-radius: 5px 5px 0 0;
+}
+
+.faq-answer {
+    padding: 10px;
+    display: none; /* Default state is hidden */
+}
+
+.faq-answer p {
+    margin: 0;
+}
 
 @media (max-width: 768px) {
     .app-list {
@@ -858,6 +890,69 @@ section {
                     </div>
                 </div>
             </section>
+            <div class="faq-container">
+                <h2>F.A.Q</h2>
+                <div class="faq-item">
+                    <button class="faq-question">Apa itu MRKS. Studio?</button>
+                    <div class="faq-answer">
+                        <p>MRKS. Studio adalah layanan kreatif profesional yang menawarkan berbagai layanan termasuk desain grafis, pengeditan video, dan pengembangan situs web. Kami berdedikasi untuk membantu Anda mencapai tujuan kreatif Anda dengan solusi yang inovatif dan berkualitas tinggi.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">Bagaimana cara saya memulai proyek dengan MRKS. Studio?</button>
+                    <div class="faq-answer">
+                        <p>Untuk memulai proyek, Anda bisa menghubungi kami melalui formulir kontak di situs web kami atau mengirim email ke [alamat email]. Kami akan melakukan konsultasi awal untuk memahami kebutuhan dan tujuan proyek Anda sebelum memberikan proposal dan jadwal.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">Berapa lama waktu yang diperlukan untuk menyelesaikan proyek?</button>
+                    <div class="faq-answer">
+                        <p>Waktu penyelesaian proyek bervariasi tergantung pada kompleksitas dan ukuran proyek. Kami akan memberikan estimasi waktu setelah konsultasi awal dan sebelum memulai pekerjaan. Kami berkomitmen untuk memenuhi tenggat waktu yang disepakati.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">Apa yang termasuk dalam paket layanan desain grafis?</button>
+                    <div class="faq-answer">
+                        <p>Paket layanan desain grafis kami biasanya mencakup pembuatan konsep desain, revisi, dan pengiriman file dalam format yang sesuai dengan kebutuhan Anda. Detail spesifik akan dijelaskan dalam proposal setelah konsultasi.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">Apakah Anda menawarkan layanan pengeditan video untuk proyek jangka panjang?</button>
+                    <div class="faq-answer">
+                        <p>Ya, kami menawarkan layanan pengeditan video baik untuk proyek jangka panjang maupun jangka pendek. Kami dapat bekerja sama dengan Anda untuk mengembangkan dan menyempurnakan video sesuai kebutuhan.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">Bagaimana cara membayar layanan MRKS. Studio?</button>
+                    <div class="faq-answer">
+                        <p>Kami menerima berbagai metode pembayaran, termasuk transfer bank, kartu kredit, dan pembayaran melalui platform pembayaran online. Rincian pembayaran akan disediakan dalam kontrak atau proposal.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">Apakah ada jaminan kepuasan pelanggan?</button>
+                    <div class="faq-answer">
+                        <p>Kami berkomitmen untuk memberikan hasil yang memuaskan dan bekerja sama dengan Anda untuk memastikan bahwa proyek selesai sesuai dengan harapan Anda. Jika ada masalah atau revisi yang diperlukan, kami akan bekerja untuk memperbaikinya.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">Bisakah saya melihat contoh pekerjaan sebelumnya?</button>
+                    <div class="faq-answer">
+                        <p>Tentu! Kami akan dengan senang hati menunjukkan portofolio kami yang mencakup contoh proyek sebelumnya. Anda dapat melihat beberapa contoh di bagian portofolio di situs web kami atau menghubungi kami untuk mendapatkan informasi lebih lanjut.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">Apakah MRKS. Studio menerima proyek internasional?</button>
+                    <div class="faq-answer">
+                        <p>Ya, kami menerima proyek dari klien internasional. Kami akan bekerja dengan Anda untuk memahami kebutuhan dan memastikan komunikasi yang efektif selama proyek.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">Bagaimana cara menghubungi tim MRKS. Studio?</button>
+                    <div class="faq-answer">
+                        <p>Anda dapat menghubungi kami melalui formulir kontak di situs web kami, mengirim email ke [alamat email], atau menghubungi kami melalui media sosial kami. Tim kami akan segera merespons pertanyaan atau permintaan Anda.</p>
+                    </div>
+                </div>
+            </div>
             <!-- Contact Section -->
             <section id="contact">
                 <h2>Hubungi Kami</h2>
@@ -1738,7 +1833,7 @@ section {
    
 
     <footer class="footer">
-      Tim MRKS. Studio &copy; 2024 
+        &copy; 2024 @ Tim MRKS. Studio | Aditya Malah- Rizky AldiMulia Paputungan
     </footer>
 
   <!-- JavaScript Animations -->
@@ -1801,6 +1896,22 @@ section {
             // Mengarahkan ke WhatsApp dengan pesan checkout
             window.location.href = `https://wa.me/6285757043312?text=${encodeURIComponent(message)}`;
         }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    const questions = document.querySelectorAll('.faq-question');
+
+    questions.forEach(question => {
+        question.addEventListener('click', function() {
+            const answer = this.nextElementSibling;
+            if (answer.style.display === 'block') {
+                answer.style.display = 'none';
+            } else {
+                answer.style.display = 'block';
+            }
+        });
+    });
+});
     </script>
 </body>
 
