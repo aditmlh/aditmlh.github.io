@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ID">
+<html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,13 +11,13 @@
         <meta name="author" content="MRKS. Studio">
         <meta name="robots" content="index, follow">
         <meta name="google-site-verification" content="your-google-site-verification-code-here">
-        <link rel="canonical" href="https://aditmlh.github.io/">
+        <link rel="canonical" href="https://une8wtc.localto.net/">
         
         <!-- Open Graph / Facebook -->
         <meta property="og:title" content="MRKS. Studio | Creative Design & Development Agency">
         <meta property="og:description" content="Discover MRKS. Studio, your partner in creating stunning brands and digital experiences.">
-        <meta property="og:image" content="https://aditmlh.github.io/og-image.jpg">
-        <meta property="og:url" content="https://aditmlh.github.io/">
+        <meta property="og:image" content="https://une8wtc.localto.net/og-image.jpg">
+        <meta property="og:url" content="https://une8wtc.localto.net/">
         <meta property="og:type" content="website">
         <meta property="og:site_name" content="MRKS. Studio">
         
@@ -25,7 +25,7 @@
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:title" content="MRKS. Studio | Creative Design & Development Agency">
         <meta name="twitter:description" content="Discover MRKS. Studio, your partner in creating stunning brands and digital experiences.">
-        <meta name="twitter:image" content="https://aditmlh.github.io/twitter-image.jpg">
+        <meta name="twitter:image" content="https://une8wtc.localto.net/twitter-image.jpg">
         <meta name="twitter:site" content="@mrksstudio">
         <meta name="twitter:creator" content="@mrksstudio">
     
@@ -35,8 +35,8 @@
           "@context": "https://schema.org",
           "@type": "Organization",
           "name": "MRKS. Studio",
-          "url": "https://aditmlh.github.io/",
-          "logo": "https://aditmlh.github.io/logo.png",
+          "url": "https://une8wtc.localto.net/",
+          "logo": "https://une8wtc.localto.net/logo.png",
           "sameAs": [
             "https://www.facebook.com/mrksstudio",
             "https://www.twitter.com/mrksstudio",
@@ -50,7 +50,8 @@
             "areaServed": "Global",
             "availableLanguage": "Indonesia"
           }
-        }        </script>
+        }
+        </script>
         
         <!-- Google Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
@@ -64,7 +65,7 @@
         <!-- Slick Carousel CSS -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
-       
+        
         <!-- CSS Styles -->
     <style>
 body {
@@ -116,6 +117,7 @@ h1 {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
+    justify-content: center;
 }
 
 .app-card, .why-card, .service-card, .logo-card {
@@ -160,7 +162,8 @@ h1 {
 }
 
 .footer {
-    color: #000000;
+    background-color: #1a1a1a;
+    color: #ffffff;
     text-align: center;
     position: relative;
     bottom: 0;
@@ -218,38 +221,23 @@ h1 {
     padding: 5px;
 }
 
+#clients {
+    text-align: center;
+    margin-top: 40px;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
 .client-carousel {
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
 }
 
-.client-carousel div {
+.client-carousel img {
+    margin: 10px;
     display: block;
-    font-size: 1.5rem;
-    color: #000000;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
-    text-align: center;
+    height: auto;
 }
-
-.client-carousel p{
-    display: flex;
-    gap: 20px;
-    padding:10px;
-    animation: scroll 20s linear infinite;
-}
-
-@keyframes scroll {
-    from {
-        transform: translateX(0);
-    }
-    to {
-        transform: translateX(calc(-100% / 3));
-    }
-}
-
 
 .line-text {
     color: #ffffff;
@@ -429,7 +417,7 @@ svg {
 
 @media (max-width: 1024px) {
     .title {
-        height: 100vh; /* Adjust height for tablets */
+        height: auto; /* Adjust height for tablets */
     }
 
     h1 {
@@ -439,8 +427,6 @@ svg {
 
 @media (max-width: 768px) {
     .title {
-        height: 100vh; /* Adjust height for tablets */
-
         padding: 0 10px; /* Reduced padding for mobile */
     }
 
@@ -479,101 +465,149 @@ section {
  
 
     <main>
-  
         <div class="title">
-            <div class=""> <h1>MRKS. Studio</h1><br>     
-                 <button class="scroll-btn" onclick="showContent('content-1')">Tentang MRKS.</button>
-                <button class="scroll-btn" onclick="showContent('content-2')">Order Jasa</button>
-                <a href="https://une8wtc.localto.net/"><button class="scroll-btn" >Demo App</button></a>
-            </div>
+            <h1>MRKS. Studio</h1><br>
+            <button class="scroll-btn" onclick="showContent('content-1')">Tentang MRKS.</button>
+            <button class="scroll-btn" onclick="showContent('content-2')">Order Jasa</button>
+            <a href="https://une8wtc.localto.net/emasigi/"><button class="scroll-btn">Demo App</button></a>
         </div>
-        <section class="content" id="content-1">
-        <main>
-
-        <!-- About Us Section -->
-        <section id="about">
-            <h2>Tentang Kami</h2>
-            <p>MRKS Studio adalah penyedia layanan kreatif profesional yang mengkhususkan diri dalam desain grafis, video editing, pembuatan website, dan banyak lagi. Kami memiliki tim yang berpengalaman dan berdedikasi untuk memberikan solusi yang inovatif dan berkualitas tinggi untuk setiap kebutuhan Anda.</p>
-            <p>Kami memahami pentingnya citra visual dan digital yang kuat dalam dunia bisnis saat ini. Oleh karena itu, kami berkomitmen untuk membantu Anda mencapai tujuan tersebut melalui layanan yang kami tawarkan. Dengan pendekatan yang kreatif dan profesional, kami siap untuk membawa ide Anda menjadi kenyataan.</p>
-        </section>
-<!-- Why Choose Us Section -->
-<section id="why-choose-us">
-<h2>Kenapa Memilih Jasa Kami?</h2>
-<div class="why-choose-us-list">
-<div class="why-card">
-    <h3>Keahlian dan Pengalaman</h3>
-    <p>Dengan tim profesional yang berpengalaman di berbagai bidang, kami menjamin hasil yang berkualitas tinggi dan solusi kreatif untuk setiap proyek. Kami memahami kebutuhan Anda dan memberikan hasil yang memenuhi standar tertinggi.</p>
-</div>
-
-<div class="why-card">
-    <h3>Pelayanan Klien yang Personal</h3>
-    <p>Kami percaya bahwa setiap klien unik. Oleh karena itu, kami menyediakan pelayanan yang personal dan responsif. Tim kami siap membantu Anda setiap langkah dari awal hingga akhir proyek untuk memastikan kepuasan Anda.</p>
-</div>
-
-<div class="why-card">
-    <h3>Solusi Kreatif dan Inovatif</h3>
-    <p>Kami selalu berkomitmen untuk menghadirkan solusi yang kreatif dan inovatif. Dengan pendekatan yang fresh dan teknologi terkini, kami menciptakan desain dan konten yang menonjol dan efektif dalam mencapai tujuan Anda.</p>
-</div>
-
-<div class="why-card">
-    <h3>Harga Kompetitif</h3>
-    <p>Kami menawarkan berbagai paket layanan dengan harga yang bersaing dan transparan. Kami memastikan bahwa Anda mendapatkan nilai terbaik untuk investasi Anda tanpa mengorbankan kualitas.</p>
-</div>
-
-<div class="why-card">
-    <h3>Waktu Pengerjaan Tepat Waktu</h3>
-    <p>Kami memahami pentingnya tenggat waktu. Dengan proses kerja yang efisien dan terorganisir, kami berkomitmen untuk menyelesaikan setiap proyek tepat waktu sesuai dengan jadwal yang telah disepakati.</p>
-</div>
-
-<div class="why-card">
-    <h3>Portofolio yang Kuat</h3>
-    <p>Portofolio kami mencerminkan kualitas dan keberagaman proyek yang telah kami selesaikan. Kami bangga dengan hasil kerja kami dan siap untuk menunjukkan bagaimana kami dapat memberikan hasil yang luar biasa untuk Anda.</p>
-</div>
-</div>
-</section>   
-<!-- Client Logo Carousel Section -->
-
-<section id="clients">
-    <h2>Client Kami</h2>
-    <div class="client-carousel">
-        <div><p>Kotamobagukota.go.id</p></div>
-        <div><p>Kroniktotabuan.com</p></div>
-        <div><p>Mongondownet.tv</p></div>
-        <div><p>Smkcokroaminotoktg</p></div>
-        <div><p>Rakyatnews.net</p></div>
-        <div><p>BaluanaAtjo.co.id</p></div>
-        <div><p>Puskesmas Tanoyan</p></div>
-        <div><p>Vita Collection </p></div>
-        <div><p>Affshen Car Wash</p></div>
-        <div><p>Dapur Botugs</p></div>
-        <div><p>Zea Store</p></div>
-        <div><p>PortalMongondow</p></div>
-        <div><p>Pedagogi.id</p></div>
-        <div><p>Kontras.id</p></div>
-        <div><p>DutaPendidikanSulut</p></div>
-        <div><p>Kampus.kontras.id</p></div>
-        <div><p>B-townkids.com.au</p></div>
-        <div><p>Kontras.co.id</p></div>
-        <div><p>Sulutplus.com</p></div>
-        <div><p>ToyotaKotamobagu.com</p></div>
-        <div><p>Hondasulut.com</p></div>
-        <div><p>ToyotaSulut.com</p></div>
-        <div><p>HondaKotamobagu.com</p></div>
-        <div><p>Toyota-Kotamobagu.com</p></div>
-   
-        <!-- Add more clients as needed -->
-    </div>
+    </main>
     
-</section>
-
- <!-- Contact Section -->
- <section id="contact">
-    <h2>Hubungi Kami</h2>
-    <p>Untuk informasi lebih lanjut atau untuk memulai proyek Anda dengan kami, silakan hubungi kami melalui WhatsApp atau email.</p>
-    <p>Email: <a href="mailto:info@mrksstudio.com">info@mrksstudio.com</a></p>
-    <p>WhatsApp: <a href="https://wa.me/6285757043312">+62 857-5704-3312</a></p>
-</section>
-</main>
+    <section class="content" id="content-1">
+        <main>
+    
+            <!-- About Us Section -->
+            <section id="about">
+                <h2>Tentang Kami</h2>
+                <p>MRKS Studio adalah penyedia layanan kreatif profesional yang mengkhususkan diri dalam desain grafis, video editing, pembuatan website, dan banyak lagi. Kami memiliki tim yang berpengalaman dan berdedikasi untuk memberikan solusi yang inovatif dan berkualitas tinggi untuk setiap kebutuhan Anda.</p>
+                <p>Kami memahami pentingnya citra visual dan digital yang kuat dalam dunia bisnis saat ini. Oleh karena itu, kami berkomitmen untuk membantu Anda mencapai tujuan tersebut melalui layanan yang kami tawarkan. Dengan pendekatan yang kreatif dan profesional, kami siap untuk membawa ide Anda menjadi kenyataan.</p>
+                <p><strong>Visi Kami:</strong> Menjadi mitra terpercaya dalam mewujudkan ide-ide kreatif klien kami dengan kualitas dan inovasi yang luar biasa.</p>
+                <p><strong>Misi Kami:</strong> Memberikan solusi kreatif yang efektif dan personal untuk membantu klien kami menonjol di pasar yang kompetitif.</p>
+            </section>
+    
+            <!-- Why Choose Us Section -->
+            <section id="why-choose-us">
+                <h2>Kenapa Memilih Jasa Kami?</h2>
+                <div class="why-choose-us-list">
+                    <div class="why-card">
+                        <h3>Keahlian dan Pengalaman</h3>
+                        <p>Dengan tim profesional yang berpengalaman di berbagai bidang, kami menjamin hasil yang berkualitas tinggi dan solusi kreatif untuk setiap proyek. Kami memahami kebutuhan Anda dan memberikan hasil yang memenuhi standar tertinggi.</p>
+                    </div>
+                    <div class="why-card">
+                        <h3>Pelayanan Klien yang Personal</h3>
+                        <p>Kami percaya bahwa setiap klien unik. Oleh karena itu, kami menyediakan pelayanan yang personal dan responsif. Tim kami siap membantu Anda setiap langkah dari awal hingga akhir proyek untuk memastikan kepuasan Anda.</p>
+                    </div>
+                    <div class="why-card">
+                        <h3>Solusi Kreatif dan Inovatif</h3>
+                        <p>Kami selalu berkomitmen untuk menghadirkan solusi yang kreatif dan inovatif. Dengan pendekatan yang fresh dan teknologi terkini, kami menciptakan desain dan konten yang menonjol dan efektif dalam mencapai tujuan Anda.</p>
+                    </div>
+                    <div class="why-card">
+                        <h3>Harga Kompetitif</h3>
+                        <p>Kami menawarkan berbagai paket layanan dengan harga yang bersaing dan transparan. Kami memastikan bahwa Anda mendapatkan nilai terbaik untuk investasi Anda tanpa mengorbankan kualitas.</p>
+                    </div>
+                    <div class="why-card">
+                        <h3>Waktu Pengerjaan Tepat Waktu</h3>
+                        <p>Kami memahami pentingnya tenggat waktu. Dengan proses kerja yang efisien dan terorganisir, kami berkomitmen untuk menyelesaikan setiap proyek tepat waktu sesuai dengan jadwal yang telah disepakati.</p>
+                    </div>
+                    <div class="why-card">
+                        <h3>Portofolio yang Kuat</h3>
+                        <p>Portofolio kami mencerminkan kualitas dan keberagaman proyek yang telah kami selesaikan. Kami bangga dengan hasil kerja kami dan siap untuk menunjukkan bagaimana kami dapat memberikan hasil yang luar biasa untuk Anda.</p>
+                    </div>
+                </div>
+            </section>
+    
+            <!-- Portfolio Gallery Section -->
+            <section id="portfolio">
+                <h2>Portofolio Kami</h2>
+                <div class="gallery">
+                    <div class="gallery-item"><img src="portfolio1.jpg" alt="Project 1"></div>
+                    <div class="gallery-item"><img src="portfolio2.jpg" alt="Project 2"></div>
+                    <div class="gallery-item"><img src="portfolio3.jpg" alt="Project 3"></div>
+                    <div class="gallery-item"><img src="portfolio4.jpg" alt="Project 4"></div>
+                    <div class="gallery-item"><img src="portfolio5.jpg" alt="Project 5"></div>
+                    <div class="gallery-item"><img src="portfolio6.jpg" alt="Project 6"></div>
+                </div>
+                <p>Kami telah mengerjakan berbagai proyek mulai dari desain grafis, video editing, hingga pembuatan website. Setiap proyek kami kerjakan dengan dedikasi tinggi untuk memastikan hasil terbaik bagi klien kami.</p>
+            </section>
+    
+            <!-- Client Logo Carousel Section -->
+            <section id="clients">
+                <h2>Client Kami</h2>
+                <p>Kami bangga telah bekerja dengan berbagai klien dari berbagai industri. Berikut adalah beberapa klien yang telah mempercayakan proyek mereka kepada kami:</p>
+                <div class="client-carousel">
+                    <div><p>Kotamobagukota.go.id</p></div>
+                    <div><p>Kroniktotabuan.com</p></div>
+                    <div><p>Mongondownet.tv</p></div>
+                    <div><p>Smkcokroaminotoktg</p></div>
+                    <div><p>Rakyatnews.net</p></div>
+                    <div><p>BaluanaAtjo.co.id</p></div>
+                    <div><p>Puskesmas Tanoyan</p></div>
+                    <div><p>Vita Collection </p></div>
+                    <div><p>Affshen Car Wash</p></div>
+                    <div><p>Dapur Botugs</p></div>
+                    <div><p>Zea Store</p></div>
+                    <div><p>PortalMongondow</p></div>
+                    <div><p>Pedagogi.id</p></div>
+                    <div><p>Kontras.id</p></div>
+                    <div><p>DutaPendidikanSulut</p></div>
+                    <div><p>Kampus.kontras.id</p></div>
+                    <div><p>B-townkids.com.au</p></div>
+                    <div><p>Kontras.co.id</p></div>
+                    <div><p>Sulutplus.com</p></div>
+                    <div><p>ToyotaKotamobagu.com</p></div>
+                    <div><p>Hondasulut.com</p></div>
+                    <div><p>ToyotaSulut.com</p></div>
+                    <div><p>HondaKotamobagu.com</p></div>
+                    <div><p>Toyota-Kotamobagu.com</p></div>
+                </div>
+                <p>Apakah Anda siap untuk bergabung dengan daftar klien kami yang puas? Hubungi kami hari ini untuk mendiskusikan proyek Anda!</p>
+            </section>
+    
+            <!-- Contact Section -->
+            <section id="contact">
+                <h2>Hubungi Kami</h2>
+                <p>Untuk informasi lebih lanjut atau untuk memulai proyek Anda dengan kami, silakan hubungi kami melalui WhatsApp atau email. Kami siap untuk membantu Anda mewujudkan ide-ide Anda menjadi kenyataan.</p>
+                <p>Email: <a href="mailto:info@mrksstudio.com">info@mrksstudio.com</a></p>
+                <p>WhatsApp: <a href="https://wa.me/6285757043312">+62 857-5704-3312</a></p>
+                <p>Jangan ragu untuk menghubungi kami kapan saja. Kami akan dengan senang hati menjawab pertanyaan Anda dan membantu Anda memulai proyek Anda.</p>
+            </section>
+        </main>
+    </section>
+    
+    <style>
+        /* Responsive Portfolio Gallery */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+    
+        .gallery-item {
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+    
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+    
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+    
+        /* Responsive Design for Smaller Screens */
+        @media (max-width: 768px) {
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+    </style>
+    
         </section>
 
         <section class="content" id="content-2">
@@ -1398,18 +1432,17 @@ section {
 
     </main>
         </section>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
-        <!-- Custom JS -->
+
     
 
     </main>
-         <!-- Slick Carousel JS -->
-   
 
     <footer class="footer">
         &copy; 2024 Webserver Aditya Malah
     </footer>
-  <!-- Slick Carousel JS -->
+
+
+     <!-- Slick Carousel JS -->
    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
    <!-- Custom JS -->
    <script>
@@ -1436,6 +1469,19 @@ section {
                    }
                ]
            });
+
+           // Example progress bar animation
+           function updateProgressBar() {
+               $('.progress-bar-inner').each(function() {
+                   var $this = $(this);
+                   var percentage = $this.data('progress');
+                   $this.animate({
+                       width: percentage + '%'
+                   }, 1000);
+               });
+           }
+           updateProgressBar();
+       });
    </script>
 
   <!-- JavaScript Animations -->
