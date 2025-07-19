@@ -1,0 +1,289 @@
+/* Custom CSS Variables for Luxurious Purple Theme */
+:root {
+    --ct2jek-primary: #6A0DAD; /* Deep Purple */
+    --ct2jek-secondary: #9370DB; /* Medium Purple */
+    --ct2jek-accent: #FFD700; /* Gold */
+    --ct2jek-light-bg: #F8F0FF; /* Very light lavender */
+    --ct2jek-dark-bg: #2C0B4D; /* Darker Deep Purple for dark mode */
+    --ct2jek-text-light: #333333; /* Dark gray for light mode text */
+    --ct2jek-text-dark: #E0E0E0; /* Light gray for dark mode text */
+    --ct2jek-card-bg-light: #FFFFFF;
+    --ct2jek-card-bg-dark: #3A1C5F; /* Darker purple for cards in dark mode */
+    --ct2jek-border-light: #E0E0E0;
+    --ct2jek-border-dark: #4A2C6F;
+}
+
+/* Base Body Styles */
+body {
+    font-family: 'Inter', sans-serif;
+    -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
+    background-color: var(--ct2jek-light-bg);
+    color: var(--ct2jek-text-light);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Dark Mode Specific Styles */
+body.dark {
+    background-color: var(--ct2jek-dark-bg);
+    color: var(--ct2jek-text-dark);
+}
+
+/* Override Bootstrap Colors with Custom Variables */
+.btn-primary {
+    background-color: var(--ct2jek-primary) !important;
+    border-color: var(--ct2jek-primary) !important;
+    color: white !important;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+.btn-primary:hover {
+    background-color: #5A0CA0 !important; /* Slightly darker purple on hover */
+    border-color: #5A0CA0 !important;
+}
+
+.btn-accent { /* Custom button for accent color */
+    background-color: var(--ct2jek-accent) !important;
+    border-color: var(--ct2jek-accent) !important;
+    color: var(--ct2jek-primary) !important; /* Text color from primary for contrast */
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+.btn-accent:hover {
+    background-color: #E6C200 !important; /* Slightly darker gold on hover */
+    border-color: #E6C200 !important;
+}
+
+.text-primary {
+    color: var(--ct2jek-primary) !important;
+}
+.text-accent {
+    color: var(--ct2jek-accent) !important;
+}
+.bg-primary {
+    background-color: var(--ct2jek-primary) !important;
+}
+.bg-light-bg {
+    background-color: var(--ct2jek-light-bg) !important;
+}
+.text-text-light {
+    color: var(--ct2jek-text-light) !important;
+}
+
+
+/* Dark Mode for Bootstrap Components */
+body.dark .bg-white {
+    background-color: var(--ct2jek-card-bg-dark) !important;
+    color: var(--ct2jek-text-dark) !important;
+}
+body.dark .text-dark {
+    color: var(--ct2jek-text-dark) !important;
+}
+body.dark .text-muted {
+    color: #B0B0B0 !important; /* Lighter muted text for dark mode */
+}
+body.dark .border {
+    border-color: var(--ct2jek-border-dark) !important;
+}
+body.dark .form-control {
+    background-color: #4A2C6F !important; /* Darker input background */
+    border-color: #6A4C8F !important;
+    color: var(--ct2jek-text-dark) !important;
+}
+body.dark .form-control::placeholder {
+    color: #B0B0B0 !important;
+}
+body.dark .form-control:focus {
+    border-color: var(--ct2jek-accent) !important;
+    box-shadow: 0 0 0 0.25rem rgba(255, 215, 0, 0.25) !important; /* Accent glow */
+}
+body.dark .btn-link {
+    color: var(--ct2jek-text-dark) !important;
+}
+body.dark .btn-link:hover {
+    color: var(--ct2jek-accent) !important;
+}
+body.dark .header-bar,
+body.dark .bottom-nav {
+    background-color: #3A1C5F !important; /* Darker purple for fixed bars */
+}
+
+
+/* Custom Scrollbar Hiding (for horizontal scroll areas) */
+.scrollbar-hide-custom::-webkit-scrollbar {
+    display: none; /* For Webkit browsers (Chrome, Safari) */
+}
+.scrollbar-hide-custom {
+    -ms-overflow-style: none;  /* For Internet Explorer and Edge */
+    scrollbar-width: none;  /* For Firefox */
+}
+
+/* Main App Container */
+#app-container {
+    max-width: 420px; /* Typical phone width */
+    height: 100vh; /* Full viewport height */
+    overflow: hidden; /* Hide overflow for page transitions */
+    box-shadow: 0 0 20px rgba(0,0,0,0.1); /* Subtle shadow around the app frame */
+}
+
+/* Header Bar */
+.header-bar {
+    z-index: 1050; /* Ensure header is above content and pages */
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+}
+
+/* Main Content Area (SPA Pages) */
+#main-content {
+    /* Padding to prevent content from being hidden by fixed header/footer */
+    padding-top: 64px; /* Adjust based on header-bar height (approx 56px + some margin) */
+    padding-bottom: 64px; /* Adjust based on bottom-nav height (approx 56px + some margin) */
+}
+
+/* SPA Page Transitions */
+.page {
+    position: absolute; /* Pages are absolutely positioned within main-content */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: translateX(100%); /* Start off-screen to the right */
+    opacity: 0;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    display: none; /* Hidden by default */
+    overflow-y: auto; /* Allow scrolling within each page */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+}
+
+.page.active {
+    transform: translateX(0); /* Slide in to view */
+    opacity: 1;
+    display: block;
+    position: relative; /* Active page takes up space for scrolling */
+}
+
+.page.leaving {
+    transform: translateX(-100%); /* Slide out to the left */
+    opacity: 0;
+}
+
+/* Bottom Navigation Bar */
+.bottom-nav {
+    z-index: 1050; /* Ensure nav is above content and pages */
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+}
+
+.nav-item {
+    color: var(--bs-gray-600); /* Default Bootstrap gray */
+    transition: color 0.2s ease;
+}
+.nav-item.active {
+    color: var(--ct2jek-primary) !important; /* Active item color */
+    font-weight: 600;
+}
+body.dark .nav-item {
+    color: var(--bs-gray-400); /* Dark mode gray */
+}
+body.dark .nav-item.active {
+    color: var(--ct2jek-accent) !important; /* Dark mode active accent */
+}
+
+/* Service Cards (Home Page) */
+.service-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+}
+.service-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important; /* Bootstrap's shadow-lg */
+}
+body.dark .service-card {
+    background-color: var(--ct2jek-card-bg-dark) !important;
+}
+
+/* Category Cards (Food Page) */
+.category-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+}
+.category-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important; /* Bootstrap's shadow-sm */
+}
+body.dark .category-card {
+    background-color: var(--ct2jek-card-bg-dark) !important;
+}
+
+/* Restaurant Cards (Food Page) */
+.restaurant-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+}
+.restaurant-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important; /* Bootstrap's shadow-lg */
+}
+body.dark .restaurant-card {
+    background-color: var(--ct2jek-card-bg-dark) !important;
+}
+
+/* Food Item Card (Example in Food Page) */
+.food-item-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+}
+.food-item-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important; /* Bootstrap's shadow-sm */
+}
+body.dark .food-item-card {
+    background-color: var(--ct2jek-card-bg-dark) !important;
+}
+
+/* Modal Overrides */
+.modal-content {
+    border: none; /* Remove default Bootstrap border */
+    background-color: var(--ct2jek-card-bg-light);
+    color: var(--ct2jek-text-light);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+body.dark .modal-content {
+    background-color: var(--ct2jek-card-bg-dark) !important;
+    color: var(--ct2jek-text-dark) !important;
+}
+
+.modal-backdrop.show {
+    opacity: 0.7; /* Match custom modal overlay opacity */
+}
+
+/* Custom Alert/Toast Message */
+.custom-alert {
+    width: 90%; /* Make it responsive */
+    max-width: 300px;
+    text-align: center;
+    transform: translateX(-50%) translateY(20px); /* Initial position slightly lower */
+    opacity: 0;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    bottom: 20px; /* Adjust position */
+}
+.custom-alert.active {
+    transform: translateX(-50%) translateY(0); /* Slide up to final position */
+    opacity: 1;
+}
+.custom-alert.success { background-color: #28a745 !important; } /* Bootstrap success */
+.custom-alert.error { background-color: #dc3545 !important; } /* Bootstrap danger */
+.custom-alert.warning { background-color: #ffc107 !important; } /* Bootstrap warning */
+.custom-alert.info { background-color: #17a2b8 !important; } /* Bootstrap info */
+
+/* Font sizes for consistency */
+.fs-7 { font-size: 0.875rem !important; } /* Custom smaller font size */
+.fs-8 { font-size: 0.75rem !important; }  /* Custom even smaller font size */
+
+/* Input focus styles */
+.form-control:focus {
+    border-color: var(--ct2jek-primary) !important;
+    box-shadow: 0 0 0 0.25rem rgba(106, 13, 173, 0.25) !important; /* Primary color glow */
+}
+body.dark .form-control:focus {
+    border-color: var(--ct2jek-accent) !important;
+    box-shadow: 0 0 0 0.25rem rgba(255, 215, 0, 0.25) !important; /* Accent color glow */
+}
+

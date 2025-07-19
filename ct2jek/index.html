@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CT2JEK - Ojek Online Anda</title>
+    <meta name="description" content="CT2JEK - Aplikasi ojek online statis dengan fitur lengkap: pesan ojek, antar makanan, kirim barang, dompet digital, dan profil pengguna. Desain modern dan responsif.">
+    <meta name="keywords" content="ojek online, aplikasi ojek, CT2JEK, pesan makanan, kirim barang, dompet digital, transportasi online, mobile app, SPA, HTML, Bootstrap, JavaScript">
+    <meta name="author" content="CT2JEK Team">
+
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="https://placehold.co/32x32/6A0DAD/FFD700?text=CT">
+
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body class="font-inter bg-light-bg text-text-light transition-colors duration-300">
+
+    <!-- Main App Container -->
+    <div id="app-container" class="position-relative d-flex flex-column vh-100 mx-auto shadow-lg">
+        <!-- Header Bar -->
+        <div id="header-bar" class="header-bar fixed-top d-flex justify-content-between align-items-center p-3 bg-white shadow-sm">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-map-marker-alt text-primary me-2"></i>
+                <span id="current-location" class="fs-6 fw-medium">Lokasi Anda</span>
+            </div>
+            <div class="d-flex align-items-center">
+                <button id="search-btn" class="btn btn-link text-secondary p-0 me-3">
+                    <i class="fas fa-search fs-5"></i>
+                </button>
+                <button id="notification-btn" class="btn btn-link text-secondary p-0 me-3 position-relative">
+                    <i class="fas fa-bell fs-5"></i>
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger fs-7">3</span>
+                </button>
+                <button id="dark-mode-toggle" class="btn btn-link text-secondary p-0">
+                    <i class="fas fa-moon fs-5"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Content Area (SPA Pages) -->
+        <main id="main-content" class="flex-grow-1 overflow-auto position-relative pt-5 pb-5">
+            <!-- Home Page -->
+            <section id="home-page" class="page active p-3">
+                <div class="bg-primary text-white p-4 rounded-3 shadow-sm mb-4 d-flex flex-column align-items-start">
+                    <h2 class="fs-3 fw-bold mb-2">Selamat Datang di CT2JEK!</h2>
+                    <p class="fs-6 opacity-90 mb-3">Pesan layanan terbaik dengan mudah dan cepat.</p>
+                    <button class="btn btn-accent text-primary fw-bold py-2 px-4 rounded-pill shadow-sm">
+                        Pesan Sekarang!
+                    </button>
+                </div>
+
+                <div class="row row-cols-3 g-3 mb-4">
+                    <div class="col">
+                        <div class="service-card bg-white rounded-3 shadow-sm p-3 d-flex flex-column align-items-center justify-content-center text-center" data-page="ride">
+                            <i class="fas fa-motorcycle text-primary fs-2 mb-2"></i>
+                            <span class="fs-7 fw-semibold">CT2-Ride</span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="service-card bg-white rounded-3 shadow-sm p-3 d-flex flex-column align-items-center justify-content-center text-center" data-page="food">
+                            <i class="fas fa-utensils text-primary fs-2 mb-2"></i>
+                            <span class="fs-7 fw-semibold">CT2-Food</span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="service-card bg-white rounded-3 shadow-sm p-3 d-flex flex-column align-items-center justify-content-center text-center" data-page="send">
+                            <i class="fas fa-box text-primary fs-2 mb-2"></i>
+                            <span class="fs-7 fw-semibold">CT2-Send</span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="service-card bg-white rounded-3 shadow-sm p-3 d-flex flex-column align-items-center justify-content-center text-center" data-page="mart">
+                            <i class="fas fa-shopping-basket text-primary fs-2 mb-2"></i>
+                            <span class="fs-7 fw-semibold">CT2-Mart</span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="service-card bg-white rounded-3 shadow-sm p-3 d-flex flex-column align-items-center justify-content-center text-center" data-page="bill">
+                            <i class="fas fa-file-invoice-dollar text-primary fs-2 mb-2"></i>
+                            <span class="fs-7 fw-semibold">CT2-Bill</span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="service-card bg-white rounded-3 shadow-sm p-3 d-flex flex-column align-items-center justify-content-center text-center" data-page="more">
+                            <i class="fas fa-ellipsis-h text-primary fs-2 mb-2"></i>
+                            <span class="fs-7 fw-semibold">Lainnya</span>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="fs-5 fw-bold mb-3">Promo & Penawaran Spesial</h3>
+                <div class="d-flex overflow-auto pb-3 space-x-3 scrollbar-hide-custom">
+                    <div class="flex-shrink-0 w-64 bg-white rounded-3 shadow-sm overflow-hidden me-3">
+                        <img src="https://placehold.co/600x300/FFD700/6A0DAD?text=DISKON+50%25" alt="Promo Diskon 50%" class="w-100" style="height: 120px; object-fit: cover;">
+                        <div class="p-3">
+                            <p class="fs-7 fw-semibold text-dark">Diskon 50% untuk CT2-Ride Pertama!</p>
+                            <p class="fs-8 text-muted mt-1">Gunakan kode: CT2JEKBARU</p>
+                        </div>
+                    </div>
+                    <div class="flex-shrink-0 w-64 bg-white rounded-3 shadow-sm overflow-hidden me-3">
+                        <img src="https://placehold.co/600x300/6A0DAD/FFD700?text=GRATIS+ONGKIR" alt="Promo Gratis Ongkir" class="w-100" style="height: 120px; object-fit: cover;">
+                        <div class="p-3">
+                            <p class="fs-7 fw-semibold text-dark">Gratis Ongkir CT2-Food Min. Rp 30rb</p>
+                            <p class="fs-8 text-muted mt-1">Berlaku hingga akhir bulan.</p>
+                        </div>
+                    </div>
+                    <div class="flex-shrink-0 w-64 bg-white rounded-3 shadow-sm overflow-hidden">
+                        <img src="https://placehold.co/600x300/9370DB/FFD700?text=CASHBACK" alt="Promo Cashback" class="w-100" style="height: 120px; object-fit: cover;">
+                        <div class="p-3">
+                            <p class="fs-7 fw-semibold text-dark">Cashback 10% untuk Top Up Dompet!</p>
+                            <p class="fs-8 text-muted mt-1">Maksimal Rp 10.000.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Ride Page -->
+            <section id="ride-page" class="page p-3">
+                <h2 class="fs-3 fw-bold mb-4 text-center">Pesan CT2-Ride</h2>
+                <div class="bg-white p-4 rounded-3 shadow-sm mb-4">
+                    <div class="mb-3">
+                        <label for="origin-input" class="form-label fs-7 text-muted mb-1">Lokasi Penjemputan</label>
+                        <input type="text" id="origin-input" class="form-control p-3 border border-gray-300 rounded-3" placeholder="Masukkan lokasi penjemputan">
+                    </div>
+                    <div class="mb-3">
+                        <label for="destination-input" class="form-label fs-7 text-muted mb-1">Tujuan Anda</label>
+                        <input type="text" id="destination-input" class="form-control p-3 border border-gray-300 rounded-3" placeholder="Masukkan tujuan Anda">
+                    </div>
+                    <div class="bg-light rounded-3 d-flex align-items-center justify-content-center text-muted mb-4" style="height: 192px;">
+                        [Peta Placeholder]
+                    </div>
+                    <button id="find-driver-btn" class="btn btn-primary w-100 py-3 rounded-3 fw-bold shadow-sm">
+                        Cari Driver
+                    </button>
+                </div>
+            </section>
+
+            <!-- Food Page -->
+            <section id="food-page" class="page p-3">
+                <h2 class="fs-3 fw-bold mb-4 text-center">CT2-Food</h2>
+                <div class="position-relative mb-4">
+                    <input type="text" id="food-search-input" class="form-control p-3 ps-5 border border-gray-300 rounded-3" placeholder="Cari restoran atau makanan...">
+                    <i class="fas fa-search position-absolute start-0 top-50 translate-middle-y text-muted ms-3"></i>
+                </div>
+
+                <h3 class="fs-5 fw-bold mb-3">Kategori Makanan</h3>
+                <div class="d-flex overflow-auto pb-3 mb-4 scrollbar-hide-custom">
+                    <div class="category-card bg-white rounded-3 shadow-sm p-3 d-flex flex-column align-items-center text-center me-3">
+                        <img src="https://placehold.co/100x100/6A0DAD/FFD700?text=Nasi" alt="Kategori Nasi" class="rounded-circle mb-2" style="width: 64px; height: 64px; object-fit: cover;">
+                        <span class="fs-8 fw-medium">Nasi</span>
+                    </div>
+                    <div class="category-card bg-white rounded-3 shadow-sm p-3 d-flex flex-column align-items-center text-center me-3">
+                        <img src="https://placehold.co/100x100/6A0DAD/FFD700?text=Mie" alt="Kategori Mie" class="rounded-circle mb-2" style="width: 64px; height: 64px; object-fit: cover;">
+                        <span class="fs-8 fw-medium">Mie</span>
+                    </div>
+                    <div class="category-card bg-white rounded-3 shadow-sm p-3 d-flex flex-column align-items-center text-center me-3">
+                        <img src="https://placehold.co/100x100/6A0DAD/FFD700?text=Minuman" alt="Kategori Minuman" class="rounded-circle mb-2" style="width: 64px; height: 64px; object-fit: cover;">
+                        <span class="fs-8 fw-medium">Minuman</span>
+                    </div>
+                    <div class="category-card bg-white rounded-3 shadow-sm p-3 d-flex flex-column align-items-center text-center me-3">
+                        <img src="https://placehold.co/100x100/6A0DAD/FFD700?text=Snack" alt="Kategori Snack" class="rounded-circle mb-2" style="width: 64px; height: 64px; object-fit: cover;">
+                        <span class="fs-8 fw-medium">Snack</span>
+                    </div>
+                    <div class="category-card bg-white rounded-3 shadow-sm p-3 d-flex flex-column align-items-center text-center">
+                        <img src="https://placehold.co/100x100/6A0DAD/FFD700?text=Kopi" alt="Kategori Kopi" class="rounded-circle mb-2" style="width: 64px; height: 64px; object-fit: cover;">
+                        <span class="fs-8 fw-medium">Kopi</span>
+                    </div>
+                </div>
+
+                <h3 class="fs-5 fw-bold mb-3">Restoran Terdekat</h3>
+                <div class="d-flex flex-column gap-3">
+                    <div class="restaurant-card bg-white rounded-3 shadow-sm overflow-hidden">
+                        <img src="https://placehold.co/400x200/6A0DAD/FFD700?text=Restoran+A" alt="Restoran Lezat" class="w-100" style="height: 128px; object-fit: cover;">
+                        <div class="p-3">
+                            <h4 class="fw-semibold fs-6 mb-1">Restoran Lezat</h4>
+                            <p class="fs-7 text-muted">Aneka masakan Indonesia & Asia</p>
+                            <div class="d-flex align-items-center fs-7 text-muted mt-2">
+                                <i class="fas fa-star text-warning me-1"></i> 4.8 (500+)
+                                <span class="ms-4"><i class="fas fa-motorcycle me-1"></i> 15 min</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="restaurant-card bg-white rounded-3 shadow-sm overflow-hidden">
+                        <img src="https://placehold.co/400x200/FFD700/6A0DAD?text=Restoran+B" alt="Kopi Santai" class="w-100" style="height: 128px; object-fit: cover;">
+                        <div class="p-3">
+                            <h4 class="fw-semibold fs-6 mb-1">Kopi Santai</h4>
+                            <p class="fs-7 text-muted">Kopi, Teh, dan Cemilan</p>
+                            <div class="d-flex align-items-center fs-7 text-muted mt-2">
+                                <i class="fas fa-star text-warning me-1"></i> 4.5 (200+)
+                                <span class="ms-4"><i class="fas fa-motorcycle me-1"></i> 20 min</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Send Page -->
+            <section id="send-page" class="page p-3">
+                <h2 class="fs-3 fw-bold mb-4 text-center">CT2-Send</h2>
+                <div class="bg-white p-4 rounded-3 shadow-sm mb-4">
+                    <div class="mb-3">
+                        <label for="pickup-input" class="form-label fs-7 text-muted mb-1">Lokasi Pengambilan</label>
+                        <input type="text" id="pickup-input" class="form-control p-3 border border-gray-300 rounded-3" placeholder="Alamat pengambilan barang">
+                    </div>
+                    <div class="mb-3">
+                        <label for="delivery-input" class="form-label fs-7 text-muted mb-1">Lokasi Pengantaran</label>
+                        <input type="text" id="delivery-input" class="form-control p-3 border border-gray-300 rounded-3" placeholder="Alamat pengantaran barang">
+                    </div>
+                    <div class="mb-3">
+                        <label for="item-description" class="form-label fs-7 text-muted mb-1">Deskripsi Barang</label>
+                        <textarea id="item-description" class="form-control p-3 border border-gray-300 rounded-3" rows="3" placeholder="Contoh: Dokumen penting, kotak kecil, kunci"></textarea>
+                    </div>
+                    <button id="request-send-btn" class="btn btn-primary w-100 py-3 rounded-3 fw-bold shadow-sm">
+                        Kirim Barang
+                    </button>
+                </div>
+            </section>
+
+            <!-- Wallet Page -->
+            <section id="wallet-page" class="page p-3">
+                <h2 class="fs-3 fw-bold mb-4 text-center">Dompet CT2JEK</h2>
+                <div class="bg-primary text-white p-4 rounded-3 shadow-sm mb-4 d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="fs-7 opacity-90 mb-1">Saldo Anda</p>
+                        <p class="fs-3 fw-bold m-0">Rp 150.000</p>
+                    </div>
+                    <button class="btn btn-accent text-primary fw-bold py-2 px-3 rounded-pill shadow-sm">
+                        Top Up
+                    </button>
+                </div>
+
+                <h3 class="fs-5 fw-bold mb-3">Riwayat Transaksi</h3>
+                <div class="bg-white rounded-3 shadow-sm p-3 d-flex flex-column gap-3">
+                    <div class="d-flex justify-content-between align-items-center border-bottom pb-3">
+                        <div>
+                            <p class="fw-semibold mb-0">CT2-Ride ke Kantor</p>
+                            <p class="fs-7 text-muted mb-0">15 Juli 2025, 10:30</p>
+                        </div>
+                        <p class="text-danger fw-semibold mb-0">- Rp 25.000</p>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center border-bottom pb-3">
+                        <div>
+                            <p class="fw-semibold mb-0">Top Up Saldo</p>
+                            <p class="fs-7 text-muted mb-0">14 Juli 2025, 09:00</p>
+                        </div>
+                        <p class="text-success fw-semibold mb-0">+ Rp 50.000</p>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="fw-semibold mb-0">CT2-Food: Nasi Goreng</p>
+                            <p class="fs-7 text-muted mb-0">13 Juli 2025, 19:15</p>
+                        </div>
+                        <p class="text-danger fw-semibold mb-0">- Rp 35.000</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Profile Page -->
+            <section id="profile-page" class="page p-3">
+                <h2 class="fs-3 fw-bold mb-4 text-center">Profil Saya</h2>
+                <div class="bg-white p-4 rounded-3 shadow-sm mb-4 d-flex flex-column align-items-center">
+                    <img src="https://placehold.co/120x120/6A0DAD/FFD700?text=JD" alt="Profil Pengguna" class="rounded-circle mb-3 border border-primary border-4" style="width: 96px; height: 96px; object-fit: cover;">
+                    <h3 class="fs-4 fw-bold mb-1">Joko Dwianto</h3>
+                    <p class="text-muted fs-7 mb-3">joko.dwianto@example.com</p>
+                    <button class="btn btn-primary py-2 px-4 rounded-pill">
+                        Edit Profil
+                    </button>
+                </div>
+
+                <div class="bg-white rounded-3 shadow-sm p-3 d-flex flex-column gap-3">
+                    <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                        <span class="fw-medium">Nomor Telepon</span>
+                        <span class="text-muted">+62 812-3456-7890</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                        <span class="fw-medium">Alamat Tersimpan</span>
+                        <span class="text-primary cursor-pointer">Lihat</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                        <span class="fw-medium">Metode Pembayaran</span>
+                        <span class="text-primary cursor-pointer">Kelola</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center py-2">
+                        <span class="fw-medium">Pengaturan Privasi</span>
+                        <span class="text-primary cursor-pointer">Atur</span>
+                    </div>
+                </div>
+
+                <button class="btn btn-danger w-100 py-3 rounded-3 fw-bold shadow-sm mt-4">
+                    Keluar
+                </button>
+            </section>
+
+            <!-- Notification Page -->
+            <section id="notification-page" class="page p-3">
+                <h2 class="fs-3 fw-bold mb-4 text-center">Notifikasi</h2>
+                <div class="d-flex flex-column gap-3">
+                    <div class="bg-white rounded-3 shadow-sm p-3 d-flex align-items-start">
+                        <i class="fas fa-info-circle text-info fs-5 mt-1 me-3"></i>
+                        <div>
+                            <h3 class="fw-semibold text-dark fs-6">Pesanan CT2-Ride Anda telah selesai!</h3>
+                            <p class="fs-7 text-muted mb-0">Terima kasih telah menggunakan CT2JEK.</p>
+                            <span class="fs-8 text-muted d-block mt-1">1 jam yang lalu</span>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-3 shadow-sm p-3 d-flex align-items-start">
+                        <i class="fas fa-gift text-primary fs-5 mt-1 me-3"></i>
+                        <div>
+                            <h3 class="fw-semibold text-dark fs-6">Anda mendapatkan voucher diskon 15%!</h3>
+                            <p class="fs-7 text-muted mb-0">Cek bagian promo untuk detailnya.</p>
+                            <span class="fs-8 text-muted d-block mt-1">Kemarin</span>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-3 shadow-sm p-3 d-flex align-items-start">
+                        <i class="fas fa-exclamation-triangle text-warning fs-5 mt-1 me-3"></i>
+                        <div>
+                            <h3 class="fw-semibold text-dark fs-6">Pembaruan Kebijakan Privasi</h3>
+                            <p class="fs-7 text-muted mb-0">Harap baca pembaruan kebijakan privasi kami.</p>
+                            <span class="fs-8 text-muted d-block mt-1">3 hari yang lalu</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Search Page -->
+            <section id="search-page" class="page p-3">
+                <h2 class="fs-3 fw-bold mb-4 text-center">Cari</h2>
+                <div class="position-relative mb-4">
+                    <input type="text" id="global-search-input" class="form-control p-3 ps-5 border border-gray-300 rounded-3" placeholder="Cari layanan, makanan, atau tempat...">
+                    <i class="fas fa-search position-absolute start-0 top-50 translate-middle-y text-muted ms-3"></i>
+                </div>
+
+                <h3 class="fs-5 fw-bold mb-3">Pencarian Terakhir</h3>
+                <div class="bg-white rounded-3 shadow-sm p-3 d-flex flex-column gap-3">
+                    <div class="d-flex align-items-center text-muted">
+                        <i class="fas fa-history fs-7 me-3"></i>
+                        <span class="fs-6">Nasi Goreng Pak Kumis</span>
+                    </div>
+                    <div class="d-flex align-items-center text-muted">
+                        <i class="fas fa-history fs-7 me-3"></i>
+                        <span class="fs-6">Tujuan: Mall Kota</span>
+                    </div>
+                    <div class="d-flex align-items-center text-muted">
+                        <i class="fas fa-history fs-7 me-3"></i>
+                        <span class="fs-6">Kirim paket ke rumah</span>
+                    </div>
+                </div>
+
+                <h3 class="fs-5 fw-bold mt-4 mb-3">Rekomendasi Populer</h3>
+                <div class="row row-cols-2 g-3">
+                    <div class="col">
+                        <div class="bg-white rounded-3 shadow-sm p-3 text-center">
+                            <i class="fas fa-motorcycle text-primary fs-4 mb-2"></i>
+                            <p class="fs-7 fw-semibold mb-0">CT2-Ride</p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="bg-white rounded-3 shadow-sm p-3 text-center">
+                            <i class="fas fa-coffee text-primary fs-4 mb-2"></i>
+                            <p class="fs-7 fw-semibold mb-0">Kopi Kekinian</p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="bg-white rounded-3 shadow-sm p-3 text-center">
+                            <i class="fas fa-pizza-slice text-primary fs-4 mb-2"></i>
+                            <p class="fs-7 fw-semibold mb-0">Pizza Favorit</p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="bg-white rounded-3 shadow-sm p-3 text-center">
+                            <i class="fas fa-box-open text-primary fs-4 mb-2"></i>
+                            <p class="fs-7 fw-semibold mb-0">Paket Cepat</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Bottom Navigation Bar -->
+        <div id="bottom-nav" class="bottom-nav fixed-bottom d-flex justify-content-around align-items-center bg-white border-top py-2 shadow-lg">
+            <button class="nav-item active btn btn-link text-decoration-none" data-page="home">
+                <i class="fas fa-home fs-5"></i>
+                <span class="d-block fs-8 mt-1">Beranda</span>
+            </button>
+            <button class="nav-item btn btn-link text-decoration-none" data-page="orders">
+                <i class="fas fa-receipt fs-5"></i>
+                <span class="d-block fs-8 mt-1">Pesanan</span>
+            </button>
+            <button class="nav-item btn btn-link text-decoration-none" data-page="wallet">
+                <i class="fas fa-wallet fs-5"></i>
+                <span class="d-block fs-8 mt-1">Dompet</span>
+            </button>
+            <button class="nav-item btn btn-link text-decoration-none" data-page="profile">
+                <i class="fas fa-user fs-5"></i>
+                <span class="d-block fs-8 mt-1">Profil</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <!-- Ride Booking Confirmation Modal -->
+    <div id="ride-confirm-modal" class="modal fade" tabindex="-1" aria-labelledby="rideConfirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-3 shadow-xl p-4">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fs-4 fw-bold text-center w-100" id="rideConfirmModalLabel">Konfirmasi Pesanan CT2-Ride</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body pt-0">
+                    <p class="mb-2 fs-6"><span class="fw-semibold">Dari:</span> <span id="modal-origin"></span></p>
+                    <p class="mb-4 fs-6"><span class="fw-semibold">Ke:</span> <span id="modal-destination"></span></p>
+                    <p class="fs-5 fw-bold text-primary mb-4 text-center">Estimasi Biaya: Rp 25.000</p>
+                    <button id="book-ride-btn" class="btn btn-primary w-100 py-3 rounded-3 fw-bold shadow-sm">
+                        Pesan Sekarang
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Food Item Detail Modal (Example) -->
+    <div id="food-detail-modal" class="modal fade" tabindex="-1" aria-labelledby="foodDetailModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-3 shadow-xl p-4">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fs-4 fw-bold text-center w-100" id="foodDetailModalLabel">Detail Makanan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body pt-0">
+                    <img src="https://placehold.co/400x200/6A0DAD/FFD700?text=Nasi+Goreng" alt="Nasi Goreng Spesial" class="w-100 rounded-3 mb-3" style="height: 160px; object-fit: cover;">
+                    <h3 class="fs-4 fw-bold mb-2">Nasi Goreng Spesial</h3>
+                    <p class="text-muted mb-4 fs-6">Nasi goreng dengan bumbu rahasia, telur, ayam, dan kerupuk.</p>
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <span class="fs-5 fw-bold text-primary">Rp 20.000</span>
+                        <div class="d-flex align-items-center">
+                            <button class="btn btn-light text-dark px-3 py-1 rounded-pill">-</button>
+                            <span class="mx-2 fs-6">1</span>
+                            <button class="btn btn-light text-dark px-3 py-1 rounded-pill">+</button>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary w-100 py-3 rounded-3 fw-bold shadow-sm">
+                        Tambahkan ke Keranjang
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Alert/Toast Message -->
+    <div id="custom-alert" class="custom-alert position-fixed bottom-0 start-50 translate-middle-x bg-info text-white p-3 rounded-3 shadow-lg d-none">
+        <span id="alert-message" class="fs-6"></span>
+    </div>
+
+    <!-- Bootstrap JS CDN (Popper.js included) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    
+    <!-- Custom JavaScript -->
+   
+
+    <script src="script-jek.js"></script>
+</body>
+</html>

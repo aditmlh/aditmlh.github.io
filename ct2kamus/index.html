@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CT2 Kamus Bahasa Bolaang Mongondow</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome untuk ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Menggunakan font Inter */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5; /* Latar belakang abu-abu muda */
+            color: #343a40;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* Mencegah scroll horizontal */
+            padding-bottom: 70px; /* Ruang untuk bottom nav */
+            transition: background-color 0.3s ease, color 0.3s ease; /* Transisi untuk dark mode */
+        }
+
+        /* Warna utama: Dominan putih, aksen hijau */
+        :root {
+            --primary-green: #28a745; /* Hijau utama */
+            --light-green: #2ecc71; /* Hijau lebih terang */
+            --text-dark: #343a40;
+            --text-muted: #6c757d;
+            --bg-light: #f8f9fa;
+            --bg-white: #ffffff;
+            --card-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            --modal-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Dark Mode Styles (Jika diaktifkan, warna akan berlawanan) */
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+        }
+
+        .dark-mode .app-container {
+            background-color: #2a2a2a;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .dark-mode .top-bar,
+        .dark-mode .bottom-nav,
+        .dark-mode .module-card,
+        .dark-mode .reward-card,
+        .dark-mode .card,
+        .dark-mode .modal-content,
+        .dark-mode .auth-form,
+        .dark-mode .profile-info,
+        .dark-mode .order-item,
+        .dark-mode .bill-item {
+            background-color: #3a3a3a;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            border-color: #4a4a4a;
+        }
+
+        .dark-mode .top-bar .app-title,
+        .dark-mode .top-bar .icon-group i,
+        .dark-mode .module-card h5,
+        .dark-mode .reward-card h5,
+        .dark-mode .card-title,
+        .dark-mode .card-text,
+        .dark-mode .modal-body,
+        .dark-mode .modal-title,
+        .dark-mode .form-control,
+        .dark-mode .form-select,
+        .dark-mode .form-label,
+        .dark-mode h2, .dark-mode h3, .dark-mode h4, .dark-mode h5, .dark-mode p {
+            color: #e0e0e0 !important;
+        }
+
+        .dark-mode .form-control,
+        .dark-mode .form-select {
+            background-color: #4a4a4a;
+            border-color: #5a5a5a;
+        }
+
+        .dark-mode .form-control::placeholder {
+            color: #b0b0b0;
+        }
+
+        .dark-mode .btn-outline-primary {
+            color: var(--light-green);
+            border-color: var(--light-green);
+        }
+
+        .dark-mode .btn-outline-primary:hover {
+            background-color: var(--light-green);
+            color: var(--text-dark);
+        }
+
+        .dark-mode .nav-item-bottom {
+            color: #b0b0b0;
+        }
+
+        .dark-mode .nav-item-bottom.active {
+            color: var(--light-green);
+        }
+
+        /* Loader Styles */
+        .loader-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--primary-green); /* Warna hijau untuk loader */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            flex-direction: column;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .loader {
+            border: 8px solid #f3f3f3; /* Light grey */
+            border-top: 8px solid var(--bg-white); /* White for loader spinner */
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 2s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Struktur Aplikasi Mobile */
+        .app-container {
+            max-width: 500px; /* Lebar maksimal seperti aplikasi mobile */
+            margin: 0 auto;
+            background-color: var(--bg-light);
+            min-height: 100vh;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            display: none; /* Hidden by default, shown after loader */
+        }
+
+        /* Top Bar */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: var(--bg-white);
+            border-bottom: 1px solid #eee;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .top-bar .app-title {
+            font-weight: bold;
+            font-size: 1.3rem;
+            color: var(--primary-green);
+        }
+
+        .top-bar .icon-group i {
+            font-size: 1.2rem;
+            margin-left: 15px;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        /* Page Content Styles */
+        .page-content {
+            padding: 20px;
+            display: none; /* Hidden by default */
+        }
+
+        .page-content h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            text-align: center;
+            color: var(--text-dark);
+        }
+
+        /* Dictionary Page */
+        .search-bar-container {
+            background-color: var(--bg-white);
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 20px;
+        }
+
+        .search-bar-container .form-control {
+            border-radius: 50px;
+            padding: 10px 20px;
+        }
+
+        .dictionary-result-card {
+            background-color: var(--bg-white);
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .dictionary-result-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .dictionary-result-card h5 {
+            color: var(--primary-green);
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .dictionary-result-card p {
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            margin-bottom: 0;
+        }
+
+        /* Learning Page */
+        .module-card {
+            background-color: var(--bg-white);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .module-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .module-card h5 {
+            color: var(--primary-green);
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .module-card p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        .module-card .points-badge {
+            background-color: var(--primary-green);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .lesson-content {
+            background-color: var(--bg-white);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .flashcard-display {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            min-height: 80px; /* Agar tidak bergeser saat teks pendek */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quiz-options .btn {
+            width: 100%;
+            margin-bottom: 10px;
+            border-radius: 10px;
+        }
+
+        /* Points Page */
+        .points-display {
+            background-color: var(--primary-green);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .points-display h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .points-display span {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        .reward-card {
+            background-color: var(--bg-white);
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 15px;
+        }
+
+        .reward-card h5 {
+            color: var(--primary-green);
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .reward-card p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        .reward-card .points-cost {
+            font-weight: bold;
+            color: var(--primary-green);
+        }
+
+        /* Profile Page */
+        .profile-info {
+            background-color: var(--bg-white);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 20px;
+        }
+
+        .profile-info h4 {
+            color: var(--primary-green);
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .profile-info p {
+            margin-bottom: 8px;
+        }
+
+        .profile-info .btn {
+            margin-top: 20px;
+        }
+
+        /* Login/Register Page */
+        .auth-form {
+            background-color: var(--bg-white);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            margin-top: 50px;
+        }
+
+        .auth-form h2 {
+            color: var(--primary-green);
+            margin-bottom: 30px;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--bg-white);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .nav-item-bottom {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 600;
+            transition: color 0.2s ease;
+            cursor: pointer;
+        }
+
+        .nav-item-bottom.active {
+            color: var(--primary-green);
+        }
+
+        .nav-item-bottom i {
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+        }
+
+        /* Modal Styling */
+        .modal-content {
+            border-radius: 15px;
+            box-shadow: var(--modal-shadow);
+        }
+
+        .modal-header {
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            background-color: var(--primary-green);
+            color: white;
+            border-bottom: none;
+        }
+
+        .modal-title {
+            font-weight: bold;
+        }
+
+        .btn-close-white {
+            filter: invert(1) grayscale(100%) brightness(200%);
+        }
+
+        /* Specific for dictionary detail modal */
+        #wordDetailModal .modal-body {
+            text-align: left;
+        }
+        #wordDetailModal .modal-body h4 {
+            color: var(--primary-green);
+            font-weight: bold;
+        }
+        #wordDetailModal .modal-body .example-sentence {
+            font-style: italic;
+            color: var(--text-muted);
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loader Overlay -->
+    <div class="loader-overlay" id="loader-overlay">
+        <div class="loader"></div>
+        <span>Memuat CT2 Kamus...</span>
+    </div>
+
+    <div class="app-container" id="app-container">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="app-title">CT2 Kamus</div>
+            <div class="icon-group">
+                <i class="fas fa-moon ms-3" id="dark-mode-toggle"></i>
+            </div>
+        </div>
+
+        <!-- Dictionary Page -->
+        <div id="dictionary-page" class="page-content">
+            <h2>Kamus Bahasa Bolaang Mongondow</h2>
+            <div class="search-bar-container">
+                <input type="text" id="dictionary-search-input" class="form-control" placeholder="Cari kata (Indonesia atau Mongondow)...">
+            </div>
+            <div id="dictionary-results">
+                <!-- Search results will be injected here -->
+            </div>
+            <div id="no-dictionary-results" class="text-center mt-5" style="display: none;">
+                <p class="lead">Tidak ada kata yang ditemukan.</p>
+            </div>
+        </div>
+
+        <!-- Learning Page -->
+        <div id="learning-page" class="page-content">
+            <h2>Belajar Bahasa Mongondow</h2>
+            <p class="text-center text-muted">Belajar dengan modul interaktif dan dapatkan poin!</p>
+            <div id="learning-modules-list">
+                <!-- Learning modules will be injected here -->
+            </div>
+            <div id="lesson-view" style="display: none;">
+                <button class="btn btn-outline-secondary mb-3" onclick="showPage('learning-page')"><i class="fas fa-arrow-left me-2"></i> Kembali ke Modul</button>
+                <div class="lesson-content">
+                    <h4 id="lesson-title"></h4>
+                    <p id="lesson-description" class="text-muted"></p>
+                    <div id="current-lesson-content" class="mt-4">
+                        <!-- Flashcard/Quiz content will be injected here -->
+                    </div>
+                    <div class="d-flex justify-content-between mt-4">
+                        <button class="btn btn-info" id="prev-lesson-btn" style="display:none;">Sebelumnya</button>
+                        <button class="btn btn-primary" id="next-lesson-btn">Selanjutnya</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Points Page -->
+        <div id="points-page" class="page-content">
+            <h2>Poin & Hadiah</h2>
+            <div class="points-display">
+                <h3>Poin Anda Saat Ini:</h3>
+                <span id="user-points-display">0</span>
+                <p class="mt-2">Kumpulkan poin untuk ditukar dengan hadiah menarik!</p>
+            </div>
+            <h3>Tukarkan Poin Anda:</h3>
+            <div id="rewards-list">
+                <!-- Rewards will be injected here -->
+            </div>
+            <div id="no-rewards" class="text-center mt-3" style="display: none;">
+                <p class="lead">Tidak ada hadiah yang tersedia saat ini.</p>
+            </div>
+        </div>
+
+        <!-- Profile Page -->
+        <div id="profile-page" class="page-content">
+            <h2>Profil Pengguna</h2>
+            <div id="profile-content" class="profile-info text-center">
+                <!-- Profile info will be injected here by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Login Page -->
+        <div id="login-page" class="page-content">
+            <div class="auth-form mx-auto" style="max-width: 400px;">
+                <h2 class="text-center">Masuk ke Akun Anda</h2>
+                <form id="login-form">
+                    <div class="mb-3">
+                        <label for="login-email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="login-email" value="user@example.com" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="login-password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="login-password" value="password123" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 rounded-pill mt-3" style="background-color: var(--primary-green); border-color: var(--primary-green);">Masuk</button>
+                </form>
+                <p class="text-center mt-3">Belum punya akun? <a href="#" id="show-register" style="color: var(--primary-green);">Daftar Sekarang</a></p>
+            </div>
+        </div>
+
+        <!-- Register Page -->
+        <div id="register-page" class="page-content">
+            <div class="auth-form mx-auto" style="max-width: 400px;">
+                <h2 class="text-center">Daftar Akun Baru</h2>
+                <form id="register-form">
+                    <div class="mb-3">
+                        <label for="register-name" class="form-label">Nama Lengkap</label>
+                        <input type="text" class="form-control" id="register-name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="register-email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="register-email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="register-password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="register-password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 rounded-pill mt-3" style="background-color: var(--primary-green); border-color: var(--primary-green);">Daftar</button>
+                </form>
+                <p class="text-center mt-3">Sudah punya akun? <a href="#" id="show-login" style="color: var(--primary-green);">Masuk</a></p>
+            </div>
+        </div>
+
+        <!-- Word Detail Modal -->
+        <div class="modal fade" id="wordDetailModal" tabindex="-1" aria-labelledby="wordDetailModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="wordDetailModalLabel">Detail Kata</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h4 id="modal-word-indo"></h4>
+                        <p class="text-muted">Bahasa Bolaang Mongondow: <strong id="modal-word-mongondow"></strong></p>
+                        <p id="modal-word-description"></p>
+                        <p class="example-sentence">Contoh: <span id="modal-word-example"></span></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Tutup</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Custom Message Modal -->
+        <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-success text-white">
+                        <h5 class="modal-title" id="messageModalLabel">Informasi</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="messageModalText"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Oke</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a href="#" class="nav-item-bottom active" id="nav-dictionary">
+                <i class="fas fa-book"></i>
+                <span>Kamus</span>
+            </a>
+            <a href="#" class="nav-item-bottom" id="nav-learning">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Belajar</span>
+            </a>
+            <a href="#" class="nav-item-bottom" id="nav-points">
+                <i class="fas fa-coins"></i>
+                <span>Poin</span>
+            </a>
+            <a href="#" class="nav-item-bottom" id="nav-profile">
+                <i class="fas fa-user"></i>
+                <span>Profil</span>
+            </a>
+        </nav>
+    </div> <!-- End of app-container -->
+
+    <!-- Bootstrap JS Bundle (Popper included) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // --- Data Aplikasi ---
+        const dictionaryWords = [
+            { id: 1, indo: "Apa kabar?", mongondow: "Mo'anto'u?", description: "Digunakan untuk menanyakan kabar seseorang.", example: "Mo'anto'u? (Apa kabar?)" },
+            { id: 2, indo: "Terima kasih", mongondow: "Kopiah", description: "Ungkapan rasa syukur atau terima kasih.", example: "Kopiah atas bantuannya. (Terima kasih atas bantuannya.)" },
+            { id: 3, indo: "Selamat pagi", mongondow: "Mododatu", description: "Sapaan di pagi hari.", example: "Mododatu! (Selamat pagi!)" },
+            { id: 4, indo: "Selamat siang", mongondow: "Mododua", description: "Sapaan di siang hari.", example: "Mododua, toru in sia? (Selamat siang, mau kemana?)" },
+            { id: 5, indo: "Selamat malam", mongondow: "Mododalom", description: "Sapaan di malam hari.", example: "Mododalom, umpakid in sia? (Selamat malam, dari mana Anda?)" },
+            { id: 6, indo: "Ya", mongondow: "Oi", description: "Jawaban setuju atau afirmatif.", example: "Oi, mododatu. (Ya, selamat pagi.)" },
+            { id: 7, indo: "Tidak", mongondow: "Dii", description: "Jawaban tidak setuju atau negatif.", example: "Dii, dia'i in sia. (Tidak, bukan saya.)" },
+            { id: 8, indo: "Makan", mongondow: "Mangale", description: "Kata kerja untuk kegiatan makan.", example: "Mangale kita. (Mari kita makan.)" },
+            { id: 9, indo: "Minum", mongondow: "Moinum", description: "Kata kerja untuk kegiatan minum.", example: "Moinum kopi. (Minum kopi.)" },
+            { id: 10, indo: "Pulang", mongondow: "Monuang", description: "Kata kerja untuk kembali ke tempat asal.", example: "Monuang kon baloi. (Pulang ke rumah.)" },
+            { id: 11, indo: "Rumah", mongondow: "Baloi", description: "Tempat tinggal.", example: "Baloi ku. (Rumahku.)" },
+            { id: 12, indo: "Air", mongondow: "Boloi", description: "Cairan bening yang penting untuk kehidupan.", example: "Moinum boloi. (Minum air.)" },
+            { id: 13, indo: "Jalan", mongondow: "Dalan", description: "Jalur untuk berjalan atau berkendara.", example: "Dalan nion. (Jalan ini.)" },
+            { id: 14, indo: "Besar", mongondow: "Bia'", description: "Ukuran yang melebihi rata-rata.", example: "Baloi bia'. (Rumah besar.)" },
+            { id: 15, indo: "Kecil", mongondow: "Mokot", description: "Ukuran yang kurang dari rata-rata.", example: "Baloi mokot. (Rumah kecil.)" },
+            { id: 16, indo: "Cantik", mongondow: "Mopia", description: "Memiliki keindahan.", example: "Mopia inta'an. (Cantik sekali.)" },
+            { id: 17, indo: "Ganteng", mongondow: "Mopia", description: "Memiliki ketampanan.", example: "Mopia inta'an. (Ganteng sekali.)" },
+            { id: 18, indo: "Satu", mongondow: "Isa", description: "Angka pertama.", example: "Isa ogo. (Satu orang.)" },
+            { id: 19, indo: "Dua", mongondow: "Dua", description: "Angka setelah satu.", example: "Dua ogo. (Dua orang.)" },
+            { id: 20, indo: "Tiga", mongondow: "Tolu", description: "Angka setelah dua.", example: "Tolu ogo. (Tiga orang.)" },
+            { id: 21, indo: "Empat", mongondow: "Apat", description: "Angka setelah tiga.", example: "Apat ogo. (Empat orang.)" },
+            { id: 22, indo: "Lima", mongondow: "Lima", description: "Angka setelah empat.", example: "Lima ogo. (Lima orang.)" },
+            { id: 23, indo: "Enam", mongondow: "Ono", description: "Angka setelah lima.", example: "Ono ogo. (Enam orang.)" },
+            { id: 24, indo: "Tujuh", mongondow: "Pitu", description: "Angka setelah enam.", example: "Pitu ogo. (Tujuh orang.)" },
+            { id: 25, indo: "Delapan", mongondow: "Walu", description: "Angka setelah tujuh.", example: "Walu ogo. (Delapan orang.)" },
+            { id: 26, indo: "Sembilan", mongondow: "Siam", description: "Angka setelah delapan.", example: "Siam ogo. (Sembilan orang.)" },
+            { id: 27, indo: "Sepuluh", mongondow: "Pulu", description: "Angka setelah sembilan.", example: "Pulu ogo. (Sepuluh orang.)" },
+            { id: 28, indo: "Saya", mongondow: "Aku", description: "Kata ganti orang pertama tunggal.", example: "Aku monuang. (Saya pulang.)" },
+            { id: 29, indo: "Kamu", mongondow: "Sia", description: "Kata ganti orang kedua tunggal.", example: "Sia mangale. (Kamu makan.)" },
+            { id: 30, indo: "Dia", mongondow: "Sia", description: "Kata ganti orang ketiga tunggal.", example: "Sia moinum. (Dia minum.)" },
+            { id: 31, indo: "Kami", mongondow: "Kita", description: "Kata ganti orang pertama jamak (eksklusif).", example: "Kita mangale. (Kami makan.)" },
+            { id: 32, indo: "Kita", mongondow: "Kita", description: "Kata ganti orang pertama jamak (inklusif).", example: "Kita monuang. (Kita pulang.)" },
+            { id: 33, indo: "Mereka", mongondow: "Sia", description: "Kata ganti orang ketiga jamak.", example: "Sia monuang. (Mereka pulang.)" },
+            { id: 34, indo: "Pagi", mongondow: "Datu", description: "Waktu dari terbit fajar hingga siang.", example: "Datu ini. (Pagi ini.)" },
+            { id: 35, indo: "Siang", mongondow: "Dua", description: "Waktu antara pagi dan sore.", example: "Dua ini. (Siang ini.)" },
+            { id: 36, indo: "Sore", mongondow: "Mododalom", description: "Waktu antara siang dan malam.", example: "Mododalom ini. (Sore ini.)" },
+            { id: 37, indo: "Malam", mongondow: "Dalom", description: "Waktu dari terbenam matahari hingga terbit fajar.", example: "Dalom ini. (Malam ini.)" },
+            { id: 38, indo: "Hari", mongondow: "Alo", description: "Satuan waktu 24 jam.", example: "Alo ini. (Hari ini.)" },
+            { id: 39, indo: "Minggu", mongondow: "Minggu", description: "Periode tujuh hari.", example: "Isa Minggu. (Satu minggu.)" },
+            { id: 40, indo: "Bulan", mongondow: "Buang", description: "Satuan waktu kalender, sekitar 30 hari.", example: "Isa Buang. (Satu bulan.)" },
+            { id: 41, indo: "Tahun", mongondow: "Tawun", description: "Periode 12 bulan.", example: "Isa Tawun. (Satu tahun.)" },
+            { id: 42, indo: "Senang", mongondow: "Mogaga", description: "Perasaan gembira atau bahagia.", example: "Mogaga inta'an. (Senang sekali.)" },
+            { id: 43, indo: "Sedih", mongondow: "Mopoti", description: "Perasaan tidak gembira.", example: "Mopoti inta'an. (Sedih sekali.)" },
+            { id: 44, indo: "Marah", mongondow: "Mopid", description: "Perasaan tidak senang karena sesuatu.", example: "Mopid inta'an. (Marah sekali.)" },
+            { id: 45, indo: "Cinta", mongondow: "Pogog", description: "Perasaan kasih sayang yang mendalam.", example: "Aku pogog kon sia. (Saya cinta kamu.)" },
+            { id: 46, indo: "Rindu", mongondow: "Mopid", description: "Perasaan ingin bertemu kembali.", example: "Mopid kon sia. (Rindu kamu.)" },
+            { id: 47, indo: "Teman", mongondow: "Golong", description: "Orang yang dikenal dan disukai.", example: "Golong ku. (Temanku.)" },
+            { id: 48, indo: "Keluarga", mongondow: "Bangun", description: "Kelompok orang yang terkait oleh darah, perkawinan, atau adopsi.", example: "Bangun ku. (Keluargaku.)" },
+            { id: 49, indo: "Ayah", mongondow: "Ama", description: "Orang tua laki-laki.", example: "Ama ku. (Ayahku.)" },
+            { id: 50, indo: "Ibu", mongondow: "Ina", description: "Orang tua perempuan.", example: "Ina ku. (Ibuku.)" }
+        ];
+
+
+        const learningModules = [
+            {
+                id: 1,
+                title: "Salam dan Sapaan Dasar",
+                description: "Pelajari cara menyapa dan menanyakan kabar dalam Bahasa Bolaang Mongondow.",
+                points: 50,
+                lessons: [
+                    { type: "flashcard", indo: "Apa kabar?", mongondow: "Mo'anto'u?" },
+                    { type: "flashcard", indo: "Baik-baik saja", mongondow: "Mopia-pia" },
+                    { type: "flashcard", indo: "Selamat pagi", mongondow: "Mododatu" },
+                    { type: "flashcard", indo: "Selamat siang", mongondow: "Mododua" },
+                    { type: "flashcard", indo: "Selamat malam", mongondow: "Mododalom" }
+                ]
+            },
+            {
+                id: 2,
+                title: "Angka 1-10",
+                description: "Kuasai angka dasar untuk berhitung.",
+                points: 75,
+                lessons: [
+                    { type: "flashcard", indo: "Satu", mongondow: "Isa" },
+                    { type: "flashcard", indo: "Dua", mongondow: "Dua" },
+                    { type: "flashcard", indo: "Tiga", mongondow: "Tolu" },
+                    { type: "flashcard", indo: "Empat", mongondow: "Apat" },
+                    { type: "flashcard", indo: "Lima", mongondow: "Lima" },
+                    { type: "quiz", question: "Apa Bahasa Mongondow dari 'tiga'?", answer: "Tolu", options: ["Isa", "Dua", "Tolu", "Apat"] },
+                    { type: "quiz", question: "Bahasa Mongondow 'lima' adalah?", answer: "Lima", options: ["Apat", "Lima", "Ono", "Pitu"] }
+                ]
+            },
+            {
+                id: 3,
+                title: "Kata Ganti Orang",
+                description: "Pelajari kata ganti orang dalam Bahasa Bolaang Mongondow.",
+                points: 60,
+                lessons: [
+                    { type: "flashcard", indo: "Saya", mongondow: "Aku" },
+                    { type: "flashcard", indo: "Kamu", mongondow: "Sia" },
+                    { type: "flashcard", indo: "Dia", mongondow: "Sia" },
+                    { type: "flashcard", indo: "Kami (eksklusif)", mongondow: "Kami" },
+                    { type: "flashcard", indo: "Kita (inklusif)", mongondow: "Kita" },
+                    { type: "quiz", question: "Bahasa Mongondow dari 'saya'?", answer: "Aku", options: ["Sia", "Aku", "Kita", "Kami"] }
+                ]
+            }
+        ];
+
+        const rewards = [
+            { id: 1, name: "Voucher Diskon 10% Paket Lanjut", pointsCost: 200, description: "Diskon untuk paket pembelajaran tingkat lanjut CT2 Kamus." },
+            { id: 2, name: "E-book Kamus Digital Premium", pointsCost: 500, description: "Dapatkan versi digital kamus lengkap Bahasa Bolaang Mongondow." },
+            { id: 3, name: "Stiker Eksklusif CT2 Kamus", pointsCost: 100, description: "Set stiker digital bertema Bahasa Bolaang Mongondow." },
+            { id: 4, name: "Akses Modul Belajar Baru (Beta)", pointsCost: 300, description: "Dapatkan akses awal ke modul pembelajaran yang akan datang." }
+        ];
+
+        // --- Elemen DOM ---
+        const loaderOverlay = document.getElementById('loader-overlay');
+        const appContainer = document.getElementById('app-container');
+
+        const dictionaryPage = document.getElementById('dictionary-page');
+        const learningPage = document.getElementById('learning-page');
+        const pointsPage = document.getElementById('points-page');
+        const profilePage = document.getElementById('profile-page');
+        const loginPage = document.getElementById('login-page');
+        const registerPage = document.getElementById('register-page');
+
+        const dictionarySearchInput = document.getElementById('dictionary-search-input');
+        const dictionaryResultsDiv = document.getElementById('dictionary-results');
+        const noDictionaryResultsDiv = document.getElementById('no-dictionary-results');
+
+        const learningModulesList = document.getElementById('learning-modules-list');
+        const lessonView = document.getElementById('lesson-view');
+        const lessonTitle = document.getElementById('lesson-title');
+        const lessonDescription = document.getElementById('lesson-description');
+        const currentLessonContent = document.getElementById('current-lesson-content');
+        const prevLessonBtn = document.getElementById('prev-lesson-btn');
+        const nextLessonBtn = document.getElementById('next-lesson-btn');
+
+        const userPointsDisplay = document.getElementById('user-points-display');
+        const rewardsList = document.getElementById('rewards-list');
+        const noRewardsDiv = document.getElementById('no-rewards');
+
+        const profileContent = document.getElementById('profile-content');
+
+        const wordDetailModal = new bootstrap.Modal(document.getElementById('wordDetailModal'));
+        const messageModal = new bootstrap.Modal(document.getElementById('messageModal'));
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+
+        // --- State Aplikasi ---
+        let isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
+        let currentUser = JSON.parse(sessionStorage.getItem('currentUser')) || null;
+        let userPoints = parseInt(localStorage.getItem('userPoints')) || 0;
+        let userLearningProgress = JSON.parse(localStorage.getItem('userLearningProgress')) || {}; // { moduleId: true }
+        let currentLearningModule = null;
+        let currentLessonIndex = 0;
+
+        // --- Fungsi Umum ---
+        function showPage(pageId) {
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.style.display = 'none';
+            });
+            document.getElementById(pageId).style.display = 'block';
+
+            document.querySelectorAll('.nav-item-bottom').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            if (pageId === 'dictionary-page') {
+                document.getElementById('nav-dictionary').classList.add('active');
+                performDictionarySearch(); // Refresh search results
+            } else if (pageId === 'learning-page') {
+                document.getElementById('nav-learning').classList.add('active');
+                displayLearningModules();
+                lessonView.style.display = 'none'; // Pastikan tampilan modul yang muncul
+                learningModulesList.style.display = 'block';
+            } else if (pageId === 'points-page') {
+                document.getElementById('nav-points').classList.add('active');
+                displayPointsAndRewards();
+            } else if (pageId === 'profile-page') {
+                document.getElementById('nav-profile').classList.add('active');
+                displayProfile();
+            }
+        }
+
+        function showMessage(message, title = "Informasi", type = "success") {
+            const modalHeader = messageModal._element.querySelector('.modal-header');
+            modalHeader.classList.remove('bg-success', 'bg-danger', 'bg-primary');
+            if (type === "success") {
+                modalHeader.classList.add('bg-success');
+            } else if (type === "error") {
+                modalHeader.classList.add('bg-danger');
+            } else {
+                modalHeader.classList.add('bg-primary');
+            }
+
+            document.getElementById('messageModalLabel').textContent = title;
+            document.getElementById('messageModalText').textContent = message;
+            messageModal.show();
+        }
+
+        // --- Fitur Autentikasi ---
+        function checkLoginStatus() {
+            if (!isLoggedIn) {
+                showPage('login-page');
+            } else {
+                showPage('dictionary-page'); // Default ke halaman kamus setelah login
+            }
+        }
+
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            if (email === 'user@example.com' && password === 'password123') {
+                isLoggedIn = true;
+                currentUser = { name: 'Pengguna CT2 Kamus', email: 'user@example.com' };
+                sessionStorage.setItem('isLoggedIn', 'true');
+                sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+                showMessage('Login Berhasil!', 'Sukses', 'success');
+                showPage('dictionary-page');
+                updateProfileDisplay();
+            } else {
+                showMessage('Email atau password salah.', 'Login Gagal', 'error');
+            }
+        });
+
+        document.getElementById('register-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+
+            if (name && email && password) {
+                showMessage('Pendaftaran Berhasil! Silakan masuk.', 'Sukses', 'success');
+                showPage('login-page');
+            } else {
+                showMessage('Mohon lengkapi semua data.', 'Pendaftaran Gagal', 'error');
+            }
+        });
+
+        document.getElementById('show-register').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('register-page');
+        });
+
+        document.getElementById('show-login').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('login-page');
+        });
+
+        function logout() {
+            isLoggedIn = false;
+            currentUser = null;
+            userPoints = 0; // Reset poin saat logout
+            userLearningProgress = {}; // Reset progress
+            sessionStorage.removeItem('isLoggedIn');
+            sessionStorage.removeItem('currentUser');
+            localStorage.removeItem('userPoints');
+            localStorage.removeItem('userLearningProgress');
+            showMessage('Anda telah berhasil keluar.', 'Informasi', 'success');
+            showPage('login-page');
+        }
+
+        // --- Fitur Kamus ---
+        function performDictionarySearch() {
+            const searchTerm = dictionarySearchInput.value.toLowerCase();
+            const filteredWords = dictionaryWords.filter(word =>
+                word.indo.toLowerCase().includes(searchTerm) ||
+                word.mongondow.toLowerCase().includes(searchTerm)
+            );
+
+            dictionaryResultsDiv.innerHTML = '';
+            if (filteredWords.length === 0) {
+                noDictionaryResultsDiv.style.display = 'block';
+            } else {
+                noDictionaryResultsDiv.style.display = 'none';
+                filteredWords.forEach(word => {
+                    const card = document.createElement('div');
+                    card.className = 'dictionary-result-card';
+                    card.dataset.id = word.id;
+                    card.innerHTML = `
+                        <h5>${word.indo}</h5>
+                        <p>${word.mongondow}</p>
+                    `;
+                    card.addEventListener('click', () => showWordDetail(word.id));
+                    dictionaryResultsDiv.appendChild(card);
+                });
+            }
+        }
+
+        function showWordDetail(id) {
+            const word = dictionaryWords.find(w => w.id === id);
+            if (word) {
+                document.getElementById('modal-word-indo').textContent = word.indo;
+                document.getElementById('modal-word-mongondow').textContent = word.mongondow;
+                document.getElementById('modal-word-description').textContent = word.description;
+                document.getElementById('modal-word-example').textContent = word.example;
+                wordDetailModal.show();
+            }
+        }
+
+        dictionarySearchInput.addEventListener('keyup', performDictionarySearch);
+
+        // --- Fitur Pembelajaran ---
+        function displayLearningModules() {
+            learningModulesList.innerHTML = '';
+            learningModulesList.style.display = 'block';
+            lessonView.style.display = 'none';
+
+            learningModules.forEach(module => {
+                const isCompleted = userLearningProgress[module.id];
+                const moduleCard = document.createElement('div');
+                moduleCard.className = 'module-card';
+                moduleCard.innerHTML = `
+                    <h5>${module.title} ${isCompleted ? '<i class="fas fa-check-circle text-success ms-2"></i>' : ''}</h5>
+                    <p>${module.description}</p>
+                    <span class="points-badge">+${module.points} Poin</span>
+                    ${isCompleted ? '<button class="btn btn-sm btn-secondary mt-2" disabled>Selesai</button>' : '<button class="btn btn-sm btn-primary mt-2" style="background-color: var(--primary-green); border-color: var(--primary-green);">Mulai Belajar</button>'}
+                `;
+                if (!isCompleted) {
+                    moduleCard.querySelector('button').addEventListener('click', () => startLearningModule(module.id));
+                }
+                learningModulesList.appendChild(moduleCard);
+            });
+        }
+
+        function startLearningModule(moduleId) {
+            if (!isLoggedIn) {
+                showMessage('Anda harus login untuk memulai pembelajaran.', 'Login Diperlukan', 'error');
+                return;
+            }
+
+            currentLearningModule = learningModules.find(m => m.id === moduleId);
+            if (currentLearningModule) {
+                currentLessonIndex = 0;
+                learningModulesList.style.display = 'none';
+                lessonView.style.display = 'block';
+                loadLesson();
+            }
+        }
+
+        function loadLesson() {
+            if (!currentLearningModule || currentLessonIndex >= currentLearningModule.lessons.length) {
+                completeModule();
+                return;
+            }
+
+            const lesson = currentLearningModule.lessons[currentLessonIndex];
+            lessonTitle.textContent = `${currentLearningModule.title} (${currentLessonIndex + 1}/${currentLearningModule.lessons.length})`;
+            lessonDescription.textContent = currentLearningModule.description;
+            currentLessonContent.innerHTML = '';
+
+            prevLessonBtn.style.display = currentLessonIndex > 0 ? 'block' : 'none';
+            nextLessonBtn.textContent = currentLessonIndex === currentLearningModule.lessons.length - 1 ? 'Selesai Modul' : 'Selanjutnya';
+
+            if (lesson.type === 'flashcard') {
+                currentLessonContent.innerHTML = `
+                    <div class="flashcard-display border p-4 rounded-3 mb-3">
+                        <span id="flashcard-indo">${lesson.indo}</span>
+                    </div>
+                    <button class="btn btn-outline-primary" id="toggle-flashcard" style="color: var(--primary-green); border-color: var(--primary-green);">Lihat Bahasa Mongondow</button>
+                `;
+                document.getElementById('toggle-flashcard').addEventListener('click', function() {
+                    const display = document.getElementById('flashcard-indo');
+                    if (display.textContent === lesson.indo) {
+                        display.textContent = lesson.mongondow;
+                        this.textContent = 'Lihat Bahasa Indonesia';
+                    } else {
+                        display.textContent = lesson.indo;
+                        this.textContent = 'Lihat Bahasa Mongondow';
+                    }
+                });
+            } else if (lesson.type === 'quiz') {
+                let optionsHtml = '';
+                // Shuffle options
+                const shuffledOptions = [...lesson.options].sort(() => Math.random() - 0.5);
+                shuffledOptions.forEach(option => {
+                    optionsHtml += `<button class="btn btn-outline-primary quiz-option-btn" data-answer="${option}" style="color: var(--primary-green); border-color: var(--primary-green);">${option}</button>`;
+                });
+
+                currentLessonContent.innerHTML = `
+                    <p class="mb-3 fs-5 fw-bold">${lesson.question}</p>
+                    <div class="quiz-options">${optionsHtml}</div>
+                    <div id="quiz-feedback" class="mt-3 fs-6 fw-bold"></div>
+                `;
+                document.querySelectorAll('.quiz-option-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const feedbackDiv = document.getElementById('quiz-feedback');
+                        if (this.dataset.answer === lesson.answer) {
+                            feedbackDiv.textContent = 'Benar!';
+                            feedbackDiv.style.color = 'green';
+                            // Disable all options after correct answer
+                            document.querySelectorAll('.quiz-option-btn').forEach(b => b.disabled = true);
+                        } else {
+                            feedbackDiv.textContent = 'Salah. Coba lagi!';
+                            feedbackDiv.style.color = 'red';
+                        }
+                    });
+                });
+            }
+        }
+
+        prevLessonBtn.addEventListener('click', () => {
+            if (currentLessonIndex > 0) {
+                currentLessonIndex--;
+                loadLesson();
+            }
+        });
+
+        nextLessonBtn.addEventListener('click', () => {
+            currentLessonIndex++;
+            loadLesson();
+        });
+
+        function completeModule() {
+            if (currentLearningModule && !userLearningProgress[currentLearningModule.id]) {
+                userPoints += currentLearningModule.points;
+                userLearningProgress[currentLearningModule.id] = true;
+                localStorage.setItem('userPoints', userPoints);
+                localStorage.setItem('userLearningProgress', JSON.stringify(userLearningProgress));
+                showMessage(`Selamat! Anda menyelesaikan modul "${currentLearningModule.title}" dan mendapatkan ${currentLearningModule.points} poin!`, 'Modul Selesai', 'success');
+            }
+            showPage('learning-page'); // Kembali ke daftar modul
+        }
+
+        // --- Fitur Poin dan Hadiah ---
+        function displayPointsAndRewards() {
+            userPointsDisplay.textContent = userPoints;
+            rewardsList.innerHTML = '';
+            if (rewards.length === 0) {
+                noRewardsDiv.style.display = 'block';
+            } else {
+                noRewardsDiv.style.display = 'none';
+                rewards.forEach(reward => {
+                    const rewardCard = document.createElement('div');
+                    rewardCard.className = 'reward-card';
+                    const canRedeem = userPoints >= reward.pointsCost;
+                    rewardCard.innerHTML = `
+                        <h5>${reward.name}</h5>
+                        <p>${reward.description}</p>
+                        <p class="points-cost">Biaya: ${reward.pointsCost} Poin</p>
+                        <button class="btn btn-sm ${canRedeem ? 'btn-primary' : 'btn-secondary'}" ${canRedeem ? '' : 'disabled'} onclick="redeemReward(${reward.id})" style="background-color: var(--primary-green); border-color: var(--primary-green);">Tukarkan</button>
+                    `;
+                    rewardsList.appendChild(rewardCard);
+                });
+            }
+        }
+
+        function redeemReward(rewardId) {
+            if (!isLoggedIn) {
+                showMessage('Anda harus login untuk menukarkan hadiah.', 'Login Diperlukan', 'error');
+                return;
+            }
+
+            const reward = rewards.find(r => r.id === rewardId);
+            if (reward && userPoints >= reward.pointsCost) {
+                userPoints -= reward.pointsCost;
+                localStorage.setItem('userPoints', userPoints);
+                showMessage(`Selamat! Anda berhasil menukarkan "${reward.name}". Poin Anda sekarang: ${userPoints}.`, 'Penukaran Berhasil', 'success');
+                displayPointsAndRewards(); // Perbarui tampilan
+            } else if (reward) {
+                showMessage(`Poin Anda tidak cukup untuk menukarkan "${reward.name}". Anda membutuhkan ${reward.pointsCost} poin.`, 'Poin Tidak Cukup', 'error');
+            }
+        }
+
+        // --- Fitur Profil ---
+        function displayProfile() {
+            const profileContent = document.getElementById('profile-content');
+            if (isLoggedIn && currentUser) {
+                profileContent.innerHTML = `
+                    <h4>Informasi Akun</h4>
+                    <p><strong>Nama:</strong> ${currentUser.name}</p>
+                    <p><strong>Email:</strong> ${currentUser.email}</p>
+                    <p><strong>Poin:</strong> <span id="profile-points">${userPoints}</span></p>
+                    <button class="btn btn-danger rounded-pill" onclick="logout()">Keluar</button>
+                `;
+            } else {
+                profileContent.innerHTML = `
+                    <p class="lead">Anda belum masuk. Silakan <a href="#" id="profile-login-link" style="color: var(--primary-green);">Masuk</a> atau <a href="#" id="profile-register-link" style="color: var(--primary-green);">Daftar</a>.</p>
+                `;
+                document.getElementById('profile-login-link').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showPage('login-page');
+                });
+                document.getElementById('profile-register-link').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showPage('register-page');
+                });
+            }
+        }
+
+        function updateProfileDisplay() {
+            if (document.getElementById('profile-page').style.display === 'block') {
+                displayProfile();
+            }
+        }
+
+        // --- Dark Mode Toggle ---
+        darkModeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            if (document.body.classList.contains('dark-mode')) {
+                localStorage.setItem('darkMode', 'enabled');
+                darkModeToggle.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                localStorage.setItem('darkMode', 'disabled');
+                darkModeToggle.classList.replace('fa-sun', 'fa-moon');
+            }
+        });
+
+        // --- Event Listeners Bottom Navigation ---
+        document.getElementById('nav-dictionary').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('dictionary-page');
+        });
+        document.getElementById('nav-learning').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('learning-page');
+        });
+        document.getElementById('nav-points').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('points-page');
+        });
+        document.getElementById('nav-profile').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('profile-page');
+        });
+
+        // --- Inisialisasi Aplikasi ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Menambahkan font Inter dari Google Fonts
+            const link = document.createElement('link');
+            link.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap';
+            link.rel = 'stylesheet';
+            document.head.appendChild(link);
+
+            // Tampilkan loader selama 3 detik
+            loaderOverlay.style.display = 'flex';
+            appContainer.style.display = 'none'; // Sembunyikan aplikasi utama
+
+            setTimeout(() => {
+                loaderOverlay.style.display = 'none';
+                appContainer.style.display = 'block'; // Tampilkan aplikasi utama
+
+                // Terapkan dark mode jika sebelumnya diaktifkan
+                if (localStorage.getItem('darkMode') === 'enabled') {
+                    document.body.classList.add('dark-mode');
+                    darkModeToggle.classList.replace('fa-moon', 'fa-sun');
+                }
+
+                checkLoginStatus(); // Periksa status login dan tampilkan halaman yang sesuai
+            }, 3000); // 3 detik
+        });
+    </script>
+</body>
+</html>

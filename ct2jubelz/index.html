@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CT2 Jual Beli Barang Bekas Terbaik</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome untuk ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Menggunakan font Inter */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5; /* Latar belakang abu-abu muda */
+            color: #343a40;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* Mencegah scroll horizontal */
+            padding-bottom: 70px; /* Ruang untuk bottom nav */
+            transition: background-color 0.3s ease, color 0.3s ease; /* Transisi untuk dark mode */
+        }
+
+        /* Warna utama: Dominan putih, aksen oranye */
+        :root {
+            --primary-orange: #fd7e14; /* Oranye utama */
+            --light-orange: #ff9100; /* Oranye lebih terang */
+            --text-dark: #343a40;
+            --text-muted: #6c757d;
+            --bg-light: #f8f9fa;
+            --bg-white: #ffffff;
+            --card-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            --modal-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+        }
+
+        .dark-mode .app-container {
+            background-color: #2a2a2a;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .dark-mode .top-bar,
+        .dark-mode .bottom-nav,
+        .dark-mode .product-card,
+        .dark-mode .modal-content,
+        .dark-mode .auth-form,
+        .dark-mode .profile-info {
+            background-color: #3a3a3a;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            border-color: #4a4a4a;
+        }
+
+        .dark-mode .top-bar .app-title,
+        .dark-mode .top-bar .icon-group i,
+        .dark-mode .product-card h5,
+        .dark-mode .product-card p,
+        .dark-mode .modal-body,
+        .dark-mode .modal-title,
+        .dark-mode .form-control,
+        .dark-mode .form-select,
+        .dark-mode .form-label,
+        .dark-mode h2, .dark-mode h3, .dark-mode h4, .dark-mode h5, .dark-mode p {
+            color: #e0e0e0 !important;
+        }
+
+        .dark-mode .form-control,
+        .dark-mode .form-select {
+            background-color: #4a4a4a;
+            border-color: #5a5a5a;
+        }
+
+        .dark-mode .form-control::placeholder {
+            color: #b0b0b0;
+        }
+
+        .dark-mode .btn-outline-primary {
+            color: var(--light-orange);
+            border-color: var(--light-orange);
+        }
+
+        .dark-mode .btn-outline-primary:hover {
+            background-color: var(--light-orange);
+            color: var(--text-dark);
+        }
+
+        .dark-mode .nav-item-bottom {
+            color: #b0b0b0;
+        }
+
+        .dark-mode .nav-item-bottom.active {
+            color: var(--light-orange);
+        }
+        .dark-mode .price {
+            color: #ffcc00 !important; /* Warna harga di dark mode */
+        }
+        .dark-mode .product-card .seller-info {
+            color: #b0b0b0;
+        }
+
+
+        /* Loader Styles */
+        .loader-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--primary-orange); /* Warna oranye untuk loader */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            flex-direction: column;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .loader {
+            border: 8px solid #f3f3f3; /* Light grey */
+            border-top: 8px solid var(--bg-white); /* White for loader spinner */
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 2s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Struktur Aplikasi Mobile */
+        .app-container {
+            max-width: 500px; /* Lebar maksimal seperti aplikasi mobile */
+            margin: 0 auto;
+            background-color: var(--bg-light);
+            min-height: 100vh;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            display: none; /* Hidden by default, shown after loader */
+        }
+
+        /* Top Bar */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: var(--bg-white);
+            border-bottom: 1px solid #eee;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .top-bar .app-title {
+            font-weight: bold;
+            font-size: 1.3rem;
+            color: var(--primary-orange);
+        }
+
+        .top-bar .icon-group i {
+            font-size: 1.2rem;
+            margin-left: 15px;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        /* Page Content Styles */
+        .page-content {
+            padding: 20px;
+            display: none; /* Hidden by default */
+        }
+
+        .page-content h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            text-align: center;
+            color: var(--text-dark);
+        }
+
+        /* Home Page - Product Listing */
+        .search-filter-bar {
+            background-color: var(--bg-white);
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 20px;
+        }
+        .search-filter-bar .form-control,
+        .search-filter-bar .form-select {
+            border-radius: 50px;
+            padding: 10px 20px;
+        }
+
+        .product-card {
+            background-color: var(--bg-white);
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            overflow: hidden; /* Ensure image corners are rounded */
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+
+        .product-card .card-body {
+            padding: 15px;
+        }
+
+        .product-card h5 {
+            color: var(--primary-orange);
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+
+        .product-card .price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #28a745; /* Green for price */
+            margin-bottom: 10px;
+        }
+
+        .product-card .seller-info {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .favorite-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            color: #ccc;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            z-index: 10;
+        }
+
+        .favorite-btn.favorited {
+            color: #ff6347; /* Tomato color for favorited */
+        }
+
+        .favorite-btn:hover {
+            background-color: rgba(255, 255, 255, 1);
+            transform: scale(1.1);
+        }
+
+        /* Sell Item Page */
+        .sell-form {
+            background-color: var(--bg-white);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .sell-form .form-label {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        .sell-form .btn-primary {
+            background-color: var(--primary-orange);
+            border-color: var(--primary-orange);
+        }
+        .sell-form .btn-primary:hover {
+            background-color: var(--light-orange);
+            border-color: var(--light-orange);
+        }
+
+        /* Product Detail Modal */
+        #productDetailModal .modal-body img {
+            max-width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        #productDetailModal .modal-body h4 {
+            color: var(--primary-orange);
+            font-weight: bold;
+        }
+        #productDetailModal .modal-body .detail-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #28a745;
+            margin-bottom: 15px;
+        }
+        #productDetailModal .modal-body .detail-info p {
+            margin-bottom: 5px;
+        }
+        #productDetailModal .modal-footer .btn-primary {
+            background-color: var(--primary-orange);
+            border-color: var(--primary-orange);
+        }
+        #productDetailModal .modal-footer .btn-primary:hover {
+            background-color: var(--light-orange);
+            border-color: var(--light-orange);
+        }
+
+        /* Profile Page */
+        .profile-info {
+            background-color: var(--bg-white);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 20px;
+        }
+
+        .profile-info h4 {
+            color: var(--primary-orange);
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .profile-info p {
+            margin-bottom: 8px;
+        }
+
+        .profile-info .btn {
+            margin-top: 20px;
+            background-color: var(--primary-orange);
+            border-color: var(--primary-orange);
+        }
+        .profile-info .btn:hover {
+            background-color: var(--light-orange);
+            border-color: var(--light-orange);
+        }
+
+        /* Login/Register Page */
+        .auth-form {
+            background-color: var(--bg-white);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            margin-top: 50px;
+        }
+
+        .auth-form h2 {
+            color: var(--primary-orange);
+            margin-bottom: 30px;
+        }
+        .auth-form .btn-primary {
+            background-color: var(--primary-orange);
+            border-color: var(--primary-orange);
+        }
+        .auth-form .btn-primary:hover {
+            background-color: var(--light-orange);
+            border-color: var(--light-orange);
+        }
+        .auth-form a {
+            color: var(--primary-orange);
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--bg-white);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .nav-item-bottom {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 600;
+            transition: color 0.2s ease;
+            cursor: pointer;
+        }
+
+        .nav-item-bottom.active {
+            color: var(--primary-orange);
+        }
+
+        .nav-item-bottom i {
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+        }
+
+        /* Modal Styling */
+        .modal-content {
+            border-radius: 15px;
+            box-shadow: var(--modal-shadow);
+        }
+
+        .modal-header {
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            background-color: var(--primary-orange);
+            color: white;
+            border-bottom: none;
+        }
+
+        .modal-title {
+            font-weight: bold;
+        }
+
+        .btn-close-white {
+            filter: invert(1) grayscale(100%) brightness(200%);
+        }
+    </style>
+</head>
+<body>
+    <!-- Loader Overlay -->
+    <div class="loader-overlay" id="loader-overlay">
+        <div class="loader"></div>
+        <span>Memuat CT2 JUBELZ...</span>
+    </div>
+
+    <div class="app-container" id="app-container">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="app-title">CT2 JUBELZ</div>
+            <div class="icon-group">
+                <i class="fas fa-moon ms-3" id="dark-mode-toggle"></i>
+            </div>
+        </div>
+
+        <!-- Home Page (Browse Products) -->
+        <div id="home-page" class="page-content">
+            <h2>Barang Bekas Terbaik</h2>
+            <div class="search-filter-bar">
+                <input type="text" id="search-input" class="form-control mb-3" placeholder="Cari barang (misal: sepeda, buku, baju)...">
+                <div class="row g-2">
+                    <div class="col-6">
+                        <select id="category-filter" class="form-select">
+                            <option value="">Semua Kategori</option>
+                            <option value="Elektronik">Elektronik</option>
+                            <option value="Fashion">Fashion</option>
+                            <option value="Kendaraan">Kendaraan</option>
+                            <option value="Rumah Tangga">Rumah Tangga</option>
+                            <option value="Hobi">Hobi & Olahraga</option>
+                            <option value="Lainnya">Lainnya</option>
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        <select id="condition-filter" class="form-select">
+                            <option value="">Semua Kondisi</option>
+                            <option value="Baru">Baru</option>
+                            <option value="Bekas (Sangat Baik)">Bekas (Sangat Baik)</option>
+                            <option value="Bekas (Baik)">Bekas (Baik)</option>
+                            <option value="Bekas (Cukup)">Bekas (Cukup)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div id="product-list" class="row row-cols-2 g-3">
+                <!-- Product cards will be injected here -->
+            </div>
+            <div id="no-results" class="text-center mt-5" style="display: none;">
+                <p class="lead">Tidak ada barang yang ditemukan.</p>
+            </div>
+        </div>
+
+        <!-- Sell Item Page -->
+        <div id="sell-item-page" class="page-content">
+            <h2>Jual Barang Anda</h2>
+            <div class="sell-form">
+                <form id="add-product-form">
+                    <div class="mb-3">
+                        <label for="item-title" class="form-label">Judul Barang</label>
+                        <input type="text" class="form-control" id="item-title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="item-price" class="form-label">Harga (Rp)</label>
+                        <input type="number" class="form-control" id="item-price" required min="0">
+                    </div>
+                    <div class="mb-3">
+                        <label for="item-description" class="form-label">Deskripsi</label>
+                        <textarea class="form-control" id="item-description" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="item-category" class="form-label">Kategori</label>
+                        <select class="form-select" id="item-category" required>
+                            <option value="">Pilih Kategori</option>
+                            <option value="Elektronik">Elektronik</option>
+                            <option value="Fashion">Fashion</option>
+                            <option value="Kendaraan">Kendaraan</option>
+                            <option value="Rumah Tangga">Rumah Tangga</option>
+                            <option value="Hobi">Hobi & Olahraga</option>
+                            <option value="Lainnya">Lainnya</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="item-condition" class="form-label">Kondisi</label>
+                        <select class="form-select" id="item-condition" required>
+                            <option value="">Pilih Kondisi</option>
+                            <option value="Baru">Baru</option>
+                            <option value="Bekas (Sangat Baik)">Bekas (Sangat Baik)</option>
+                            <option value="Bekas (Baik)">Bekas (Baik)</option>
+                            <option value="Bekas (Cukup)">Bekas (Cukup)</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="item-image" class="form-label">URL Gambar (Opsional)</label>
+                        <input type="url" class="form-control" id="item-image" placeholder="https://placehold.co/400x300">
+                        <small class="form-text text-muted">Gunakan URL gambar langsung (misal: dari Imgur, Google Photos, dll.). Jika kosong, akan menggunakan gambar placeholder.</small>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 rounded-pill mt-3">Pasang Iklan</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Favorites Page -->
+        <div id="favorites-page" class="page-content">
+            <h2>Barang Favorit Anda</h2>
+            <div id="favorite-product-list" class="row row-cols-2 g-3">
+                <!-- Favorite product cards will be injected here -->
+            </div>
+            <div id="no-favorites" class="text-center mt-5" style="display: none;">
+                <p class="lead">Anda belum memiliki barang favorit.</p>
+            </div>
+        </div>
+
+        <!-- Profile Page -->
+        <div id="profile-page" class="page-content">
+            <h2>Profil Saya</h2>
+            <div id="profile-content" class="profile-info text-center">
+                <!-- Profile info will be injected here -->
+            </div>
+            <h3 class="mt-4 text-center">Barang yang Saya Jual</h3>
+            <div id="my-listings" class="row row-cols-2 g-3">
+                <!-- User's listed products will be injected here -->
+            </div>
+            <div id="no-my-listings" class="text-center mt-3" style="display: none;">
+                <p class="lead">Anda belum memasang iklan barang.</p>
+            </div>
+        </div>
+
+        <!-- Login Page -->
+        <div id="login-page" class="page-content">
+            <div class="auth-form mx-auto" style="max-width: 400px;">
+                <h2 class="text-center">Masuk</h2>
+                <form id="login-form">
+                    <div class="mb-3">
+                        <label for="login-email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="login-email" value="user@example.com" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="login-password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="login-password" value="password123" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 rounded-pill mt-3">Masuk</button>
+                </form>
+                <p class="text-center mt-3">Belum punya akun? <a href="#" id="show-register">Daftar Sekarang</a></p>
+            </div>
+        </div>
+
+        <!-- Register Page -->
+        <div id="register-page" class="page-content">
+            <div class="auth-form mx-auto" style="max-width: 400px;">
+                <h2 class="text-center">Daftar Akun Baru</h2>
+                <form id="register-form">
+                    <div class="mb-3">
+                        <label for="register-name" class="form-label">Nama Lengkap</label>
+                        <input type="text" class="form-control" id="register-name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="register-email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="register-email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="register-password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="register-password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 rounded-pill mt-3">Daftar</button>
+                </form>
+                <p class="text-center mt-3">Sudah punya akun? <a href="#" id="show-login">Masuk</a></p>
+            </div>
+        </div>
+
+        <!-- Product Detail Modal -->
+        <div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="productDetailModalLabel">Detail Barang</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <img id="modal-product-image" src="" alt="Gambar Barang" class="img-fluid mb-3">
+                        <h4 id="modal-product-title" class="mb-2"></h4>
+                        <p class="detail-price" id="modal-product-price"></p>
+                        <div class="detail-info">
+                            <p><strong>Deskripsi:</strong> <span id="modal-product-description"></span></p>
+                            <p><strong>Kategori:</strong> <span id="modal-product-category"></span></p>
+                            <p><strong>Kondisi:</strong> <span id="modal-product-condition"></span></p>
+                            <p><strong>Penjual:</strong> <span id="modal-product-seller"></span></p>
+                            <p><strong>Diposting:</strong> <span id="modal-product-date"></span></p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Tutup</button>
+                        <button type="button" class="btn btn-primary" id="contact-seller-btn">Hubungi Penjual</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Custom Message Modal -->
+        <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-success text-white">
+                        <h5 class="modal-title" id="messageModalLabel">Informasi</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="messageModalText"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Oke</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a href="#" class="nav-item-bottom active" id="nav-home">
+                <i class="fas fa-home"></i>
+                <span>Beranda</span>
+            </a>
+            <a href="#" class="nav-item-bottom" id="nav-sell">
+                <i class="fas fa-plus-circle"></i>
+                <span>Jual</span>
+            </a>
+            <a href="#" class="nav-item-bottom" id="nav-favorites">
+                <i class="fas fa-heart"></i>
+                <span>Favorit</span>
+            </a>
+            <a href="#" class="nav-item-bottom" id="nav-profile">
+                <i class="fas fa-user"></i>
+                <span>Profil</span>
+            </a>
+        </nav>
+    </div> <!-- End of app-container -->
+
+    <!-- Bootstrap JS Bundle (Popper included) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // --- Data Aplikasi ---
+        const products = JSON.parse(localStorage.getItem('products')) || [
+            {
+                id: 1,
+                title: "Sepeda Gunung Bekas",
+                price: 1800000,
+                description: "Sepeda gunung merk Polygon Xtrada 5, kondisi 80%, siap pakai. Cocok untuk off-road ringan atau commuting.",
+                category: "Kendaraan",
+                condition: "Bekas (Baik)",
+                image: "https://placehold.co/400x300/fd7e14/ffffff?text=Sepeda+Gunung",
+                sellerId: "user@example.com",
+                postedDate: "2025-07-10"
+            },
+            {
+                id: 2,
+                title: "Buku Novel 'Laskar Pelangi'",
+                price: 50000,
+                description: "Novel klasik 'Laskar Pelangi' oleh Andrea Hirata. Kondisi sangat baik, tidak ada coretan.",
+                category: "Hobi",
+                condition: "Bekas (Sangat Baik)",
+                image: "https://placehold.co/400x300/28a745/ffffff?text=Buku+Novel",
+                sellerId: "user2@example.com",
+                postedDate: "2025-07-12"
+            },
+            {
+                id: 3,
+                title: "Kulkas Mini Portable",
+                price: 750000,
+                description: "Kulkas mini portable, cocok untuk kamar kos atau kantor. Kondisi 90%, jarang dipakai.",
+                category: "Elektronik",
+                condition: "Bekas (Sangat Baik)",
+                image: "https://placehold.co/400x300/007bff/ffffff?text=Kulkas+Mini",
+                sellerId: "user@example.com",
+                postedDate: "2025-07-15"
+            },
+            {
+                id: 4,
+                title: "Meja Belajar Kayu Jati",
+                price: 300000,
+                description: "Meja belajar kayu jati solid, kokoh dan awet. Ada sedikit lecet di permukaan.",
+                category: "Rumah Tangga",
+                condition: "Bekas (Cukup)",
+                image: "https://placehold.co/400x300/6c757d/ffffff?text=Meja+Belajar",
+                sellerId: "user3@example.com",
+                postedDate: "2025-07-08"
+            },
+            {
+                id: 5,
+                title: "Jaket Kulit Pria",
+                price: 450000,
+                description: "Jaket kulit asli, ukuran L. Kondisi bagus, hanya dipakai beberapa kali.",
+                category: "Fashion",
+                condition: "Bekas (Baik)",
+                image: "https://placehold.co/400x300/ffc107/343a40?text=Jaket+Kulit",
+                sellerId: "user@example.com",
+                postedDate: "2025-07-14"
+            }
+        ];
+
+        const users = [
+            { email: "user@example.com", password: "password123", name: "Budi Santoso" },
+            { email: "user2@example.com", password: "password123", name: "Ani Wijaya" },
+            { email: "user3@example.com", password: "password123", name: "Citra Dewi" }
+        ];
+
+        // --- Elemen DOM ---
+        const loaderOverlay = document.getElementById('loader-overlay');
+        const appContainer = document.getElementById('app-container');
+
+        const homePage = document.getElementById('home-page');
+        const sellItemPage = document.getElementById('sell-item-page');
+        const favoritesPage = document.getElementById('favorites-page');
+        const profilePage = document.getElementById('profile-page');
+        const loginPage = document.getElementById('login-page');
+        const registerPage = document.getElementById('register-page');
+
+        const searchInput = document.getElementById('search-input');
+        const categoryFilter = document.getElementById('category-filter');
+        const conditionFilter = document.getElementById('condition-filter');
+        const productListDiv = document.getElementById('product-list');
+        const noResultsDiv = document.getElementById('no-results');
+
+        const addProductForm = document.getElementById('add-product-form');
+        const itemTitleInput = document.getElementById('item-title');
+        const itemPriceInput = document.getElementById('item-price');
+        const itemDescriptionInput = document.getElementById('item-description');
+        const itemCategorySelect = document.getElementById('item-category');
+        const itemConditionSelect = document.getElementById('item-condition');
+        const itemImageInput = document.getElementById('item-image');
+
+        const favoriteProductListDiv = document.getElementById('favorite-product-list');
+        const noFavoritesDiv = document.getElementById('no-favorites');
+
+        const profileContentDiv = document.getElementById('profile-content');
+        const myListingsDiv = document.getElementById('my-listings');
+        const noMyListingsDiv = document.getElementById('no-my-listings');
+
+        const productDetailModal = new bootstrap.Modal(document.getElementById('productDetailModal'));
+        const messageModal = new bootstrap.Modal(document.getElementById('messageModal'));
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+
+        // --- State Aplikasi ---
+        let isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
+        let currentUser = JSON.parse(sessionStorage.getItem('currentUser')) || null;
+        let userFavorites = JSON.parse(localStorage.getItem('userFavorites')) || []; // Array of product IDs
+
+        // --- Fungsi Umum ---
+        function showPage(pageId) {
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.style.display = 'none';
+            });
+            document.getElementById(pageId).style.display = 'block';
+
+            document.querySelectorAll('.nav-item-bottom').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            if (pageId === 'home-page') {
+                document.getElementById('nav-home').classList.add('active');
+                performProductSearchAndFilter(); // Refresh products on home page
+            } else if (pageId === 'sell-item-page') {
+                if (!isLoggedIn) {
+                    showMessage('Anda harus login untuk menjual barang.', 'Login Diperlukan', 'error');
+                    showPage('login-page');
+                    return;
+                }
+                document.getElementById('nav-sell').classList.add('active');
+                addProductForm.reset(); // Clear form when navigating to sell page
+            } else if (pageId === 'favorites-page') {
+                if (!isLoggedIn) {
+                    showMessage('Anda harus login untuk melihat favorit.', 'Login Diperlukan', 'error');
+                    showPage('login-page');
+                    return;
+                }
+                document.getElementById('nav-favorites').classList.add('active');
+                displayFavorites();
+            } else if (pageId === 'profile-page') {
+                if (!isLoggedIn) {
+                    showMessage('Anda harus login untuk melihat profil.', 'Login Diperlukan', 'error');
+                    showPage('login-page');
+                    return;
+                }
+                document.getElementById('nav-profile').classList.add('active');
+                displayProfile();
+            }
+        }
+
+        function showMessage(message, title = "Informasi", type = "success") {
+            const modalHeader = messageModal._element.querySelector('.modal-header');
+            modalHeader.classList.remove('bg-success', 'bg-danger', 'bg-primary');
+            if (type === "success") {
+                modalHeader.classList.add('bg-success');
+            } else if (type === "error") {
+                modalHeader.classList.add('bg-danger');
+            } else {
+                modalHeader.classList.add('bg-primary');
+            }
+
+            document.getElementById('messageModalLabel').textContent = title;
+            document.getElementById('messageModalText').textContent = message;
+            messageModal.show();
+        }
+
+        function formatPrice(price) {
+            return `Rp ${price.toLocaleString('id-ID')}`;
+        }
+
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString('id-ID', options);
+        }
+
+        // --- Fitur Autentikasi ---
+        function checkLoginStatusAndRedirect() {
+            if (!isLoggedIn) {
+                showPage('login-page');
+            } else {
+                showPage('home-page'); // Default ke halaman beranda setelah login
+            }
+        }
+
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            const user = users.find(u => u.email === email && u.password === password);
+
+            if (user) {
+                isLoggedIn = true;
+                currentUser = { email: user.email, name: user.name };
+                sessionStorage.setItem('isLoggedIn', 'true');
+                sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+                showMessage('Login Berhasil!', 'Sukses', 'success');
+                showPage('home-page');
+            } else {
+                showMessage('Email atau password salah.', 'Login Gagal', 'error');
+            }
+        });
+
+        document.getElementById('register-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+
+            // Simple validation: check if email already exists (simulated)
+            if (users.some(u => u.email === email)) {
+                showMessage('Email sudah terdaftar. Silakan gunakan email lain.', 'Pendaftaran Gagal', 'error');
+                return;
+            }
+
+            if (name && email && password) {
+                users.push({ email, password, name }); // Add new user to dummy data
+                showMessage('Pendaftaran Berhasil! Silakan masuk.', 'Sukses', 'success');
+                showPage('login-page');
+            } else {
+                showMessage('Mohon lengkapi semua data.', 'Pendaftaran Gagal', 'error');
+            }
+        });
+
+        document.getElementById('show-register').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('register-page');
+        });
+
+        document.getElementById('show-login').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('login-page');
+        });
+
+        function logout() {
+            isLoggedIn = false;
+            currentUser = null;
+            sessionStorage.removeItem('isLoggedIn');
+            sessionStorage.removeItem('currentUser');
+            showMessage('Anda telah berhasil keluar.', 'Informasi', 'success');
+            showPage('login-page');
+        }
+
+        // --- Fitur Listing Produk ---
+        function displayProducts(filteredProducts, targetDiv = productListDiv) {
+            targetDiv.innerHTML = ''; // Kosongkan daftar sebelum menampilkan
+            if (filteredProducts.length === 0) {
+                if (targetDiv === productListDiv) {
+                    noResultsDiv.style.display = 'block';
+                } else if (targetDiv === favoriteProductListDiv) {
+                    noFavoritesDiv.style.display = 'block';
+                } else if (targetDiv === myListingsDiv) {
+                    noMyListingsDiv.style.display = 'block';
+                }
+            } else {
+                noResultsDiv.style.display = 'none';
+                noFavoritesDiv.style.display = 'none';
+                noMyListingsDiv.style.display = 'none';
+
+                filteredProducts.forEach(product => {
+                    const isFavorited = userFavorites.includes(product.id);
+                    const colDiv = document.createElement('div');
+                    colDiv.className = 'col';
+                    colDiv.innerHTML = `
+                        <div class="product-card" data-id="${product.id}">
+                            <img src="${product.image}" alt="${product.title}" onerror="this.onerror=null;this.src='https://placehold.co/400x300/cccccc/333333?text=Gambar+Tidak+Tersedia';">
+                            <button class="favorite-btn ${isFavorited ? 'favorited' : ''}" data-product-id="${product.id}">
+                                <i class="${isFavorited ? 'fas' : 'far'} fa-heart"></i>
+                            </button>
+                            <div class="card-body">
+                                <h5>${product.title}</h5>
+                                <p class="price">${formatPrice(product.price)}</p>
+                                <p class="seller-info">Penjual: ${users.find(u => u.email === product.sellerId)?.name || product.sellerId}</p>
+                            </div>
+                        </div>
+                    `;
+                    colDiv.querySelector('.product-card').addEventListener('click', () => showProductDetail(product.id));
+                    colDiv.querySelector('.favorite-btn').addEventListener('click', function(event) {
+                        event.stopPropagation();
+                        toggleFavorite(product.id, this);
+                    });
+                    targetDiv.appendChild(colDiv);
+                });
+            }
+        }
+
+        function performProductSearchAndFilter() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const selectedCategory = categoryFilter.value;
+            const selectedCondition = conditionFilter.value;
+
+            const filtered = products.filter(product => {
+                const matchesSearch = product.title.toLowerCase().includes(searchTerm) ||
+                                      product.description.toLowerCase().includes(searchTerm);
+                const matchesCategory = selectedCategory === "" || product.category === selectedCategory;
+                const matchesCondition = selectedCondition === "" || product.condition === selectedCondition;
+                return matchesSearch && matchesCategory && matchesCondition;
+            });
+            displayProducts(filtered);
+        }
+
+        searchInput.addEventListener('keyup', performProductSearchAndFilter);
+        categoryFilter.addEventListener('change', performProductSearchAndFilter);
+        conditionFilter.addEventListener('change', performProductSearchAndFilter);
+
+        // --- Fitur Detail Produk ---
+        function showProductDetail(id) {
+            const product = products.find(p => p.id === id);
+            if (product) {
+                document.getElementById('modal-product-image').src = product.image;
+                document.getElementById('modal-product-image').onerror = function() {
+                    this.onerror=null;this.src='https://placehold.co/400x300/cccccc/333333?text=Gambar+Tidak+Tersedia';
+                };
+                document.getElementById('modal-product-title').textContent = product.title;
+                document.getElementById('modal-product-price').textContent = formatPrice(product.price);
+                document.getElementById('modal-product-description').textContent = product.description;
+                document.getElementById('modal-product-category').textContent = product.category;
+                document.getElementById('modal-product-condition').textContent = product.condition;
+                document.getElementById('modal-product-seller').textContent = users.find(u => u.email === product.sellerId)?.name || product.sellerId;
+                document.getElementById('modal-product-date').textContent = formatDate(product.postedDate);
+
+                const contactSellerBtn = document.getElementById('contact-seller-btn');
+                contactSellerBtn.onclick = () => {
+                    productDetailModal.hide();
+                    if (isLoggedIn) {
+                        showMessage(`Anda akan dihubungkan dengan penjual ${users.find(u => u.email === product.sellerId)?.name || product.sellerId} untuk barang "${product.title}".`, 'Hubungi Penjual', 'info');
+                    } else {
+                        showMessage('Anda harus login untuk menghubungi penjual.', 'Login Diperlukan', 'error');
+                    }
+                };
+
+                productDetailModal.show();
+            }
+        }
+
+        // --- Fitur Jual Barang ---
+        addProductForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (!isLoggedIn) {
+                showMessage('Anda harus login untuk menjual barang.', 'Login Diperlukan', 'error');
+                return;
+            }
+
+            const newProduct = {
+                id: Date.now(), // Simple unique ID
+                title: itemTitleInput.value,
+                price: parseInt(itemPriceInput.value),
+                description: itemDescriptionInput.value,
+                category: itemCategorySelect.value,
+                condition: itemConditionSelect.value,
+                image: itemImageInput.value || `https://placehold.co/400x300/cccccc/333333?text=${encodeURIComponent(itemTitleInput.value.substring(0, 15))}`,
+                sellerId: currentUser.email,
+                postedDate: new Date().toISOString().split('T')[0] // YYYY-MM-DD
+            };
+
+            products.unshift(newProduct); // Add to the beginning of the list
+            localStorage.setItem('products', JSON.stringify(products));
+            showMessage('Barang Anda berhasil dipasang!', 'Sukses', 'success');
+            addProductForm.reset();
+            showPage('home-page'); // Redirect to home page after posting
+        });
+
+        // --- Fitur Favorit ---
+        function toggleFavorite(productId, buttonElement) {
+            if (!isLoggedIn) {
+                showMessage('Anda harus login untuk menambahkan favorit.', 'Login Diperlukan', 'error');
+                return;
+            }
+
+            const index = userFavorites.indexOf(productId);
+            if (index > -1) {
+                // Remove from favorites
+                userFavorites.splice(index, 1);
+                buttonElement.classList.remove('favorited');
+                buttonElement.querySelector('i').classList.replace('fas', 'far');
+                showMessage('Barang dihapus dari favorit.', 'Favorit', 'info');
+            } else {
+                // Add to favorites
+                userFavorites.push(productId);
+                buttonElement.classList.add('favorited');
+                buttonElement.querySelector('i').classList.replace('far', 'fas');
+                showMessage('Barang ditambahkan ke favorit!', 'Favorit', 'success');
+            }
+            localStorage.setItem('userFavorites', JSON.stringify(userFavorites));
+            // If on favorites page, refresh the display
+            if (document.getElementById('favorites-page').style.display === 'block') {
+                displayFavorites();
+            }
+            // Also refresh home page to update favorite icons
+            if (document.getElementById('home-page').style.display === 'block') {
+                performProductSearchAndFilter();
+            }
+        }
+
+        function displayFavorites() {
+            const favoriteProducts = products.filter(product => userFavorites.includes(product.id));
+            displayProducts(favoriteProducts, favoriteProductListDiv);
+        }
+
+        // --- Fitur Profil ---
+        function displayProfile() {
+            const profileContent = document.getElementById('profile-content');
+            if (isLoggedIn && currentUser) {
+                profileContent.innerHTML = `
+                    <h4>Informasi Akun</h4>
+                    <p><strong>Nama:</strong> ${currentUser.name}</p>
+                    <p><strong>Email:</strong> ${currentUser.email}</p>
+                    <button class="btn btn-danger rounded-pill" onclick="logout()">Keluar</button>
+                `;
+                displayMyListings();
+            } else {
+                profileContent.innerHTML = `
+                    <p class="lead">Anda belum masuk. Silakan <a href="#" id="profile-login-link">Masuk</a> atau <a href="#" id="profile-register-link">Daftar</a>.</p>
+                `;
+                document.getElementById('profile-login-link').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showPage('login-page');
+                });
+                document.getElementById('profile-register-link').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showPage('register-page');
+                });
+                noMyListingsDiv.style.display = 'block'; // Hide listings if not logged in
+                myListingsDiv.innerHTML = '';
+            }
+        }
+
+        function displayMyListings() {
+            if (currentUser) {
+                const myListedProducts = products.filter(product => product.sellerId === currentUser.email);
+                displayProducts(myListedProducts, myListingsDiv);
+            }
+        }
+
+        // --- Dark Mode Toggle ---
+        darkModeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            if (document.body.classList.contains('dark-mode')) {
+                localStorage.setItem('darkMode', 'enabled');
+                darkModeToggle.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                localStorage.setItem('darkMode', 'disabled');
+                darkModeToggle.classList.replace('fa-sun', 'fa-moon');
+            }
+        });
+
+        // --- Event Listeners Bottom Navigation ---
+        document.getElementById('nav-home').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('home-page');
+        });
+        document.getElementById('nav-sell').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('sell-item-page');
+        });
+        document.getElementById('nav-favorites').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('favorites-page');
+        });
+        document.getElementById('nav-profile').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('profile-page');
+        });
+
+        // --- Inisialisasi Aplikasi ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Menambahkan font Inter dari Google Fonts
+            const link = document.createElement('link');
+            link.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap';
+            link.rel = 'stylesheet';
+            document.head.appendChild(link);
+
+            // Tampilkan loader selama 3 detik
+            loaderOverlay.style.display = 'flex';
+            appContainer.style.display = 'none'; // Sembunyikan aplikasi utama
+
+            setTimeout(() => {
+                loaderOverlay.style.display = 'none';
+                appContainer.style.display = 'block'; // Tampilkan aplikasi utama
+
+                // Terapkan dark mode jika sebelumnya diaktifkan
+                if (localStorage.getItem('darkMode') === 'enabled') {
+                    document.body.classList.add('dark-mode');
+                    darkModeToggle.classList.replace('fa-moon', 'fa-sun');
+                }
+
+                checkLoginStatusAndRedirect(); // Periksa status login dan tampilkan halaman yang sesuai
+            }, 3000); // 3 detik
+        });
+    </script>
+</body>
+</html>

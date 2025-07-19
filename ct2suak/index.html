@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CT2 Multi-Tool</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome untuk ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Menggunakan font Inter */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5; /* Latar belakang abu-abu muda */
+            color: #343a40;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* Mencegah scroll horizontal */
+            padding-bottom: 70px; /* Ruang untuk bottom nav */
+            transition: background-color 0.3s ease, color 0.3s ease; /* Transisi untuk dark mode */
+        }
+
+        /* Warna utama: Dominan putih, aksen hijau */
+        :root {
+            --primary-green: #28a745; /* Hijau utama */
+            --light-green: #2ecc71; /* Hijau lebih terang */
+            --text-dark: #343a40;
+            --text-muted: #6c757d;
+            --bg-light: #f8f9fa;
+            --bg-white: #ffffff;
+            --card-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            --modal-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+        }
+
+        .dark-mode .app-container {
+            background-color: #2a2a2a;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .dark-mode .top-bar,
+        .dark-mode .bottom-nav,
+        .dark-mode .tool-card,
+        .dark-mode .modal-content,
+        .dark-mode .tool-section {
+            background-color: #3a3a3a;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            border-color: #4a4a4a;
+        }
+
+        .dark-mode .top-bar .app-title,
+        .dark-mode .top-bar .icon-group i,
+        .dark-mode .tool-card h5,
+        .dark-mode .tool-card p,
+        .dark-mode .modal-body,
+        .dark-mode .modal-title,
+        .dark-mode .form-control,
+        .dark-mode .form-select,
+        .dark-mode .form-label,
+        .dark-mode h2, .dark-mode h3, .dark-mode h4, .dark-mode h5, .dark-mode p {
+            color: #e0e0e0 !important;
+        }
+
+        .dark-mode .form-control,
+        .dark-mode .form-select {
+            background-color: #4a4a4a;
+            border-color: #5a5a5a;
+        }
+
+        .dark-mode .form-control::placeholder {
+            color: #b0b0b0;
+        }
+
+        .dark-mode .btn-outline-primary {
+            color: var(--light-green);
+            border-color: var(--light-green);
+        }
+
+        .dark-mode .btn-outline-primary:hover {
+            background-color: var(--light-green);
+            color: var(--text-dark);
+        }
+
+        .dark-mode .nav-item-bottom {
+            color: #b0b0b0;
+        }
+
+        .dark-mode .nav-item-bottom.active {
+            color: var(--light-green);
+        }
+        .dark-mode .calculator-display, .dark-mode .calculator-button {
+            color: #e0e0e0 !important;
+        }
+        .dark-mode .calculator-button.operator, .dark-mode .calculator-button.equals {
+            background-color: var(--primary-green) !important;
+            border-color: var(--primary-green) !important;
+        }
+        .dark-mode .calculator-button.clear {
+            background-color: #dc3545 !important;
+            border-color: #dc3545 !important;
+        }
+
+        /* Loader Styles */
+        .loader-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--primary-green); /* Warna hijau untuk loader */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            flex-direction: column;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .loader {
+            border: 8px solid #f3f3f3; /* Light grey */
+            border-top: 8px solid var(--bg-white); /* White for loader spinner */
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 2s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Struktur Aplikasi Mobile */
+        .app-container {
+            max-width: 500px; /* Lebar maksimal seperti aplikasi mobile */
+            margin: 0 auto;
+            background-color: var(--bg-light);
+            min-height: 100vh;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            display: none; /* Hidden by default, shown after loader */
+        }
+
+        /* Top Bar */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: var(--bg-white);
+            border-bottom: 1px solid #eee;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .top-bar .app-title {
+            font-weight: bold;
+            font-size: 1.3rem;
+            color: var(--primary-green);
+        }
+
+        .top-bar .icon-group i {
+            font-size: 1.2rem;
+            margin-left: 15px;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        /* Page Content Styles */
+        .page-content {
+            padding: 20px;
+            display: none; /* Hidden by default */
+        }
+
+        .page-content h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            text-align: center;
+            color: var(--text-dark);
+        }
+
+        /* Dashboard/Home Page - Tool Cards */
+        .tool-card {
+            background-color: var(--bg-white);
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            text-align: center;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 150px;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .tool-card i {
+            font-size: 3rem;
+            color: var(--primary-green);
+            margin-bottom: 10px;
+        }
+
+        .tool-card h5 {
+            color: var(--text-dark);
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        .tool-card p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Individual Tool Sections */
+        .tool-section {
+            background-color: var(--bg-white);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 20px;
+        }
+        .tool-section .form-label {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        .tool-section .btn-primary {
+            background-color: var(--primary-green);
+            border-color: var(--primary-green);
+        }
+        .tool-section .btn-primary:hover {
+            background-color: var(--light-green);
+            border-color: var(--light-green);
+        }
+
+        /* Image Converter */
+        #image-preview {
+            max-width: 100%;
+            height: auto;
+            max-height: 200px;
+            display: block;
+            margin: 15px auto;
+            border-radius: 8px;
+            object-fit: contain;
+        }
+        #converted-image-link {
+            display: none;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        /* File Compressor */
+        #file-compress-output {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: var(--bg-light);
+            border-radius: 8px;
+            border: 1px solid #eee;
+        }
+        .dark-mode #file-compress-output {
+            background-color: #4a4a4a;
+            border-color: #5a5a5a;
+        }
+
+        /* Calculator */
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            padding: 10px;
+            background-color: var(--bg-light);
+            border-radius: 15px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+        }
+        .dark-mode .calculator-grid {
+            background-color: #4a4a4a;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+        }
+
+        .calculator-display {
+            grid-column: 1 / -1;
+            background-color: #e9ecef;
+            color: var(--text-dark);
+            font-size: 2.5rem;
+            text-align: right;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            overflow-x: auto;
+            white-space: nowrap;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .dark-mode .calculator-display {
+            background-color: #5a5a5a;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .calculator-button {
+            background-color: var(--bg-white);
+            border: none;
+            border-radius: 10px;
+            padding: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            color: var(--text-dark);
+        }
+        .dark-mode .calculator-button {
+            background-color: #3a3a3a;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .calculator-button:hover {
+            background-color: #e2e6ea;
+        }
+        .dark-mode .calculator-button:hover {
+            background-color: #4a4a4a;
+        }
+
+        .calculator-button.operator {
+            background-color: var(--primary-green);
+            color: white;
+        }
+        .calculator-button.operator:hover {
+            background-color: var(--light-green);
+        }
+
+        .calculator-button.equals {
+            grid-column: span 2;
+            background-color: var(--primary-green);
+            color: white;
+        }
+        .calculator-button.equals:hover {
+            background-color: var(--light-green);
+        }
+
+        .calculator-button.clear {
+            background-color: #dc3545; /* Red for clear */
+            color: white;
+        }
+        .calculator-button.clear:hover {
+            background-color: #e65c6a;
+        }
+
+        /* Currency Converter */
+        #currency-result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: var(--bg-light);
+            border-radius: 8px;
+            border: 1px solid #eee;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-align: center;
+        }
+        .dark-mode #currency-result {
+            background-color: #4a4a4a;
+            border-color: #5a5a5a;
+        }
+
+        /* YouTube Downloader */
+        #youtube-download-output {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: var(--bg-light);
+            border-radius: 8px;
+            border: 1px solid #eee;
+        }
+        .dark-mode #youtube-download-output {
+            background-color: #4a4a4a;
+            border-color: #5a5a5a;
+        }
+
+        /* Photo Background Remover */
+        #bg-remover-preview {
+            max-width: 100%;
+            height: auto;
+            max-height: 250px;
+            display: block;
+            margin: 15px auto;
+            border-radius: 8px;
+            object-fit: contain;
+            background-color: #ccc; /* Checkerboard effect */
+            background-image: linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%, #eee),
+                              linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%, #eee);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+        }
+        .dark-mode #bg-remover-preview {
+            background-color: #5a5a5a;
+            background-image: linear-gradient(45deg, #4a4a4a 25%, transparent 25%, transparent 75%, #4a4a4a 75%, #4a4a4a),
+                              linear-gradient(45deg, #4a4a4a 25%, transparent 25%, transparent 75%, #4a4a4a 75%, #4a4a4a);
+        }
+        .passport-photo-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .passport-photo-controls .color-box {
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        .passport-photo-controls .color-box.selected {
+            border-color: var(--primary-green);
+        }
+
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--bg-white);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .nav-item-bottom {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 600;
+            transition: color 0.2s ease;
+            cursor: pointer;
+        }
+
+        .nav-item-bottom.active {
+            color: var(--primary-green);
+        }
+
+        .nav-item-bottom i {
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+        }
+
+        /* Modal Styling */
+        .modal-content {
+            border-radius: 15px;
+            box-shadow: var(--modal-shadow);
+        }
+
+        .modal-header {
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            background-color: var(--primary-green);
+            color: white;
+            border-bottom: none;
+        }
+
+        .modal-title {
+            font-weight: bold;
+        }
+
+        .btn-close-white {
+            filter: invert(1) grayscale(100%) brightness(200%);
+        }
+    </style>
+</head>
+<body>
+    <!-- Loader Overlay -->
+    <div class="loader-overlay" id="loader-overlay">
+        <div class="loader"></div>
+        <span>Memuat CT2 Multi-Tool...</span>
+    </div>
+
+    <div class="app-container" id="app-container">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="app-title">CT2 Multi-Tool</div>
+            <div class="icon-group">
+                <i class="fas fa-moon ms-3" id="dark-mode-toggle"></i>
+            </div>
+        </div>
+
+        <!-- Home Page (Dashboard Tools) -->
+        <div id="home-page" class="page-content">
+            <h2>Pilih Alat</h2>
+            <div class="row row-cols-2 g-3">
+                <div class="col">
+                    <div class="tool-card" onclick="showPage('image-converter-page')">
+                        <i class="fas fa-image"></i>
+                        <h5>Konverter Gambar</h5>
+                        <p>Ubah format gambar dengan mudah.</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="tool-card" onclick="showPage('file-compressor-page')">
+                        <i class="fas fa-file-archive"></i>
+                        <h5>Kompresor File</h5>
+                        <p>Perkecil ukuran file tanpa merusak kualitas.</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="tool-card" onclick="showPage('calculator-page')">
+                        <i class="fas fa-calculator"></i>
+                        <h5>Kalkulator</h5>
+                        <p>Lakukan perhitungan cepat.</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="tool-card" onclick="showPage('currency-converter-page')">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <h5>Konverter Mata Uang</h5>
+                        <p>Konversi mata uang global.</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="tool-card" onclick="showPage('youtube-downloader-page')">
+                        <i class="fab fa-youtube"></i>
+                        <h5>Pengunduh YouTube</h5>
+                        <p>Unduh video YouTube (simulasi).</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="tool-card" onclick="showPage('bg-remover-page')">
+                        <i class="fas fa-cut"></i>
+                        <h5>Penghapus Latar Belakang</h5>
+                        <p>Hapus atau ubah latar belakang foto.</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="tool-card" onclick="showMessage('Fitur ini sedang dalam pengembangan.', 'Alat Lainnya')">
+                        <i class="fas fa-wrench"></i>
+                        <h5>Alat Lainnya</h5>
+                        <p>Temukan lebih banyak alat berguna.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Image Converter Page -->
+        <div id="image-converter-page" class="page-content">
+            <h2>Konverter Gambar</h2>
+            <div class="tool-section">
+                <div class="mb-3">
+                    <label for="image-input" class="form-label">Pilih Gambar</label>
+                    <input class="form-control" type="file" id="image-input" accept="image/*">
+                </div>
+                <div class="mb-3">
+                    <img id="image-preview" src="" alt="Pratinjau Gambar" style="display: none;">
+                </div>
+                <div class="mb-3">
+                    <label for="output-format" class="form-label">Format Output</label>
+                    <select class="form-select" id="output-format">
+                        <option value="image/jpeg">JPEG</option>
+                        <option value="image/png">PNG</option>
+                        <option value="image/webp">WebP</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary w-100 rounded-pill" id="convert-image-btn">Konversi Gambar</button>
+                <div id="converted-image-link" class="mt-3">
+                    <a href="#" id="download-converted-image" class="btn btn-outline-primary" download style="display: none;">Unduh Gambar</a>
+                </div>
+                <canvas id="image-canvas" style="display: none;"></canvas>
+            </div>
+        </div>
+
+        <!-- File Compressor Page -->
+        <div id="file-compressor-page" class="page-content">
+            <h2>Kompresor File</h2>
+            <div class="tool-section">
+                <div class="mb-3">
+                    <label for="file-input" class="form-label">Pilih File</label>
+                    <input class="form-control" type="file" id="file-input">
+                </div>
+                <button class="btn btn-primary w-100 rounded-pill" id="compress-file-btn">Kompres File</button>
+                <div id="file-compress-output" class="mt-3" style="display: none;">
+                    <p><strong>Nama File:</strong> <span id="original-file-name"></span></p>
+                    <p><strong>Ukuran Asli:</strong> <span id="original-file-size"></span></p>
+                    <p><strong>Ukuran Terkompresi:</strong> <span id="compressed-file-size"></span></p>
+                    <p><strong>Rasio Kompresi:</strong> <span id="compression-ratio"></span></p>
+                    <a href="#" id="download-compressed-file" class="btn btn-outline-primary mt-2" download style="display: none;">Unduh File Terkompresi</a>
+                    <p class="text-muted mt-2"><em>Catatan: Kompresi file tingkat lanjut tanpa merusak kualitas memerlukan pemrosesan server. Ini adalah simulasi.</em></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calculator Page -->
+        <div id="calculator-page" class="page-content">
+            <h2>Kalkulator</h2>
+            <div class="tool-section">
+                <div class="calculator-display" id="calculator-display">0</div>
+                <div class="calculator-grid">
+                    <button class="calculator-button clear" data-value="C">C</button>
+                    <button class="calculator-button operator" data-value="/">/</button>
+                    <button class="calculator-button operator" data-value="*">x</button>
+                    <button class="calculator-button operator" data-value="-">-</button>
+                    <button class="calculator-button" data-value="7">7</button>
+                    <button class="calculator-button" data-value="8">8</button>
+                    <button class="calculator-button" data-value="9">9</button>
+                    <button class="calculator-button operator" data-value="+">+</button>
+                    <button class="calculator-button" data-value="4">4</button>
+                    <button class="calculator-button" data-value="5">5</button>
+                    <button class="calculator-button" data-value="6">6</button>
+                    <button class="calculator-button equals" data-value="=">=</button>
+                    <button class="calculator-button" data-value="1">1</button>
+                    <button class="calculator-button" data-value="2">2</button>
+                    <button class="calculator-button" data-value="3">3</button>
+                    <button class="calculator-button" data-value="0">0</button>
+                    <button class="calculator-button" data-value=".">.</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Currency Converter Page -->
+        <div id="currency-converter-page" class="page-content">
+            <h2>Konverter Mata Uang</h2>
+            <div class="tool-section">
+                <div class="mb-3">
+                    <label for="amount-input" class="form-label">Jumlah</label>
+                    <input type="number" class="form-control" id="amount-input" value="1" min="0">
+                </div>
+                <div class="mb-3">
+                    <label for="from-currency" class="form-label">Dari Mata Uang</label>
+                    <select class="form-select" id="from-currency">
+                        <option value="USD">USD - Dolar AS</option>
+                        <option value="IDR" selected>IDR - Rupiah Indonesia</option>
+                        <option value="EUR">EUR - Euro</option>
+                        <option value="JPY">JPY - Yen Jepang</option>
+                        <option value="GBP">GBP - Pound Sterling</option>
+                        <option value="AUD">AUD - Dolar Australia</option>
+                        <option value="CAD">CAD - Dolar Kanada</option>
+                        <option value="CHF">CHF - Franc Swiss</option>
+                        <option value="CNY">CNY - Yuan Tiongkok</option>
+                        <option value="SGD">SGD - Dolar Singapura</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="to-currency" class="form-label">Ke Mata Uang</label>
+                    <select class="form-select" id="to-currency">
+                        <option value="USD" selected>USD - Dolar AS</option>
+                        <option value="IDR">IDR - Rupiah Indonesia</option>
+                        <option value="EUR">EUR - Euro</option>
+                        <option value="JPY">JPY - Yen Jepang</option>
+                        <option value="GBP">GBP - Pound Sterling</option>
+                        <option value="AUD">AUD - Dolar Australia</option>
+                        <option value="CAD">CAD - Dolar Kanada</option>
+                        <option value="CHF">CHF - Franc Swiss</option>
+                        <option value="CNY">CNY - Yuan Tiongkok</option>
+                        <option value="SGD">SGD - Dolar Singapura</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary w-100 rounded-pill" id="convert-currency-btn">Konversi</button>
+                <div id="currency-result">
+                    Hasil Konversi: -
+                </div>
+            </div>
+        </div>
+
+        <!-- YouTube Downloader Page -->
+        <div id="youtube-downloader-page" class="page-content">
+            <h2>Pengunduh Video YouTube</h2>
+            <div class="tool-section">
+                <div class="mb-3">
+                    <label for="youtube-url" class="form-label">URL Video YouTube</label>
+                    <input type="url" class="form-control" id="youtube-url" placeholder="https://www.youtube.com/watch?v=...">
+                </div>
+                <div class="mb-3">
+                    <label for="video-quality" class="form-label">Kualitas Video</label>
+                    <select class="form-select" id="video-quality">
+                        <option value="1080p">1080p (Full HD)</option>
+                        <option value="720p">720p (HD)</option>
+                        <option value="480p">480p (SD)</option>
+                        <option value="360p">360p (SD)</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary w-100 rounded-pill" id="download-youtube-btn">Unduh Video</button>
+                <div id="youtube-download-output" class="mt-3" style="display: none;">
+                    <p class="text-danger"><em>Catatan: Mengunduh video YouTube secara langsung dari browser sangat kompleks dan seringkali melanggar ketentuan layanan YouTube. Fitur ini disimulasikan.</em></p>
+                    <p>Simulasi Unduhan: <span id="simulated-download-status">Menunggu...</span></p>
+                    <a href="#" id="simulated-download-link" class="btn btn-outline-primary mt-2" download style="display: none;">Unduh Simulasi File</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Photo Background Remover Page -->
+        <div id="bg-remover-page" class="page-content">
+            <h2>Penghapus Latar Belakang & Pas Foto</h2>
+            <div class="tool-section">
+                <div class="mb-3">
+                    <label for="bg-remover-image-input" class="form-label">Pilih Foto</label>
+                    <input class="form-control" type="file" id="bg-remover-image-input" accept="image/*">
+                </div>
+                <div class="mb-3">
+                    <img id="bg-remover-preview" src="" alt="Pratinjau Foto" style="display: none;">
+                </div>
+                <div class="d-grid gap-2 mb-3">
+                    <button class="btn btn-primary rounded-pill" id="remove-bg-btn">Hapus Latar Belakang (Simulasi)</button>
+                    <button class="btn btn-outline-primary rounded-pill" id="make-passport-btn">Buat Pas Foto (Simulasi)</button>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Ubah Latar Belakang Pas Foto:</label>
+                    <div class="passport-photo-controls">
+                        <div class="color-box bg-primary selected" data-color="#007bff"></div>
+                        <div class="color-box bg-danger" data-color="#dc3545"></div>
+                        <div class="color-box bg-success" data-color="#28a745"></div>
+                        <div class="color-box bg-warning" data-color="#ffc107"></div>
+                        <div class="color-box bg-info" data-color="#17a2b8"></div>
+                        <div class="color-box bg-dark" data-color="#343a40"></div>
+                        <div class="color-box" style="background-color: white; border: 1px solid #ccc;" data-color="#ffffff"></div>
+                    </div>
+                </div>
+                <button class="btn btn-primary w-100 rounded-pill" id="download-passport-photo" style="display: none;">Unduh Pas Foto</button>
+                <canvas id="bg-remover-canvas" style="display: none;"></canvas>
+            </div>
+        </div>
+
+        <!-- Custom Message Modal -->
+        <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-success text-white">
+                        <h5 class="modal-title" id="messageModalLabel">Informasi</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="messageModalText"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Oke</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a href="#" class="nav-item-bottom active" id="nav-home">
+                <i class="fas fa-th-large"></i>
+                <span>Beranda</span>
+            </a>
+            <a href="#" class="nav-item-bottom" id="nav-image-tools">
+                <i class="fas fa-image"></i>
+                <span>Gambar</span>
+            </a>
+            <a href="#" class="nav-item-bottom" id="nav-file-tools">
+                <i class="fas fa-file-alt"></i>
+                <span>File</span>
+            </a>
+            <a href="#" class="nav-item-bottom" id="nav-calculator">
+                <i class="fas fa-calculator"></i>
+                <span>Hitung</span>
+            </a>
+            <a href="#" class="nav-item-bottom" id="nav-currency">
+                <i class="fas fa-dollar-sign"></i>
+                <span>Mata Uang</span>
+            </a>
+        </nav>
+    </div> <!-- End of app-container -->
+
+    <!-- Bootstrap JS Bundle (Popper included) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // --- Elemen DOM ---
+        const loaderOverlay = document.getElementById('loader-overlay');
+        const appContainer = document.getElementById('app-container');
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+
+        const homePage = document.getElementById('home-page');
+        const imageConverterPage = document.getElementById('image-converter-page');
+        const fileCompressorPage = document.getElementById('file-compressor-page');
+        const calculatorPage = document.getElementById('calculator-page');
+        const currencyConverterPage = document.getElementById('currency-converter-page');
+        const youtubeDownloaderPage = document.getElementById('youtube-downloader-page');
+        const bgRemoverPage = document.getElementById('bg-remover-page');
+
+        const messageModal = new bootstrap.Modal(document.getElementById('messageModal'));
+
+        // Image Converter elements
+        const imageInput = document.getElementById('image-input');
+        const imagePreview = document.getElementById('image-preview');
+        const outputFormatSelect = document.getElementById('output-format');
+        const convertImageBtn = document.getElementById('convert-image-btn');
+        const convertedImageLink = document.getElementById('converted-image-link');
+        const downloadConvertedImageBtn = document.getElementById('download-converted-image');
+        const imageCanvas = document.getElementById('image-canvas');
+        const imageCanvasCtx = imageCanvas.getContext('2d');
+
+        // File Compressor elements
+        const fileInput = document.getElementById('file-input');
+        const compressFileBtn = document.getElementById('compress-file-btn');
+        const fileCompressOutput = document.getElementById('file-compress-output');
+        const originalFileNameSpan = document.getElementById('original-file-name');
+        const originalFileSizeSpan = document.getElementById('original-file-size');
+        const compressedFileSizeSpan = document.getElementById('compressed-file-size');
+        const compressionRatioSpan = document.getElementById('compression-ratio');
+        const downloadCompressedFileBtn = document.getElementById('download-compressed-file');
+
+        // Calculator elements
+        const calculatorDisplay = document.getElementById('calculator-display');
+        const calculatorButtons = document.querySelectorAll('.calculator-button');
+        let currentInput = '0';
+        let operator = null;
+        let previousInput = '';
+        let resetDisplay = false;
+
+        // Currency Converter elements
+        const amountInput = document.getElementById('amount-input');
+        const fromCurrencySelect = document.getElementById('from-currency');
+        const toCurrencySelect = document.getElementById('to-currency');
+        const convertCurrencyBtn = document.getElementById('convert-currency-btn');
+        const currencyResultDiv = document.getElementById('currency-result');
+
+        // YouTube Downloader elements
+        const youtubeUrlInput = document.getElementById('youtube-url');
+        const videoQualitySelect = document.getElementById('video-quality');
+        const downloadYoutubeBtn = document.getElementById('download-youtube-btn');
+        const youtubeDownloadOutput = document.getElementById('youtube-download-output');
+        const simulatedDownloadStatus = document.getElementById('simulated-download-status');
+        const simulatedDownloadLink = document.getElementById('simulated-download-link');
+
+        // Background Remover elements
+        const bgRemoverImageInput = document.getElementById('bg-remover-image-input');
+        const bgRemoverPreview = document.getElementById('bg-remover-preview');
+        const removeBgBtn = document.getElementById('remove-bg-btn');
+        const makePassportBtn = document.getElementById('make-passport-btn');
+        const passportPhotoControls = document.querySelector('.passport-photo-controls');
+        const downloadPassportPhotoBtn = document.getElementById('download-passport-photo');
+        const bgRemoverCanvas = document.getElementById('bg-remover-canvas');
+        const bgRemoverCanvasCtx = bgRemoverCanvas.getContext('2d');
+        let currentBgColor = '#007bff'; // Default blue for passport photo
+
+        // --- Fungsi Umum ---
+        function showPage(pageId) {
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.style.display = 'none';
+            });
+            document.getElementById(pageId).style.display = 'block';
+
+            document.querySelectorAll('.nav-item-bottom').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Set active class for bottom nav
+            if (pageId === 'home-page') {
+                document.getElementById('nav-home').classList.add('active');
+            } else if (pageId === 'image-converter-page' || pageId === 'bg-remover-page') {
+                document.getElementById('nav-image-tools').classList.add('active');
+            } else if (pageId === 'file-compressor-page' || pageId === 'youtube-downloader-page') {
+                document.getElementById('nav-file-tools').classList.add('active');
+            } else if (pageId === 'calculator-page') {
+                document.getElementById('nav-calculator').classList.add('active');
+            } else if (pageId === 'currency-converter-page') {
+                document.getElementById('nav-currency').classList.add('active');
+            }
+        }
+
+        function showMessage(message, title = "Informasi", type = "success") {
+            const modalHeader = messageModal._element.querySelector('.modal-header');
+            modalHeader.classList.remove('bg-success', 'bg-danger', 'bg-primary');
+            if (type === "success") {
+                modalHeader.classList.add('bg-success');
+            } else if (type === "error") {
+                modalHeader.classList.add('bg-danger');
+            } else {
+                modalHeader.classList.add('bg-primary');
+            }
+
+            document.getElementById('messageModalLabel').textContent = title;
+            document.getElementById('messageModalText').textContent = message;
+            messageModal.show();
+        }
+
+        // --- Dark Mode Toggle ---
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            if (document.body.classList.contains('dark-mode')) {
+                localStorage.setItem('darkModeMultiTool', 'enabled');
+                darkModeToggle.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                localStorage.setItem('darkModeMultiTool', 'disabled');
+                darkModeToggle.classList.replace('fa-sun', 'fa-moon');
+            }
+        }
+        darkModeToggle.addEventListener('click', toggleDarkMode);
+
+        // --- Image Converter Logic ---
+        imageInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                    convertedImageLink.style.display = 'none';
+                    downloadConvertedImageBtn.style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                imagePreview.style.display = 'none';
+            }
+        });
+
+        convertImageBtn.addEventListener('click', function() {
+            if (!imageInput.files[0]) {
+                showMessage('Mohon pilih gambar terlebih dahulu.', 'Konversi Gagal', 'error');
+                return;
+            }
+
+            const img = new Image();
+            img.onload = function() {
+                imageCanvas.width = img.width;
+                imageCanvas.height = img.height;
+                imageCanvasCtx.drawImage(img, 0, 0);
+
+                const outputFormat = outputFormatSelect.value;
+                const quality = outputFormat === 'image/jpeg' ? 0.9 : 1; // 0.9 for JPEG quality
+
+                const dataUrl = imageCanvas.toDataURL(outputFormat, quality);
+                const fileName = imageInput.files[0].name.split('.')[0];
+                const fileExtension = outputFormat.split('/')[1];
+
+                downloadConvertedImageBtn.href = dataUrl;
+                downloadConvertedImageBtn.download = `${fileName}.${fileExtension}`;
+                downloadConvertedImageBtn.style.display = 'block';
+                convertedImageLink.style.display = 'block';
+                showMessage(`Gambar berhasil dikonversi ke ${fileExtension.toUpperCase()}!`, 'Konversi Berhasil', 'success');
+            };
+            img.src = imagePreview.src; // Use the preview src which is already loaded
+        });
+
+        // --- File Compressor Logic (Simulated) ---
+        compressFileBtn.addEventListener('click', function() {
+            const file = fileInput.files[0];
+            if (!file) {
+                showMessage('Mohon pilih file terlebih dahulu.', 'Kompresi Gagal', 'error');
+                return;
+            }
+
+            const originalSizeKB = (file.size / 1024).toFixed(2);
+            const simulatedCompressedSizeKB = (file.size * 0.7).toFixed(2); // Simulate 30% compression
+            const simulatedRatio = ((1 - (simulatedCompressedSizeKB / originalSizeKB)) * 100).toFixed(2);
+
+            originalFileNameSpan.textContent = file.name;
+            originalFileSizeSpan.textContent = `${originalSizeKB} KB`;
+            compressedFileSizeSpan.textContent = `${simulatedCompressedSizeKB} KB`;
+            compressionRatioSpan.textContent = `${simulatedRatio}%`;
+
+            // Create a dummy downloadable blob (not actually compressed)
+            const dummyBlob = new Blob([file], { type: file.type });
+            const dummyUrl = URL.createObjectURL(dummyBlob);
+            downloadCompressedFileBtn.href = dummyUrl;
+            downloadCompressedFileBtn.download = `compressed_${file.name}`;
+            downloadCompressedFileBtn.style.display = 'block';
+
+            fileCompressOutput.style.display = 'block';
+            showMessage('File berhasil dikompresi (simulasi)!', 'Kompresi Berhasil', 'success');
+        });
+
+        // --- Calculator Logic ---
+        calculatorButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const value = button.dataset.value;
+
+                if (value === 'C') {
+                    currentInput = '0';
+                    operator = null;
+                    previousInput = '';
+                    resetDisplay = false;
+                } else if (value === '=') {
+                    if (operator && previousInput !== '') {
+                        try {
+                            currentInput = eval(previousInput + operator + currentInput).toString();
+                            if (currentInput === 'Infinity' || currentInput === '-Infinity' || isNaN(currentInput)) {
+                                currentInput = 'Error';
+                            }
+                        } catch (e) {
+                            currentInput = 'Error';
+                        }
+                        operator = null;
+                        previousInput = '';
+                        resetDisplay = true;
+                    }
+                } else if (['+', '-', '*', '/'].includes(value)) {
+                    if (operator && !resetDisplay) {
+                        try {
+                            currentInput = eval(previousInput + operator + currentInput).toString();
+                            if (currentInput === 'Infinity' || currentInput === '-Infinity' || isNaN(currentInput)) {
+                                currentInput = 'Error';
+                            }
+                        } catch (e) {
+                            currentInput = 'Error';
+                        }
+                    }
+                    operator = value;
+                    previousInput = currentInput;
+                    resetDisplay = true;
+                } else {
+                    if (currentInput === '0' || resetDisplay) {
+                        currentInput = value;
+                        resetDisplay = false;
+                    } else {
+                        currentInput += value;
+                    }
+                }
+                calculatorDisplay.textContent = currentInput;
+            });
+        });
+
+        // --- Currency Converter Logic (Fixed Rates) ---
+        const exchangeRates = {
+            "USD": { "IDR": 16300, "EUR": 0.92, "JPY": 158.0, "GBP": 0.79, "AUD": 1.5, "CAD": 1.37, "CHF": 0.9, "CNY": 7.26, "SGD": 1.35 },
+            "IDR": { "USD": 1/16300, "EUR": 1/17700, "JPY": 1/103, "GBP": 1/20600, "AUD": 1/10800, "CAD": 1/11800, "CHF": 1/18100, "CNY": 1/2240, "SGD": 1/12000 },
+            "EUR": { "USD": 1.08, "IDR": 17700, "JPY": 171.0, "GBP": 0.86, "AUD": 1.63, "CAD": 1.48, "CHF": 0.98, "CNY": 7.86, "SGD": 1.46 },
+            "JPY": { "USD": 1/158.0, "IDR": 103, "EUR": 1/171.0, "GBP": 1/200, "AUD": 1/105, "CAD": 1/115, "CHF": 1/175, "CNY": 1/22, "SGD": 1/110 },
+            "GBP": { "USD": 1.27, "IDR": 20600, "EUR": 1.16, "JPY": 200, "AUD": 1.9, "CAD": 1.73, "CHF": 1.2, "CNY": 9.2, "SGD": 1.7 },
+            "AUD": { "USD": 0.66, "IDR": 10800, "EUR": 0.61, "JPY": 105, "GBP": 0.52, "CAD": 0.91, "CHF": 0.6, "CNY": 4.8, "SGD": 0.89 },
+            "CAD": { "USD": 0.73, "IDR": 11800, "EUR": 0.68, "JPY": 115, "GBP": 0.58, "AUD": 1.09, "CHF": 0.66, "CNY": 5.3, "SGD": 0.97 },
+            "CHF": { "USD": 1.11, "IDR": 18100, "EUR": 1.02, "JPY": 175, "GBP": 0.83, "AUD": 1.65, "CAD": 1.5, "CNY": 8.0, "SGD": 1.48 },
+            "CNY": { "USD": 0.14, "IDR": 2240, "EUR": 0.13, "JPY": 22, "GBP": 0.11, "AUD": 0.21, "CAD": 0.19, "CHF": 0.12, "SGD": 0.19 },
+            "SGD": { "USD": 0.74, "IDR": 12000, "EUR": 0.68, "JPY": 110, "GBP": 0.59, "AUD": 1.12, "CAD": 1.03, "CHF": 0.67, "CNY": 5.2 }
+        };
+
+        convertCurrencyBtn.addEventListener('click', function() {
+            const amount = parseFloat(amountInput.value);
+            const fromCurrency = fromCurrencySelect.value;
+            const toCurrency = toCurrencySelect.value;
+
+            if (isNaN(amount) || amount <= 0) {
+                showMessage('Mohon masukkan jumlah yang valid.', 'Input Tidak Valid', 'error');
+                return;
+            }
+
+            if (fromCurrency === toCurrency) {
+                currencyResultDiv.textContent = `Hasil Konversi: ${amount.toFixed(2)} ${toCurrency}`;
+                showMessage('Mata uang asal dan tujuan sama.', 'Informasi');
+                return;
+            }
+
+            const rate = exchangeRates[fromCurrency][toCurrency];
+            if (rate) {
+                const convertedAmount = amount * rate;
+                currencyResultDiv.textContent = `Hasil Konversi: ${convertedAmount.toFixed(2)} ${toCurrency}`;
+                showMessage('Konversi berhasil!', 'Sukses', 'success');
+            } else {
+                currencyResultDiv.textContent = `Hasil Konversi: -`;
+                showMessage('Tidak dapat mengkonversi mata uang ini. Data tidak tersedia.', 'Konversi Gagal', 'error');
+            }
+        });
+
+        // --- YouTube Downloader Logic (Simulated) ---
+        downloadYoutubeBtn.addEventListener('click', function() {
+            const youtubeUrl = youtubeUrlInput.value.trim();
+            const videoQuality = videoQualitySelect.value;
+
+            if (!youtubeUrl) {
+                showMessage('Mohon masukkan URL video YouTube.', 'Unduhan Gagal', 'error');
+                return;
+            }
+
+            if (!youtubeUrl.includes('youtube.com/watch?v=')) {
+                showMessage('URL yang dimasukkan bukan URL video YouTube yang valid.', 'Unduhan Gagal', 'error');
+                return;
+            }
+
+            youtubeDownloadOutput.style.display = 'block';
+            simulatedDownloadStatus.textContent = 'Memulai unduhan...';
+            simulatedDownloadLink.style.display = 'none';
+
+            // Simulate download progress
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 10;
+                if (progress <= 100) {
+                    simulatedDownloadStatus.textContent = `Mengunduh... ${progress}%`;
+                } else {
+                    clearInterval(interval);
+                    simulatedDownloadStatus.textContent = `Unduhan Selesai! Kualitas: ${videoQuality}.`;
+                    simulatedDownloadLink.href = `https://placehold.co/600x400/28a745/ffffff?text=Video+YouTube+${videoQuality}`;
+                    simulatedDownloadLink.download = `youtube_video_${videoQuality}.mp4`;
+                    simulatedDownloadLink.style.display = 'block';
+                    showMessage('Video berhasil diunduh (simulasi)!', 'Unduhan Berhasil', 'success');
+                }
+            }, 300); // Simulate 3 seconds download
+        });
+
+        // --- Photo Background Remover Logic (Simulated) ---
+        bgRemoverImageInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    bgRemoverPreview.src = e.target.result;
+                    bgRemoverPreview.style.display = 'block';
+                    downloadPassportPhotoBtn.style.display = 'none'; // Hide download button on new image select
+                    // Reset background color to default
+                    passportPhotoControls.querySelector('.color-box.selected')?.classList.remove('selected');
+                    passportPhotoControls.querySelector('[data-color="#007bff"]').classList.add('selected');
+                    currentBgColor = '#007bff';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                bgRemoverPreview.style.display = 'none';
+            }
+        });
+
+        removeBgBtn.addEventListener('click', function() {
+            if (!bgRemoverImageInput.files[0]) {
+                showMessage('Mohon pilih foto terlebih dahulu.', 'Hapus Latar Belakang Gagal', 'error');
+                return;
+            }
+            // Simulate background removal by showing a transparent-like image
+            bgRemoverPreview.src = `https://placehold.co/400x300/transparent/transparent?text=Latar+Belakang+Dihapus`;
+            showMessage('Latar belakang berhasil dihapus (simulasi)!', 'Sukses', 'success');
+            downloadPassportPhotoBtn.style.display = 'none';
+        });
+
+        makePassportBtn.addEventListener('click', function() {
+            if (!bgRemoverImageInput.files[0]) {
+                showMessage('Mohon pilih foto terlebih dahulu.', 'Buat Pas Foto Gagal', 'error');
+                return;
+            }
+
+            const img = new Image();
+            img.onload = function() {
+                const passportWidth = 300; // Standard passport photo width
+                const passportHeight = 400; // Standard passport photo height (4x3 ratio)
+
+                bgRemoverCanvas.width = passportWidth;
+                bgRemoverCanvas.height = passportHeight;
+
+                // Draw background color
+                bgRemoverCanvasCtx.fillStyle = currentBgColor;
+                bgRemoverCanvasCtx.fillRect(0, 0, passportWidth, passportHeight);
+
+                // Calculate aspect ratio to fit image without distortion
+                const aspectRatio = img.width / img.height;
+                let drawWidth = passportWidth;
+                let drawHeight = passportHeight;
+                let offsetX = 0;
+                let offsetY = 0;
+
+                if (passportWidth / passportHeight > aspectRatio) {
+                    // Image is narrower than canvas, fit by height
+                    drawHeight = passportHeight;
+                    drawWidth = passportHeight * aspectRatio;
+                    offsetX = (passportWidth - drawWidth) / 2;
+                } else {
+                    // Image is wider than canvas, fit by width
+                    drawWidth = passportWidth;
+                    drawHeight = passportWidth / aspectRatio;
+                    offsetY = (passportHeight - drawHeight) / 2;
+                }
+
+                // Draw the image (simulating foreground extraction)
+                bgRemoverCanvasCtx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+
+                const dataUrl = bgRemoverCanvas.toDataURL('image/png'); // Always PNG for passport photos
+                bgRemoverPreview.src = dataUrl; // Update preview with generated passport photo
+                downloadPassportPhotoBtn.href = dataUrl;
+                downloadPassportPhotoBtn.download = 'pas_foto.png';
+                downloadPassportPhotoBtn.style.display = 'block';
+                showMessage('Pas foto berhasil dibuat (simulasi)!', 'Sukses', 'success');
+            };
+            img.src = bgRemoverImageInput.files[0] ? URL.createObjectURL(bgRemoverImageInput.files[0]) : '';
+        });
+
+        passportPhotoControls.addEventListener('click', function(event) {
+            const colorBox = event.target.closest('.color-box');
+            if (colorBox) {
+                passportPhotoControls.querySelectorAll('.color-box').forEach(box => box.classList.remove('selected'));
+                colorBox.classList.add('selected');
+                currentBgColor = colorBox.dataset.color;
+                // If a passport photo was already generated, update its background
+                if (bgRemoverPreview.src.includes('data:image/png')) {
+                    makePassportBtn.click(); // Re-generate with new color
+                }
+            }
+        });
+
+
+        // --- Event Listeners Bottom Navigation ---
+        document.getElementById('nav-home').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('home-page');
+        });
+        document.getElementById('nav-image-tools').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('image-converter-page'); // Default to image converter
+        });
+        document.getElementById('nav-file-tools').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('file-compressor-page'); // Default to file compressor
+        });
+        document.getElementById('nav-calculator').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('calculator-page');
+        });
+        document.getElementById('nav-currency').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('currency-converter-page');
+        });
+
+        // --- Inisialisasi Aplikasi ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Menambahkan font Inter dari Google Fonts
+            const link = document.createElement('link');
+            link.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap';
+            link.rel = 'stylesheet';
+            document.head.appendChild(link);
+
+            // Tampilkan loader selama 3 detik
+            loaderOverlay.style.display = 'flex';
+            appContainer.style.display = 'none'; // Sembunyikan aplikasi utama
+
+            setTimeout(() => {
+                loaderOverlay.style.display = 'none';
+                appContainer.style.display = 'block'; // Tampilkan aplikasi utama
+
+                // Terapkan dark mode jika sebelumnya diaktifkan
+                if (localStorage.getItem('darkModeMultiTool') === 'enabled') {
+                    document.body.classList.add('dark-mode');
+                    darkModeToggle.classList.replace('fa-moon', 'fa-sun');
+                }
+
+                showPage('home-page'); // Tampilkan halaman beranda secara default
+            }, 3000); // 3 detik
+        });
+    </script>
+</body>
+</html>

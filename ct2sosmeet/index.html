@@ -1,0 +1,1973 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CT2 Sosial Media</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome untuk ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Menggunakan font Inter */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5; /* Latar belakang abu-abu muda */
+            color: #343a40;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* Mencegah scroll horizontal */
+            padding-bottom: 70px; /* Ruang untuk bottom nav */
+            transition: background-color 0.3s ease, color 0.3s ease; /* Transisi untuk dark mode */
+        }
+
+        /* Warna utama: Dominan putih, aksen biru muda */
+        :root {
+            --primary-blue: #007bff; /* Biru utama */
+            --light-blue: #00bfff; /* Biru lebih terang (SkyBlue) */
+            --text-dark: #343a40;
+            --text-muted: #6c757d;
+            --bg-light: #f8f9fa;
+            --bg-white: #ffffff;
+            --card-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            --modal-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            --CT2SOSMEET-gradient: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+        }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+        }
+
+        .dark-mode .app-container {
+            background-color: #2a2a2a;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .dark-mode .top-bar,
+        .dark-mode .bottom-nav,
+        .dark-mode .post-card,
+        .dark-mode .explore-item,
+        .dark-mode .modal-content,
+        .dark-mode .auth-form,
+        .dark-mode .profile-info,
+        .dark-mode .profile-tabs {
+            background-color: #3a3a3a;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            border-color: #4a4a4a;
+        }
+
+        .dark-mode .top-bar .app-title,
+        .dark-mode .top-bar .icon-group i,
+        .dark-mode .post-card h6,
+        .dark-mode .post-card p,
+        .dark-mode .modal-body,
+        .dark-mode .modal-title,
+        .dark-mode .form-control,
+        .dark-mode .form-select,
+        .dark-mode .form-label,
+        .dark-mode h2, .dark-mode h3, .dark-mode h4, .dark-mode h5, .dark-mode p {
+            color: #e0e0e0 !important;
+        }
+
+        .dark-mode .form-control,
+        .dark-mode .form-select {
+            background-color: #4a4a4a;
+            border-color: #5a5a5a;
+        }
+
+        .dark-mode .form-control::placeholder {
+            color: #b0b0b0;
+        }
+
+        .dark-mode .btn-outline-primary {
+            color: var(--light-blue);
+            border-color: var(--light-blue);
+        }
+
+        .dark-mode .btn-outline-primary:hover {
+            background-color: var(--light-blue);
+            color: var(--text-dark);
+        }
+
+        .dark-mode .nav-item-bottom {
+            color: #b0b0b0;
+        }
+
+        .dark-mode .nav-item-bottom.active {
+            color: var(--light-blue);
+        }
+        .dark-mode .post-card .username {
+            color: #e0e0e0;
+        }
+        .dark-mode .post-card .caption {
+            color: #e0e0e0;
+        }
+        .dark-mode .post-card .timestamp {
+            color: #b0b0b0;
+        }
+        .dark-mode .story-item .username {
+            color: #e0e0e0;
+        }
+        .dark-mode .profile-header .username,
+        .dark-mode .profile-header .bio,
+        .dark-mode .profile-info p,
+        .dark-mode .profile-stats .count,
+        .dark-mode .profile-stats .label {
+            color: #e0e0e0 !important;
+        }
+        .dark-mode .profile-tabs .nav-link {
+            color: #b0b0b0;
+        }
+        .dark-mode .profile-tabs .nav-link.active {
+            color: var(--light-blue);
+            border-bottom-color: var(--light-blue) !important;
+        }
+
+
+        /* Loader Styles */
+        .loader-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--primary-blue); /* Warna biru untuk loader */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            flex-direction: column;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .loader {
+            border: 8px solid #f3f3f3; /* Light grey */
+            border-top: 8px solid var(--bg-white); /* White for loader spinner */
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 2s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Struktur Aplikasi Mobile */
+        .app-container {
+            max-width: 500px; /* Lebar maksimal seperti aplikasi mobile */
+            margin: 0 auto;
+            background-color: var(--bg-light);
+            min-height: 100vh;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            display: none; /* Hidden by default, shown after loader */
+        }
+
+        /* Top Bar */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: var(--bg-white);
+            border-bottom: 1px solid #eee;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .top-bar .app-title {
+            font-weight: bold;
+            font-size: 1.3rem;
+            color: var(--primary-blue);
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        .top-bar .app-title i {
+            margin-left: 5px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+        .top-bar.home-top-bar .app-title {
+            font-family: 'Billabong', cursive; /* CT2SOSMEET-like font */
+            font-size: 1.8rem;
+            color: var(--text-dark); /* Black for CT2SOSMEET logo */
+            background: none; /* Remove gradient for text */
+        }
+
+
+        .top-bar .icon-group i {
+            font-size: 1.2rem;
+            margin-left: 15px;
+            color: var(--text-dark); /* Default black for icons */
+            cursor: pointer;
+        }
+        .top-bar .icon-group i#dark-mode-toggle {
+             color: var(--text-muted); /* Dark mode icon always muted */
+        }
+        .dark-mode .top-bar .icon-group i {
+            color: #e0e0e0 !important; /* White for icons in dark mode */
+        }
+        .dark-mode .top-bar .icon-group i#dark-mode-toggle {
+             color: #b0b0b0 !important; /* Dark mode icon always muted in dark mode */
+        }
+
+
+        /* Page Content Styles */
+        .page-content {
+            padding: 0px; /* No padding for full-width content like posts */
+            display: none; /* Hidden by default */
+        }
+        .page-content.has-padding {
+            padding: 20px; /* For pages like profile, login etc. */
+        }
+
+        .page-content h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            text-align: center;
+            color: var(--text-dark);
+        }
+
+        /* --- Home Page (Post Feed) --- */
+        .stories-container {
+            display: flex;
+            overflow-x: auto;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            background-color: var(--bg-white);
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Hide scrollbar for Firefox */
+            -ms-overflow-style: none;  /* Hide scrollbar for IE and Edge */
+        }
+        .stories-container::-webkit-scrollbar {
+            display: none; /* Hide scrollbar for Chrome, Safari, Opera */
+        }
+
+        .story-item {
+            flex: 0 0 auto;
+            text-align: center;
+            margin: 0 8px;
+            cursor: pointer;
+        }
+
+        .story-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid transparent; /* Default transparent border */
+            padding: 2px; /* Padding for the gradient border effect */
+            background-clip: content-box, border-box;
+            background-origin: border-box;
+            background-image: var(--CT2SOSMEET-gradient); /* CT2SOSMEET gradient */
+        }
+        .story-avatar.your-story {
+            border-color: var(--text-muted); /* Grey border for 'Your Story' */
+            background-image: none; /* No gradient for 'Your Story' */
+        }
+        .story-avatar.your-story + .username {
+            font-weight: bold;
+        }
+
+
+        .story-item .username {
+            font-size: 0.75rem;
+            color: var(--text-dark);
+            margin-top: 5px;
+            display: block;
+            max-width: 65px; /* Limit username width */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .post-card {
+            background-color: var(--bg-white);
+            border-radius: 0px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+        }
+
+        .post-header .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
+            border: 2px solid var(--primary-blue);
+        }
+
+        .post-header .username {
+            font-weight: bold;
+            color: var(--text-dark);
+        }
+        .post-header .options-icon {
+            margin-left: auto;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .post-image {
+            width: 100%;
+            height: auto;
+            max-height: 400px;
+            object-fit: cover;
+            display: block;
+        }
+        .post-video {
+            width: 100%;
+            height: 300px; /* Fixed height for video */
+            object-fit: cover;
+            display: block;
+            background-color: black; /* Black background for video */
+        }
+
+        .post-actions {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+        }
+
+        .post-actions .action-icons i {
+            font-size: 1.4rem;
+            margin-right: 15px;
+            cursor: pointer;
+            color: var(--text-dark);
+            transition: color 0.2s ease;
+        }
+
+        .post-actions .action-icons i.liked {
+            color: #ff6347;
+        }
+
+        .post-actions .action-icons i:hover {
+            opacity: 0.8;
+        }
+        .post-actions .save-icon {
+            margin-left: auto;
+        }
+
+        .post-info {
+            padding: 0 15px 10px 15px;
+            font-size: 0.9rem;
+        }
+
+        .post-info .likes-count {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: var(--text-dark);
+        }
+
+        .post-info .caption {
+            color: var(--text-dark);
+            margin-bottom: 5px;
+        }
+
+        .post-info .timestamp {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        /* Upload Page */
+        .upload-form {
+            background-color: var(--bg-white);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            margin: 20px;
+        }
+
+        .upload-form .form-label {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        .upload-form .btn-primary {
+            background-color: var(--primary-blue);
+            border-color: var(--primary-blue);
+        }
+        .upload-form .btn-primary:hover {
+            background-color: var(--light-blue);
+            border-color: var(--light-blue);
+        }
+
+        /* Explore Page */
+        .explore-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px; /* Small gap for grid effect */
+            padding: 2px; /* Padding for the whole grid */
+        }
+
+        .explore-item {
+            width: 100%;
+            height: 120px; /* Fixed height for grid items */
+            object-fit: cover;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            position: relative; /* For video icon */
+        }
+
+        .explore-item:hover {
+            transform: scale(1.03);
+            z-index: 5;
+        }
+        .explore-search-bar {
+            padding: 15px;
+            background-color: var(--bg-white);
+            border-bottom: 1px solid #eee;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            margin-bottom: 10px;
+        }
+        .explore-search-bar .form-control {
+            border-radius: 50px;
+            padding: 10px 20px;
+        }
+        .explore-item .video-icon {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            color: white;
+            font-size: 1rem;
+            text-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+
+
+        /* --- Profile Page --- */
+        .profile-header {
+            background-color: var(--bg-white);
+            padding: 20px 15px;
+            border-radius: 0px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            margin-bottom: 0px; /* No margin here, tabs will follow */
+        }
+        .profile-top-section {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .profile-top-section .avatar-container {
+            position: relative;
+            width: 90px;
+            height: 90px;
+            margin-right: 20px;
+        }
+        .profile-top-section .avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary-blue);
+        }
+        .profile-top-section .avatar-add-icon {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background-color: var(--primary-blue);
+            color: white;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.8rem;
+            border: 2px solid var(--bg-white);
+            cursor: pointer;
+        }
+        .dark-mode .profile-top-section .avatar-add-icon {
+            border-color: #3a3a3a; /* Dark mode border for add icon */
+        }
+
+        .profile-stats-group {
+            display: flex;
+            flex-grow: 1;
+            justify-content: space-around;
+        }
+        .profile-stats-group div {
+            text-align: center;
+        }
+        .profile-stats-group .count {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: var(--text-dark); /* Black for stats count */
+        }
+        .profile-stats-group .label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .profile-info-section {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        .profile-info-section .name {
+            font-weight: bold;
+            font-size: 1rem;
+            color: var(--text-dark);
+            margin-bottom: 5px;
+        }
+        .profile-info-section .bio-text {
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            margin-bottom: 5px;
+        }
+        .profile-info-section .link {
+            font-size: 0.9rem;
+            color: var(--primary-blue);
+            text-decoration: none;
+        }
+        .profile-info-section .link:hover {
+            text-decoration: underline;
+        }
+
+        .profile-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .profile-buttons .btn {
+            flex-grow: 1;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            padding: 8px 0;
+            border: 1px solid #ddd;
+            color: var(--text-dark);
+            background-color: var(--bg-white);
+        }
+        .profile-buttons .btn:hover {
+            background-color: #f0f0f0;
+        }
+        .profile-buttons .ad-tools-btn {
+            background-color: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+        .profile-buttons .ad-tools-btn:hover {
+            background-color: var(--light-blue);
+            border-color: var(--light-blue);
+        }
+
+        .profile-insights {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+        .profile-insights strong {
+            color: var(--text-dark);
+        }
+        .profile-insights .view-link {
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .profile-insights .view-link:hover {
+            text-decoration: underline;
+        }
+
+        .profile-tabs {
+            background-color: var(--bg-white);
+            border-bottom: 1px solid #eee;
+            margin-bottom: 2px; /* Small gap before grid */
+        }
+        .profile-tabs .nav-link {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            padding: 10px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+        .profile-tabs .nav-link.active {
+            color: var(--primary-blue);
+            border-bottom-color: var(--primary-blue) !important;
+        }
+        .profile-tabs .nav-item {
+            flex: 1;
+            text-align: center;
+        }
+
+        .profile-posts-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+            padding: 2px;
+        }
+        .profile-post-item {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            cursor: pointer;
+            position: relative; /* For video icon */
+        }
+        .profile-post-item .video-icon {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            color: white;
+            font-size: 1rem;
+            text-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+
+
+        /* Login/Register Page */
+        .auth-form {
+            background-color: var(--bg-white);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            margin: 50px auto; /* Centered with margin */
+            max-width: 400px;
+        }
+
+        .auth-form h2 {
+            color: var(--primary-blue);
+            margin-bottom: 30px;
+        }
+        .auth-form .btn-primary {
+            background-color: var(--primary-blue);
+            border-color: var(--primary-blue);
+        }
+        .auth-form .btn-primary:hover {
+            background-color: var(--light-blue);
+            border-color: var(--light-blue);
+        }
+        .auth-form a {
+            color: var(--primary-blue);
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--bg-white);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .nav-item-bottom {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 600;
+            transition: color 0.2s ease;
+            cursor: pointer;
+        }
+
+        .nav-item-bottom.active {
+            color: var(--primary-blue);
+        }
+
+        .nav-item-bottom i {
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+        }
+
+        /* Modal Styling */
+        .modal-content {
+            border-radius: 15px;
+            box-shadow: var(--modal-shadow);
+        }
+
+        .modal-header {
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            background-color: var(--primary-blue);
+            color: white;
+            border-bottom: none;
+        }
+
+        .modal-title {
+            font-weight: bold;
+        }
+
+        .btn-close-white {
+            filter: invert(1) grayscale(100%) brightness(200%);
+        }
+
+        /* Post Detail Modal */
+        #postDetailModal .modal-body .post-detail-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        #postDetailModal .modal-body .post-detail-header img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
+            border: 2px solid var(--primary-blue);
+        }
+        #postDetailModal .modal-body .post-detail-header .username {
+            font-weight: bold;
+            color: var(--text-dark);
+        }
+        #postDetailModal .modal-body .post-detail-image {
+            width: 100%;
+            height: auto;
+            max-height: 450px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        #postDetailModal .modal-body .post-detail-video {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            background-color: black;
+        }
+        #postDetailModal .modal-body .post-detail-caption {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+        }
+        #postDetailModal .modal-body .post-detail-timestamp {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+        }
+        #postDetailModal .modal-body .comments-section h6 {
+            color: var(--primary-blue);
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        #postDetailModal .modal-body .comment-item {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        #postDetailModal .modal-body .comment-item strong {
+            color: var(--text-dark);
+        }
+        #postDetailModal .modal-body .add-comment-form {
+            margin-top: 20px;
+            display: flex;
+        }
+        #postDetailModal .modal-body .add-comment-form input {
+            flex-grow: 1;
+            border-radius: 50px;
+            padding: 8px 15px;
+            border: 1px solid #ccc;
+        }
+        #postDetailModal .modal-body .add-comment-form button {
+            margin-left: 10px;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--primary-blue);
+            border-color: var(--primary-blue);
+        }
+        #postDetailModal .modal-body .add-comment-form button:hover {
+            background-color: var(--light-blue);
+            border-color: var(--light-blue);
+        }
+    </style>
+</head>
+<body>
+    <!-- Loader Overlay -->
+    <div class="loader-overlay" id="loader-overlay">
+        <div class="loader"></div>
+        <span>Memuat CT2 Sosial Media...</span>
+    </div>
+
+    <div class="app-container" id="app-container">
+        <!-- Top Bar (Dynamic based on page) -->
+        <div class="top-bar" id="app-top-bar">
+            <!-- Content will be dynamically set by JS -->
+        </div>
+
+        <!-- Home Page (Post Feed) -->
+        <div id="home-page" class="page-content">
+            <div id="stories-container" class="stories-container">
+                <!-- Stories will be injected here -->
+            </div>
+            <div id="post-feed">
+                <!-- Posts will be injected here -->
+            </div>
+            <div id="no-posts" class="text-center mt-5" style="display: none;">
+                <p class="lead">Belum ada postingan. Mulai ikuti orang atau buat postingan baru!</p>
+            </div>
+        </div>
+
+        <!-- Explore Page -->
+        <div id="explore-page" class="page-content">
+            <div class="explore-search-bar">
+                <input type="text" id="explore-search-input" class="form-control" placeholder="Cari pengguna atau tagar...">
+            </div>
+            <div id="explore-grid" class="explore-grid">
+                <!-- Explore items will be injected here -->
+            </div>
+            <div id="no-explore-results" class="text-center mt-5" style="display: none;">
+                <p class="lead">Tidak ada hasil eksplorasi yang ditemukan.</p>
+            </div>
+        </div>
+
+        <!-- Upload Page -->
+        <div id="upload-page" class="page-content has-padding">
+            <h2>Buat Postingan Baru</h2>
+            <div class="upload-form">
+                <form id="add-post-form">
+                    <div class="mb-3">
+                        <label for="post-type-select" class="form-label">Tipe Postingan</label>
+                        <select class="form-select" id="post-type-select">
+                            <option value="image">Gambar</option>
+                            <option value="reel">Reels (Video)</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="post-media-url" class="form-label">URL Gambar/Video</label>
+                        <input type="url" class="form-control" id="post-media-url" placeholder="https://example.com/media.jpg atau .mp4" required>
+                        <small class="form-text text-muted">Gunakan URL langsung untuk gambar (.jpg, .png) atau video (.mp4).</small>
+                    </div>
+                    <div class="mb-3">
+                        <label for="post-caption" class="form-label">Keterangan (Caption)</label>
+                        <textarea class="form-control" id="post-caption" rows="3" placeholder="Tulis keterangan untuk postingan Anda..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 rounded-pill mt-3">Unggah Postingan</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Activity/Likes Page -->
+        <div id="activity-page" class="page-content has-padding">
+            <h2>Aktivitas Anda</h2>
+            <div id="activity-list">
+                <!-- Simulated activities will be injected here -->
+                <div class="alert alert-info text-center" role="alert">
+                    Belum ada aktivitas terbaru.
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Page -->
+        <div id="profile-page" class="page-content">
+            <div id="profile-header" class="profile-header">
+                <!-- Profile info will be injected here -->
+            </div>
+            <ul class="nav nav-tabs profile-tabs" id="profileTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="grid-tab" data-bs-toggle="tab" data-bs-target="#grid-content" type="button" role="tab" aria-controls="grid-content" aria-selected="true"><i class="fas fa-th"></i></button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="reels-tab" data-bs-toggle="tab" data-bs-target="#reels-content" type="button" role="tab" aria-controls="reels-content" aria-selected="false"><i class="fas fa-video"></i></button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="saved-tab" data-bs-toggle="tab" data-bs-target="#saved-content" type="button" role="tab" aria-controls="saved-content" aria-selected="false"><i class="fas fa-bookmark"></i></button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="tagged-tab" data-bs-toggle="tab" data-bs-target="#tagged-content" type="button" role="tab" aria-controls="tagged-content" aria-selected="false"><i class="fas fa-user-tag"></i></button>
+                </li>
+            </ul>
+            <div class="tab-content" id="profileTabContent">
+                <div class="tab-pane fade show active" id="grid-content" role="tabpanel" aria-labelledby="grid-tab">
+                    <div id="profile-posts-grid" class="profile-posts-grid">
+                        <!-- User's image posts will be injected here -->
+                    </div>
+                    <div id="no-profile-posts" class="text-center mt-3" style="display: none;">
+                        <p class="lead">Anda belum memiliki postingan.</p>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="reels-content" role="tabpanel" aria-labelledby="reels-tab">
+                    <div id="profile-reels-grid" class="profile-posts-grid">
+                        <!-- User's reel posts will be injected here -->
+                    </div>
+                    <div id="no-profile-reels" class="text-center mt-3" style="display: none;">
+                        <p class="lead">Anda belum memiliki Reels.</p>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="saved-content" role="tabpanel" aria-labelledby="saved-tab">
+                    <div id="profile-saved-grid" class="profile-posts-grid">
+                        <!-- User's saved posts will be injected here -->
+                    </div>
+                    <div id="no-profile-saved" class="text-center mt-3" style="display: none;">
+                        <p class="lead">Anda belum menyimpan postingan.</p>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="tagged-content" role="tabpanel" aria-labelledby="tagged-tab">
+                    <div id="profile-tagged-grid" class="profile-posts-grid">
+                        <!-- User's tagged posts will be injected here -->
+                    </div>
+                    <div id="no-profile-tagged" class="text-center mt-3" style="display: none;">
+                        <p class="lead">Anda belum ditandai dalam postingan.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Login Page -->
+        <div id="login-page" class="page-content has-padding">
+            <div class="auth-form">
+                <h2 class="text-center">Masuk</h2>
+                <form id="login-form">
+                    <div class="mb-3">
+                        <label for="login-username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="login-username" value="aditmlh" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="login-password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="login-password" value="password123" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 rounded-pill mt-3">Masuk</button>
+                </form>
+                <p class="text-center mt-3">Belum punya akun? <a href="#" id="show-register">Daftar Sekarang</a></p>
+            </div>
+        </div>
+
+        <!-- Register Page -->
+        <div id="register-page" class="page-content has-padding">
+            <div class="auth-form">
+                <h2 class="text-center">Daftar Akun Baru</h2>
+                <form id="register-form">
+                    <div class="mb-3">
+                        <label for="register-name" class="form-label">Nama Lengkap</label>
+                        <input type="text" class="form-control" id="register-name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="register-username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="register-username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="register-password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="register-password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="register-avatar" class="form-label">URL Avatar (Opsional)</label>
+                        <input type="url" class="form-control" id="register-avatar" placeholder="https://placehold.co/100x100">
+                    </div>
+                    <div class="mb-3">
+                        <label for="register-bio" class="form-label">Bio (Opsional)</label>
+                        <textarea class="form-control" id="register-bio" rows="2"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 rounded-pill mt-3">Daftar</button>
+                </form>
+                <p class="text-center mt-3">Sudah punya akun? <a href="#" id="show-login">Masuk</a></p>
+            </div>
+        </div>
+
+        <!-- Post Detail Modal (for clicking on explore/profile grid item) -->
+        <div class="modal fade" id="postDetailModal" tabindex="-1" aria-labelledby="postDetailModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="postDetailModalLabel">Detail Postingan</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="post-detail-header">
+                            <img id="modal-post-avatar" src="" alt="Avatar" class="avatar">
+                            <span class="username" id="modal-post-username"></span>
+                        </div>
+                        <!-- Media will be dynamically loaded -->
+                        <div id="modal-post-media-container"></div>
+
+                        <p class="post-detail-caption" id="modal-post-caption"></p>
+                        <p class="post-detail-timestamp" id="modal-post-timestamp"></p>
+
+                        <div class="comments-section">
+                            <h6>Komentar</h6>
+                            <div id="modal-post-comments">
+                                <!-- Comments will be injected here -->
+                            </div>
+                            <div class="add-comment-form">
+                                <input type="text" class="form-control" id="comment-input" placeholder="Tambahkan komentar...">
+                                <button type="button" class="btn btn-primary" id="send-comment-btn"><i class="fas fa-paper-plane"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Tutup</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Custom Message Modal -->
+        <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-success text-white">
+                        <h5 class="modal-title" id="messageModalLabel">Informasi</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="messageModalText"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Oke</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a href="#" class="nav-item-bottom active" id="nav-home">
+                <i class="fas fa-home"></i>
+                <span>Beranda</span>
+            </a>
+            <a href="#" class="nav-item-bottom" id="nav-explore">
+                <i class="fas fa-compass"></i>
+                <span>Eksplorasi</span>
+            </a>
+            <a href="#" class="nav-item-bottom" id="nav-upload">
+                <i class="fas fa-plus-square"></i>
+                <span>Unggah</span>
+            </a>
+            <a href="#" class="nav-item-bottom" id="nav-activity">
+                <i class="fas fa-heart"></i>
+                <span>Aktivitas</span>
+            </a>
+            <a href="#" class="nav-item-bottom" id="nav-profile">
+                <i class="fas fa-user"></i>
+                <span>Profil</span>
+            </a>
+        </nav>
+    </div> <!-- End of app-container -->
+
+    <!-- Bootstrap JS Bundle (Popper included) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // --- Data Aplikasi ---
+        // Dummy data for users
+        let users = JSON.parse(localStorage.getItem('socialMediaUsers')) || [
+            { id: 1, username: "aditmlh", password: "password123", name: "Aditya Malah", avatar: "https://placehold.co/100x100/007bff/ffffff?text=AM", bio: "Web Designer\nWeb and Apps : @webstroo.tech\nDesign : @webstroo.design\naditmlh.rf.gd and 5 more", followers: 2187, following: 4145, postsCount: 23 },
+            { id: 2, username: "Horinsss_", password: "password123", name: "Horinsss", avatar: "https://placehold.co/100x100/ffc107/343a40?text=AT", bio: "Food blogger and chef.", followers: 1200, following: 800, postsCount: 15 },
+            { id: 3, username: "Ronaldo", password: "password123", name: "Dian Widya", avatar: "https://placehold.co/100x100/28a745/ffffff?text=DW", bio: "Nature lover and hiker.", followers: 500, following: 300, postsCount: 10 },
+            { id: 4, username: "Jak Man_", password: "password123", name: "Jak Man", avatar: "https://placehold.co/100x100/dc3545/ffffff?text=SR", bio: "Art enthusiast.", followers: 700, following: 600, postsCount: 8 }
+        ];
+
+        // Dummy data for posts
+        let posts = JSON.parse(localStorage.getItem('socialMediaPosts')) || [
+            { id: 101, userId: 1, type: 'image', imageUrl: "https://placehold.co/600x400/007bff/ffffff?text=Pemandangan+Gunung", caption: "Pemandangan indah dari puncak gunung!", likes: [2,3], comments: [{ userId: 2, text: "Keren sekali!" }], timestamp: "2025-07-16T10:00:00Z" },
+            { id: 102, userId: 2, type: 'image', imageUrl: "https://placehold.co/600x400/ffc107/343a40?text=Makanan+Lezat", caption: "Makan siang yang lezat hari ini!", likes: [1], comments: [{ userId: 1, text: "Terlihat enak!" }], timestamp: "2025-07-16T12:30:00Z" },
+            { id: 103, userId: 1, type: 'image', imageUrl: "https://placehold.co/600x400/28a745/ffffff?text=Hutan+Hijau", caption: "Menjelajahi hutan hijau yang asri.", likes: [], comments: [], timestamp: "2025-07-15T15:45:00Z" },
+            { id: 104, userId: 3, type: 'image', imageUrl: "https://placehold.co/600x400/dc3545/ffffff?text=Sunset+Pantai", caption: "Sunset di pantai, selalu menenangkan.", likes: [1,2], comments: [{ userId: 1, text: "Wow, indah sekali!" }, { userId: 2, text: "Suka!" }], timestamp: "2025-07-14T18:00:00Z" },
+            { id: 105, userId: 1, type: 'reel', imageUrl: "https://placehold.co/600x400/333333/ffffff?text=Silence+speaks+louder+than+noise+ever", videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4", caption: "Silence speaks louder than noise ever. #reels #motivation", likes: [2,3,4], comments: [], timestamp: "2025-07-17T08:00:00Z" },
+            { id: 106, userId: 1, type: 'image', imageUrl: "https://placehold.co/600x400/9966cc/ffffff?text=PORTFOLIO", caption: "My latest portfolio piece!", likes: [2], comments: [], timestamp: "2025-07-17T09:00:00Z" },
+            { id: 107, userId: 1, type: 'image', imageUrl: "https://placehold.co/600x400/66cc99/ffffff?text=PORTFOLIO", caption: "Another design from my portfolio.", likes: [3], comments: [], timestamp: "2025-07-17T10:00:00Z" },
+            { id: 108, userId: 1, type: 'image', imageUrl: "https://placehold.co/600x400/cc9966/ffffff?text=PORTFOLIO", caption: "New work added to my portfolio.", likes: [4], comments: [], timestamp: "2025-07-17T11:00:00Z" }
+        ];
+
+        // Dummy data for stories
+        let stories = JSON.parse(localStorage.getItem('socialMediaStories')) || [
+            { userId: 1, imageUrl: "https://placehold.co/100x100/007bff/ffffff?text=Your+Story", username: "Your Story", isViewed: false },
+            { userId: 2, imageUrl: "https://placehold.co/100x100/ffc107/343a40?text=Story+2", username: "Horinsss_", isViewed: false },
+            { userId: 3, imageUrl: "https://placehold.co/100x100/28a745/ffffff?text=Story+3", username: "Ronaldo", isViewed: true },
+            { userId: 4, imageUrl: "https://placehold.co/100x100/dc3545/ffffff?text=Story+4", username: "Jak Man_", isViewed: false },
+            { userId: 1, imageUrl: "https://placehold.co/100x100/9966cc/ffffff?text=Story+5", username: "aditmlh", isViewed: true }
+        ];
+
+        // --- Elemen DOM ---
+        const loaderOverlay = document.getElementById('loader-overlay');
+        const appContainer = document.getElementById('app-container');
+        const appTopBar = document.getElementById('app-top-bar'); // New: Dynamic top bar
+
+        const homePage = document.getElementById('home-page');
+        const explorePage = document.getElementById('explore-page');
+        const uploadPage = document.getElementById('upload-page');
+        const activityPage = document.getElementById('activity-page');
+        const profilePage = document.getElementById('profile-page');
+        const loginPage = document.getElementById('login-page');
+        const registerPage = document.getElementById('register-page');
+
+        const storiesContainer = document.getElementById('stories-container'); // New
+        const postFeedDiv = document.getElementById('post-feed');
+        const noPostsDiv = document.getElementById('no-posts');
+
+        const exploreSearchInput = document.getElementById('explore-search-input');
+        const exploreGridDiv = document.getElementById('explore-grid');
+        const noExploreResultsDiv = document.getElementById('no-explore-results');
+
+        const addPostForm = document.getElementById('add-post-form');
+        const postTypeSelect = document.getElementById('post-type-select'); // New
+        const postMediaUrlInput = document.getElementById('post-media-url'); // Renamed
+        const postCaptionInput = document.getElementById('post-caption');
+
+        const activityListDiv = document.getElementById('activity-list');
+
+        const profileHeaderDiv = document.getElementById('profile-header');
+        const profilePostsGridDiv = document.getElementById('profile-posts-grid');
+        const profileReelsGridDiv = document.getElementById('profile-reels-grid'); // New
+        const profileSavedGridDiv = document.getElementById('profile-saved-grid'); // New
+        const profileTaggedGridDiv = document.getElementById('profile-tagged-grid'); // New
+        const noProfilePostsDiv = document.getElementById('no-profile-posts');
+        const noProfileReelsDiv = document.getElementById('no-profile-reels'); // New
+        const noProfileSavedDiv = document.getElementById('no-profile-saved'); // New
+        const noProfileTaggedDiv = document.getElementById('no-profile-tagged'); // New
+
+        const postDetailModal = new bootstrap.Modal(document.getElementById('postDetailModal'));
+        const messageModal = new bootstrap.Modal(document.getElementById('messageModal'));
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+
+        // --- State Aplikasi ---
+        let isLoggedIn = sessionStorage.getItem('isLoggedInSocial') === 'true';
+        let currentUser = JSON.parse(sessionStorage.getItem('currentUserSocial')) || null;
+        // userLikes stores liked post IDs for the current user: { userId: [postId1, postId2, ...] }
+        let userLikes = JSON.parse(localStorage.getItem('userLikesSocial')) || {};
+        // userSavedPosts stores saved post IDs for the current user: { userId: [postId1, postId2, ...] }
+        let userSavedPosts = JSON.parse(localStorage.getItem('userSavedPostsSocial')) || {};
+
+        // --- Fungsi Umum ---
+        function showPage(pageId) {
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.style.display = 'none';
+            });
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.style.display = 'block';
+                // Add padding class for pages that need it
+                if (['upload-page', 'activity-page', 'login-page', 'register-page'].includes(pageId)) {
+                    targetPage.classList.add('has-padding');
+                } else {
+                    targetPage.classList.remove('has-padding');
+                }
+            }
+
+            document.querySelectorAll('.nav-item-bottom').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Update top bar content based on page
+            updateTopBar(pageId);
+
+            if (pageId === 'home-page') {
+                document.getElementById('nav-home').classList.add('active');
+                displayStories(); // Display stories on home page
+                displayPostFeed();
+            } else if (pageId === 'explore-page') {
+                document.getElementById('nav-explore').classList.add('active');
+                displayExploreGrid();
+            } else if (pageId === 'upload-page') {
+                if (!isLoggedIn) {
+                    showMessage('Anda harus login untuk mengunggah postingan.', 'Login Diperlukan', 'error');
+                    showPage('login-page');
+                    return;
+                }
+                document.getElementById('nav-upload').classList.add('active');
+                addPostForm.reset(); // Clear form
+            } else if (pageId === 'activity-page') {
+                if (!isLoggedIn) {
+                    showMessage('Anda harus login untuk melihat aktivitas.', 'Login Diperlukan', 'error');
+                    showPage('login-page');
+                    return;
+                }
+                document.getElementById('nav-activity').classList.add('active');
+                displayActivity();
+            } else if (pageId === 'profile-page') {
+                if (!isLoggedIn) {
+                    showMessage('Anda harus login untuk melihat profil.', 'Login Diperlukan', 'error');
+                    showPage('login-page');
+                    return;
+                }
+                document.getElementById('nav-profile').classList.add('active');
+                displayProfile();
+            }
+        }
+
+        function updateTopBar(pageId) {
+            appTopBar.innerHTML = '';
+            appTopBar.classList.remove('home-top-bar'); // Reset class
+
+            if (pageId === 'home-page') {
+                appTopBar.classList.add('home-top-bar');
+                appTopBar.innerHTML = `
+                    <div class="app-title">CT2SOSMEET</div>
+                    <div class="icon-group">
+                        <i class="far fa-plus-square" onclick="showPage('upload-page')"></i>
+                        <i class="fas fa-heart ms-3" id="notification-icon"></i>
+                        <i class="fas fa-paper-plane ms-3" id="dm-icon"></i>
+                        <i class="fas fa-moon ms-3" id="dark-mode-toggle"></i>
+                    </div>
+                `;
+            } else if (pageId === 'profile-page') {
+                const username = currentUser ? currentUser.username : 'Profil';
+                appTopBar.innerHTML = `
+                    <div class="app-title">${username} <i class="fas fa-chevron-down"></i></div>
+                    <div class="icon-group">
+                        <i class="far fa-plus-square" onclick="showPage('upload-page')"></i>
+                        <i class="fas fa-bars ms-3" id="profile-menu-icon"></i>
+                        <i class="fas fa-moon ms-3" id="dark-mode-toggle"></i>
+                    </div>
+                `;
+            } else {
+                // Default top bar for other pages
+                let titleText = '';
+                if (pageId === 'explore-page') titleText = 'Eksplorasi';
+                else if (pageId === 'upload-page') titleText = 'Unggah';
+                else if (pageId === 'activity-page') titleText = 'Aktivitas';
+                else if (pageId === 'login-page') titleText = 'Masuk';
+                else if (pageId === 'register-page') titleText = 'Daftar';
+
+                appTopBar.innerHTML = `
+                    <div class="app-title">${titleText}</div>
+                    <div class="icon-group">
+                        <i class="fas fa-moon ms-3" id="dark-mode-toggle"></i>
+                    </div>
+                `;
+            }
+            // Re-attach dark mode toggle listener
+            document.getElementById('dark-mode-toggle').addEventListener('click', toggleDarkMode);
+            // Re-attach other specific listeners if needed
+            if (pageId === 'home-page') {
+                document.getElementById('notification-icon').addEventListener('click', () => {
+                    if (isLoggedIn) showMessage('Halaman Notifikasi akan menampilkan semua pemberitahuan terbaru.', 'Notifikasi');
+                    else showMessage('Anda harus login untuk melihat notifikasi.', 'Login Diperlukan', 'error');
+                });
+                document.getElementById('dm-icon').addEventListener('click', () => {
+                    if (isLoggedIn) showMessage('Halaman Pesan Langsung (DM) akan menampilkan percakapan Anda.', 'Pesan Langsung');
+                    else showMessage('Anda harus login untuk melihat pesan.', 'Login Diperlukan', 'error');
+                });
+            } else if (pageId === 'profile-page') {
+                document.getElementById('profile-menu-icon').addEventListener('click', () => {
+                    showMessage('Menu profil akan menampilkan pengaturan akun dan opsi lainnya.', 'Menu Profil');
+                });
+            }
+        }
+
+
+        function showMessage(message, title = "Informasi", type = "success") {
+            const modalHeader = messageModal._element.querySelector('.modal-header');
+            modalHeader.classList.remove('bg-success', 'bg-danger', 'bg-primary');
+            if (type === "success") {
+                modalHeader.classList.add('bg-success');
+            } else if (type === "error") {
+                modalHeader.classList.add('bg-danger');
+            } else {
+                modalHeader.classList.add('bg-primary');
+            }
+
+            document.getElementById('messageModalLabel').textContent = title;
+            document.getElementById('messageModalText').textContent = message;
+            messageModal.show();
+        }
+
+        function getUserById(id) {
+            return users.find(u => u.id === id);
+        }
+
+        function getPostById(id) {
+            return posts.find(p => p.id === id);
+        }
+
+        function formatTimestamp(timestamp) {
+            const date = new Date(timestamp);
+            const now = new Date();
+            const diffSeconds = Math.floor((now - date) / 1000);
+            const diffMinutes = Math.floor(diffSeconds / 60);
+            const diffHours = Math.floor(diffMinutes / 60);
+            const diffDays = Math.floor(diffHours / 24);
+            const diffWeeks = Math.floor(diffDays / 7);
+
+            if (diffSeconds < 60) return `${diffSeconds} detik lalu`;
+            if (diffMinutes < 60) return `${diffMinutes} menit lalu`;
+            if (diffHours < 24) return `${diffHours} jam lalu`;
+            if (diffDays < 7) return `${diffDays} hari lalu`;
+            if (diffWeeks < 4) return `${diffWeeks} minggu lalu`;
+            return date.toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
+        }
+
+        // --- Fitur Autentikasi ---
+        function checkLoginStatusAndRedirect() {
+            if (!isLoggedIn) {
+                showPage('login-page');
+            } else {
+                showPage('home-page');
+            }
+        }
+
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+
+            const user = users.find(u => u.username === username && u.password === password);
+
+            if (user) {
+                isLoggedIn = true;
+                currentUser = { id: user.id, username: user.username, name: user.name, avatar: user.avatar, bio: user.bio, followers: user.followers, following: user.following, postsCount: user.postsCount };
+                sessionStorage.setItem('isLoggedInSocial', 'true');
+                sessionStorage.setItem('currentUserSocial', JSON.stringify(currentUser));
+                showMessage('Login Berhasil!', 'Sukses', 'success');
+                showPage('home-page');
+            } else {
+                showMessage('Username atau password salah.', 'Login Gagal', 'error');
+            }
+        });
+
+        document.getElementById('register-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('register-name').value;
+            const username = document.getElementById('register-username').value;
+            const password = document.getElementById('register-password').value;
+            const avatar = document.getElementById('register-avatar').value || `https://placehold.co/100x100/cccccc/333333?text=${username.substring(0, 2).toUpperCase()}`;
+            const bio = document.getElementById('register-bio').value;
+
+            if (users.some(u => u.username === username)) {
+                showMessage('Username sudah terdaftar. Silakan gunakan username lain.', 'Pendaftaran Gagal', 'error');
+                return;
+            }
+
+            if (name && username && password) {
+                const newUserId = users.length > 0 ? Math.max(...users.map(u => u.id)) + 1 : 1;
+                const newUser = { id: newUserId, username, password, name, avatar, bio, followers: 0, following: 0, postsCount: 0 };
+                users.push(newUser);
+                localStorage.setItem('socialMediaUsers', JSON.stringify(users));
+                showMessage('Pendaftaran Berhasil! Silakan masuk.', 'Sukses', 'success');
+                showPage('login-page');
+            } else {
+                showMessage('Mohon lengkapi semua data wajib.', 'Pendaftaran Gagal', 'error');
+            }
+        });
+
+        document.getElementById('show-register').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('register-page');
+        });
+
+        document.getElementById('show-login').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('login-page');
+        });
+
+        function logout() {
+            isLoggedIn = false;
+            currentUser = null;
+            sessionStorage.removeItem('isLoggedInSocial');
+            sessionStorage.removeItem('currentUserSocial');
+            showMessage('Anda telah berhasil keluar.', 'Informasi', 'success');
+            showPage('login-page');
+        }
+
+        // --- Fitur Stories ---
+        function displayStories() {
+            storiesContainer.innerHTML = '';
+            // Add 'Your Story' first if logged in
+            if (isLoggedIn && currentUser) {
+                const yourStoryItem = document.createElement('div');
+                yourStoryItem.className = 'story-item';
+                yourStoryItem.innerHTML = `
+                    <img src="${currentUser.avatar}" alt="Your Story" class="story-avatar your-story">
+                    <span class="username">Your Story</span>
+                `;
+                yourStoryItem.addEventListener('click', () => showMessage('Fitur tambah story akan muncul di sini!', 'Tambah Story'));
+                storiesContainer.appendChild(yourStoryItem);
+            }
+
+            // Filter out current user's story if it's already added as 'Your Story'
+            const otherStories = stories.filter(story => !isLoggedIn || story.userId !== currentUser.id || story.username !== "Your Story");
+
+            otherStories.forEach(story => {
+                const storyUser = getUserById(story.userId);
+                if (!storyUser) return; // Skip if user not found
+
+                const storyItem = document.createElement('div');
+                storyItem.className = 'story-item';
+                storyItem.innerHTML = `
+                    <img src="${storyUser.avatar}" alt="${storyUser.username}" class="story-avatar">
+                    <span class="username">${storyUser.username}</span>
+                `;
+                storyItem.addEventListener('click', () => showMessage(`Melihat story dari ${storyUser.username}.`, 'Story'));
+                storiesContainer.appendChild(storyItem);
+            });
+        }
+
+        // --- Fitur Home Feed ---
+        function displayPostFeed() {
+            postFeedDiv.innerHTML = '';
+            if (posts.length === 0) {
+                noPostsDiv.style.display = 'block';
+            } else {
+                noPostsDiv.style.display = 'none';
+                // Sort posts by timestamp (newest first)
+                const sortedPosts = [...posts].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+                sortedPosts.forEach(post => {
+                    const postUser = getUserById(post.userId);
+                    if (!postUser) return; // Skip if user not found
+
+                    const isLiked = currentUser && userLikes[currentUser.id] && userLikes[currentUser.id].includes(post.id);
+                    const isSaved = currentUser && userSavedPosts[currentUser.id] && userSavedPosts[currentUser.id].includes(post.id);
+
+                    const mediaElement = post.type === 'image' ?
+                        `<img src="${post.imageUrl}" alt="${post.caption}" class="post-image" onerror="this.onerror=null;this.src='https://placehold.co/600x400/cccccc/333333?text=Gambar+Tidak+Tersedia';">` :
+                        `<video controls class="post-video" src="${post.videoUrl}" poster="${post.imageUrl}" onerror="this.onerror=null;this.src='';this.poster='https://placehold.co/600x400/cccccc/333333?text=Video+Tidak+Tersedia';"></video>`;
+
+                    const postCard = document.createElement('div');
+                    postCard.className = 'post-card';
+                    postCard.innerHTML = `
+                        <div class="post-header">
+                            <img src="${postUser.avatar}" alt="${postUser.username}" class="avatar">
+                            <span class="username">${postUser.username}</span>
+                            <i class="fas fa-ellipsis-h options-icon"></i>
+                        </div>
+                        ${mediaElement}
+                        <div class="post-actions">
+                            <div class="action-icons">
+                                <i class="fas fa-heart ${isLiked ? 'liked' : 'far'}" data-post-id="${post.id}"></i>
+                                <i class="fas fa-comment" data-post-id="${post.id}"></i>
+                                <i class="fas fa-paper-plane"></i>
+                            </div>
+                            <i class="fas fa-bookmark save-icon ${isSaved ? 'liked' : 'far'}" data-post-id="${post.id}"></i>
+                        </div>
+                        <div class="post-info">
+                            <div class="likes-count">${post.likes.length} suka</div>
+                            <div class="caption"><strong>${postUser.username}</strong> ${post.caption}</div>
+                            <div class="timestamp">${formatTimestamp(post.timestamp)}</div>
+                        </div>
+                    `;
+                    postFeedDiv.appendChild(postCard);
+
+                    // Add event listeners for like, comment, save buttons
+                    postCard.querySelector('.fa-heart').addEventListener('click', function() {
+                        toggleLike(post.id, this);
+                    });
+                    postCard.querySelector('.fa-comment').addEventListener('click', function() {
+                        showPostDetail(post.id); // Open modal for comments
+                    });
+                    postCard.querySelector('.fa-bookmark').addEventListener('click', function() {
+                        toggleSave(post.id, this);
+                    });
+                    postCard.querySelector('.fa-ellipsis-h.options-icon').addEventListener('click', () => showMessage('Opsi postingan akan muncul di sini.', 'Opsi Postingan'));
+                    postCard.querySelector('.fa-paper-plane').addEventListener('click', () => showMessage('Fitur kirim postingan akan muncul di sini.', 'Kirim Postingan'));
+                });
+            }
+        }
+
+        // --- Fitur Unggah Postingan ---
+        addPostForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (!isLoggedIn || !currentUser) {
+                showMessage('Anda harus login untuk mengunggah postingan.', 'Login Diperlukan', 'error');
+                return;
+            }
+
+            const mediaUrl = postMediaUrlInput.value;
+            const caption = postCaptionInput.value;
+            const postType = postTypeSelect.value;
+
+            if (!mediaUrl || !caption) {
+                showMessage('Mohon lengkapi URL media dan keterangan.', 'Unggah Gagal', 'error');
+                return;
+            }
+
+            const newPostId = posts.length > 0 ? Math.max(...posts.map(p => p.id)) + 1 : 101;
+            const newPost = {
+                id: newPostId,
+                userId: currentUser.id,
+                type: postType,
+                imageUrl: postType === 'image' ? mediaUrl : '', // Use imageUrl for thumbnail if it's a video
+                videoUrl: postType === 'reel' ? mediaUrl : '',
+                caption: caption,
+                likes: [],
+                comments: [],
+                timestamp: new Date().toISOString()
+            };
+
+            posts.push(newPost);
+            localStorage.setItem('socialMediaPosts', JSON.stringify(posts));
+            // Update user's post count
+            const userIndex = users.findIndex(u => u.id === currentUser.id);
+            if (userIndex !== -1) {
+                users[userIndex].postsCount = (users[userIndex].postsCount || 0) + 1;
+                localStorage.setItem('socialMediaUsers', JSON.stringify(users));
+                currentUser.postsCount = users[userIndex].postsCount; // Update current user object
+                sessionStorage.setItem('currentUserSocial', JSON.stringify(currentUser));
+            }
+
+            showMessage('Postingan Anda berhasil diunggah!', 'Sukses', 'success');
+            addPostForm.reset();
+            showPage('home-page'); // Redirect to home page after posting
+        });
+
+        // --- Fitur Like Postingan ---
+        function toggleLike(postId, buttonElement) {
+            if (!isLoggedIn || !currentUser) {
+                showMessage('Anda harus login untuk menyukai postingan.', 'Login Diperlukan', 'error');
+                return;
+            }
+
+            const post = getPostById(postId);
+            if (!post) return;
+
+            if (!userLikes[currentUser.id]) {
+                userLikes[currentUser.id] = [];
+            }
+
+            const userLikedIndex = post.likes.indexOf(currentUser.id);
+            const globalUserLikedIndex = userLikes[currentUser.id].indexOf(postId);
+
+            if (userLikedIndex > -1) {
+                // Unlike
+                post.likes.splice(userLikedIndex, 1);
+                userLikes[currentUser.id].splice(globalUserLikedIndex, 1);
+                buttonElement.classList.remove('liked');
+                buttonElement.classList.replace('fas', 'far');
+            } else {
+                // Like
+                post.likes.push(currentUser.id);
+                userLikes[currentUser.id].push(postId);
+                buttonElement.classList.add('liked');
+                buttonElement.classList.replace('far', 'fas');
+            }
+            localStorage.setItem('socialMediaPosts', JSON.stringify(posts));
+            localStorage.setItem('userLikesSocial', JSON.stringify(userLikes));
+            displayPostFeed(); // Refresh feed to update like counts
+        }
+
+        // --- Fitur Save Postingan ---
+        function toggleSave(postId, buttonElement) {
+            if (!isLoggedIn || !currentUser) {
+                showMessage('Anda harus login untuk menyimpan postingan.', 'Login Diperlukan', 'error');
+                return;
+            }
+
+            if (!userSavedPosts[currentUser.id]) {
+                userSavedPosts[currentUser.id] = [];
+            }
+
+            const savedIndex = userSavedPosts[currentUser.id].indexOf(postId);
+
+            if (savedIndex > -1) {
+                // Unsave
+                userSavedPosts[currentUser.id].splice(savedIndex, 1);
+                buttonElement.classList.remove('liked'); // Using 'liked' class for saved state visual
+                buttonElement.classList.replace('fas', 'far');
+                showMessage('Postingan dihapus dari simpanan Anda.', 'Disimpan', 'info');
+            } else {
+                // Save
+                userSavedPosts[currentUser.id].push(postId);
+                buttonElement.classList.add('liked');
+                buttonElement.classList.replace('far', 'fas');
+                showMessage('Postingan berhasil disimpan!', 'Disimpan', 'success');
+            }
+            localStorage.setItem('userSavedPostsSocial', JSON.stringify(userSavedPosts));
+            // If on saved tab, refresh display
+            if (document.getElementById('saved-tab').classList.contains('active')) {
+                displayProfilePosts('saved');
+            }
+        }
+
+
+        // --- Fitur Komentar dan Detail Postingan (Modal) ---
+        function showPostDetail(postId) {
+            const post = getPostById(postId);
+            if (!post) return;
+
+            const postUser = getUserById(post.userId);
+            if (!postUser) return;
+
+            document.getElementById('modal-post-avatar').src = postUser.avatar;
+            document.getElementById('modal-post-username').textContent = postUser.username;
+
+            const mediaContainer = document.getElementById('modal-post-media-container');
+            mediaContainer.innerHTML = ''; // Clear previous media
+            if (post.type === 'image') {
+                const img = document.createElement('img');
+                img.src = post.imageUrl;
+                img.alt = post.caption;
+                img.className = 'post-detail-image';
+                img.onerror = function() {
+                    this.onerror=null;this.src='https://placehold.co/600x400/cccccc/333333?text=Gambar+Tidak+Tersedia';
+                };
+                mediaContainer.appendChild(img);
+            } else if (post.type === 'reel') {
+                const video = document.createElement('video');
+                video.src = post.videoUrl;
+                video.poster = post.imageUrl; // Use imageUrl as poster for video
+                video.controls = true;
+                video.className = 'post-detail-video';
+                video.onerror = function() {
+                    this.onerror=null;this.src='';this.poster='https://placehold.co/600x400/cccccc/333333?text=Video+Tidak+Tersedia';
+                };
+                mediaContainer.appendChild(video);
+            }
+
+
+            document.getElementById('modal-post-caption').textContent = `${postUser.username} ${post.caption}`; // Show username in caption
+            document.getElementById('modal-post-timestamp').textContent = formatTimestamp(post.timestamp);
+
+            const commentsSection = document.getElementById('modal-post-comments');
+            commentsSection.innerHTML = '';
+            if (post.comments.length === 0) {
+                commentsSection.innerHTML = '<p class="text-muted text-center">Belum ada komentar.</p>';
+            } else {
+                post.comments.forEach(comment => {
+                    const commentUser = getUserById(comment.userId);
+                    if (commentUser) {
+                        const commentItem = document.createElement('p');
+                        commentItem.className = 'comment-item';
+                        commentItem.innerHTML = `<strong>${commentUser.username}</strong> ${comment.text}`;
+                        commentsSection.appendChild(commentItem);
+                    }
+                });
+            }
+
+            const commentInput = document.getElementById('comment-input');
+            commentInput.value = ''; // Clear previous comment
+            document.getElementById('send-comment-btn').onclick = function() {
+                addComment(postId, commentInput.value);
+            };
+
+            postDetailModal.show();
+        }
+
+        function addComment(postId, commentText) {
+            if (!isLoggedIn || !currentUser) {
+                showMessage('Anda harus login untuk menambahkan komentar.', 'Login Diperlukan', 'error');
+                return;
+            }
+            if (!commentText.trim()) {
+                showMessage('Komentar tidak boleh kosong.', 'Komentar Gagal', 'error');
+                return;
+            }
+
+            const post = getPostById(postId);
+            if (post) {
+                post.comments.push({ userId: currentUser.id, text: commentText, timestamp: new Date().toISOString() });
+                localStorage.setItem('socialMediaPosts', JSON.stringify(posts));
+                showMessage('Komentar berhasil ditambahkan!', 'Sukses', 'success');
+                // Refresh comments in modal
+                showPostDetail(postId);
+            }
+        }
+
+        // --- Fitur Explore Page ---
+        function displayExploreGrid() {
+            exploreGridDiv.innerHTML = '';
+            const searchTerm = exploreSearchInput.value.toLowerCase();
+
+            const filteredPosts = posts.filter(post => {
+                const postUser = getUserById(post.userId);
+                return post.caption.toLowerCase().includes(searchTerm) ||
+                       (postUser && postUser.username.toLowerCase().includes(searchTerm));
+            });
+
+            if (filteredPosts.length === 0) {
+                noExploreResultsDiv.style.display = 'block';
+            } else {
+                noExploreResultsDiv.style.display = 'none';
+                filteredPosts.forEach(post => {
+                    const imgContainer = document.createElement('div');
+                    imgContainer.className = 'explore-item-container'; // Wrapper for icon
+                    const img = document.createElement('img');
+                    img.src = post.imageUrl;
+                    img.alt = post.caption;
+                    img.className = 'explore-item';
+                    img.dataset.postId = post.id;
+                    img.onerror = function() {
+                        this.onerror=null;this.src='https://placehold.co/120x120/cccccc/333333?text=Gambar';
+                    };
+                    img.addEventListener('click', () => showPostDetail(post.id));
+                    exploreGridDiv.appendChild(img);
+
+                    if (post.type === 'reel') {
+                        const videoIcon = document.createElement('i');
+                        videoIcon.className = 'fas fa-video video-icon';
+                        img.parentNode.appendChild(videoIcon); // Append icon to parent of image
+                    }
+                });
+            }
+        }
+        exploreSearchInput.addEventListener('keyup', displayExploreGrid);
+
+
+        // --- Fitur Activity Page (Simulasi) ---
+        function displayActivity() {
+            activityListDiv.innerHTML = '';
+            if (!isLoggedIn || !currentUser) {
+                activityListDiv.innerHTML = '<div class="alert alert-warning text-center" role="alert">Silakan login untuk melihat aktivitas.</div>';
+                return;
+            }
+
+            let activities = [];
+
+            // Simulate likes on user's posts
+            posts.forEach(post => {
+                if (post.userId === currentUser.id) {
+                    post.likes.forEach(likerId => {
+                        if (likerId !== currentUser.id) { // Don't show self-likes
+                            const liker = getUserById(likerId);
+                            if (liker) {
+                                activities.push({
+                                    type: 'like',
+                                    user: liker,
+                                    post: post,
+                                    timestamp: post.timestamp // Use post timestamp for simplicity
+                                });
+                            }
+                        }
+                    });
+                    post.comments.forEach(comment => {
+                        if (comment.userId !== currentUser.id) {
+                            const commenter = getUserById(comment.userId);
+                            if (commenter) {
+                                activities.push({
+                                    type: 'comment',
+                                    user: commenter,
+                                    post: post,
+                                    text: comment.text,
+                                    timestamp: comment.timestamp
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+
+            // Sort activities by timestamp (newest first)
+            activities.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+            if (activities.length === 0) {
+                activityListDiv.innerHTML = '<div class="alert alert-info text-center" role="alert">Belum ada aktivitas terbaru.</div>';
+            } else {
+                activities.forEach(activity => {
+                    const activityItem = document.createElement('div');
+                    activityItem.className = 'd-flex align-items-center mb-3 p-2 bg-white rounded shadow-sm';
+                    let activityText = '';
+                    if (activity.type === 'like') {
+                        activityText = `<strong>${activity.user.username}</strong> menyukai postingan Anda.`;
+                    } else if (activity.type === 'comment') {
+                        activityText = `<strong>${activity.user.username}</strong> mengomentari postingan Anda: "${activity.text}"`;
+                    }
+                    activityItem.innerHTML = `
+                        <img src="${activity.user.avatar}" alt="Avatar" class="avatar me-3" style="width: 45px; height: 45px; border: none;">
+                        <div>
+                            <p class="mb-0">${activityText}</p>
+                            <small class="text-muted">${formatTimestamp(activity.timestamp)}</small>
+                        </div>
+                    `;
+                    activityListDiv.appendChild(activityItem);
+                });
+            }
+        }
+
+
+        // --- Fitur Profil ---
+        function displayProfile() {
+            if (!isLoggedIn || !currentUser) {
+                profileHeaderDiv.innerHTML = '';
+                profilePostsGridDiv.innerHTML = '';
+                noProfilePostsDiv.style.display = 'block';
+                return;
+            }
+
+            profileHeaderDiv.innerHTML = `
+                <div class="profile-top-section">
+                    <div class="avatar-container">
+                        <img src="${currentUser.avatar}" alt="Avatar Profil" class="avatar">
+                        <i class="fas fa-plus-circle avatar-add-icon" onclick="showMessage('Fitur ganti/tambah foto profil.')"></i>
+                    </div>
+                    <div class="profile-stats-group">
+                        <div>
+                            <div class="count">${currentUser.postsCount || 0}</div>
+                            <div class="label">posts</div>
+                        </div>
+                        <div>
+                            <div class="count">${currentUser.followers || 0}</div>
+                            <div class="label">followers</div>
+                        </div>
+                        <div>
+                            <div class="count">${currentUser.following || 0}</div>
+                            <div class="label">following</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-info-section">
+                    <div class="name">${currentUser.name}</div>
+                    <div class="bio-text">${formatBio(currentUser.bio || 'Belum ada bio.')}</div>
+                    <a href="#" class="link" onclick="showMessage('Fitur link di bio.')">aditmlh.rf.gd and 5 more</a>
+                </div>
+                <div class="profile-buttons">
+                    <button class="btn" onclick="showMessage('Fitur edit profil.')">Edit profile</button>
+                    <button class="btn" onclick="showMessage('Fitur lihat arsip.')">View archive</button>
+                    <button class="btn ad-tools-btn" onclick="showMessage('Fitur Ad tools.')">Ad tools</button>
+                </div>
+                <div class="profile-insights">
+                    <strong>206 views</strong> in the last 30 days. <a href="#" class="view-link" onclick="showMessage('Fitur lihat insights.')">View insights</a>
+                </div>
+            `;
+
+            // Initialize Bootstrap tabs
+            const profileTabs = new bootstrap.Tab(document.getElementById('grid-tab'));
+            profileTabs.show(); // Ensure default tab is active
+
+            // Add listeners for tab clicks
+            document.getElementById('grid-tab').addEventListener('shown.bs.tab', () => displayProfilePosts('grid'));
+            document.getElementById('reels-tab').addEventListener('shown.bs.tab', () => displayProfilePosts('reels'));
+            document.getElementById('saved-tab').addEventListener('shown.bs.tab', () => displayProfilePosts('saved'));
+            document.getElementById('tagged-tab').addEventListener('shown.bs.tab', () => displayProfilePosts('tagged'));
+
+            // Display initial grid content
+            displayProfilePosts('grid');
+        }
+
+        function formatBio(bioText) {
+            // Replace @mentions and links for display
+            return bioText.replace(/@(\w+)/g, '<span class="text-primary">@$1</span>')
+                          .replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" class="link">$1</a>')
+                          .replace(/\n/g, '<br>');
+        }
+
+        function displayProfilePosts(tabType) {
+            profilePostsGridDiv.innerHTML = '';
+            profileReelsGridDiv.innerHTML = '';
+            profileSavedGridDiv.innerHTML = '';
+            profileTaggedGridDiv.innerHTML = '';
+
+            noProfilePostsDiv.style.display = 'none';
+            noProfileReelsDiv.style.display = 'none';
+            noProfileSavedDiv.style.display = 'none';
+            noProfileTaggedDiv.style.display = 'none';
+
+            let postsToDisplay = [];
+            let targetGridDiv;
+            let noResultsDiv;
+
+            if (tabType === 'grid') {
+                postsToDisplay = posts.filter(post => post.userId === currentUser.id && post.type === 'image');
+                targetGridDiv = profilePostsGridDiv;
+                noResultsDiv = noProfilePostsDiv;
+            } else if (tabType === 'reels') {
+                postsToDisplay = posts.filter(post => post.userId === currentUser.id && post.type === 'reel');
+                targetGridDiv = profileReelsGridDiv;
+                noResultsDiv = noProfileReelsDiv;
+            } else if (tabType === 'saved') {
+                const savedPostIds = userSavedPosts[currentUser.id] || [];
+                postsToDisplay = posts.filter(post => savedPostIds.includes(post.id));
+                targetGridDiv = profileSavedGridDiv;
+                noResultsDiv = noProfileSavedDiv;
+            } else if (tabType === 'tagged') {
+                // Simulate tagged posts (no actual tagging logic)
+                postsToDisplay = posts.filter(post => post.id % 2 === 0); // Example: just even IDs
+                targetGridDiv = profileTaggedGridDiv;
+                noResultsDiv = noProfileTaggedDiv;
+            }
+
+            if (postsToDisplay.length === 0) {
+                noResultsDiv.style.display = 'block';
+            } else {
+                postsToDisplay.forEach(post => {
+                    const imgContainer = document.createElement('div');
+                    imgContainer.className = 'profile-post-item-container'; // Wrapper for icon
+                    const img = document.createElement('img');
+                    img.src = post.imageUrl;
+                    img.alt = post.caption;
+                    img.className = 'profile-post-item';
+                    img.dataset.postId = post.id;
+                    img.onerror = function() {
+                        this.onerror=null;this.src='https://placehold.co/120x120/cccccc/333333?text=Gambar';
+                    };
+                    img.addEventListener('click', () => showPostDetail(post.id));
+                    targetGridDiv.appendChild(img);
+
+                    if (post.type === 'reel') {
+                        const videoIcon = document.createElement('i');
+                        videoIcon.className = 'fas fa-video video-icon';
+                        img.parentNode.appendChild(videoIcon); // Append icon to parent of image
+                    }
+                });
+            }
+        }
+
+
+        // --- Dark Mode Toggle ---
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            if (document.body.classList.contains('dark-mode')) {
+                localStorage.setItem('darkModeSocial', 'enabled');
+                darkModeToggle.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                localStorage.setItem('darkModeSocial', 'disabled');
+                darkModeToggle.classList.replace('fa-sun', 'fa-moon');
+            }
+        }
+        // Removed the problematic addEventListener here. It's now handled in updateTopBar.
+
+
+        // --- Event Listeners Bottom Navigation ---
+        document.getElementById('nav-home').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('home-page');
+        });
+        document.getElementById('nav-explore').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('explore-page');
+        });
+        document.getElementById('nav-upload').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('upload-page');
+        });
+        document.getElementById('nav-activity').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('activity-page');
+        });
+        document.getElementById('nav-profile').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('profile-page');
+        });
+
+
+        // --- Inisialisasi Aplikasi ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Menambahkan font Inter dari Google Fonts
+            const link = document.createElement('link');
+            link.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap';
+            link.rel = 'stylesheet';
+            document.head.appendChild(link);
+
+            // Add Billabong font for CT2SOSMEET-like title
+            const billabongLink = document.createElement('link');
+            billabongLink.href = 'https://fonts.googleapis.com/css?family=Billabong&text=CT2SOSMEETCT2SosialMedia'; /* Only load necessary characters */
+            billabongLink.rel = 'stylesheet';
+            document.head.appendChild(billabongLink);
+
+
+            // Tampilkan loader selama 3 detik
+            loaderOverlay.style.display = 'flex';
+            appContainer.style.display = 'none'; // Sembunyikan aplikasi utama
+
+            setTimeout(() => {
+                loaderOverlay.style.display = 'none';
+                appContainer.style.display = 'block'; // Tampilkan aplikasi utama
+
+                // Terapkan dark mode jika sebelumnya diaktifkan
+                if (localStorage.getItem('darkModeSocial') === 'enabled') {
+                    document.body.classList.add('dark-mode');
+                    // Icon will be set by updateTopBar
+                }
+
+                checkLoginStatusAndRedirect(); // Periksa status login dan tampilkan halaman yang sesuai
+            }, 3000); // 3 detik
+        });
+    </script>
+</body>
+</html>

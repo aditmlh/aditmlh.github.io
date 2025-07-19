@@ -1,0 +1,1634 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CT2 Kost - Cari Kost Impianmu</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome untuk ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Menggunakan font Inter */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5; /* Latar belakang abu-abu muda */
+            color: #343a40;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* Mencegah scroll horizontal */
+            padding-bottom: 70px; /* Ruang untuk bottom nav */
+            transition: background-color 0.3s ease, color 0.3s ease; /* Transisi untuk dark mode */
+        }
+
+        /* Warna utama dari gambar */
+        :root {
+            --primary-purple: #6a0dad; /* Warna ungu utama */
+            --light-purple: #8a2be2; /* Ungu lebih terang */
+            --yellow-accent: #ffc107; /* Kuning aksen */
+            --text-dark: #343a40;
+            --text-muted: #6c757d;
+            --bg-light: #f8f9fa;
+            --bg-white: #ffffff;
+            --card-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            --modal-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background-color: #1a1a2e; /* Latar belakang gelap */
+            color: #e0e0e0; /* Teks terang */
+        }
+
+        .dark-mode .app-container {
+            background-color: #2a2a4a;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .dark-mode .top-bar,
+        .dark-mode .bottom-nav,
+        .dark-mode .service-item,
+        .dark-mode .promo-card,
+        .dark-mode .card,
+        .dark-mode .modal-content {
+            background-color: #3a3a5e;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            border-color: #4a4a7a;
+        }
+
+        .dark-mode .top-bar .location-info,
+        .dark-mode .top-bar .icon-group i,
+        .dark-mode .service-item p,
+        .dark-mode .promo-section h2,
+        .dark-mode .card-title,
+        .dark-mode .card-text,
+        .dark-mode .price,
+        .dark-mode .modal-body,
+        .dark-mode .modal-title,
+        .dark-mode .form-control,
+        .dark-mode .form-select,
+        .dark-mode .form-label {
+            color: #e0e0e0 !important;
+        }
+
+        .dark-mode .form-control,
+        .dark-mode .form-select {
+            background-color: #4a4a7a;
+            border-color: #5a5a8e;
+        }
+
+        .dark-mode .form-control::placeholder {
+            color: #b0b0b0;
+        }
+
+        .dark-mode .btn-outline-primary {
+            color: var(--yellow-accent);
+            border-color: var(--yellow-accent);
+        }
+
+        .dark-mode .btn-outline-primary:hover {
+            background-color: var(--yellow-accent);
+            color: var(--text-dark);
+        }
+
+        .dark-mode .nav-item-bottom {
+            color: #b0b0b0;
+        }
+
+        .dark-mode .nav-item-bottom.active {
+            color: var(--yellow-accent); /* Warna aktif di dark mode */
+        }
+
+        /* Loader Styles */
+        .loader-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--primary-purple);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            flex-direction: column;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .loader {
+            border: 8px solid #f3f3f3; /* Light grey */
+            border-top: 8px solid var(--yellow-accent); /* Blue */
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 2s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Struktur Aplikasi Mobile */
+        .app-container {
+            max-width: 500px; /* Lebar maksimal seperti aplikasi mobile */
+            margin: 0 auto;
+            background-color: var(--bg-light);
+            min-height: 100vh;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            display: none; /* Hidden by default, shown after loader */
+        }
+
+        /* Top Bar */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: var(--bg-white);
+            border-bottom: 1px solid #eee;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .top-bar .location-info {
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .top-bar .location-info i {
+            color: var(--primary-purple);
+            margin-right: 8px;
+        }
+
+        .top-bar .icon-group i {
+            font-size: 1.2rem;
+            margin-left: 15px;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .top-bar .icon-group .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            padding: 4px 7px;
+            border-radius: 50%;
+            background-color: red;
+            color: white;
+            font-size: 0.7rem;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: var(--primary-purple); /* Warna ungu dari gambar */
+            color: white;
+            padding: 30px 20px;
+            margin: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .hero-section h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .hero-section p {
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .hero-section .btn-hero {
+            background-color: var(--yellow-accent);
+            color: var(--text-dark);
+            font-weight: bold;
+            border-radius: 50px;
+            padding: 10px 30px;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .hero-section .btn-hero:hover {
+            background-color: #e6b000;
+        }
+
+        /* Service Grid */
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 kolom */
+            gap: 15px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .service-item {
+            background-color: var(--bg-white);
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            transition: transform 0.2s ease-in-out;
+            cursor: pointer;
+        }
+
+        .service-item:hover {
+            transform: translateY(-3px);
+        }
+
+        .service-item i {
+            font-size: 2.2rem;
+            color: var(--primary-purple);
+            margin-bottom: 10px;
+        }
+
+        .service-item p {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0;
+        }
+
+        /* Promo Section */
+        .promo-section {
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        .promo-section h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+        }
+
+        .promo-cards-container {
+            display: flex;
+            overflow-x: auto; /* Horizontal scroll */
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+            padding-bottom: 15px; /* Ruang untuk scrollbar */
+        }
+
+        .promo-card {
+            flex: 0 0 80%; /* Lebar kartu 80% dari container */
+            max-width: 300px; /* Lebar maksimal kartu */
+            margin-right: 15px;
+            background-color: var(--bg-white);
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: none;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .promo-card:last-child {
+            margin-right: 0;
+        }
+
+        .promo-card .promo-header {
+            background-color: var(--yellow-accent);
+            padding: 15px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+            color: var(--text-dark);
+        }
+
+        .promo-card .promo-body {
+            padding: 15px;
+        }
+
+        .promo-card .promo-body h5 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .promo-card .promo-body p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 0;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--bg-white);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .nav-item-bottom {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 600;
+            transition: color 0.2s ease;
+            cursor: pointer;
+        }
+
+        .nav-item-bottom.active {
+            color: var(--primary-purple);
+        }
+
+        .nav-item-bottom i {
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+        }
+
+        /* Styling untuk Daftar Kost */
+        .kost-listing-page, .favorites-page, .profile-page, .login-page, .register-page, .orders-page, .bills-page {
+            padding: 20px;
+            display: none; /* Sembunyikan secara default */
+        }
+
+        .kost-listing-page h2, .favorites-page h2, .profile-page h2, .login-page h2, .register-page h2, .orders-page h2, .bills-page h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            text-align: center;
+            color: var(--text-dark);
+        }
+
+        .card {
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.2s ease-in-out;
+            border: none;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-img-top {
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+
+        .card-title {
+            font-weight: bold;
+            color: var(--primary-purple);
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .card-text {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+        }
+
+        .price {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #28a745;
+            margin-top: 10px;
+        }
+
+        .btn-outline-primary {
+            border-radius: 50px;
+            padding: 8px 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--primary-purple);
+            border-color: var(--primary-purple);
+        }
+
+        .btn-outline-primary:hover {
+            background-color: var(--primary-purple);
+            color: white;
+        }
+
+        .form-select, .form-control {
+            border-radius: 10px;
+            border: 1px solid #ced4da;
+            padding: 10px 15px;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-purple);
+            box-shadow: 0 0 0 0.25rem rgba(106, 13, 173, 0.25);
+        }
+
+        /* Modal Styling */
+        .modal-content {
+            border-radius: 15px;
+            box-shadow: var(--modal-shadow);
+        }
+
+        .modal-header {
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            background-color: var(--primary-purple);
+            color: white;
+            border-bottom: none;
+        }
+
+        .modal-title {
+            font-weight: bold;
+        }
+
+        .modal-body img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .modal-footer {
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+            border-top: none;
+        }
+        .btn-close-white {
+            filter: invert(1) grayscale(100%) brightness(200%); /* Makes it white */
+        }
+
+        /* Favorite Button in Card */
+        .favorite-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            color: #ccc;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            z-index: 10; /* Pastikan di atas gambar */
+        }
+
+        .favorite-btn.favorited {
+            color: #ff6347; /* Tomato color for favorited */
+        }
+
+        .favorite-btn:hover {
+            background-color: rgba(255, 255, 255, 1);
+            transform: scale(1.1);
+        }
+
+        /* Profile Page */
+        .profile-info {
+            background-color: var(--bg-white);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 20px;
+        }
+
+        .profile-info h4 {
+            color: var(--primary-purple);
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .profile-info p {
+            margin-bottom: 8px;
+        }
+
+        .profile-info .btn {
+            margin-top: 20px;
+        }
+
+        /* Login/Register Page */
+        .auth-form {
+            background-color: var(--bg-white);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            margin-top: 50px;
+        }
+
+        .auth-form h2 {
+            color: var(--primary-purple);
+            margin-bottom: 30px;
+        }
+
+        /* Orders and Bills Page */
+        .order-item, .bill-item {
+            background-color: var(--bg-white);
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 15px;
+        }
+
+        .order-item h5, .bill-item h5 {
+            color: var(--primary-purple);
+            font-weight: bold;
+        }
+
+        .order-item p, .bill-item p {
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .order-item .status-badge {
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .status-pending { background-color: #ffc107; color: var(--text-dark); }
+        .status-confirmed { background-color: #28a745; color: white; }
+        .status-paid { background-color: #007bff; color: white; }
+        .status-overdue { background-color: #dc3545; color: white; }
+
+        /* Recommendation Block */
+        .recommendation-block {
+            padding: 20px;
+            margin-top: 30px;
+            background-color: var(--bg-white);
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .recommendation-block h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+        }
+
+        .recommendation-card {
+            background-color: var(--bg-light);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .recommendation-card h6 {
+            font-weight: bold;
+            color: var(--primary-purple);
+        }
+
+        .recommendation-card p {
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loader Overlay -->
+    <div class="loader-overlay" id="loader-overlay">
+        <div class="loader"></div>
+        <span>Memuat CT2 Kost...</span>
+    </div>
+
+    <div class="app-container" id="app-container">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="location-info">
+                <i class="fas fa-map-marker-alt"></i>
+                <span id="current-location-display">Jakarta Selatan</span> <!-- Lokasi dinamis -->
+            </div>
+            <div class="icon-group">
+                <i class="fas fa-search" onclick="showPage('kost-listing-page')"></i>
+                <i class="fas fa-bell position-relative ms-3">
+                    <span class="badge">3</span>
+                </i>
+                <i class="fas fa-moon ms-3" id="dark-mode-toggle"></i>
+            </div>
+        </div>
+
+        <!-- Main Content Area (Dashboard) -->
+        <div id="main-dashboard" class="main-content-page">
+            <!-- Hero Section -->
+            <div class="hero-section">
+                <h1>Selamat Datang di CT2 Kost!</h1>
+                <p>Temukan kost impianmu dengan mudah dan cepat. Pilihan terbaik sesuai kebutuhan dan budgetmu.</p>
+                <button class="btn btn-hero" onclick="showPage('kost-listing-page')">Cari Kost Sekarang!</button>
+            </div>
+
+            <!-- Service Grid (Ikon Layanan) -->
+            <div class="service-grid">
+                <div class="service-item" onclick="showPage('kost-listing-page')">
+                    <i class="fas fa-search"></i>
+                    <p>Cari Kost</p>
+                </div>
+                <div class="service-item" onclick="showPage('kost-listing-page', 'Putra')">
+                    <i class="fas fa-male"></i>
+                    <p>Kost Putra</p>
+                </div>
+                <div class="service-item" onclick="showPage('kost-listing-page', 'Putri')">
+                    <i class="fas fa-female"></i>
+                    <p>Kost Putri</p>
+                </div>
+                <div class="service-item" onclick="showPage('kost-listing-page', 'Campur')">
+                    <i class="fas fa-users"></i>
+                    <p>Kost Campur</p>
+                </div>
+                <div class="service-item" onclick="showPage('bills-page')">
+                    <i class="fas fa-wallet"></i>
+                    <p>Pembayaran</p>
+                </div>
+                <div class="service-item" onclick="showPage('bills-page')">
+                    <i class="fas fa-file-invoice"></i>
+                    <p>Tagihan</p>
+                </div>
+            </div>
+
+            <!-- Rekomendasi Kost Terdekat -->
+            <div class="recommendation-block">
+                <h2>Rekomendasi Kost Terdekat</h2>
+                <div id="recommended-kosts-list">
+                    <!-- Recommended kosts will be injected here -->
+                </div>
+                <div id="no-recommendations" class="text-center mt-3" style="display: none;">
+                    <p class="text-muted">Tidak ada rekomendasi kost terdekat saat ini.</p>
+                </div>
+            </div>
+
+            <!-- Promo & Penawaran Spesial Section -->
+            <div class="promo-section">
+                <h2>Promo & Penawaran Spesial</h2>
+                <div class="promo-cards-container">
+                    <div class="promo-card">
+                        <div class="promo-header">DISKON 50%</div>
+                        <div class="promo-body">
+                            <h5>Diskon 50% untuk Sewa Pertama!</h5>
+                            <p>Gunakan kode: CT2KOSTBARU</p>
+                        </div>
+                    </div>
+                    <div class="promo-card">
+                        <div class="promo-header" style="background-color: #28a745; color: white;">GRATIS</div>
+                        <div class="promo-body">
+                            <h5>Gratis Laundry 1 Bulan!</h5>
+                            <p>Berlaku untuk sewa minimal 6 bulan.</p>
+                        </div>
+                    </div>
+                     <div class="promo-card">
+                        <div class="promo-header" style="background-color: #17a2b8; color: white;">CASHBACK</div>
+                        <div class="promo-body">
+                            <h5>Cashback Rp 100.000</h5>
+                            <p>Untuk pembayaran via e-wallet tertentu.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Kost Listing Page (Hidden by default) -->
+        <div id="kost-listing-page" class="kost-listing-page">
+            <h2 class="text-center mb-4">Daftar Kost Tersedia</h2>
+            <div class="row justify-content-center mb-4">
+                <div class="col-12 mb-3">
+                    <input type="text" id="location-input" class="form-control rounded-pill shadow-sm" placeholder="Cari lokasi (misal: Jakarta Selatan)" aria-label="Cari lokasi">
+                </div>
+                <div class="col-12 mb-3">
+                    <div class="input-group shadow-sm rounded-pill">
+                        <input type="text" id="search-input" class="form-control rounded-pill-start" placeholder="Cari nama kost atau deskripsi..." aria-label="Cari kost">
+                        <button class="btn btn-primary rounded-pill-end" type="button" id="search-button"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+                <div class="col-6 mb-3">
+                    <select class="form-select rounded-pill shadow-sm" id="filter-type">
+                        <option value="">Semua Tipe</option>
+                        <option value="Putra">Kost Putra</option>
+                        <option value="Putri">Kost Putri</option>
+                        <option value="Campur">Kost Campur</option>
+                    </select>
+                </div>
+                <div class="col-6 mb-3">
+                    <select class="form-select rounded-pill shadow-sm" id="sort-by">
+                        <option value="">Urutkan Berdasarkan</option>
+                        <option value="price-asc">Harga Termurah</option>
+                        <option value="price-desc">Harga Termahal</option>
+                        <option value="name-asc">Nama (A-Z)</option>
+                        <option value="name-desc">Nama (Z-A)</option>
+                    </select>
+                </div>
+            </div>
+            <div id="kost-list" class="row row-cols-1 g-4">
+                <!-- Kost cards will be injected here by JavaScript -->
+            </div>
+            <div id="no-results" class="text-center mt-5" style="display: none;">
+                <p class="lead">Maaf, tidak ada kost yang ditemukan sesuai kriteria pencarian Anda.</p>
+            </div>
+        </div>
+
+        <!-- Favorites Page (Hidden by default) -->
+        <div id="favorites-page" class="favorites-page">
+            <h2 class="text-center mb-4">Kost Favorit Anda</h2>
+            <div id="favorite-kost-list" class="row row-cols-1 g-4">
+                <!-- Favorite kost cards will be injected here by JavaScript -->
+            </div>
+            <div id="no-favorites" class="text-center mt-5" style="display: none;">
+                <p class="lead">Anda belum memiliki kost favorit. Tambahkan beberapa!</p>
+            </div>
+        </div>
+
+        <!-- Orders Page (Hidden by default) -->
+        <div id="orders-page" class="orders-page">
+            <h2 class="text-center mb-4">Pesananku</h2>
+            <div id="user-orders-list">
+                <!-- User's orders will be injected here -->
+            </div>
+            <div id="no-orders" class="text-center mt-5" style="display: none;">
+                <p class="lead">Anda belum memiliki pesanan kost.</p>
+            </div>
+        </div>
+
+        <!-- Bills Page (Hidden by default) -->
+        <div id="bills-page" class="bills-page">
+            <h2 class="text-center mb-4">Tagihan Saya</h2>
+            <div id="user-bills-list">
+                <!-- User's bills will be injected here -->
+            </div>
+            <div id="no-bills" class="text-center mt-5" style="display: none;">
+                <p class="lead">Anda belum memiliki tagihan.</p>
+            </div>
+        </div>
+
+        <!-- Profile Page (Hidden by default) -->
+        <div id="profile-page" class="profile-page">
+            <h2 class="text-center mb-4">Profil Pengguna</h2>
+            <div id="profile-content" class="profile-info text-center">
+                <!-- Profile info will be injected here by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Login Page (Hidden by default, shown if not logged in) -->
+        <div id="login-page" class="login-page">
+            <div class="auth-form mx-auto" style="max-width: 400px;">
+                <h2 class="text-center">Masuk ke Akun Anda</h2>
+                <form id="login-form">
+                    <div class="mb-3">
+                        <label for="login-email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="login-email" value="user@example.com" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="login-password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="login-password" value="password123" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 rounded-pill mt-3">Masuk</button>
+                </form>
+                <p class="text-center mt-3">Belum punya akun? <a href="#" id="show-register">Daftar Sekarang</a></p>
+            </div>
+        </div>
+
+        <!-- Register Page (Hidden by default) -->
+        <div id="register-page" class="register-page">
+            <div class="auth-form mx-auto" style="max-width: 400px;">
+                <h2 class="text-center">Daftar Akun Baru</h2>
+                <form id="register-form">
+                    <div class="mb-3">
+                        <label for="register-name" class="form-label">Nama Lengkap</label>
+                        <input type="text" class="form-control" id="register-name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="register-email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="register-email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="register-password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="register-password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 rounded-pill mt-3">Daftar</button>
+                </form>
+                <p class="text-center mt-3">Sudah punya akun? <a href="#" id="show-login">Masuk</a></p>
+            </div>
+        </div>
+
+
+        <!-- Kost Detail Modal -->
+        <div class="modal fade" id="kostDetailModal" tabindex="-1" aria-labelledby="kostDetailModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="kostDetailModalLabel">Detail Kost</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <img id="modal-kost-image" src="" alt="Gambar Kost" class="img-fluid mb-3">
+                        <h4 id="modal-kost-name" class="mb-3"></h4>
+                        <p class="text-muted"><i class="fas fa-map-marker-alt me-2"></i><span id="modal-kost-location"></span></p>
+                        <p><i class="fas fa-bed me-2"></i>Tipe: <span id="modal-kost-type"></span></p>
+                        <p><i class="fas fa-dollar-sign me-2"></i>Harga: <span id="modal-kost-price"></span> / bulan</p>
+                        <p><i class="fas fa-info-circle me-2"></i>Deskripsi: <span id="modal-kost-description"></span></p>
+                        <h5 class="mt-4">Fasilitas:</h5>
+                        <ul id="modal-kost-facilities" class="list-unstyled row">
+                            <!-- Facilities will be injected here -->
+                        </ul>
+                        <h5 class="mt-4">Ketersediaan Kamar: <span id="modal-kost-availability"></span></h5>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Tutup</button>
+                        <button type="button" class="btn btn-primary" id="book-kost-btn">Pesan Sekarang</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Booking Confirmation Modal -->
+        <div class="modal fade" id="bookingConfirmModal" tabindex="-1" aria-labelledby="bookingConfirmModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title" id="bookingConfirmModalLabel">Konfirmasi Pemesanan</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Anda akan memesan kost <strong id="booking-kost-name"></strong>.</p>
+                        <p>Total Harga: <strong id="booking-kost-price"></strong></p>
+                        <div class="mb-3">
+                            <label for="booking-duration" class="form-label">Durasi Sewa (bulan)</label>
+                            <input type="number" class="form-control" id="booking-duration" value="1" min="1">
+                        </div>
+                        <div class="mb-3">
+                            <label for="booking-date" class="form-label">Tanggal Masuk</label>
+                            <input type="date" class="form-control" id="booking-date" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="button" class="btn btn-primary" id="confirm-booking-btn">Konfirmasi Pesanan</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Custom Message Modal (for general messages) -->
+        <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-success text-white">
+                        <h5 class="modal-title" id="messageModalLabel">Informasi</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="messageModalText"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Oke</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a href="#" class="nav-item-bottom active" id="nav-home">
+                <i class="fas fa-home"></i>
+                <span>Beranda</span>
+            </a>
+            <a href="#" class="nav-item-bottom" id="nav-orders">
+                <i class="fas fa-receipt"></i>
+                <span>Pesananku</span>
+            </a>
+            <a href="#" class="nav-item-bottom" id="nav-favorites">
+                <i class="fas fa-heart"></i>
+                <span>Favorit</span>
+            </a>
+            <a href="#" class="nav-item-bottom" id="nav-profile">
+                <i class="fas fa-user"></i>
+                <span>Profil</span>
+            </a>
+        </nav>
+    </div> <!-- End of app-container -->
+
+    <!-- Bootstrap JS Bundle (Popper included) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Data Kost Dummy yang lebih realistis
+        const kosts = [
+            {
+                id: 1,
+                name: "Kost Melati Indah",
+                location: "Jakarta Selatan",
+                fullAddress: "Jl. Mawar No. 10, Kebayoran Baru, Jakarta Selatan",
+                type: "Putri",
+                price: 1500000,
+                image: "https://placehold.co/600x400/6a0dad/ffffff?text=Kost+Melati+Indah",
+                description: "Kost putri nyaman dengan fasilitas lengkap di lokasi strategis dekat kampus (UI, Binus) dan pusat perbelanjaan (Gandaria City). Lingkungan aman dan tenang, cocok untuk mahasiswi dan karyawati.",
+                facilities: ["AC", "Kamar Mandi Dalam", "Furnitur Lengkap (Kasur, Lemari, Meja Belajar)", "Wi-Fi Kecepatan Tinggi", "Dapur Bersama", "Area Jemur", "Parkir Motor", "CCTV 24 Jam"],
+                availability: 3,
+                reputation: 5 // Skala 1-5
+            },
+            {
+                id: 2,
+                name: "Kost Pria Jaya",
+                location: "Bandung",
+                fullAddress: "Jl. Anggrek No. 5, Dago, Bandung",
+                type: "Putra",
+                price: 1200000,
+                image: "https://placehold.co/600x400/8a2be2/ffffff?text=Kost+Pria+Jaya",
+                description: "Kost putra bersih dan tenang, cocok untuk mahasiswa atau pekerja. Dekat dengan transportasi umum dan area kuliner populer.",
+                facilities: ["Kamar Mandi Luar", "Furnitur Lengkap (Kasur, Lemari)", "Wi-Fi", "Parkir Mobil", "Laundry Koin", "Ruang Tamu Bersama"],
+                availability: 2,
+                reputation: 4
+            },
+            {
+                id: 3,
+                name: "Kost Harmoni Campur",
+                location: "Yogyakarta",
+                fullAddress: "Jl. Kenanga No. 20, Depok, Sleman, Yogyakarta",
+                type: "Campur",
+                price: 1800000,
+                image: "https://placehold.co/600x400/ffc107/343a40?text=Kost+Harmoni+Campur",
+                description: "Kost campur modern dengan desain minimalis. Lingkungan aman dan nyaman, dekat dengan UGM dan UNY. Ideal untuk pasangan atau individu.",
+                facilities: ["AC", "Kamar Mandi Dalam", "Furnitur Lengkap", "Wi-Fi Super Cepat", "Dapur Pribadi (di beberapa kamar)", "Parkir Motor & Mobil Luas", "Air Panas", "Pet-Friendly (syarat & ketentuan berlaku)"],
+                availability: 1,
+                reputation: 5
+            },
+            {
+                id: 4,
+                name: "Kost Cendana Asri",
+                location: "Surabaya",
+                fullAddress: "Jl. Cemara No. 8, Gubeng, Surabaya",
+                type: "Putri",
+                price: 1350000,
+                image: "https://placehold.co/600x400/6a0dad/ffffff?text=Kost+Cendana+Asri",
+                description: "Kost putri dengan suasana homey, cocok untuk yang mencari ketenangan. Dekat dengan minimarket, apotek, dan akses mudah ke pusat kota.",
+                facilities: ["Kamar Mandi Dalam", "Furnitur Lengkap", "Wi-Fi", "Dapur Bersama", "Area Bersantai"],
+                availability: 4,
+                reputation: 4
+            },
+            {
+                id: 5,
+                name: "Kost Putra Mandiri",
+                location: "Medan",
+                fullAddress: "Jl. Dahlia No. 15, Medan Kota, Medan",
+                type: "Putra",
+                price: 1000000,
+                image: "https://placehold.co/600x400/8a2be2/ffffff?text=Kost+Putra+Mandiri",
+                description: "Kost putra ekonomis namun tetap nyaman. Akses mudah ke jalan raya utama dan fasilitas umum.",
+                facilities: ["Kamar Mandi Luar", "Furnitur Dasar", "Wi-Fi", "Parkir Motor"],
+                availability: 0, // Contoh kost penuh
+                reputation: 3
+            },
+            {
+                id: 6,
+                name: "Kost Keluarga Bahagia",
+                location: "Semarang",
+                fullAddress: "Jl. Edelweis No. 30, Tembalang, Semarang",
+                type: "Campur",
+                price: 2000000,
+                image: "https://placehold.co/600x400/ffc107/343a40?text=Kost+Keluarga+Bahagia",
+                description: "Kost campur ideal untuk pasangan atau keluarga kecil. Ruangan luas dan privasi terjaga. Dekat dengan UNDIP.",
+                facilities: ["AC", "Kamar Mandi Dalam", "Furnitur Lengkap", "Wi-Fi", "Dapur Pribadi", "Parkir Mobil", "Ruang Keluarga"],
+                availability: 1,
+                reputation: 5
+            },
+            {
+                id: 7,
+                name: "Kost Damai Sejahtera",
+                location: "Jakarta Barat",
+                fullAddress: "Jl. Flamboyan No. 22, Palmerah, Jakarta Barat",
+                type: "Putri",
+                price: 1650000,
+                image: "https://placehold.co/600x400/6a0dad/ffffff?text=Kost+Damai+Sejahtera",
+                description: "Kost putri eksklusif dengan keamanan 24 jam. Dekat dengan perkantoran dan pusat bisnis.",
+                facilities: ["AC", "Kamar Mandi Dalam (Water Heater)", "Furnitur Mewah", "Wi-Fi Premium", "Dapur Bersama Modern", "Area Gym Mini", "Parkir Mobil & Motor", "CCTV"],
+                availability: 2,
+                reputation: 5
+            },
+            {
+                id: 8,
+                name: "Kost Bintang Timur",
+                location: "Surabaya",
+                fullAddress: "Jl. Garuda No. 7, Rungkut, Surabaya",
+                type: "Putra",
+                price: 1100000,
+                image: "https://placehold.co/600x400/8a2be2/ffffff?text=Kost+Bintang+Timur",
+                description: "Kost putra strategis dekat industri dan kampus ITS. Lingkungan bersih dan ramah.",
+                facilities: ["Kamar Mandi Luar", "Furnitur Dasar", "Wi-Fi", "Dapur Bersama", "Area Parkir Motor"],
+                availability: 3,
+                reputation: 4
+            }
+        ];
+
+        // Elemen DOM
+        const loaderOverlay = document.getElementById('loader-overlay');
+        const appContainer = document.getElementById('app-container');
+
+        const mainDashboard = document.getElementById('main-dashboard');
+        const kostListingPage = document.getElementById('kost-listing-page');
+        const favoritesPage = document.getElementById('favorites-page');
+        const ordersPage = document.getElementById('orders-page'); // New
+        const billsPage = document.getElementById('bills-page'); // New
+        const profilePage = document.getElementById('profile-page');
+        const loginPage = document.getElementById('login-page');
+        const registerPage = document.getElementById('register-page');
+
+        const kostListDiv = document.getElementById('kost-list');
+        const favoriteKostListDiv = document.getElementById('favorite-kost-list');
+        const userOrdersListDiv = document.getElementById('user-orders-list'); // New
+        const userBillsListDiv = document.getElementById('user-bills-list'); // New
+        const searchInput = document.getElementById('search-input');
+        const locationInput = document.getElementById('location-input');
+        const searchButton = document.getElementById('search-button');
+        const filterType = document.getElementById('filter-type');
+        const sortBy = document.getElementById('sort-by');
+        const noResultsDiv = document.getElementById('no-results');
+        const noFavoritesDiv = document.getElementById('no-favorites');
+        const noOrdersDiv = document.getElementById('no-orders'); // New
+        const noBillsDiv = document.getElementById('no-bills'); // New
+        const kostDetailModal = new bootstrap.Modal(document.getElementById('kostDetailModal'));
+        const bookingConfirmModal = new bootstrap.Modal(document.getElementById('bookingConfirmModal'));
+        const messageModal = new bootstrap.Modal(document.getElementById('messageModal'));
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        const currentLocationDisplay = document.getElementById('current-location-display');
+        const recommendedKostsList = document.getElementById('recommended-kosts-list'); // New
+        const noRecommendationsDiv = document.getElementById('no-recommendations'); // New
+
+        // Autentikasi dan Data Pengguna (Simulasi)
+        let isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
+        let currentUser = JSON.parse(sessionStorage.getItem('currentUser')) || null;
+        let userFavorites = JSON.parse(localStorage.getItem('userFavorites')) || [];
+        let userOrders = JSON.parse(localStorage.getItem('userOrders')) || []; // New: Menyimpan riwayat pesanan
+        let selectedKostForBooking = null; // Untuk menyimpan kost yang akan dipesan
+
+        // Fungsi untuk menampilkan halaman
+        function showPage(pageId, filterValue = null) {
+            // Sembunyikan semua halaman
+            document.querySelectorAll('.main-content-page, .kost-listing-page, .favorites-page, .profile-page, .login-page, .register-page, .orders-page, .bills-page').forEach(page => {
+                page.style.display = 'none';
+            });
+
+            // Tampilkan halaman yang diminta
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.style.display = 'block';
+            }
+
+            // Atur kelas 'active' pada bottom nav
+            document.querySelectorAll('.nav-item-bottom').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            if (pageId === 'main-dashboard') {
+                document.getElementById('nav-home').classList.add('active');
+                displayRecommendedKosts(); // Perbarui rekomendasi saat ke dashboard
+            } else if (pageId === 'kost-listing-page') {
+                document.getElementById('nav-home').classList.add('active'); // Default ke Beranda untuk halaman listing
+                if (filterValue) {
+                    filterType.value = filterValue; // Set filter jika ada
+                } else {
+                    filterType.value = ""; // Reset filter jika tidak ada nilai
+                }
+                // Pre-fill location input with current user's location if available
+                locationInput.value = currentUser ? currentUser.location : '';
+                performSearchAndFilter(); // Lakukan pencarian/filter setelah menampilkan
+            } else if (pageId === 'favorites-page') {
+                document.getElementById('nav-favorites').classList.add('active');
+                displayFavorites();
+            } else if (pageId === 'orders-page') { // New: Orders page
+                document.getElementById('nav-orders').classList.add('active');
+                displayOrders();
+            } else if (pageId === 'bills-page') { // New: Bills page
+                document.getElementById('nav-orders').classList.add('active'); // Tagihan juga masuk ke ikon pesanan
+                displayBills();
+            } else if (pageId === 'profile-page') {
+                document.getElementById('nav-profile').classList.add('active');
+                displayProfile();
+            } else if (pageId === 'login-page' || pageId === 'register-page') {
+                // Tidak ada nav aktif untuk login/register
+            }
+        }
+
+        // Fungsi untuk menampilkan kost
+        function displayKosts(filteredKosts, targetDiv = kostListDiv) {
+            targetDiv.innerHTML = ''; // Kosongkan daftar sebelum menampilkan
+            if (filteredKosts.length === 0) {
+                if (targetDiv === kostListDiv) {
+                    noResultsDiv.style.display = 'block';
+                } else if (targetDiv === favoriteKostListDiv) {
+                    noFavoritesDiv.style.display = 'block';
+                }
+            } else {
+                noResultsDiv.style.display = 'none';
+                noFavoritesDiv.style.display = 'none';
+
+                filteredKosts.forEach(kost => {
+                    const isFavorited = userFavorites.includes(kost.id);
+                    const colDiv = document.createElement('div');
+                    colDiv.className = 'col';
+                    colDiv.innerHTML = `
+                        <div class="card h-100" data-id="${kost.id}">
+                            <img src="${kost.image}" class="card-img-top" alt="${kost.name}">
+                            <button class="favorite-btn ${isFavorited ? 'favorited' : ''}" data-kost-id="${kost.id}">
+                                <i class="${isFavorited ? 'fas' : 'far'} fa-heart"></i>
+                            </button>
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">${kost.name}</h5>
+                                <p class="card-text text-muted mb-2"><i class="fas fa-map-marker-alt me-1"></i> ${kost.location}</p>
+                                <p class="card-text mb-2"><i class="fas fa-bed me-1"></i> Tipe: ${kost.type}</p>
+                                <p class="price mt-auto">Rp ${formatPrice(kost.price)}</p>
+                                <button class="btn btn-outline-primary mt-3 view-detail-btn">Lihat Detail</button>
+                            </div>
+                        </div>
+                    `;
+                    targetDiv.appendChild(colDiv);
+                });
+
+                // Tambahkan event listener untuk tombol "Lihat Detail"
+                targetDiv.querySelectorAll('.view-detail-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const kostId = this.closest('.card').dataset.id;
+                        showKostDetail(parseInt(kostId));
+                    });
+                });
+
+                // Tambahkan event listener untuk tombol favorit
+                targetDiv.querySelectorAll('.favorite-btn').forEach(button => {
+                    button.addEventListener('click', function(event) {
+                        event.stopPropagation(); // Mencegah event klik kartu
+                        const kostId = parseInt(this.dataset.kostId);
+                        toggleFavorite(kostId, this);
+                    });
+                });
+            }
+        }
+
+        // Fungsi untuk menampilkan detail kost di modal
+        function showKostDetail(id) {
+            const kost = kosts.find(k => k.id === id);
+            if (kost) {
+                selectedKostForBooking = kost; // Simpan kost yang dipilih untuk pemesanan
+                document.getElementById('modal-kost-image').src = kost.image;
+                document.getElementById('modal-kost-name').textContent = kost.name;
+                document.getElementById('modal-kost-location').textContent = kost.fullAddress; // Tampilkan alamat lengkap
+                document.getElementById('modal-kost-type').textContent = kost.type;
+                document.getElementById('modal-kost-price').textContent = formatPrice(kost.price);
+                document.getElementById('modal-kost-description').textContent = kost.description;
+                document.getElementById('modal-kost-availability').textContent = kost.availability > 0 ? `${kost.availability} Kamar Tersedia` : 'Penuh';
+
+                const bookBtn = document.getElementById('book-kost-btn');
+                if (kost.availability === 0) {
+                    bookBtn.textContent = 'Kost Penuh';
+                    bookBtn.disabled = true;
+                    bookBtn.classList.remove('btn-primary');
+                    bookBtn.classList.add('btn-secondary');
+                } else {
+                    bookBtn.textContent = 'Pesan Sekarang';
+                    bookBtn.disabled = false;
+                    bookBtn.classList.remove('btn-secondary');
+                    bookBtn.classList.add('btn-primary');
+                }
+
+
+                const facilitiesList = document.getElementById('modal-kost-facilities');
+                facilitiesList.innerHTML = '';
+                kost.facilities.forEach(facility => {
+                    const li = document.createElement('li');
+                    li.className = 'col-6 col-md-4 mb-2'; /* Untuk layout 2 atau 3 kolom */
+                    li.innerHTML = `<i class="fas fa-check-circle text-success me-2"></i>${facility}`;
+                    facilitiesList.appendChild(li);
+                });
+
+                kostDetailModal.show();
+            }
+        }
+
+        // Fungsi untuk melakukan pencarian, filter, dan sorting
+        function performSearchAndFilter() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const locationTerm = locationInput.value.toLowerCase();
+            const selectedType = filterType.value;
+            const selectedSort = sortBy.value;
+
+            let filtered = kosts.filter(kost => {
+                const matchesSearch = kost.name.toLowerCase().includes(searchTerm) ||
+                                      kost.description.toLowerCase().includes(searchTerm);
+                const matchesLocation = locationTerm === "" || kost.location.toLowerCase().includes(locationTerm) || kost.fullAddress.toLowerCase().includes(locationTerm);
+                const matchesType = selectedType === "" || kost.type === selectedType;
+                return matchesSearch && matchesLocation && matchesType;
+            });
+
+            // Sorting
+            if (selectedSort === 'price-asc') {
+                filtered.sort((a, b) => a.price - b.price);
+            } else if (selectedSort === 'price-desc') {
+                filtered.sort((a, b) => b.price - a.price);
+            } else if (selectedSort === 'name-asc') {
+                filtered.sort((a, b) => a.name.localeCompare(b.name));
+            } else if (selectedSort === 'name-desc') {
+                filtered.sort((a, b) => b.name.localeCompare(a.name));
+            }
+
+            displayKosts(filtered);
+        }
+
+        // Fungsi untuk menampilkan pesan kustom (menggantikan alert)
+        function showMessage(message, title = "Informasi", type = "success") {
+            const modalHeader = messageModal._element.querySelector('.modal-header');
+            modalHeader.classList.remove('bg-success', 'bg-danger', 'bg-primary');
+            if (type === "success") {
+                modalHeader.classList.add('bg-success');
+            } else if (type === "error") {
+                modalHeader.classList.add('bg-danger');
+            } else {
+                modalHeader.classList.add('bg-primary');
+            }
+
+            document.getElementById('messageModalLabel').textContent = title;
+            document.getElementById('messageModalText').textContent = message;
+            messageModal.show();
+        }
+
+        // Fungsi untuk format harga
+        function formatPrice(price) {
+            return price.toLocaleString('id-ID');
+        }
+
+        // --- Fitur Autentikasi ---
+        function checkLoginStatus() {
+            if (!isLoggedIn) {
+                showPage('login-page');
+            } else {
+                showPage('main-dashboard');
+            }
+        }
+
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            // Simulasi login
+            if (email === 'user@example.com' && password === 'password123') {
+                isLoggedIn = true;
+                currentUser = { name: 'Pengguna CT2 Kost', email: 'user@example.com', phone: '081234567890', location: 'Jakarta Selatan' };
+                sessionStorage.setItem('isLoggedIn', 'true');
+                sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+                showMessage('Login Berhasil!', 'Sukses', 'success');
+                showPage('main-dashboard');
+                updateProfileDisplay(); // Perbarui tampilan profil
+                currentLocationDisplay.textContent = currentUser.location; // Update lokasi di top bar
+            } else {
+                showMessage('Email atau password salah.', 'Login Gagal', 'error');
+            }
+        });
+
+        document.getElementById('register-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+
+            // Simulasi register
+            if (name && email && password) {
+                showMessage('Pendaftaran Berhasil! Silakan masuk.', 'Sukses', 'success');
+                showPage('login-page');
+            } else {
+                showMessage('Mohon lengkapi semua data.', 'Pendaftaran Gagal', 'error');
+            }
+        });
+
+        document.getElementById('show-register').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('register-page');
+        });
+
+        document.getElementById('show-login').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('login-page');
+        });
+
+        function logout() {
+            isLoggedIn = false;
+            currentUser = null;
+            sessionStorage.removeItem('isLoggedIn');
+            sessionStorage.removeItem('currentUser');
+            showMessage('Anda telah berhasil keluar.', 'Informasi', 'success');
+            showPage('login-page');
+            currentLocationDisplay.textContent = 'Lokasi Anda Saat Ini'; // Reset lokasi di top bar
+        }
+
+        // --- Fitur Favorit ---
+        function toggleFavorite(kostId, buttonElement) {
+            if (!isLoggedIn) {
+                showMessage('Anda harus login untuk menambahkan favorit.', 'Login Diperlukan', 'error');
+                return;
+            }
+
+            const index = userFavorites.indexOf(kostId);
+            if (index > -1) {
+                // Hapus dari favorit
+                userFavorites.splice(index, 1);
+                buttonElement.classList.remove('favorited');
+                buttonElement.querySelector('i').classList.replace('fas', 'far');
+                showMessage('Kost dihapus dari favorit.', 'Favorit', 'info');
+            } else {
+                // Tambahkan ke favorit
+                userFavorites.push(kostId);
+                buttonElement.classList.add('favorited');
+                buttonElement.querySelector('i').classList.replace('far', 'fas');
+                showMessage('Kost ditambahkan ke favorit!', 'Favorit', 'success');
+            }
+            localStorage.setItem('userFavorites', JSON.stringify(userFavorites));
+            // Jika sedang di halaman favorit, perbarui tampilan
+            if (document.getElementById('favorites-page').style.display === 'block') {
+                displayFavorites();
+            }
+        }
+
+        function displayFavorites() {
+            const favoriteKosts = kosts.filter(kost => userFavorites.includes(kost.id));
+            displayKosts(favoriteKosts, favoriteKostListDiv);
+        }
+
+        // --- Fitur Pemesanan ---
+        document.getElementById('book-kost-btn').addEventListener('click', function() {
+            if (!isLoggedIn) {
+                kostDetailModal.hide();
+                showMessage('Anda harus login untuk melakukan pemesanan.', 'Login Diperlukan', 'error');
+                return;
+            }
+            if (selectedKostForBooking) {
+                document.getElementById('booking-kost-name').textContent = selectedKostForBooking.name;
+                document.getElementById('booking-kost-price').textContent = formatPrice(selectedKostForBooking.price);
+                document.getElementById('booking-duration').value = 1; // Reset durasi
+                document.getElementById('booking-date').valueAsDate = new Date(); // Set tanggal hari ini
+                kostDetailModal.hide();
+                bookingConfirmModal.show();
+            }
+        });
+
+        document.getElementById('confirm-booking-btn').addEventListener('click', function() {
+            const duration = parseInt(document.getElementById('booking-duration').value);
+            const bookingDate = document.getElementById('booking-date').value;
+
+            if (duration > 0 && bookingDate && selectedKostForBooking) {
+                const totalCost = selectedKostForBooking.price * duration;
+                const orderId = Date.now(); // Simple unique ID
+                const newOrder = {
+                    id: orderId,
+                    kostId: selectedKostForBooking.id,
+                    kostName: selectedKostForBooking.name,
+                    location: selectedKostForBooking.location,
+                    pricePerMonth: selectedKostForBooking.price,
+                    duration: duration,
+                    bookingDate: bookingDate,
+                    totalCost: totalCost,
+                    status: 'Confirmed' // Initial status
+                };
+                userOrders.push(newOrder);
+                localStorage.setItem('userOrders', JSON.stringify(userOrders));
+
+                bookingConfirmModal.hide();
+                showMessage(`Pemesanan kost ${selectedKostForBooking.name} untuk ${duration} bulan (total Rp ${formatPrice(totalCost)}) pada tanggal ${bookingDate} berhasil dikonfirmasi!`, 'Pemesanan Berhasil', 'success');
+
+                // Simulasi mengurangi ketersediaan
+                const kostIndex = kosts.findIndex(k => k.id === selectedKostForBooking.id);
+                if (kostIndex !== -1 && kosts[kostIndex].availability > 0) {
+                    kosts[kostIndex].availability--;
+                }
+                // Perbarui tampilan daftar kost jika perlu
+                performSearchAndFilter();
+            } else {
+                showMessage('Mohon lengkapi durasi sewa dan tanggal masuk.', 'Pemesanan Gagal', 'error');
+            }
+        });
+
+        // --- Fitur Pesananku (Orders) ---
+        function displayOrders() {
+            userOrdersListDiv.innerHTML = '';
+            if (userOrders.length === 0) {
+                noOrdersDiv.style.display = 'block';
+            } else {
+                noOrdersDiv.style.display = 'none';
+                userOrders.forEach(order => {
+                    const orderItem = document.createElement('div');
+                    orderItem.className = 'order-item';
+                    orderItem.innerHTML = `
+                        <h5>${order.kostName}</h5>
+                        <p>Lokasi: ${order.location}</p>
+                        <p>Durasi: ${order.duration} bulan</p>
+                        <p>Tanggal Masuk: ${order.bookingDate}</p>
+                        <p>Total Harga: Rp ${formatPrice(order.totalCost)}</p>
+                        <span class="status-badge status-confirmed">${order.status}</span>
+                    `;
+                    userOrdersListDiv.appendChild(orderItem);
+                });
+            }
+        }
+
+        // --- Fitur Tagihan (Bills) ---
+        function displayBills() {
+            userBillsListDiv.innerHTML = '';
+            if (userOrders.length === 0) { // Untuk simulasi, tagihan berdasarkan pesanan
+                noBillsDiv.style.display = 'block';
+            } else {
+                noBillsDiv.style.display = 'none';
+                userOrders.forEach(order => {
+                    // Simulasi tagihan bulanan
+                    for (let i = 0; i < order.duration; i++) {
+                        const billDate = new Date(order.bookingDate);
+                        billDate.setMonth(billDate.getMonth() + i);
+                        const billStatus = (i === 0 && order.status === 'Confirmed') ? 'Belum Dibayar' : 'Lunas'; // Simulasi status
+                        const statusClass = (i === 0 && order.status === 'Confirmed') ? 'status-pending' : 'status-paid';
+
+                        const billItem = document.createElement('div');
+                        billItem.className = 'bill-item';
+                        billItem.innerHTML = `
+                            <h5>Tagihan Kost ${order.kostName} - Bulan Ke-${i + 1}</h5>
+                            <p>Periode: ${billDate.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })}</p>
+                            <p>Jumlah: Rp ${formatPrice(order.pricePerMonth)}</p>
+                            <span class="status-badge ${statusClass}">${billStatus}</span>
+                            ${billStatus === 'Belum Dibayar' ? `<button class="btn btn-sm btn-primary ms-2" onclick="payBill(${order.id}, ${i})">Bayar</button>` : ''}
+                        `;
+                        userBillsListDiv.appendChild(billItem);
+                    }
+                });
+            }
+        }
+
+        function payBill(orderId, monthIndex) {
+            // Simulasi pembayaran tagihan
+            showMessage(`Tagihan bulan ke-${monthIndex + 1} untuk pesanan #${orderId} berhasil dibayar!`, 'Pembayaran Berhasil', 'success');
+            // Logika nyata akan memperbarui status tagihan di backend
+            displayBills(); // Perbarui tampilan tagihan
+        }
+
+
+        // --- Fitur Profil ---
+        function displayProfile() {
+            const profileContent = document.getElementById('profile-content');
+            if (isLoggedIn && currentUser) {
+                profileContent.innerHTML = `
+                    <h4>Informasi Akun</h4>
+                    <p><strong>Nama:</strong> ${currentUser.name}</p>
+                    <p><strong>Email:</strong> ${currentUser.email}</p>
+                    <p><strong>Telepon:</strong> ${currentUser.phone}</p>
+                    <p><strong>Lokasi:</strong> ${currentUser.location}</p>
+                    <button class="btn btn-danger rounded-pill" onclick="logout()">Keluar</button>
+                `;
+            } else {
+                profileContent.innerHTML = `
+                    <p class="lead">Anda belum masuk. Silakan <a href="#" id="profile-login-link">Masuk</a> atau <a href="#" id="profile-register-link">Daftar</a>.</p>
+                `;
+                document.getElementById('profile-login-link').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showPage('login-page');
+                });
+                document.getElementById('profile-register-link').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showPage('register-page');
+                });
+            }
+        }
+
+        function updateProfileDisplay() {
+            // Ini akan dipanggil setelah login/logout untuk memperbarui tampilan profil jika sedang di halaman profil
+            if (document.getElementById('profile-page').style.display === 'block') {
+                displayProfile();
+            }
+        }
+
+        // --- Dark Mode Toggle ---
+        darkModeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            // Simpan preferensi dark mode di localStorage
+            if (document.body.classList.contains('dark-mode')) {
+                localStorage.setItem('darkMode', 'enabled');
+                darkModeToggle.classList.replace('fa-moon', 'fa-sun'); // Ganti ikon ke matahari
+            } else {
+                localStorage.setItem('darkMode', 'disabled');
+                darkModeToggle.classList.replace('fa-sun', 'fa-moon'); // Ganti ikon ke bulan
+            }
+        });
+
+        // --- Rekomendasi Kost Terdekat ---
+        function displayRecommendedKosts() {
+            recommendedKostsList.innerHTML = '';
+            const userLocation = currentUser ? currentUser.location : 'Jakarta Selatan'; // Default jika belum login
+
+            const nearbyKosts = kosts.filter(kost =>
+                kost.location.toLowerCase().includes(userLocation.toLowerCase()) && kost.availability > 0
+            ).sort((a, b) => b.reputation - a.reputation); // Urutkan berdasarkan reputasi tertinggi
+
+            if (nearbyKosts.length === 0) {
+                noRecommendationsDiv.style.display = 'block';
+            } else {
+                noRecommendationsDiv.style.display = 'none';
+                // Tampilkan maksimal 3 rekomendasi
+                nearbyKosts.slice(0, 3).forEach(kost => {
+                    const recCard = document.createElement('div');
+                    recCard.className = 'recommendation-card';
+                    recCard.innerHTML = `
+                        <h6>${kost.name}</h6>
+                        <p>${kost.fullAddress}</p>
+                        <p>Harga: Rp ${formatPrice(kost.price)}/bulan</p>
+                        <p>Tersedia: ${kost.availability} kamar</p>
+                        <button class="btn btn-sm btn-outline-primary mt-2 view-detail-btn-rec" data-id="${kost.id}">Lihat Detail</button>
+                    `;
+                    recommendedKostsList.appendChild(recCard);
+                });
+
+                // Add event listeners for "Lihat Detail" buttons in recommendations
+                document.querySelectorAll('.view-detail-btn-rec').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const kostId = this.dataset.id;
+                        showKostDetail(parseInt(kostId));
+                    });
+                });
+            }
+        }
+
+        // --- Event Listeners ---
+        locationInput.addEventListener('keyup', performSearchAndFilter);
+        searchInput.addEventListener('keyup', performSearchAndFilter);
+        searchButton.addEventListener('click', performSearchAndFilter);
+        filterType.addEventListener('change', performSearchAndFilter);
+        sortBy.addEventListener('change', performSearchAndFilter);
+
+        // Event Listeners untuk Bottom Navigation
+        document.getElementById('nav-home').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('main-dashboard');
+        });
+        document.getElementById('nav-orders').addEventListener('click', (e) => {
+            e.preventDefault();
+            if (isLoggedIn) {
+                showPage('orders-page'); // Langsung ke halaman pesanan
+            } else {
+                showMessage('Anda harus login untuk melihat riwayat pesanan.', 'Login Diperlukan', 'error');
+            }
+        });
+        document.getElementById('nav-favorites').addEventListener('click', (e) => {
+            e.preventDefault();
+            if (isLoggedIn) {
+                showPage('favorites-page');
+            } else {
+                showMessage('Anda harus login untuk melihat kost favorit.', 'Login Diperlukan', 'error');
+            }
+        });
+        document.getElementById('nav-profile').addEventListener('click', (e) => {
+            e.preventDefault();
+            if (isLoggedIn) {
+                showPage('profile-page');
+            } else {
+                showPage('login-page'); // Arahkan ke login jika belum login
+            }
+        });
+
+
+        // Inisialisasi tampilan saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', () => {
+            // Menambahkan font Inter dari Google Fonts
+            const link = document.createElement('link');
+            link.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap';
+            link.rel = 'stylesheet';
+            document.head.appendChild(link);
+
+            // Tampilkan loader selama 3 detik
+            loaderOverlay.style.display = 'flex';
+            appContainer.style.display = 'none'; // Sembunyikan aplikasi utama
+
+            setTimeout(() => {
+                loaderOverlay.style.display = 'none';
+                appContainer.style.display = 'block'; // Tampilkan aplikasi utama
+                // Terapkan dark mode jika sebelumnya diaktifkan
+                if (localStorage.getItem('darkMode') === 'enabled') {
+                    document.body.classList.add('dark-mode');
+                    darkModeToggle.classList.replace('fa-moon', 'fa-sun');
+                }
+
+                // Periksa status login dan tampilkan halaman yang sesuai
+                checkLoginStatus();
+                displayKosts(kosts); // Muat daftar kost untuk halaman listing (meskipun tersembunyi)
+                displayRecommendedKosts(); // Muat rekomendasi awal
+            }, 3000); // 3 detik
+        });
+    </script>
+</body>
+</html>
