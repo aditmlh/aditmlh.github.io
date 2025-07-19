@@ -1,0 +1,1786 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trusight Coffee Shop</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome untuk ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Menggunakan font Inter */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5; /* Latar belakang abu-abu muda */
+            color: #343a40;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* Mencegah scroll horizontal */
+            padding-bottom: 70px; /* Ruang untuk bottom nav */
+            transition: background-color 0.3s ease, color 0.3s ease; /* Transisi untuk dark mode */
+        }
+
+        /* Warna utama: Dominan putih, aksen cokelat kopi */
+        :root {
+            --primary-brown: #6F4E37; /* Cokelat kopi utama */
+            --light-brown: #8D6E63; /* Cokelat lebih terang */
+            --text-dark: #343a40;
+            --text-muted: #6c757d;
+            --bg-light: #f8f9fa;
+            --bg-white: #ffffff;
+            --card-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            --modal-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+        }
+
+        .dark-mode .app-container {
+            background-color: #2a2a2a;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .dark-mode .top-bar,
+        .dark-mode .bottom-nav,
+        .dark-mode .menu-item-card,
+        .dark-mode .modal-content,
+        .dark-mode .auth-form,
+        .dark-mode .order-summary-card,
+        .dark-mode .profile-info,
+        .dark-mode .order-history-item,
+        .dark-mode .promo-carousel-item,
+        .dark-mode .popular-products-carousel,
+        .dark-mode .testimonial-card {
+            background-color: #3a3a3a;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            border-color: #4a4a4a;
+        }
+
+        .dark-mode .top-bar .app-title,
+        .dark-mode .top-bar .icon-group i,
+        .dark-mode .menu-item-card h5,
+        .dark-mode .menu-item-card p,
+        .dark-mode .modal-body,
+        .dark-mode .modal-title,
+        .dark-mode .form-control,
+        .dark-mode .form-select,
+        .dark-mode .form-label,
+        .dark-mode h2, .dark-mode h3, .dark-mode h4, .dark-mode h5, .dark-mode p,
+        .dark-mode .testimonial-card h6, .dark-mode .testimonial-card p {
+            color: #e0e0e0 !important;
+        }
+
+        .dark-mode .form-control,
+        .dark-mode .form-select {
+            background-color: #4a4a4a;
+            border-color: #5a5a5a;
+        }
+
+        .dark-mode .form-control::placeholder {
+            color: #b0b0b0;
+        }
+
+        .dark-mode .btn-outline-primary {
+            color: var(--light-brown);
+            border-color: var(--light-brown);
+        }
+
+        .dark-mode .btn-outline-primary:hover {
+            background-color: var(--light-brown);
+            color: var(--text-dark);
+        }
+
+        .dark-mode .nav-item-bottom {
+            color: #b0b0b0;
+        }
+
+        .dark-mode .nav-item-bottom.active {
+            color: var(--light-brown);
+        }
+        .dark-mode .price {
+            color: #ffcc00 !important; /* Warna harga di dark mode */
+        }
+        .dark-mode .badge {
+            background-color: var(--light-brown) !important;
+            color: white !important;
+        }
+        .dark-mode .carousel-control-prev-icon,
+        .dark-mode .carousel-control-next-icon {
+            filter: invert(1); /* Make carousel arrows visible in dark mode */
+        }
+        .dark-mode .toast {
+            background-color: #3a3a3a;
+            color: #e0e0e0;
+            border-color: #4a4a4a;
+        }
+        .dark-mode .toast-header {
+            background-color: #4a4a4a;
+            color: #e0e0e0;
+            border-bottom-color: #5a5a5a;
+        }
+        .dark-mode .toast-header .btn-close {
+            filter: invert(1);
+        }
+
+
+        /* Loader Styles */
+        .loader-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--primary-brown); /* Warna cokelat untuk loader */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            flex-direction: column;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .loader {
+            border: 8px solid #f3f3f3; /* Light grey */
+            border-top: 8px solid var(--bg-white); /* White for loader spinner */
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 2s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Struktur Aplikasi Mobile */
+        .app-container {
+            max-width: 500px; /* Lebar maksimal seperti aplikasi mobile */
+            margin: 0 auto;
+            background-color: var(--bg-light);
+            min-height: 100vh;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            display: none; /* Hidden by default, shown after loader */
+        }
+
+        /* Top Bar */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: var(--bg-white);
+            border-bottom: 1px solid #eee;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .top-bar .app-title {
+            font-weight: bold;
+            font-size: 1.3rem;
+            color: var(--primary-brown);
+        }
+
+        .top-bar .icon-group i {
+            font-size: 1.2rem;
+            margin-left: 15px;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+        .top-bar .cart-icon-container {
+            position: relative;
+            display: inline-block;
+        }
+        .top-bar .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #dc3545; /* Red for badge */
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            display: none; /* Hidden by default */
+        }
+
+
+        /* Page Content Styles */
+        .page-content {
+            padding: 20px;
+            display: none; /* Hidden by default */
+        }
+
+        .page-content h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            text-align: center;
+            color: var(--text-dark);
+        }
+
+        /* Home Page - Promotional Banner Carousel */
+        #promo-carousel {
+            margin-bottom: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+        }
+        .promo-carousel-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .promo-carousel-item .carousel-caption {
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            padding: 10px;
+            bottom: 10px;
+        }
+        .promo-carousel-item h5 {
+            color: white;
+            font-weight: bold;
+        }
+        .promo-carousel-item p {
+            color: white;
+            font-size: 0.85rem;
+        }
+
+
+        /* Home Page - Popular Products Carousel */
+        .popular-products-section h3 {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: var(--primary-brown);
+        }
+        .popular-products-carousel {
+            display: flex;
+            overflow-x: auto; /* Enable horizontal scrolling */
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+            scroll-snap-type: x mandatory; /* Snap to items */
+            padding-bottom: 15px; /* Space for scrollbar */
+            scrollbar-width: none; /* Hide scrollbar for Firefox */
+            -ms-overflow-style: none;  /* Hide scrollbar for IE and Edge */
+        }
+        .popular-products-carousel::-webkit-scrollbar {
+            display: none; /* Hide scrollbar for Chrome, Safari, Opera */
+        }
+
+        .popular-product-card {
+            flex: 0 0 auto; /* Prevent shrinking */
+            width: 150px; /* Fixed width for each card */
+            margin-right: 15px; /* Space between cards */
+            background-color: var(--bg-white);
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            scroll-snap-align: start; /* Snap alignment */
+        }
+        .popular-product-card:hover {
+            transform: translateY(-3px);
+        }
+        .popular-product-card img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+        .popular-product-card .card-body {
+            padding: 10px;
+            text-align: center;
+        }
+        .popular-product-card h5 {
+            color: var(--text-dark);
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 1rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .popular-product-card .price {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: var(--primary-brown);
+        }
+
+        /* Testimonials Section */
+        .testimonials-section {
+            margin-bottom: 30px;
+        }
+        .testimonials-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .testimonials-header h3 {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--primary-brown);
+            margin-bottom: 0;
+        }
+        .testimonials-header .add-testimonial-icon {
+            font-size: 1.5rem;
+            color: var(--primary-brown);
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+        .testimonials-header .add-testimonial-icon:hover {
+            color: var(--light-brown);
+        }
+
+        .testimonial-carousel-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding-bottom: 10px; /* Space for potential scrollbar */
+        }
+        .testimonial-carousel-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .testimonial-carousel-inner {
+            display: flex;
+            flex-wrap: nowrap; /* Prevent wrapping */
+            gap: 15px; /* Space between testimonial cards */
+        }
+
+        .testimonial-card {
+            flex: 0 0 auto; /* Prevent shrinking */
+            width: 250px; /* Fixed width for testimonial card */
+            background-color: var(--bg-white);
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            padding: 15px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .testimonial-card img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 10px;
+            border: 2px solid var(--primary-brown);
+        }
+        .testimonial-card h6 {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: var(--text-dark);
+        }
+        .testimonial-card p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-style: italic;
+            margin-bottom: 0;
+            flex-grow: 1; /* Allow text to take available space */
+        }
+
+
+        /* Menu Page */
+        .menu-category-tabs .nav-link {
+            color: var(--text-muted);
+            font-weight: bold;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+        .menu-category-tabs .nav-link.active {
+            color: var(--primary-brown);
+            border-bottom-color: var(--primary-brown);
+        }
+        .menu-item-card {
+            background-color: var(--bg-white);
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 15px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .menu-item-card:hover {
+            transform: translateY(-3px);
+        }
+        .menu-item-card img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-right: 15px;
+        }
+        .menu-item-card .item-details {
+            flex-grow: 1;
+        }
+        .menu-item-card .item-details h5 {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: var(--text-dark);
+        }
+        .menu-item-card .item-details p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+        }
+        .menu-item-card .item-details .price {
+            font-weight: bold;
+            color: var(--primary-brown);
+            font-size: 1rem;
+        }
+        .menu-item-card .add-to-cart-btn {
+            background-color: var(--primary-brown);
+            color: white;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            border: none;
+        }
+        .menu-item-card .add-to-cart-btn:hover {
+            background-color: var(--light-brown);
+        }
+
+        /* Cart Page */
+        .cart-item {
+            display: flex;
+            align-items: center;
+            background-color: var(--bg-white);
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .cart-item img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-right: 15px;
+        }
+        .cart-item .item-details {
+            flex-grow: 1;
+        }
+        .cart-item .item-details h5 {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: var(--text-dark);
+        }
+        .cart-item .item-details .price {
+            font-weight: bold;
+            color: var(--primary-brown);
+            font-size: 1rem;
+        }
+        .cart-item .quantity-controls {
+            display: flex;
+            align-items: center;
+        }
+        .cart-item .quantity-controls button {
+            background-color: var(--primary-brown);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            width: 30px;
+            height: 30px;
+            font-size: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .cart-item .quantity-controls span {
+            margin: 0 10px;
+            font-weight: bold;
+            color: var(--text-dark);
+        }
+        .cart-item .remove-item-btn {
+            background: none;
+            border: none;
+            color: #dc3545;
+            font-size: 1.2rem;
+            margin-left: 15px;
+        }
+
+        .order-summary-card {
+            background-color: var(--bg-white);
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .order-summary-card .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .order-summary-card .summary-row.total {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--primary-brown);
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+        .order-summary-card .btn-primary {
+            background-color: var(--primary-brown);
+            border-color: var(--primary-brown);
+        }
+        .order-summary-card .btn-primary:hover {
+            background-color: var(--light-brown);
+            border-color: var(--light-brown);
+        }
+
+        /* Order History Page */
+        .order-history-item {
+            background-color: var(--bg-white);
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .order-history-item h5 {
+            font-weight: bold;
+            color: var(--primary-brown);
+            margin-bottom: 10px;
+        }
+        .order-history-item p {
+            margin-bottom: 5px;
+            font-size: 0.95rem;
+        }
+        .order-history-item .order-items-list {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 10px;
+            border-top: 1px dashed #eee;
+            padding-top: 10px;
+        }
+        .order-history-item .order-items-list li {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        .order-history-item .order-items-list li strong {
+            color: var(--text-dark);
+        }
+        .order-history-item .order-total {
+            font-weight: bold;
+            color: var(--primary-brown);
+            font-size: 1.1rem;
+            margin-top: 10px;
+            text-align: right;
+        }
+
+        /* Profile Page */
+        .profile-info {
+            background-color: var(--bg-white);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .profile-info h4 {
+            color: var(--primary-brown);
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .profile-info p {
+            margin-bottom: 8px;
+        }
+
+        .profile-info .btn {
+            margin-top: 20px;
+            background-color: var(--primary-brown);
+            border-color: var(--primary-brown);
+        }
+        .profile-info .btn:hover {
+            background-color: var(--light-brown);
+            border-color: var(--light-brown);
+        }
+
+        /* Login/Register Page */
+        .auth-form {
+            background-color: var(--bg-white);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            margin-top: 50px;
+        }
+
+        .auth-form h2 {
+            color: var(--primary-brown);
+            margin-bottom: 30px;
+        }
+        .auth-form .btn-primary {
+            background-color: var(--primary-brown);
+            border-color: var(--primary-brown);
+        }
+        .auth-form .btn-primary:hover {
+            background-color: var(--light-brown);
+            border-color: var(--light-brown);
+        }
+        .auth-form a {
+            color: var(--primary-brown);
+        }
+
+        /* Modal Styling */
+        .modal-content {
+            border-radius: 15px;
+            box-shadow: var(--modal-shadow);
+        }
+
+        .modal-header {
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            background-color: var(--primary-brown);
+            color: white;
+            border-bottom: none;
+        }
+
+        .modal-title {
+            font-weight: bold;
+        }
+
+        .btn-close-white {
+            filter: invert(1) grayscale(100%) brightness(200%);
+        }
+
+        /* Item Detail Modal */
+        #itemDetailModal .modal-body img {
+            max-width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        #itemDetailModal .modal-body h4 {
+            color: var(--primary-brown);
+            font-weight: bold;
+        }
+        #itemDetailModal .modal-body .detail-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-brown);
+            margin-bottom: 15px;
+        }
+        #itemDetailModal .modal-footer .btn-primary {
+            background-color: var(--primary-brown);
+            border-color: var(--primary-brown);
+        }
+        #itemDetailModal .modal-footer .btn-primary:hover {
+            background-color: var(--light-brown);
+            border-color: var(--light-brown);
+        }
+
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--bg-white);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .nav-item-bottom {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 600;
+            transition: color 0.2s ease;
+            cursor: pointer;
+        }
+
+        .nav-item-bottom.active {
+            color: var(--primary-brown);
+        }
+
+        .nav-item-bottom i {
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+        }
+
+        /* Toast Container */
+        #toast-container {
+            position: fixed;
+            bottom: 80px; /* Above bottom nav */
+            right: 20px;
+            z-index: 1050;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loader Overlay -->
+    <div class="loader-overlay" id="loader-overlay">
+        <div class="loader"></div>
+        <span>Memuat Trusight Coffee Shop...</span>
+    </div>
+
+    <div class="app-container" id="app-container">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="app-title">Trusight Coffee</div>
+            <div class="icon-group">
+                <div class="cart-icon-container" onclick="showPage('cart-page')">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-badge" id="cart-badge">0</span>
+                </div>
+                <i class="fas fa-moon ms-3" id="dark-mode-toggle"></i>
+            </div>
+        </div>
+
+        <!-- Home Page (Promotional Banner, Popular Products & Info) -->
+        <div id="home-page" class="page-content">
+            <h2 class="mb-4">Selamat Datang di Trusight Coffee!</h2>
+
+            <!-- Promotional Banner Carousel -->
+            <div id="promo-carousel" class="carousel slide mb-5" data-bs-ride="carousel">
+                <div class="carousel-inner" id="promo-carousel-inner">
+                    <!-- Carousel items will be injected here -->
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#promo-carousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#promo-carousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+
+            <!-- Popular Products Section (Carousel) -->
+            <div class="popular-products-section mb-5">
+                <h3>Produk Populer</h3>
+                <div id="popular-products-carousel" class="popular-products-carousel">
+                    <!-- Popular products will be injected here -->
+                </div>
+                <div id="no-popular-products" class="text-center text-muted mt-3" style="display: none;">
+                    <p>Belum ada produk populer saat ini.</p>
+                </div>
+            </div>
+
+            <!-- Testimonials Section -->
+            <div class="testimonials-section mb-5">
+                <div class="testimonials-header">
+                    <h3>Testimoni Pelanggan</h3>
+                    <i class="fas fa-plus-circle add-testimonial-icon" id="add-testimonial-btn" style="display: none;"></i>
+                </div>
+                <div class="testimonial-carousel-container">
+                    <div class="testimonial-carousel-inner" id="testimonial-carousel-inner">
+                        <!-- Testimonials will be injected here -->
+                    </div>
+                </div>
+                <div id="no-testimonials" class="text-center text-muted mt-3" style="display: none;">
+                    <p>Belum ada testimoni. Jadilah yang pertama!</p>
+                </div>
+            </div>
+
+            <div class="about-section">
+                <h3>Tentang Kami</h3>
+                <p class="text-muted">Trusight Coffee adalah kedai kopi premium di Kotamobagu, menyajikan biji kopi pilihan terbaik dan hidangan pendamping yang lezat. Kami berkomitmen untuk memberikan pengalaman kopi yang tak terlupakan.</p>
+                <p class="text-muted"><strong>Alamat:</strong> Jl. Kopi Nikmat No. 10, Kotamobagu</p>
+                <p class="text-muted"><strong>Jam Buka:</strong> Setiap hari, 09:00 - 22:00 WITA</p>
+                <p class="text-muted"><strong>Telepon:</strong> (0434) 123456</p>
+                <p class="text-muted"><strong>Email:</strong> info@trusightcoffee.com</p>
+            </div>
+        </div>
+
+        <!-- Menu Page -->
+        <div id="menu-page" class="page-content">
+            <h2>Menu Kami</h2>
+            <ul class="nav nav-tabs justify-content-center menu-category-tabs mb-4" id="menuTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="all-tab" data-bs-toggle="tab" data-bs-target="#all-menu" type="button" role="tab" aria-controls="all-menu" aria-selected="true">Semua</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="coffee-tab" data-bs-toggle="tab" data-bs-target="#coffee-menu" type="button" role="tab" aria-controls="coffee-menu" aria-selected="false">Kopi</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="non-coffee-tab" data-bs-toggle="tab" data-bs-target="#non-coffee-menu" type="button" role="tab" aria-controls="non-coffee-menu" aria-selected="false">Non Kopi</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="food-tab" data-bs-toggle="tab" data-bs-target="#food-menu" type="button" role="tab" aria-controls="food-menu" aria-selected="false">Makanan</button>
+                </li>
+            </ul>
+            <div class="tab-content" id="menuTabContent">
+                <div class="tab-pane fade show active" id="all-menu" role="tabpanel" aria-labelledby="all-tab">
+                    <div id="all-menu-list"></div>
+                </div>
+                <div class="tab-pane fade" id="coffee-menu" role="tabpanel" aria-labelledby="coffee-tab">
+                    <div id="coffee-menu-list"></div>
+                </div>
+                <div class="tab-pane fade" id="non-coffee-menu" role="tabpanel" aria-labelledby="non-coffee-tab">
+                    <div id="non-coffee-menu-list"></div>
+                </div>
+                <div class="tab-pane fade" id="food-menu" role="tabpanel" aria-labelledby="food-tab">
+                    <div id="food-menu-list"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cart Page -->
+        <div id="cart-page" class="page-content">
+            <h2>Keranjang Belanja</h2>
+            <div id="cart-items-list">
+                <!-- Cart items will be injected here -->
+            </div>
+            <div id="no-cart-items" class="text-center mt-5" style="display: none;">
+                <p class="lead">Keranjang Anda kosong.</p>
+            </div>
+            <div id="cart-summary" class="order-summary-card" style="display: none;">
+                <div class="summary-row">
+                    <span>Subtotal:</span>
+                    <span id="cart-subtotal">Rp 0</span>
+                </div>
+                <div class="summary-row">
+                    <span>Pajak (10%):</span>
+                    <span id="cart-tax">Rp 0</span>
+                </div>
+                <div class="summary-row total">
+                    <span>Total:</span>
+                    <span id="cart-total">Rp 0</span>
+                </div>
+                <button class="btn btn-primary w-100 rounded-pill mt-3" id="checkout-btn">Lanjutkan ke Pembayaran</button>
+            </div>
+        </div>
+
+        <!-- Order History Page -->
+        <div id="order-history-page" class="page-content">
+            <h2>Riwayat Pesanan</h2>
+            <div id="order-history-list">
+                <!-- Order history items will be injected here -->
+            </div>
+            <div id="no-order-history" class="text-center mt-5" style="display: none;">
+                <p class="lead">Anda belum memiliki riwayat pesanan.</p>
+            </div>
+        </div>
+
+        <!-- Profile Page -->
+        <div id="profile-page" class="page-content">
+            <h2>Profil Saya</h2>
+            <div id="profile-content" class="profile-info">
+                <!-- Profile info will be injected here -->
+            </div>
+        </div>
+
+        <!-- Login Page -->
+        <div id="login-page" class="page-content">
+            <div class="auth-form mx-auto" style="max-width: 400px;">
+                <h2 class="text-center">Masuk</h2>
+                <form id="login-form">
+                    <div class="mb-3">
+                        <label for="login-username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="login-username" value="user_trusight" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="login-password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="login-password" value="password123" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 rounded-pill mt-3">Masuk</button>
+                </form>
+                <p class="text-center mt-3">Belum punya akun? <a href="#" id="show-register">Daftar Sekarang</a></p>
+            </div>
+        </div>
+
+        <!-- Register Page -->
+        <div id="register-page" class="page-content">
+            <div class="auth-form mx-auto" style="max-width: 400px;">
+                <h2 class="text-center">Daftar Akun Baru</h2>
+                <form id="register-form">
+                    <div class="mb-3">
+                        <label for="register-name" class="form-label">Nama Lengkap</label>
+                        <input type="text" class="form-control" id="register-name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="register-username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="register-username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="register-password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="register-password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 rounded-pill mt-3">Daftar</button>
+                </form>
+                <p class="text-center mt-3">Sudah punya akun? <a href="#" id="show-login">Masuk</a></p>
+            </div>
+        </div>
+
+        <!-- Item Detail Modal -->
+        <div class="modal fade" id="itemDetailModal" tabindex="-1" aria-labelledby="itemDetailModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="itemDetailModalLabel">Detail Item</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <img id="modal-item-image" src="" alt="Gambar Item" class="img-fluid mb-3">
+                        <h4 id="modal-item-name" class="mb-2"></h4>
+                        <p class="detail-price" id="modal-item-price"></p>
+                        <p><strong>Deskripsi:</strong> <span id="modal-item-description"></span></p>
+                        <p><strong>Kategori:</strong> <span id="modal-item-category"></span></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Tutup</button>
+                        <button type="button" class="btn btn-primary" id="add-to-cart-modal-btn">Tambah ke Keranjang</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Testimonial Modal -->
+        <div class="modal fade" id="addTestimonialModal" tabindex="-1" aria-labelledby="addTestimonialModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addTestimonialModalLabel">Tambah Testimoni Anda</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="testimonial-form">
+                            <div class="mb-3">
+                                <label for="testimonial-text" class="form-label">Testimoni Anda</label>
+                                <textarea class="form-control" id="testimonial-text" rows="4" placeholder="Bagikan pengalaman Anda tentang Trusight Coffee..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100 rounded-pill">Kirim Testimoni</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Custom Message Modal (for critical alerts) -->
+        <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-success text-white">
+                        <h5 class="modal-title" id="messageModalLabel">Informasi</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="messageModalText"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Oke</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast Container (for non-intrusive notifications) -->
+        <div class="toast-container position-fixed bottom-0 end-0 p-3" id="toast-container">
+            <!-- Toasts will be appended here -->
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a href="#" class="nav-item-bottom active" id="nav-home">
+                <i class="fas fa-home"></i>
+                <span>Beranda</span>
+            </a>
+            <a href="#" class="nav-item-bottom" id="nav-menu">
+                <i class="fas fa-coffee"></i>
+                <span>Menu</span>
+            </a>
+            <a href="#" class="nav-item-bottom" id="nav-cart">
+                <i class="fas fa-shopping-cart"></i>
+                <span>Keranjang</span>
+            </a>
+            <a href="#" class="nav-item-bottom" id="nav-history">
+                <i class="fas fa-history"></i>
+                <span>Riwayat</span>
+            </a>
+            <a href="#" class="nav-item-bottom" id="nav-profile">
+                <i class="fas fa-user"></i>
+                <span>Profil</span>
+            </a>
+        </nav>
+    </div> <!-- End of app-container -->
+
+    <!-- Bootstrap JS Bundle (Popper included) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // --- Data Aplikasi (Disimpan di localStorage untuk persistensi sederhana) ---
+        // Catatan: Untuk aplikasi produksi nyata, data ini akan diambil dari database backend.
+        let menuItems = JSON.parse(localStorage.getItem('trusightMenuItems')) || [
+            { id: 1, name: "Espresso", description: "Kopi pekat dengan crema kaya.", price: 25000, category: "Kopi", imageUrl: "https://placehold.co/400x300/6F4E37/ffffff?text=Espresso" },
+            { id: 2, name: "Latte", description: "Espresso dengan susu kukus dan sedikit busa.", price: 35000, category: "Kopi", imageUrl: "https://placehold.co/400x300/6F4E37/ffffff?text=Latte" },
+            { id: 3, name: "Cappuccino", description: "Espresso, susu kukus, dan lapisan busa tebal.", price: 35000, category: "Kopi", imageUrl: "https://placehold.co/400x300/6F4E37/ffffff?text=Cappuccino" },
+            { id: 4, name: "Americano", description: "Espresso dengan air panas.", price: 30000, category: "Kopi", imageUrl: "https://placehold.co/400x300/6F4E37/ffffff?text=Americano" },
+            { id: 5, name: "Matcha Latte", description: "Teh hijau matcha premium dengan susu.", price: 40000, category: "Non Kopi", imageUrl: "https://placehold.co/400x300/A2D2FF/343a40?text=Matcha+Latte" },
+            { id: 6, name: "Red Velvet Latte", description: "Minuman manis dengan rasa red velvet dan susu.", price: 40000, category: "Non Kopi", imageUrl: "https://placehold.co/400x300/FF6B6B/ffffff?text=Red+Velvet" },
+            { id: 7, name: "Croissant", description: "Pastry renyah khas Prancis.", price: 20000, category: "Makanan", imageUrl: "https://placehold.co/400x300/D2B48C/343a40?text=Croissant" },
+            { id: 8, name: "Brownies", description: "Kue cokelat padat dan fudgy.", price: 25000, category: "Makanan", imageUrl: "https://placehold.co/400x300/8B4513/ffffff?text=Brownies" },
+            { id: 9, name: "Cheesecake", description: "Kue keju lembut dengan topping pilihan.", price: 30000, category: "Makanan", imageUrl: "https://placehold.co/400x300/FFD700/343a40?text=Cheesecake" },
+            { id: 10, name: "Caramel Macchiato", description: "Espresso, susu kukus, sirup vanila, dan saus karamel.", price: 40000, category: "Kopi", imageUrl: "https://placehold.co/400x300/6F4E37/ffffff?text=Caramel+Macchiato" }
+        ];
+
+        let users = JSON.parse(localStorage.getItem('trusightUsers')) || [
+            { id: 1, username: "user_trusight", password: "password123", name: "Pelanggan Trusight", email: "user@trusight.com", avatar: "https://placehold.co/100x100/6F4E37/ffffff?text=PT" }
+        ];
+
+        // Data keranjang belanja (disimpan di sessionStorage agar hilang saat tab ditutup)
+        let cart = JSON.parse(sessionStorage.getItem('trusightCart')) || [];
+
+        // Riwayat pesanan (disimpan di localStorage)
+        let orderHistory = JSON.parse(localStorage.getItem('trusightOrderHistory')) || [];
+
+        // Data banner promosi
+        const promoBanners = [
+            { id: 1, imageUrl: "https://placehold.co/500x200/8D6E63/ffffff?text=Promo+Kopi+Baru", title: "Promo Kopi Baru!", description: "Nikmati diskon 20% untuk semua kopi single origin." },
+            { id: 2, imageUrl: "https://placehold.co/500x200/6F4E37/ffffff?text=Diskon+Pastry", title: "Diskon Pastry!", description: "Beli 2 Croissant, gratis 1 Brownies." },
+            { id: 3, imageUrl: "https://placehold.co/500x200/D2B48C/343a40?text=Loyalty+Program", title: "Program Loyalitas", description: "Kumpulkan poin dan dapatkan kopi gratis!" }
+        ];
+
+        // Data Testimoni
+        let testimonials = JSON.parse(localStorage.getItem('trusightTestimonials')) || [
+            { id: 1, userId: 1, text: "Kopi terbaik di Kotamobagu! Latte-nya juara, selalu bikin nagih.", timestamp: "2025-07-10T10:00:00Z" },
+            { id: 2, userId: 1, text: "Tempat yang nyaman buat nongkrong, wifi kencang, dan pelayanannya ramah.", timestamp: "2025-07-12T14:30:00Z" },
+            { id: 3, userId: 1, text: "Brownies-nya enak banget! Cocok buat teman ngopi sore.", timestamp: "2025-07-15T09:15:00Z" }
+        ];
+
+
+        // --- Elemen DOM ---
+        const loaderOverlay = document.getElementById('loader-overlay');
+        const appContainer = document.getElementById('app-container');
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        const cartBadge = document.getElementById('cart-badge');
+
+        const homePage = document.getElementById('home-page');
+        const menuPage = document.getElementById('menu-page');
+        const cartPage = document.getElementById('cart-page');
+        const orderHistoryPage = document.getElementById('order-history-page');
+        const profilePage = document.getElementById('profile-page');
+        const loginPage = document.getElementById('login-page');
+        const registerPage = document.getElementById('register-page');
+
+        const promoCarouselInner = document.getElementById('promo-carousel-inner');
+        const popularProductsCarousel = document.getElementById('popular-products-carousel');
+        const noPopularProductsDiv = document.getElementById('no-popular-products');
+
+        const testimonialCarouselInner = document.getElementById('testimonial-carousel-inner');
+        const noTestimonialsDiv = document.getElementById('no-testimonials');
+        const addTestimonialBtn = document.getElementById('add-testimonial-btn');
+        const addTestimonialModal = new bootstrap.Modal(document.getElementById('addTestimonialModal'));
+        const testimonialForm = document.getElementById('testimonial-form');
+        const testimonialTextInput = document.getElementById('testimonial-text');
+
+
+        const allMenuList = document.getElementById('all-menu-list');
+        const coffeeMenuList = document.getElementById('coffee-menu-list');
+        const nonCoffeeMenuList = document.getElementById('non-coffee-menu-list');
+        const foodMenuList = document.getElementById('food-menu-list');
+
+        const cartItemsList = document.getElementById('cart-items-list');
+        const noCartItemsDiv = document.getElementById('no-cart-items');
+        const cartSummaryDiv = document.getElementById('cart-summary');
+        const cartSubtotalSpan = document.getElementById('cart-subtotal');
+        const cartTaxSpan = document.getElementById('cart-tax');
+        const cartTotalSpan = document.getElementById('cart-total');
+        const checkoutBtn = document.getElementById('checkout-btn');
+
+        const orderHistoryList = document.getElementById('order-history-list');
+        const noOrderHistoryDiv = document.getElementById('no-order-history');
+
+        const profileContentDiv = document.getElementById('profile-content');
+
+        const itemDetailModal = new bootstrap.Modal(document.getElementById('itemDetailModal'));
+        const modalItemImage = document.getElementById('modal-item-image');
+        const modalItemName = document.getElementById('modal-item-name');
+        const modalItemPrice = document.getElementById('modal-item-price');
+        const modalItemDescription = document.getElementById('modal-item-description');
+        const modalItemCategory = document.getElementById('modal-item-category');
+        const addToCartModalBtn = document.getElementById('add-to-cart-modal-btn');
+
+        const messageModal = new bootstrap.Modal(document.getElementById('messageModal'));
+        const toastContainer = document.getElementById('toast-container');
+
+
+        // --- State Aplikasi ---
+        let isLoggedIn = sessionStorage.getItem('trusightIsLoggedIn') === 'true';
+        let currentUser = JSON.parse(sessionStorage.getItem('trusightCurrentUser')) || null;
+
+        // --- Fungsi Umum ---
+        function showPage(pageId) {
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.style.display = 'none';
+            });
+            document.getElementById(pageId).style.display = 'block';
+
+            document.querySelectorAll('.nav-item-bottom').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            if (pageId === 'home-page') {
+                document.getElementById('nav-home').classList.add('active');
+                displayPromotionalBanners();
+                displayPopularProducts();
+                displayTestimonials(); // Display testimonials
+                updateAddTestimonialButtonVisibility(); // Update button visibility
+            } else if (pageId === 'menu-page') {
+                document.getElementById('nav-menu').classList.add('active');
+                displayMenuItems('all'); // Default to 'Semua' tab
+                // Ensure Bootstrap tabs are initialized and active tab is shown
+                const firstTabTriggerEl = document.querySelector('#menuTabs button[data-bs-target="#all-menu"]');
+                const firstTab = new bootstrap.Tab(firstTabTriggerEl);
+                firstTab.show();
+            } else if (pageId === 'cart-page') {
+                document.getElementById('nav-cart').classList.add('active');
+                displayCartItems();
+            } else if (pageId === 'order-history-page') {
+                if (!isLoggedIn) {
+                    showMessage('Anda harus login untuk melihat riwayat pesanan.', 'Login Diperlukan', 'error');
+                    showPage('login-page');
+                    return;
+                }
+                document.getElementById('nav-history').classList.add('active');
+                displayOrderHistory();
+            } else if (pageId === 'profile-page') {
+                if (!isLoggedIn) {
+                    showMessage('Anda harus login untuk melihat profil.', 'Login Diperlukan', 'error');
+                    showPage('login-page');
+                    return;
+                }
+                document.getElementById('nav-profile').classList.add('active');
+                displayProfile();
+            }
+            updateCartBadge(); // Always update cart badge when page changes
+        }
+
+        function showMessage(message, title = "Informasi", type = "success") {
+            const modalHeader = messageModal._element.querySelector('.modal-header');
+            modalHeader.classList.remove('bg-success', 'bg-danger', 'bg-primary');
+            if (type === "success") {
+                modalHeader.classList.add('bg-success');
+            } else if (type === "error") {
+                modalHeader.classList.add('bg-danger');
+            } else {
+                modalHeader.classList.add('bg-primary');
+            }
+
+            document.getElementById('messageModalLabel').textContent = title;
+            document.getElementById('messageModalText').textContent = message;
+            messageModal.show();
+        }
+
+        // New function for toast notifications
+        function showToast(message, type = 'success') {
+            const toastId = `toast-${Date.now()}`;
+            const toastHtml = `
+                <div class="toast align-items-center text-white bg-${type} border-0" role="alert" aria-live="assertive" aria-atomic="true" id="${toastId}">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            ${message}
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                </div>
+            `;
+            toastContainer.insertAdjacentHTML('beforeend', toastHtml);
+            const toastElement = document.getElementById(toastId);
+            const toast = new bootstrap.Toast(toastElement, { delay: 3000 }); // Auto-hide after 3 seconds
+            toast.show();
+            toastElement.addEventListener('hidden.bs.toast', () => {
+                toastElement.remove(); // Remove from DOM after hidden
+            });
+        }
+
+
+        function formatPrice(price) {
+            return `Rp ${price.toLocaleString('id-ID')}`;
+        }
+
+        // --- Dark Mode Toggle ---
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            if (document.body.classList.contains('dark-mode')) {
+                localStorage.setItem('darkModeTrusight', 'enabled');
+                darkModeToggle.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                localStorage.setItem('darkModeTrusight', 'disabled');
+                darkModeToggle.classList.replace('fa-sun', 'fa-moon');
+            }
+        }
+        darkModeToggle.addEventListener('click', toggleDarkMode);
+
+        // --- Fitur Autentikasi ---
+        function checkLoginStatusAndRedirect() {
+            if (!isLoggedIn) {
+                showPage('login-page');
+            } else {
+                showPage('home-page');
+            }
+        }
+
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+
+            const user = users.find(u => u.username === username && u.password === password);
+
+            if (user) {
+                isLoggedIn = true;
+                currentUser = { id: user.id, username: user.username, name: user.name, email: user.email, avatar: user.avatar };
+                sessionStorage.setItem('trusightIsLoggedIn', 'true');
+                sessionStorage.setItem('trusightCurrentUser', JSON.stringify(currentUser));
+                showMessage('Login Berhasil!', 'Sukses', 'success');
+                showPage('home-page');
+            } else {
+                showMessage('Username atau password salah.', 'Login Gagal', 'error');
+            }
+        });
+
+        document.getElementById('register-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('register-name').value;
+            const username = document.getElementById('register-username').value;
+            const password = document.getElementById('register-password').value;
+            const email = `${username}@trusight.com`; // Dummy email based on username
+            const avatar = `https://placehold.co/100x100/6F4E37/ffffff?text=${username.substring(0,1).toUpperCase()}`;
+
+
+            // Simple validation: check if username already exists (simulated)
+            if (users.some(u => u.username === username)) {
+                showMessage('Username sudah terdaftar. Silakan gunakan username lain.', 'Pendaftaran Gagal', 'error');
+                return;
+            }
+
+            if (name && username && password) {
+                const newUserId = users.length > 0 ? Math.max(...users.map(u => u.id)) + 1 : 1;
+                const newUser = { id: newUserId, username, password, name, email, avatar };
+                users.push(newUser); // Add new user to dummy data
+                localStorage.setItem('trusightUsers', JSON.stringify(users));
+                showMessage('Pendaftaran Berhasil! Silakan masuk.', 'Sukses', 'success');
+                showPage('login-page');
+            } else {
+                showMessage('Mohon lengkapi semua data.', 'Pendaftaran Gagal', 'error');
+            }
+        });
+
+        document.getElementById('show-register').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('register-page');
+        });
+
+        document.getElementById('show-login').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('login-page');
+        });
+
+        function logout() {
+            isLoggedIn = false;
+            currentUser = null;
+            sessionStorage.removeItem('trusightIsLoggedIn');
+            sessionStorage.removeItem('trusightCurrentUser');
+            showMessage('Anda telah berhasil keluar.', 'Informasi', 'success');
+            showPage('login-page');
+        }
+
+        // --- Fitur Home Page: Promotional Banners ---
+        function displayPromotionalBanners() {
+            promoCarouselInner.innerHTML = '';
+            promoBanners.forEach((banner, index) => {
+                const carouselItem = document.createElement('div');
+                carouselItem.className = `carousel-item promo-carousel-item ${index === 0 ? 'active' : ''}`;
+                carouselItem.innerHTML = `
+                    <img src="${banner.imageUrl}" class="d-block w-100" alt="${banner.title}" onerror="this.onerror=null;this.src='https://placehold.co/500x200/cccccc/333333?text=Banner+Tidak+Tersedia';">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>${banner.title}</h5>
+                        <p>${banner.description}</p>
+                    </div>
+                `;
+                promoCarouselInner.appendChild(carouselItem);
+            });
+        }
+
+        // --- Fitur Home Page: Popular Products ---
+        function calculatePopularProducts() {
+            const productCounts = {}; // { itemId: totalQuantityOrdered }
+
+            orderHistory.forEach(order => {
+                order.items.forEach(item => {
+                    if (productCounts[item.itemId]) {
+                        productCounts[item.itemId] += item.quantity;
+                    } else {
+                        productCounts[item.itemId] = item.quantity;
+                    }
+                });
+            });
+
+            // Convert to array of { itemId, quantity } and sort by quantity (descending)
+            const sortedPopularItems = Object.entries(productCounts)
+                .map(([itemId, quantity]) => ({ itemId: parseInt(itemId), quantity }))
+                .sort((a, b) => b.quantity - a.quantity);
+
+            // Map to actual menu items and return top N (e.g., top 5)
+            return sortedPopularItems.slice(0, 5).map(popular => {
+                return menuItems.find(item => item.id === popular.itemId);
+            }).filter(item => item !== undefined); // Filter out any undefined if item not found
+        }
+
+        function displayPopularProducts() {
+            popularProductsCarousel.innerHTML = '';
+            const popularItems = calculatePopularProducts();
+
+            if (popularItems.length === 0) {
+                noPopularProductsDiv.style.display = 'block';
+                return;
+            } else {
+                noPopularProductsDiv.style.display = 'none';
+            }
+
+            popularItems.forEach(item => {
+                const productCard = document.createElement('div');
+                productCard.className = 'popular-product-card';
+                productCard.innerHTML = `
+                    <img src="${item.imageUrl}" alt="${item.name}" onerror="this.onerror=null;this.src='https://placehold.co/150x100/cccccc/333333?text=Gambar';">
+                    <div class="card-body">
+                        <h5>${item.name}</h5>
+                        <p class="price">${formatPrice(item.price)}</p>
+                    </div>
+                `;
+                productCard.addEventListener('click', () => showItemDetail(item.id));
+                popularProductsCarousel.appendChild(productCard);
+            });
+        }
+
+        // --- Fitur Home Page: Testimonials ---
+        function displayTestimonials() {
+            testimonialCarouselInner.innerHTML = '';
+            if (testimonials.length === 0) {
+                noTestimonialsDiv.style.display = 'block';
+                return;
+            } else {
+                noTestimonialsDiv.style.display = 'none';
+            }
+
+            testimonials.forEach(testimonial => {
+                const testimonialUser = users.find(user => user.id === testimonial.userId);
+                const userName = testimonialUser ? testimonialUser.name : 'Pengguna Anonim';
+                const userAvatar = testimonialUser ? testimonialUser.avatar : 'https://placehold.co/60x60/6c757d/ffffff?text=NA';
+
+                const testimonialCard = document.createElement('div');
+                testimonialCard.className = 'testimonial-card';
+                testimonialCard.innerHTML = `
+                    <img src="${userAvatar}" alt="${userName}" onerror="this.onerror=null;this.src='https://placehold.co/60x60/cccccc/333333?text=NA';">
+                    <h6>${userName}</h6>
+                    <p>"${testimonial.text}"</p>
+                `;
+                testimonialCarouselInner.appendChild(testimonialCard);
+            });
+        }
+
+        function updateAddTestimonialButtonVisibility() {
+            const hasOrdered = isLoggedIn && orderHistory.some(order => order.userId === currentUser.id);
+            if (hasOrdered) {
+                addTestimonialBtn.style.display = 'inline-block';
+            } else {
+                addTestimonialBtn.style.display = 'none';
+            }
+        }
+
+        addTestimonialBtn.addEventListener('click', () => {
+            if (!isLoggedIn || !orderHistory.some(order => order.userId === currentUser.id)) {
+                showMessage('Anda harus login dan sudah pernah memesan untuk menambahkan testimoni.', 'Akses Ditolak', 'error');
+                return;
+            }
+            testimonialTextInput.value = ''; // Clear previous text
+            addTestimonialModal.show();
+        });
+
+        testimonialForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const text = testimonialTextInput.value.trim();
+
+            if (!text) {
+                showMessage('Testimoni tidak boleh kosong.', 'Input Tidak Valid', 'error');
+                return;
+            }
+
+            const newTestimonialId = testimonials.length > 0 ? Math.max(...testimonials.map(t => t.id)) + 1 : 1;
+            const newTestimonial = {
+                id: newTestimonialId,
+                userId: currentUser.id,
+                text: text,
+                timestamp: new Date().toISOString()
+            };
+
+            testimonials.push(newTestimonial);
+            localStorage.setItem('trusightTestimonials', JSON.stringify(testimonials));
+            addTestimonialModal.hide();
+            showToast('Testimoni Anda berhasil ditambahkan!', 'success');
+            displayTestimonials(); // Refresh testimonials list
+        });
+
+
+        // --- Fitur Menu & Tampilan Item ---
+        function displayMenuItems(category) {
+            // Clear all lists first
+            allMenuList.innerHTML = '';
+            coffeeMenuList.innerHTML = '';
+            nonCoffeeMenuList.innerHTML = '';
+            foodMenuList.innerHTML = '';
+
+            const filteredItems = category === 'all' ? menuItems : menuItems.filter(item => {
+                if (category === 'coffee') return item.category === 'Kopi';
+                if (category === 'non-coffee') return item.category === 'Non Kopi';
+                if (category === 'food') return item.category === 'Makanan';
+                return false; // Should not happen
+            });
+
+            const targetList = document.getElementById(`${category}-menu-list`);
+
+            if (filteredItems.length === 0) {
+                targetList.innerHTML = '<p class="text-center text-muted mt-4">Belum ada item di kategori ini.</p>';
+                return;
+            }
+
+            filteredItems.forEach(item => {
+                const itemCard = document.createElement('div');
+                itemCard.className = 'menu-item-card';
+                itemCard.innerHTML = `
+                    <img src="${item.imageUrl}" alt="${item.name}" onerror="this.onerror=null;this.src='https://placehold.co/80x80/cccccc/333333?text=Gambar';">
+                    <div class="item-details">
+                        <h5>${item.name}</h5>
+                        <p>${item.description}</p>
+                        <p class="price">${formatPrice(item.price)}</p>
+                    </div>
+                    <button class="add-to-cart-btn" data-id="${item.id}">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                `;
+                itemCard.querySelector('.item-details').addEventListener('click', () => showItemDetail(item.id));
+                itemCard.querySelector('.add-to-cart-btn').addEventListener('click', (e) => {
+                    e.stopPropagation(); // Prevent modal from opening
+                    addToCart(item.id);
+                });
+                targetList.appendChild(itemCard);
+            });
+        }
+
+        // Add event listeners for menu category tabs
+        document.getElementById('menuTabs').addEventListener('shown.bs.tab', function (event) {
+            const activeTabId = event.target.id;
+            if (activeTabId === 'all-tab') displayMenuItems('all');
+            else if (activeTabId === 'coffee-tab') displayMenuItems('coffee');
+            else if (activeTabId === 'non-coffee-tab') displayMenuItems('non-coffee');
+            else if (activeTabId === 'food-tab') displayMenuItems('food');
+        });
+
+        // --- Fitur Detail Item (Modal) ---
+        function showItemDetail(itemId) {
+            const item = menuItems.find(i => i.id === itemId);
+            if (item) {
+                modalItemImage.src = item.imageUrl;
+                modalItemImage.onerror = function() {
+                    this.onerror=null;this.src='https://placehold.co/400x300/cccccc/333333?text=Gambar+Tidak+Tersedia';
+                };
+                modalItemName.textContent = item.name;
+                modalItemPrice.textContent = formatPrice(item.price);
+                modalItemDescription.textContent = item.description;
+                modalItemCategory.textContent = item.category;
+                addToCartModalBtn.onclick = () => {
+                    addToCart(item.id);
+                    itemDetailModal.hide();
+                };
+                itemDetailModal.show();
+            }
+        }
+
+        // --- Fitur Keranjang Belanja ---
+        function updateCartBadge() {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            if (totalItems > 0) {
+                cartBadge.textContent = totalItems;
+                cartBadge.style.display = 'block';
+            } else {
+                cartBadge.style.display = 'none';
+            }
+            sessionStorage.setItem('trusightCart', JSON.stringify(cart));
+        }
+
+        function addToCart(itemId) {
+            const existingItemIndex = cart.findIndex(item => item.itemId === itemId);
+            if (existingItemIndex > -1) {
+                cart[existingItemIndex].quantity += 1;
+            } else {
+                cart.push({ itemId: itemId, quantity: 1 });
+            }
+            updateCartBadge();
+            showToast('Item ditambahkan ke keranjang!', 'success'); // Changed to toast
+            displayCartItems(); // Refresh cart view if on cart page
+        }
+
+        function updateCartItemQuantity(itemId, change) {
+            const itemIndex = cart.findIndex(item => item.itemId === itemId);
+            if (itemIndex > -1) {
+                cart[itemIndex].quantity += change;
+                if (cart[itemIndex].quantity <= 0) {
+                    cart.splice(itemIndex, 1); // Remove if quantity is 0 or less
+                }
+            }
+            updateCartBadge();
+            displayCartItems(); // Refresh cart view
+        }
+
+        function removeFromCart(itemId) {
+            cart = cart.filter(item => item.itemId !== itemId);
+            updateCartBadge();
+            showToast('Item dihapus dari keranjang.', 'info'); // Changed to toast
+            displayCartItems(); // Refresh cart view
+        }
+
+        function displayCartItems() {
+            cartItemsList.innerHTML = '';
+            let subtotal = 0;
+
+            if (cart.length === 0) {
+                noCartItemsDiv.style.display = 'block';
+                cartSummaryDiv.style.display = 'none';
+                return;
+            } else {
+                noCartItemsDiv.style.display = 'none';
+                cartSummaryDiv.style.display = 'block';
+            }
+
+            cart.forEach(cartItem => {
+                const menuItem = menuItems.find(item => item.id === cartItem.itemId);
+                if (menuItem) {
+                    const itemTotalPrice = menuItem.price * cartItem.quantity;
+                    subtotal += itemTotalPrice;
+
+                    const cartItemDiv = document.createElement('div');
+                    cartItemDiv.className = 'cart-item';
+                    cartItemDiv.innerHTML = `
+                        <img src="${menuItem.imageUrl}" alt="${menuItem.name}" onerror="this.onerror=null;this.src='https://placehold.co/70x70/cccccc/333333?text=Gambar';">
+                        <div class="item-details">
+                            <h5>${menuItem.name}</h5>
+                            <p class="price">${formatPrice(menuItem.price)}</p>
+                        </div>
+                        <div class="quantity-controls">
+                            <button class="btn btn-sm" onclick="updateCartItemQuantity(${menuItem.id}, -1)"><i class="fas fa-minus"></i></button>
+                            <span>${cartItem.quantity}</span>
+                            <button class="btn btn-sm" onclick="updateCartItemQuantity(${menuItem.id}, 1)"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <button class="remove-item-btn" onclick="removeFromCart(${menuItem.id})"><i class="fas fa-trash"></i></button>
+                    `;
+                    cartItemsList.appendChild(cartItemDiv);
+                }
+            });
+
+            const tax = subtotal * 0.10; // 10% tax
+            const total = subtotal + tax;
+
+            cartSubtotalSpan.textContent = formatPrice(subtotal);
+            cartTaxSpan.textContent = formatPrice(tax);
+            cartTotalSpan.textContent = formatPrice(total);
+        }
+
+        checkoutBtn.addEventListener('click', function() {
+            if (cart.length === 0) {
+                showMessage('Keranjang Anda kosong. Tambahkan item terlebih dahulu.', 'Pembayaran Gagal', 'error');
+                return;
+            }
+            if (!isLoggedIn) {
+                showMessage('Anda harus login untuk melanjutkan pembayaran.', 'Login Diperlukan', 'error');
+                showPage('login-page');
+                return;
+            }
+
+            // Simulasi proses pembayaran
+            showToast('Mengarahkan ke WhatsApp untuk konfirmasi pesanan...', 'info'); // Changed to toast
+
+            const orderId = `TRU-${Date.now()}`;
+            const orderDate = new Date().toLocaleString('id-ID', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+            const orderTotal = parseFloat(cartTotalSpan.textContent.replace('Rp ', '').replace(/\./g, '').replace(',', '.'));
+
+            const newOrder = {
+                id: orderId,
+                userId: currentUser.id,
+                items: cart.map(item => {
+                    const menuItem = menuItems.find(m => m.id === item.itemId);
+                    return {
+                        itemId: item.itemId,
+                        name: menuItem ? menuItem.name : 'Item Tidak Dikenal',
+                        price: menuItem ? menuItem.price : 0,
+                        quantity: item.quantity
+                    };
+                }),
+                total: orderTotal,
+                date: orderDate,
+                status: 'Menunggu Konfirmasi' // Status awal untuk pesanan WhatsApp
+            };
+
+            // Construct WhatsApp message
+            let whatsappMessage = `*Halo Trusight Coffee!*%0A%0ASaya ingin memesan:%0A`;
+            newOrder.items.forEach(item => {
+                whatsappMessage += `*${item.quantity}x ${item.name}* (${formatPrice(item.price * item.quantity)})%0A`;
+            });
+            whatsappMessage += `%0A*Subtotal:* ${cartSubtotalSpan.textContent}%0A`;
+            whatsappMessage += `*Pajak (10%):* ${cartTaxSpan.textContent}%0A`;
+            whatsappMessage += `*Total Pembayaran:* ${cartTotalSpan.textContent}%0A%0A`;
+            whatsappMessage += `*Detail Pelanggan:*%0A`;
+            whatsappMessage += `Nama: ${currentUser.name}%0A`;
+            whatsappMessage += `Username: ${currentUser.username}%0A`;
+            whatsappMessage += `ID Pesanan: ${orderId}%0A`;
+            whatsappMessage += `Tanggal Pesanan: ${orderDate}%0A%0A`;
+            whatsappMessage += `Mohon konfirmasi pesanan saya. Terima kasih!`;
+
+            // WhatsApp number for Trusight Coffee Shop
+            const whatsappNumber = '6285757043312'; // Format internasional tanpa '+'
+
+            // Open WhatsApp link
+            window.open(`https://wa.me/${whatsappNumber}?text=${whatsappMessage}`, '_blank');
+
+            // Add order to history immediately, but with a pending status
+            orderHistory.unshift(newOrder); // Add to beginning of history
+            localStorage.setItem('trusightOrderHistory', JSON.stringify(orderHistory));
+
+            cart = []; // Clear cart after initiating checkout
+            sessionStorage.removeItem('trusightCart');
+            updateCartBadge();
+            displayCartItems(); // Refresh cart view
+
+            // Redirect to order history, user can see pending order
+            showPage('order-history-page');
+            showToast('Pesanan Anda telah dikirim ke WhatsApp. Mohon selesaikan konfirmasi di sana.', 'success'); // Changed to toast
+        });
+
+        // --- Fitur Riwayat Pesanan ---
+        function displayOrderHistory() {
+            orderHistoryList.innerHTML = '';
+            const userOrders = orderHistory.filter(order => order.userId === currentUser.id);
+
+            if (userOrders.length === 0) {
+                noOrderHistoryDiv.style.display = 'block';
+                return;
+            } else {
+                noOrderHistoryDiv.style.display = 'none';
+            }
+
+            userOrders.forEach(order => {
+                const orderDiv = document.createElement('div');
+                orderDiv.className = 'order-history-item';
+                const statusClass = order.status === 'Selesai' ? 'bg-success' : 'bg-warning text-dark';
+                orderDiv.innerHTML = `
+                    <h5>Pesanan #${order.id}</h5>
+                    <p><strong>Tanggal:</strong> ${order.date}</p>
+                    <p><strong>Status:</strong> <span class="badge ${statusClass}">${order.status}</span></p>
+                    <h6>Detail Item:</h6>
+                    <ul class="order-items-list">
+                        ${order.items.map(item => `
+                            <li>${item.quantity}x <strong>${item.name}</strong> (${formatPrice(item.price)})</li>
+                        `).join('')}
+                    </ul>
+                    <div class="order-total">Total: ${formatPrice(order.total)}</div>
+                `;
+                orderHistoryList.appendChild(orderDiv);
+            });
+        }
+
+        // --- Fitur Profil ---
+        function displayProfile() {
+            if (isLoggedIn && currentUser) {
+                profileContentDiv.innerHTML = `
+                    <h4>Informasi Akun</h4>
+                    <p><strong>Nama:</strong> ${currentUser.name}</p>
+                    <p><strong>Username:</strong> ${currentUser.username}</p>
+                    <p><strong>Email:</strong> ${currentUser.email}</p>
+                    <button class="btn btn-danger rounded-pill mt-3" onclick="logout()">Keluar</button>
+                `;
+            } else {
+                profileContentDiv.innerHTML = `
+                    <p class="lead">Anda belum masuk. Silakan <a href="#" id="profile-login-link">Masuk</a> atau <a href="#" id="profile-register-link">Daftar</a>.</p>
+                `;
+                document.getElementById('profile-login-link').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showPage('login-page');
+                });
+                document.getElementById('profile-register-link').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showPage('register-page');
+                });
+            }
+        }
+
+        // --- Event Listeners Bottom Navigation ---
+        document.getElementById('nav-home').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('home-page');
+        });
+        document.getElementById('nav-menu').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('menu-page');
+        });
+        document.getElementById('nav-cart').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('cart-page');
+        });
+        document.getElementById('nav-history').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('order-history-page');
+        });
+        document.getElementById('nav-profile').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('profile-page');
+        });
+
+        // --- Inisialisasi Aplikasi ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Menambahkan font Inter dari Google Fonts
+            const link = document.createElement('link');
+            link.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap';
+            link.rel = 'stylesheet';
+            document.head.appendChild(link);
+
+            // Tampilkan loader selama 3 detik
+            loaderOverlay.style.display = 'flex';
+            appContainer.style.display = 'none'; // Sembunyikan aplikasi utama
+
+            setTimeout(() => {
+                loaderOverlay.style.display = 'none';
+                appContainer.style.display = 'block'; // Tampilkan aplikasi utama
+
+                // Terapkan dark mode jika sebelumnya diaktifkan
+                if (localStorage.getItem('darkModeTrusight') === 'enabled') {
+                    document.body.classList.add('dark-mode');
+                    darkModeToggle.classList.replace('fa-moon', 'fa-sun');
+                }
+
+                updateCartBadge(); // Update badge on load
+                checkLoginStatusAndRedirect(); // Periksa status login dan tampilkan halaman yang sesuai
+            }, 3000); // 3 detik
+        });
+    </script>
+</body>
+</html>
