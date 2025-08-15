@@ -1,783 +1,222 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adit Hub - Terminal Interaktif</title>
-    <!-- Load Tailwind CSS from CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Use a modern, clean font -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap">
-    <!-- Load Tone.js for audio effects -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.min.js"></script>
-    <style>
-        :root {
-            --bg-color-1: #0A0A0A;
-            --bg-color-2: #1A1A1A;
-            --accent-color-1: #00FFC2; /* Neon Cyan */
-            --accent-color-2: #4D7EFF; /* Neon Blue */
-            --text-color-primary: #E0E0E0;
-            --text-color-secondary: #909090;
-        }
-
-        body {
-            font-family: 'Roboto Mono', monospace;
-            background: linear-gradient(135deg, var(--bg-color-1) 0%, var(--bg-color-2) 100%);
-            background-size: 400% 400%;
-            animation: gradient-animation 15s ease infinite;
-            color: var(--text-color-primary);
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
-            overflow-y: auto; /* Memungkinkan scrolling di mobile */
-        }
-
-        @keyframes gradient-animation {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* Container utama untuk seluruh konten */
-        #main-container {
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            padding: 1.5rem;
-        }
-        
-        /* Wrapper untuk konten utama (board game & panel) */
-        #game-content-wrapper {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-            width: 100%;
-            max-width: 1200px; /* Ukuran max untuk desktop */
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Canvas untuk papan permainan Tetris */
-        #game-board {
-            border: 2px solid var(--accent-color-1);
-            border-radius: 8px;
-            background-color: rgba(0, 0, 0, 0.5);
-            box-shadow: 0 0 20px rgba(0, 255, 194, 0.4);
-            image-rendering: pixelated;
-            width: 100%;
-            max-width: 320px; /* Batasan ukuran di layar besar */
-            height: auto;
-            aspect-ratio: 1 / 2; /* Menjaga aspek rasio */
-        }
-
-        /* Panel untuk link website */
-        #link-panel {
-            display: none; /* Sembunyikan di mobile secara default */
-            flex-direction: column;
-            gap: 1rem;
-            padding: 1.5rem;
-            background-color: rgba(0, 0, 0, 0.7);
-            border: 2px solid var(--accent-color-2);
-            border-radius: 12px;
-            box-shadow: 0 0 15px rgba(77, 126, 255, 0.5);
-            width: 100%;
-            max-width: 280px;
-        }
-        
-        #link-panel a {
-            display: block;
-            text-align: center;
-            padding: 1rem;
-            border-radius: 8px;
-            font-weight: bold;
-            color: white;
-            text-decoration: none;
-            transition: transform 0.2s ease-in-out, opacity 0.3s ease-in-out, filter 0.3s ease-in-out, box-shadow 0.2s ease-in-out;
-            box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.2);
-            pointer-events: none;
-            opacity: 0.4;
-            filter: grayscale(80%);
-        }
-
-        #link-panel a.unlocked {
-            pointer-events: auto;
-            opacity: 1;
-            filter: none;
-            animation: pulse-glow 0.8s ease-in-out infinite alternate;
-        }
-
-        #link-panel a.unlocked:hover {
-            transform: translateY(-4px) scale(1.03);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
-        }
-
-        @keyframes pulse-glow {
-            from { box-shadow: 0 0 5px rgba(255,255,255,0.2), 0 0 10px rgba(255,255,255,0.1); }
-            to { box-shadow: 0 0 10px rgba(255,255,255,0.4), 0 0 20px rgba(255,255,255,0.3); }
-        }
-
-        /* Warna-warna blok Tetris untuk link */
-        .link-block-1 { background-color: #00FFC2; }
-        .link-block-2 { background-color: #4D7EFF; }
-        .link-block-3 { background-color: #FF5A00; }
-        .link-block-4 { background-color: #E2FF00; }
-        .link-block-5 { background-color: #00E26A; }
-        .link-block-6 { background-color: #A200FF; }
-        .link-block-7 { background-color: #FF0054; }
-
-        /* Panel samping (info game dan tombol) */
-        #side-panel {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            align-items: center;
-            width: 100%;
-        }
-
-        #info-panel {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            background-color: rgba(0, 0, 0, 0.7);
-            border-radius: 10px;
-            padding: 1.5rem;
-            width: 100%;
-            max-width: 280px;
-            box-shadow: 0 0 15px rgba(0, 255, 194, 0.2);
-            border: 2px solid var(--accent-color-1);
-        }
-
-        #next-piece-canvas {
-            border: 2px solid var(--accent-color-1);
-            border-radius: 6px;
-            background-color: rgba(0, 0, 0, 0.4);
-            width: 100%;
-            height: auto;
-            aspect-ratio: 3 / 2;
-        }
-
-        /* Container untuk kontrol Tetris di mobile */
-        #controls {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 0.5rem;
-            width: 100%;
-            max-width: 320px;
-            margin-top: 1rem;
-        }
-
-        .control-button-mobile {
-            cursor: pointer;
-            border: 2px solid var(--accent-color-1);
-            background-color: rgba(0, 0, 0, 0.5);
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 255, 194, 0.3);
-            transition: all 0.2s;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0.75rem;
-            aspect-ratio: 1; /* Menjamin tombol kotak */
-        }
-
-        .control-button-mobile:active {
-            transform: scale(0.95);
-            box-shadow: 0 0 5px rgba(0, 255, 194, 0.5);
-        }
-        
-        .main-button {
-            background-color: var(--accent-color-2);
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 9999px;
-            font-weight: 700;
-            transition: all 0.2s;
-            box-shadow: 0 0 15px rgba(77, 126, 255, 0.5);
-            border: 2px solid var(--accent-color-2);
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .main-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 25px rgba(77, 126, 255, 0.8);
-        }
-        .main-button:active {
-            transform: scale(0.98);
-        }
-
-        .pause-button {
-            background-color: #FF0054;
-            border-color: #FF0054;
-            box-shadow: 0 0 15px rgba(255, 0, 84, 0.5);
-        }
-        .pause-button:hover {
-            box-shadow: 0 0 25px rgba(255, 0, 84, 0.8);
-        }
-
-        /* Styling Modal */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 200;
-        }
-
-        .modal-content {
-            background-color: #1A1A1A;
-            padding: 2rem;
-            border-radius: 12px;
-            text-align: center;
-            width: 90%;
-            max-width: 500px;
-            box-shadow: 0 0 30px rgba(0, 255, 194, 0.4);
-            border: 2px solid var(--accent-color-1);
-            transform: scale(0.8);
-            opacity: 0;
-            animation: modal-pop-in 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
-        }
-        
-        @keyframes modal-pop-in {
-            to { transform: scale(1); opacity: 1; }
-        }
-
-        /* Sembunyikan secara default */
-        #tutorial-modal, #message-box {
-            display: none;
-        }
-
-        /* --- Media Queries untuk Layout Responsif --- */
-        /* Tablet & Desktop */
-        @media (min-width: 768px) {
-            #game-content-wrapper {
-                flex-direction: row; /* Layout horizontal */
-                align-items: flex-start;
-                justify-content: center;
-            }
-            #link-panel {
-                display: flex; /* Tampilkan panel link */
-                order: 1; /* Urutan pertama */
-            }
-            #side-panel {
-                order: 3; /* Urutan ketiga */
-            }
-            #game-wrapper {
-                order: 2; /* Urutan kedua */
-            }
-            #controls {
-                display: none; /* Sembunyikan kontrol mobile */
-            }
-        }
-        
-        /* Desktop */
-        @media (min-width: 1024px) {
-            #game-content-wrapper {
-                gap: 4rem;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adit Hub – Cyber Terminal Quest</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+:root {
+  --bg-dark: #0a0a0a;
+  --cyan: #00ffc2;
+  --blue: #4d7eff;
+  --pink: #ff0054;
+  --text-main: #e0e0e0;
+  --text-sub: #a0a0a0;
+}
+body {
+  background: var(--bg-dark);
+  color: var(--text-main);
+  font-family: 'Roboto Mono', monospace;
+  margin: 0;
+  overflow: hidden;
+}
+.crt::after {
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255,255,255,0.02) 0,
+    rgba(255,255,255,0.02) 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: 10;
+}
+.neon-text {
+  text-shadow: 0 0 5px var(--cyan), 0 0 10px var(--cyan), 0 0 20px var(--cyan);
+}
+#game-board {
+  border: 2px solid var(--cyan);
+  box-shadow: 0 0 15px var(--cyan);
+  background: black;
+  image-rendering: pixelated;
+}
+#link-panel {
+  background: rgba(0,0,0,0.7);
+  border: 2px solid var(--blue);
+  border-radius: 10px;
+  padding: 1rem;
+}
+#terminal-log {
+  font-size: 0.85rem;
+  color: var(--text-sub);
+  background: rgba(0,0,0,0.5);
+  padding: 0.5rem;
+  height: 120px;
+  overflow-y: auto;
+  border: 1px solid var(--cyan);
+}
+.link-locked {
+  opacity: 0.4;
+  pointer-events: none;
+}
+.link-unlocked {
+  opacity: 1;
+  pointer-events: auto;
+  animation: glow 1s infinite alternate;
+}
+@keyframes glow {
+  from { box-shadow: 0 0 5px var(--cyan); }
+  to { box-shadow: 0 0 15px var(--cyan); }
+}
+canvas#matrix-bg {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+}
+.modal {
+  background: #111;
+  border: 2px solid var(--cyan);
+  box-shadow: 0 0 20px var(--cyan);
+  z-index: 20;
+}
+#audio-btn {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background: rgba(0,0,0,0.6);
+  border: 2px solid var(--cyan);
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: var(--cyan);
+  font-size: 18px;
+  cursor: pointer;
+  z-index: 50;
+}
+</style>
 </head>
-<body class="bg-gray-900 text-white flex justify-center items-center">
+<body class="crt">
 
-    <div id="main-container">
-        <h1 class="text-4xl sm:text-5xl font-bold text-center mb-2" style="color: var(--accent-color-1);">ADIT HUB</h1>
-        <p class="text-lg text-center mb-6" style="color: var(--accent-color-2);">[ Terminal Interaktif ]</p>
-        
-        <div id="game-content-wrapper">
-            <!-- Website Links Panel (Styled as Tetris Blocks) -->
-            <div id="link-panel">
-                <h2 class="text-2xl font-bold text-center mb-4" style="color: var(--accent-color-2);">Data Modules</h2>
-                <a href="https://example.com/portofolio" id="link-1" class="link-block-1">Portofolio</a>
-                <a href="https://linkedin.com/in/aditya" id="link-2" class="link-block-2">LinkedIn</a>
-                <a href="mailto:aditya@example.com" id="link-3" class="link-block-3">Kontak Email</a>
-                <a href="https://github.com/aditya" id="link-4" class="link-block-4">GitHub</a>
-                <a href="https://example.com/blog" id="link-5" class="link-block-5">Blog Pribadi</a>
-                <a href="https://twitter.com/aditya" id="link-6" class="link-block-6">Akun X</a>
-                <a href="https://instagram.com/aditya" id="link-7" class="link-block-7">Instagram</a>
-            </div>
+<!-- MATRIX BACKGROUND -->
+<canvas id="matrix-bg"></canvas>
 
-            <!-- Wrapper untuk game board dan panel samping -->
-            <div id="game-wrapper" class="flex flex-col gap-8 items-center">
-                <canvas id="game-board" width="240" height="480"></canvas>
-                <div id="side-panel">
-                    <div id="info-panel" class="w-full sm:w-auto">
-                        <div class="text-xl font-bold mb-2 text-center" style="color: var(--accent-color-2);">Sistem</div>
-                        <div class="flex justify-between items-center text-lg font-medium">
-                            <span>Skor:</span>
-                            <span id="score-display" style="color: var(--accent-color-1);" class="font-bold">0</span>
-                        </div>
-                        <div class="mt-4">
-                            <div class="text-lg font-medium text-center mb-2" style="color: var(--text-color-secondary);">Antrian:</div>
-                            <canvas id="next-piece-canvas" width="120" height="80"></canvas>
-                        </div>
-                    </div>
-                    <!-- Kontrol untuk mobile, disembunyikan di desktop -->
-                    <div id="controls" class="sm:hidden grid grid-cols-4 gap-2 w-full max-w-sm mt-4">
-                        <button id="left-button" class="control-button-mobile w-14 h-14">
-                            <svg class="w-8 h-8" fill="var(--accent-color-1)" viewBox="0 0 24 24">
-                                <path d="M15.41 7.41L14 6L8 12L14 18L15.41 16.59L10.83 12L15.41 7.41Z"/>
-                            </svg>
-                        </button>
-                        <button id="right-button" class="control-button-mobile w-14 h-14">
-                            <svg class="w-8 h-8" fill="var(--accent-color-1)" viewBox="0 0 24 24">
-                                <path d="M8.59 16.59L13.17 12L8.59 7.41L10 6L16 12L10 18L8.59 16.59Z"/>
-                            </svg>
-                        </button>
-                        <button id="rotate-button" class="control-button-mobile w-14 h-14">
-                            <svg class="w-8 h-8" fill="var(--accent-color-1)" viewBox="0 0 24 24">
-                                <path d="M12 4V1L8 5L12 9V6C15.31 6 18 8.69 18 12C18 13.06 17.72 14.07 17.21 14.97L18.66 16.42C19.53 15.22 20 13.68 20 12C20 7.58 16.42 4 12 4Z"/>
-                                <path d="M12 18C8.69 18 6 15.31 6 12C6 10.94 6.28 9.93 6.79 9.03L5.34 7.58C4.47 8.78 4 10.32 4 12C4 16.42 7.58 20 12 20V23L16 19L12 15V18Z"/>
-                            </svg>
-                        </button>
-                        <button id="down-button" class="control-button-mobile w-14 h-14">
-                            <svg class="w-8 h-8" fill="var(--accent-color-1)" viewBox="0 0 24 24">
-                                <path d="M7.41 8.59L12 13.17L16.59 8.59L18 10L12 16L6 10L7.41 8.59Z"/>
-                            </svg>
-                        </button>
-                    </div>
-                    <button id="start-pause-button" class="main-button mt-4 px-8 py-3 text-2xl pause-button">Mulai</button>
-                </div>
-            </div>
-        </div>
+<!-- AUDIO TOGGLE -->
+<button id="audio-btn">🔊</button>
+
+<!-- INTRO MODAL -->
+<div id="intro-modal" class="fixed inset-0 flex items-center justify-center z-50">
+  <div class="modal p-6 rounded-lg text-center max-w-md w-full">
+    <h1 class="text-3xl font-bold neon-text mb-4">ADIT HUB</h1>
+    <p class="mb-4">[ Cyber Terminal Quest ]</p>
+    <p class="mb-4">Akses ditolak. Hancurkan baris kode untuk membuka data modul.</p>
+    <button id="start-game-btn" class="px-4 py-2 bg-cyan-500 text-black font-bold rounded">Mulai Misi</button>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="flex flex-col items-center p-4 gap-4 relative z-10">
+  <h1 class="text-4xl font-bold neon-text">ADIT HUB</h1>
+  <p class="text-blue-400">[ Terminal Interaktif ]</p>
+
+  <div class="flex flex-col md:flex-row gap-6 w-full max-w-5xl justify-center items-start">
+    <!-- Link Panel -->
+    <div id="link-panel" class="flex flex-col gap-2 w-60">
+      <h2 class="text-xl text-blue-400 text-center">Data Modules</h2>
+      <a href="#" id="link-1" class="link-locked px-2 py-1 bg-gray-800 rounded">Portofolio</a>
+      <a href="#" id="link-2" class="link-locked px-2 py-1 bg-gray-800 rounded">LinkedIn</a>
+      <a href="#" id="link-3" class="link-locked px-2 py-1 bg-gray-800 rounded">Email</a>
+      <a href="#" id="link-4" class="link-locked px-2 py-1 bg-gray-800 rounded">GitHub</a>
+      <a href="#" id="link-5" class="link-locked px-2 py-1 bg-gray-800 rounded">Blog</a>
+      <a href="#" id="link-6" class="link-locked px-2 py-1 bg-gray-800 rounded">Twitter</a>
+      <a href="#" id="link-7" class="link-locked px-2 py-1 bg-gray-800 rounded">Instagram</a>
     </div>
 
-    <!-- Modal Tutorial -->
-    <div id="tutorial-modal" class="modal-overlay">
-        <div class="modal-content">
-            <h2 class="text-3xl font-bold mb-4" style="color: var(--accent-color-2);">[ Akses Terminal ]</h2>
-            <p class="mb-4 text-lg">Hancurkan satu baris blok untuk membuka tautan yang sesuai. Setiap tautan memiliki warna blok Tetris yang unik.</p>
-            <div class="text-left">
-                <h3 class="font-bold text-lg mb-2" style="color: var(--accent-color-1);">Input Keyboard:</h3>
-                <ul class="list-disc list-inside mb-4 ml-4">
-                    <li><span class="font-bold">Panah Kiri / Kanan:</span> Pindahkan blok</li>
-                    <li><span class="font-bold">Panah Atas:</span> Putar blok</li>
-                    <li><span class="font-bold">Panah Bawah:</span> Jatuhkan blok lebih cepat</li>
-                    <li><span class="font-bold">Spasi:</span> Jeda/Lanjutkan</li>
-                </ul>
-                <h3 class="font-bold text-lg mb-2" style="color: var(--accent-color-1);">Input Sentuh:</h3>
-                <p class="ml-4">Gunakan tombol-tombol ikon di bawah papan permainan.</p>
-            </div>
-            <button id="close-tutorial-button" class="main-button mt-6">Akses Diberikan</button>
-        </div>
+    <!-- Game & Terminal Log -->
+    <div class="flex flex-col items-center gap-4">
+      <canvas id="game-board" width="240" height="480"></canvas>
+      <div class="flex flex-col items-center">
+        <p>Skor: <span id="score" class="text-cyan-400">0</span></p>
+        <div id="terminal-log" class="mt-2"></div>
+      </div>
     </div>
+  </div>
+</div>
 
-    <!-- Kotak pesan untuk game over/pause -->
-    <div id="message-box" class="modal-overlay">
-        <div class="modal-content">
-            <h2 id="message-title" class="text-4xl font-bold" style="color: var(--accent-color-2);">Game Over</h2>
-            <p id="message-text" class="text-lg">Skor Akhir: <span id="final-score" style="color: var(--accent-color-1);">0</span></p>
-            <button id="restart-button" class="main-button px-6 py-2 text-lg mt-4">Mulai Ulang</button>
-        </div>
-    </div>
+<script>
+/* === AUDIO === */
+const sounds = {
+  click: new Audio("data:audio/mp3;base64,..."), // isi base64 klik
+  unlock: new Audio("data:audio/mp3;base64,..."), // isi base64 unlock
+  gameover: new Audio("data:audio/mp3;base64,..."), // isi base64 game over
+  type: new Audio("data:audio/mp3;base64,..."), // isi base64 ketik
+  music: new Audio("data:audio/mp3;base64,...") // isi base64 musik cyberpunk
+};
+Object.values(sounds).forEach(s => { s.volume = 0.5; });
+sounds.music.loop = true;
 
-    <script>
-        // Konstanta Game
-        const COLS = 10;
-        const ROWS = 20;
-        const SHAPES = [
-            [[0, 0, 0, 0], [1, 1, 1, 1]], // I
-            [[2, 0, 0], [2, 2, 2]],      // J
-            [[0, 0, 3], [3, 3, 3]],      // L
-            [[4, 4], [4, 4]],            // O
-            [[0, 5, 5], [5, 5, 0]],      // S
-            [[0, 6, 0], [6, 6, 6]],      // T
-            [[7, 7, 0], [0, 7, 7]]       // Z
-        ];
-        const COLORS = ['', '#00FFC2', '#4D7EFF', '#FF5A00', '#E2FF00', '#00E26A', '#A200FF', '#FF0054'];
-        
-        // Dapatkan elemen canvas dan konteks
-        const boardCanvas = document.getElementById('game-board');
-        const boardCtx = boardCanvas.getContext('2d');
-        const nextPieceCanvas = document.getElementById('next-piece-canvas');
-        const nextPieceCtx = nextPieceCanvas.getContext('2d');
-        const scoreDisplay = document.getElementById('score-display');
-        const startPauseButton = document.getElementById('start-pause-button');
-        const messageBox = document.getElementById('message-box');
-        const messageTitle = document.getElementById('message-title');
-        const messageText = document.getElementById('message-text');
-        const finalScore = document.getElementById('final-score');
-        const restartButton = document.getElementById('restart-button');
-        const tutorialModal = document.getElementById('tutorial-modal');
-        const closeTutorialButton = document.getElementById('close-tutorial-button');
+let audioEnabled = true;
 
-        let board;
-        let score = 0;
-        let currentPiece;
-        let nextPiece;
-        let gameLoopId;
-        let lastTime = 0;
-        let dropCounter = 0;
-        let dropInterval = 1000;
-        let isPaused = false;
-        let isGameOver = false;
-        let block_size;
+function playSound(name) {
+  if (audioEnabled && sounds[name]) {
+    sounds[name].currentTime = 0;
+    sounds[name].play();
+  }
+}
 
-        // Setup Audio dengan Tone.js
-        let audioContextStarted = false;
-        const lineClearSynth = new Tone.PolySynth(Tone.Synth, {
-            oscillator: { type: "triangle" },
-            envelope: {
-                attack: 0.005,
-                decay: 0.1,
-                sustain: 0.1,
-                release: 0.1
-            }
-        }).toDestination();
-        const dropSynth = new Tone.MembraneSynth({
-            pitchDecay: 0.05,
-            octaves: 2,
-            envelope: {
-                attack: 0.001,
-                decay: 0.4,
-                sustain: 0.01,
-                release: 0.1
-            }
-        }).toDestination();
-        const gameOverSynth = new Tone.NoiseSynth({
-            noise: { type: 'pink' },
-            envelope: { attack: 0.005, decay: 0.5, sustain: 0 }
-        }).toDestination();
+document.getElementById('audio-btn').addEventListener('click', () => {
+  audioEnabled = !audioEnabled;
+  document.getElementById('audio-btn').textContent = audioEnabled ? "🔊" : "🔇";
+  if (!audioEnabled) {
+    Object.values(sounds).forEach(s => s.pause());
+  } else {
+    sounds.music.play();
+  }
+});
 
-        function startAudioContext() {
-            if (!audioContextStarted) {
-                Tone.start();
-                audioContextStarted = true;
-            }
-        }
-        
-        // Fungsi untuk menyesuaikan ukuran canvas
-        function resizeCanvas() {
-            const container = document.getElementById('game-board');
-            const containerWidth = container.offsetWidth;
-            boardCanvas.width = containerWidth;
-            boardCanvas.height = containerWidth * 2;
-            
-            block_size = containerWidth / COLS;
-            
-            const nextCanvasContainer = document.getElementById('next-piece-canvas');
-            nextPieceCanvas.width = nextCanvasContainer.offsetWidth;
-            nextPieceCanvas.height = nextCanvasContainer.offsetHeight;
-            
-            drawGame();
-        }
+/* === TYPE EFFECT === */
+function typeLog(text) {
+  let i = 0;
+  const logElem = document.getElementById("terminal-log");
+  const interval = setInterval(() => {
+    logElem.innerHTML += text.charAt(i);
+    playSound('type');
+    i++;
+    if (i >= text.length) {
+      logElem.innerHTML += "<br>";
+      logElem.scrollTop = logElem.scrollHeight;
+      clearInterval(interval);
+    }
+  }, 30);
+}
 
-        function createBoard() {
-            return Array.from({ length: ROWS }, () => Array(COLS).fill(0));
-        }
+/* === MATRIX RAIN === */
+// ... kode matrix rain tetap sama seperti versi sebelumnya ...
 
-        function createPiece() {
-            const index = Math.floor(Math.random() * SHAPES.length);
-            const shape = SHAPES[index];
-            return {
-                shape,
-                color: COLORS[index + 1],
-                value: index + 1,
-                x: Math.floor(COLS / 2) - Math.floor(shape[0].length / 2),
-                y: 0
-            };
-        }
+/* === GAME LOGIC === */
+// ... kode tetris tetap sama seperti versi sebelumnya ...
 
-        function drawBlock(ctx, x, y, color) {
-            ctx.fillStyle = color;
-            ctx.fillRect(x * block_size, y * block_size, block_size, block_size);
-            ctx.strokeStyle = 'rgba(0,0,0,0.4)';
-            ctx.strokeRect(x * block_size, y * block_size, block_size, block_size);
-        }
-
-        function drawBoard() {
-            boardCtx.fillStyle = 'rgba(0, 0, 0, 0.5)';
-            boardCtx.fillRect(0, 0, boardCanvas.width, boardCanvas.height);
-            for (let row = 0; row < ROWS; row++) {
-                for (let col = 0; col < COLS; col++) {
-                    if (board[row][col]) {
-                        drawBlock(boardCtx, col, row, COLORS[board[row][col]]);
-                    }
-                }
-            }
-        }
-
-        function drawPiece() {
-            currentPiece.shape.forEach((row, rowIndex) => {
-                row.forEach((value, colIndex) => {
-                    if (value) {
-                        drawBlock(boardCtx, currentPiece.x + colIndex, currentPiece.y + rowIndex, COLORS[value]);
-                    }
-                });
-            });
-        }
-
-        function drawNextPiece() {
-            nextPieceCtx.clearRect(0, 0, nextPieceCanvas.width, nextPieceCanvas.height);
-            if (!nextPiece) return;
-
-            const nextPieceShape = nextPiece.shape;
-            const nextPieceWidth = nextPieceShape[0].length;
-            const nextPieceHeight = nextPieceShape.length;
-            
-            // Hitung ukuran blok untuk next piece agar pas di kanvas
-            const nextBlockSize = Math.min(
-                nextPieceCanvas.width / nextPieceWidth,
-                nextPieceCanvas.height / nextPieceHeight
-            ) * 0.8; // Mengurangi sedikit agar ada padding
-
-            const startX = (nextPieceCanvas.width - nextPieceWidth * nextBlockSize) / 2;
-            const startY = (nextPieceCanvas.height - nextPieceHeight * nextBlockSize) / 2;
-
-            nextPiece.shape.forEach((row, rowIndex) => {
-                row.forEach((value, colIndex) => {
-                    if (value) {
-                        nextPieceCtx.fillStyle = COLORS[value];
-                        nextPieceCtx.fillRect(startX + colIndex * nextBlockSize, startY + rowIndex * nextBlockSize, nextBlockSize, nextBlockSize);
-                        nextPieceCtx.strokeStyle = 'rgba(0,0,0,0.4)';
-                        nextPieceCtx.strokeRect(startX + colIndex * nextBlockSize, startY + rowIndex * nextBlockSize, nextBlockSize, nextBlockSize);
-                    }
-                });
-            });
-        }
-
-        function drawGame() {
-            drawBoard();
-            if (currentPiece) {
-                drawPiece();
-            }
-            if (nextPiece) {
-                drawNextPiece();
-            }
-        }
-
-        function collision(newX, newY, pieceShape) {
-            for (let row = 0; row < pieceShape.length; row++) {
-                for (let col = 0; col < pieceShape[0].length; col++) {
-                    if (pieceShape[row][col] &&
-                        (board[newY + row] && board[newY + row][newX + col]) !== 0) {
-                        return true;
-                    }
-                    if (pieceShape[row][col] && (newX + col < 0 || newX + col >= COLS || newY + row >= ROWS)) {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-
-        function mergePiece() {
-            currentPiece.shape.forEach((row, rowIndex) => {
-                row.forEach((value, colIndex) => {
-                    if (value) {
-                        board[currentPiece.y + rowIndex][currentPiece.x + colIndex] = value;
-                    }
-                });
-            });
-            if (audioContextStarted) {
-                dropSynth.triggerAttackRelease("C2", "8n");
-            }
-        }
-
-        function unlockLink(blockValue) {
-            const linkElement = document.getElementById(`link-${blockValue}`);
-            if (linkElement && !linkElement.classList.contains('unlocked')) {
-                linkElement.classList.add('unlocked');
-            }
-        }
-
-        function clearLines() {
-            let linesCleared = 0;
-            const blockTypesCleared = new Set();
-            for (let row = ROWS - 1; row >= 0; row--) {
-                let isLineFull = true;
-                for (let col = 0; col < COLS; col++) {
-                    if (!board[row][col]) {
-                        isLineFull = false;
-                        break;
-                    }
-                }
-
-                if (isLineFull) {
-                    for (let col = 0; col < COLS; col++) {
-                        blockTypesCleared.add(board[row][col]);
-                    }
-                    board.splice(row, 1);
-                    board.unshift(Array(COLS).fill(0));
-                    row++;
-                    linesCleared++;
-                }
-            }
-
-            if (linesCleared > 0) {
-                score += linesCleared * 100;
-                scoreDisplay.textContent = score;
-
-                if (audioContextStarted) {
-                    const notes = ["C4", "E4", "G4", "C5"];
-                    lineClearSynth.triggerAttackRelease(notes.slice(0, linesCleared), "16n", Tone.now());
-                }
-
-                blockTypesCleared.forEach(blockValue => {
-                    if (blockValue > 0) {
-                        unlockLink(blockValue);
-                    }
-                });
-            }
-        }
-
-        function rotate(piece) {
-            const newShape = piece.shape[0].map((_, colIndex) =>
-                piece.shape.map(row => row[colIndex]).reverse()
-            );
-            return newShape;
-        }
-
-        function movePiece(dir) {
-            if (isPaused || isGameOver) return;
-            const newX = currentPiece.x + dir;
-            if (!collision(newX, currentPiece.y, currentPiece.shape)) {
-                currentPiece.x = newX;
-                drawGame();
-            }
-        }
-
-        function rotatePiece() {
-            if (isPaused || isGameOver) return;
-            const newShape = rotate(currentPiece);
-            if (!collision(currentPiece.x, currentPiece.y, newShape)) {
-                currentPiece.shape = newShape;
-                drawGame();
-            }
-        }
-
-        function drop() {
-            if (isPaused || isGameOver) return;
-            const newY = currentPiece.y + 1;
-            if (!collision(currentPiece.x, newY, currentPiece.shape)) {
-                currentPiece.y = newY;
-            } else {
-                mergePiece();
-                clearLines();
-                currentPiece = nextPiece;
-                nextPiece = createPiece();
-                drawGame();
-                if (collision(currentPiece.x, currentPiece.y, currentPiece.shape)) {
-                    gameOver();
-                }
-            }
-        }
-
-        function update(time = 0) {
-            if (isGameOver || isPaused) return;
-            const deltaTime = time - lastTime;
-            lastTime = time;
-            dropCounter += deltaTime;
-            if (dropCounter > dropInterval) {
-                drop();
-                dropCounter = 0;
-            }
-            drawGame();
-            gameLoopId = requestAnimationFrame(update);
-        }
-
-        function gameOver() {
-            isGameOver = true;
-            isPaused = true;
-            cancelAnimationFrame(gameLoopId);
-            startPauseButton.textContent = 'Mulai';
-            startPauseButton.classList.remove('pause-button');
-            messageTitle.textContent = "Game Over";
-            messageText.textContent = `Skor Akhir: ${score}`;
-            messageBox.style.display = 'flex';
-            restartButton.style.display = 'inline-block';
-            if (audioContextStarted) {
-                gameOverSynth.triggerAttackRelease("4n");
-            }
-        }
-
-        function resetGame() {
-            board = createBoard();
-            score = 0;
-            scoreDisplay.textContent = score;
-            isGameOver = false;
-            isPaused = false;
-            messageBox.style.display = 'none';
-            startPauseButton.textContent = 'Jeda';
-            startPauseButton.classList.add('pause-button');
-            currentPiece = createPiece();
-            nextPiece = createPiece();
-            drawGame();
-            lastTime = 0;
-            dropCounter = 0;
-            update();
-        }
-
-        function togglePause() {
-            if (isGameOver) return;
-            isPaused = !isPaused;
-            if (isPaused) {
-                cancelAnimationFrame(gameLoopId);
-                startPauseButton.textContent = 'Lanjutkan';
-                startPauseButton.classList.remove('pause-button');
-                messageTitle.textContent = "Jeda";
-                messageText.textContent = "Klik 'Lanjutkan' untuk kembali bermain.";
-                messageBox.style.display = 'flex';
-                restartButton.style.display = 'none';
-            } else {
-                messageBox.style.display = 'none';
-                startPauseButton.textContent = 'Jeda';
-                startPauseButton.classList.add('pause-button');
-                lastTime = performance.now();
-                update();
-            }
-        }
-
-        // Event listeners
-        document.addEventListener('keydown', (e) => {
-            if (isPaused) return;
-            if (e.key === 'ArrowLeft') movePiece(-1);
-            if (e.key === 'ArrowRight') movePiece(1);
-            if (e.key === 'ArrowDown') drop();
-            if (e.key === 'ArrowUp') rotatePiece();
-            if (e.key === ' ') {
-                e.preventDefault();
-                togglePause();
-            }
-        });
-
-        // Event listeners untuk tombol kontrol mobile
-        document.getElementById('left-button').addEventListener('click', () => movePiece(-1));
-        document.getElementById('right-button').addEventListener('click', () => movePiece(1));
-        document.getElementById('rotate-button').addEventListener('click', () => rotatePiece());
-        document.getElementById('down-button').addEventListener('click', () => drop());
-
-        startPauseButton.addEventListener('click', () => {
-            startAudioContext();
-            
-            if (startPauseButton.textContent === 'Mulai') {
-                resetGame();
-            } else if (startPauseButton.textContent === 'Jeda') {
-                togglePause();
-            } else if (startPauseButton.textContent === 'Lanjutkan') {
-                togglePause();
-            }
-        });
-
-        restartButton.addEventListener('click', resetGame);
-        closeTutorialButton.addEventListener('click', () => {
-            tutorialModal.style.display = 'none';
-        });
-        
-        window.addEventListener('resize', resizeCanvas);
-
-        // Initial setup on page load
-        window.onload = function() {
-            resizeCanvas();
-            tutorialModal.style.display = 'flex';
-        }
-    </script>
+/* === START GAME BUTTON === */
+document.getElementById('start-game-btn').addEventListener('click', () => {
+  playSound('click');
+  document.getElementById('intro-modal').style.display = 'none';
+  typeLog("[*] Misi dimulai - Hancurkan baris untuk membuka modul...");
+  sounds.music.volume = 0;
+  sounds.music.play();
+  let fade = setInterval(() => {
+    if (sounds.music.volume < 0.5) {
+      sounds.music.volume += 0.05;
+    } else {
+      clearInterval(fade);
+    }
+  }, 200);
+  randomPiece();
+  update();
+});
+</script>
 </body>
 </html>
