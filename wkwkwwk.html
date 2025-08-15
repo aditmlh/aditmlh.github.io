@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halaman Prank</title>
+    <style>
+        /* General body styling for a dark, centered page */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #000;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            flex-direction: column; /* Stack elements vertically */
+            position: relative; /* Needed for absolute positioning of emojis */
+        }
+
+        /* Container for the prank elements to manage their animation and layout */
+        .prank-element {
+            font-weight: bold;
+            text-align: center;
+            /* Initially hidden and scaled down for the animation */
+            opacity: 0;
+            transform: scale(0.5); 
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+            z-index: 10; /* Ensure this is on top of the emojis */
+        }
+
+        /* Specific styles for the main prank text */
+        #prank-text {
+            font-size: 5rem;
+            margin-bottom: 20px;
+        }
+
+        /* Specific styles for the emoji and the "TADAAAA" text */
+        #tada-text, #tada-emoji {
+            font-size: 3rem;
+            margin: 10px;
+        }
+
+        /* Animation for the emoji */
+        @keyframes bounce-in-emoji {
+            0% { transform: scale(0.5); opacity: 0; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Animation for the "TADAAAA" text */
+        @keyframes tada-animation {
+            0% { transform: scale(1) rotate(0deg); }
+            10% { transform: scale(0.9) rotate(-3deg); }
+            20% { transform: scale(0.9) rotate(-3deg); }
+            30% { transform: scale(1.1) rotate(3deg); }
+            40% { transform: scale(1.1) rotate(-3deg); }
+            50% { transform: scale(1.1) rotate(3deg); }
+            60% { transform: scale(1.1) rotate(-3deg); }
+            70% { transform: scale(1.1) rotate(3deg); }
+            80% { transform: scale(1.1) rotate(-3deg); }
+            90% { transform: scale(1.1) rotate(3deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+
+        /* Styling for the background emojis */
+        .laughing-emoji {
+            position: absolute;
+            top: -50px; /* Start above the viewport */
+            font-size: 3rem;
+            animation-duration: 10s;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+            z-index: 5; /* Place them behind the main prank text */
+        }
+
+        /* Individual emoji animation styles */
+        @keyframes fall-straight {
+            to { transform: translateY(110vh); }
+        }
+
+        @keyframes fall-and-rotate {
+            to { transform: translateY(110vh) rotate(720deg); }
+        }
+
+        @keyframes fall-and-scale {
+            0% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(50vh) scale(1.5); }
+            100% { transform: translateY(110vh) scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Container to hold all prank elements -->
+    <div class="prank-element" id="prank-container">
+        <h1 id="prank-text">Asal UBolll</h1>
+        <span id="tada-emoji">🤣</span>
+        <span id="tada-text">TADAAAA</span>
+    </div>
+
+    <script>
+        // Use a single timeout to coordinate all elements appearing together
+        setTimeout(() => {
+            // Get references to all the elements
+            const prankContainer = document.getElementById('prank-container');
+            const prankText = document.getElementById('prank-text');
+            const tadaEmoji = document.getElementById('tada-emoji');
+            const tadaText = document.getElementById('tada-text');
+            
+            // Log a message to the console to confirm the code is running
+            console.log("Prank elements are now appearing!");
+
+            // Manually set the styles to make the elements visible
+            prankContainer.style.opacity = '1';
+            prankContainer.style.transform = 'scale(1)';
+            
+            // Apply specific animations after the initial visibility change
+            tadaEmoji.style.animation = 'bounce-in-emoji 1s ease-out';
+            tadaText.style.animation = 'tada-animation 1s ease-out';
+
+        }, 3000); // 3000 milliseconds = 3 seconds
+
+        // --- BACKGROUND EMOJI LOGIC ---
+        const emojis = ['🤣', '😂', '😅', '😆', '🤪'];
+        const animations = ['fall-straight', 'fall-and-rotate', 'fall-and-scale'];
+
+        // Function to create and animate a single emoji
+        function createEmoji() {
+            const emoji = document.createElement('span');
+            emoji.classList.add('laughing-emoji');
+            
+            // Randomly select emoji and animation
+            emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            const randomAnimation = animations[Math.floor(Math.random() * animations.length)];
+            
+            // Set random starting position and animation delay/duration
+            emoji.style.left = `${Math.random() * 100}vw`;
+            emoji.style.animationName = randomAnimation;
+            emoji.style.animationDelay = `${Math.random() * 5}s`;
+            emoji.style.animationDuration = `${Math.random() * 10 + 5}s`; // Duration between 5s and 15s
+
+            // Add the emoji to the body
+            document.body.appendChild(emoji);
+
+            // Remove the emoji after it falls out of view to prevent clutter
+            setTimeout(() => {
+                emoji.remove();
+            }, (parseFloat(emoji.style.animationDuration) * 1000) + 1000);
+        }
+
+        // Generate a new emoji every 500 milliseconds
+        setInterval(createEmoji, 500);
+
+    </script>
+
+</body>
+</html>
