@@ -3,258 +3,748 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adit's Game-like Links</title>
-    <!-- Tailwind CSS CDN -->
+    <title>Adit Hub - Terminal Interaktif</title>
+    <!-- Load Tailwind CSS from CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome CDN for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Three.js CDN for 3D animation -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <!-- Tone.js for simple audio effects -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <!-- Use a modern, clean font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap">
+    <!-- Load Tone.js for audio effects -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+        :root {
+            --bg-color-1: #0A0A0A;
+            --bg-color-2: #1A1A1A;
+            --accent-color-1: #00FFC2; /* Neon Cyan */
+            --accent-color-2: #4D7EFF; /* Neon Blue */
+            --text-color-primary: #E0E0E0;
+            --text-color-secondary: #909090;
+        }
+
         body {
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
-            overflow: hidden; /* Hide scrollbars for the canvas */
-            color: #ecf0f1;
+            font-family: 'Roboto Mono', monospace;
+            background: linear-gradient(135deg, var(--bg-color-1) 0%, var(--bg-color-2) 100%);
+            background-size: 400% 400%;
+            animation: gradient-animation 15s ease infinite;
+            color: var(--text-color-primary);
+            overflow: hidden;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
-        #canvas-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
+
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
-        #content {
-            position: relative;
-            z-index: 1;
+
+        #game-container {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            padding: 2rem;
+            padding: 1rem;
+            box-sizing: border-box;
         }
-        .container {
+
+        #game-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            align-items: center;
             width: 100%;
-            max-width: 600px;
-            background-color: rgba(17, 24, 39, 0.85);
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            max-width: 1000px;
+        }
+
+        #game-board {
+            border: 2px solid var(--accent-color-1);
+            border-radius: 8px;
+            background-color: rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 20px rgba(0, 255, 194, 0.4);
+            image-rendering: pixelated;
+        }
+
+        #main-content {
+            display: flex;
+            flex-direction: row;
+            gap: 2.5rem;
+            width: 100%;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        #link-panel {
+            display: none;
+            flex-direction: column;
+            gap: 1rem;
+            padding: 1.5rem;
+            background-color: rgba(0, 0, 0, 0.7);
+            border: 2px solid var(--accent-color-2);
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(77, 126, 255, 0.5);
+            width: 100%;
+            max-width: 280px;
+        }
+        
+        #link-panel a {
+            display: block;
+            text-align: center;
+            padding: 1rem;
+            border-radius: 8px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            transition: transform 0.2s ease-in-out, opacity 0.3s ease-in-out, filter 0.3s ease-in-out, box-shadow 0.2s ease-in-out;
+            box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.2);
+            pointer-events: none;
+            opacity: 0.4;
+            filter: grayscale(80%);
+        }
+
+        #link-panel a.unlocked {
+            pointer-events: auto;
+            opacity: 1;
+            filter: none;
+            animation: pulse-glow 0.8s ease-in-out infinite alternate;
+        }
+
+        #link-panel a.unlocked:hover {
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+        }
+
+        @keyframes pulse-glow {
+            from { box-shadow: 0 0 5px rgba(255,255,255,0.2), 0 0 10px rgba(255,255,255,0.1); }
+            to { box-shadow: 0 0 10px rgba(255,255,255,0.4), 0 0 20px rgba(255,255,255,0.3); }
+        }
+
+        /* Tetris block colors for links */
+        .link-block-1 { background-color: #00FFC2; }
+        .link-block-2 { background-color: #4D7EFF; }
+        .link-block-3 { background-color: #FF5A00; }
+        .link-block-4 { background-color: #E2FF00; }
+        .link-block-5 { background-color: #00E26A; }
+        .link-block-6 { background-color: #A200FF; }
+        .link-block-7 { background-color: #FF0054; }
+
+        #side-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        #info-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            padding: 1.5rem;
+            width: 180px;
+            box-shadow: 0 0 15px rgba(0, 255, 194, 0.2);
+            border: 2px solid var(--accent-color-1);
+        }
+
+        #next-piece-canvas {
+            border: 2px solid var(--accent-color-1);
+            border-radius: 6px;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        /* Container for the Tetris block controls */
+        #controls {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+            width: 100%;
+            max-width: 320px;
+            margin-top: 1rem;
+        }
+
+        .control-button-mobile {
+            cursor: pointer;
+            border: 2px solid var(--accent-color-1);
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 255, 194, 0.3);
+            transition: all 0.2s;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .control-button-mobile:active {
+            transform: scale(0.95);
+            box-shadow: 0 0 5px rgba(0, 255, 194, 0.5);
+        }
+
+        .main-button {
+            background-color: var(--accent-color-2);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: 700;
+            transition: all 0.2s;
+            box-shadow: 0 0 15px rgba(77, 126, 255, 0.5);
+            border: 2px solid var(--accent-color-2);
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .main-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(77, 126, 255, 0.8);
+        }
+        .main-button:active {
+            transform: scale(0.98);
+        }
+
+        .pause-button {
+            background-color: #FF0054;
+            border-color: #FF0054;
+            box-shadow: 0 0 15px rgba(255, 0, 84, 0.5);
+        }
+        .pause-button:hover {
+            box-shadow: 0 0 25px rgba(255, 0, 84, 0.8);
+        }
+
+        /* Modal styling */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+        }
+
+        .modal-content {
+            background-color: #1A1A1A;
             padding: 2rem;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            animation: fadeIn 1.5s ease-in-out;
+            border-radius: 12px;
+            text-align: center;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 0 30px rgba(0, 255, 194, 0.4);
+            border: 2px solid var(--accent-color-1);
+            transform: scale(0.8);
+            opacity: 0;
+            animation: modal-pop-in 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        
+        @keyframes modal-pop-in {
+            to { transform: scale(1); opacity: 1; }
         }
-        .animated-title {
-            background: linear-gradient(90deg, #38bdf8, #818cf8, #c084fc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gradient-flow 5s ease infinite;
-            background-size: 200% 200%;
+
+        /* Hide by default */
+        #tutorial-modal, #message-box {
+            display: none;
         }
-        @keyframes gradient-flow {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+
+        /* Mobile specific styles */
+        @media (max-width: 767px) {
+            #game-container {
+                justify-content: flex-start;
+            }
         }
-        .link-button {
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-            background-image: linear-gradient(45deg, #1d4ed8, #4f46e5);
-        }
-        .link-button:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-            background-image: linear-gradient(45deg, #3b82f6, #6366f1);
+        
+        @media (min-width: 768px) {
+            #game-wrapper {
+                flex-direction: row;
+                align-items: flex-start;
+                justify-content: center;
+            }
+
+            #game-container {
+                padding: 2rem;
+            }
+
+            #main-content {
+                flex-direction: row;
+            }
+
+            #link-panel {
+                display: flex;
+            }
+
+            #controls {
+                display: none;
+            }
+
+            #start-pause-button {
+                margin-top: 0;
+            }
         }
     </style>
 </head>
-<body>
+<body class="bg-gray-900 text-white flex justify-center items-center">
 
-    <!-- Three.js Canvas Container -->
-    <div id="canvas-container"></div>
-
-    <!-- Main Content -->
-    <div id="content">
-        <div class="container text-center">
-            <h1 class="text-4xl sm:text-5xl font-extrabold mb-2 animated-title">Aditya Pratama Malah</h1>
-            <p class="text-md sm:text-lg mt-2 text-gray-400">IT Support & Web Developer</p>
-            <hr class="my-6 border-gray-600">
-
-            <!-- Personal Websites Section -->
-            <div class="space-y-4 mb-6">
-                <h3 class="text-xl font-semibold text-gray-300 border-b-2 border-indigo-400 pb-2">Situs Web Pribadi</h3>
-                <a href="https://aditmlh.rf.gd/" target="_blank" class="link-button block p-4 rounded-xl shadow-lg hover:shadow-2xl text-white font-semibold">
-                    <i class="fas fa-link mr-4"></i>
-                    <span>Portfolio Utama</span>
-                </a>
-                <a href="https://aditmlh.github.io/" target="_blank" class="link-button block p-4 rounded-xl shadow-lg hover:shadow-2xl text-white font-semibold">
-                    <i class="fab fa-github-square mr-4"></i>
-                    <span>GitHub Pages</span>
-                </a>
+    <div id="game-container">
+        <h1 class="text-4xl sm:text-5xl font-bold text-center mb-2" style="color: var(--accent-color-1);">ADIT HUB</h1>
+        <p class="text-lg text-center mb-6" style="color: var(--accent-color-2);">[ Terminal Interaktif ]</p>
+        
+        <div id="main-content">
+            <!-- Website Links Panel (Styled as Tetris Blocks) -->
+            <div id="link-panel">
+                <h2 class="text-2xl font-bold text-center mb-4" style="color: var(--accent-color-2);">Data Modules</h2>
+                <a href="https://example.com/portofolio" id="link-1" class="link-block-1">Portofolio</a>
+                <a href="https://linkedin.com/in/aditya" id="link-2" class="link-block-2">LinkedIn</a>
+                <a href="mailto:aditya@example.com" id="link-3" class="link-block-3">Kontak Email</a>
+                <a href="https://github.com/aditya" id="link-4" class="link-block-4">GitHub</a>
+                <a href="https://example.com/blog" id="link-5" class="link-block-5">Blog Pribadi</a>
+                <a href="https://twitter.com/aditya" id="link-6" class="link-block-6">Akun X</a>
+                <a href="https://instagram.com/aditya" id="link-7" class="link-block-7">Instagram</a>
             </div>
 
-            <!-- Project Links Section -->
-            <div class="space-y-4 mb-6">
-                <h3 class="text-xl font-semibold text-gray-300 border-b-2 border-indigo-400 pb-2">Tautan Proyek</h3>
-                <a href="https://aditmlh.github.io/mrks.html" target="_blank" class="link-button block p-4 rounded-xl shadow-lg hover:shadow-2xl text-white font-semibold">
-                    <i class="fas fa-project-diagram mr-4 text-orange-300"></i>
-                    <span>mrks.html</span>
-                </a>
-                <a href="https://ct2.rf.gd/" target="_blank" class="link-button block p-4 rounded-xl shadow-lg hover:shadow-2xl text-white font-semibold">
-                    <i class="fas fa-project-diagram mr-4 text-green-300"></i>
-                    <span>ct2.rf.gd</span>
-                </a>
-                <a href="https://santara.rf.gd/" target="_blank" class="link-button block p-4 rounded-xl shadow-lg hover:shadow-2xl text-white font-semibold">
-                    <i class="fas fa-project-diagram mr-4 text-yellow-300"></i>
-                    <span>santara.rf.gd</span>
-                </a>
-                <a href="https://masigi.rf.gd/" target="_blank" class="link-button block p-4 rounded-xl shadow-lg hover:shadow-2xl text-white font-semibold">
-                    <i class="fas fa-project-diagram mr-4 text-red-300"></i>
-                    <span>masigi.rf.gd</span>
-                </a>
-            </div>
-            
-            <!-- Social & Professional Links Section -->
-            <div class="space-y-4">
-                <h3 class="text-xl font-semibold text-gray-300 border-b-2 border-indigo-400 pb-2">Media Sosial & Profesional</h3>
-                <div class="grid grid-cols-3 md:grid-cols-5 gap-4">
-                    <a href="https://id.linkedin.com/in/aditya-pratama-malah" target="_blank" class="social-icon flex items-center justify-center p-4 rounded-xl transition-all duration-300 bg-gray-700 hover:bg-blue-600 text-blue-400 hover:text-white">
-                        <i class="fab fa-linkedin-in text-2xl"></i>
-                    </a>
-                    <a href="https://www.instagram.com/aditmlh/" target="_blank" class="social-icon flex items-center justify-center p-4 rounded-xl transition-all duration-300 bg-gray-700 hover:bg-pink-600 text-pink-400 hover:text-white">
-                        <i class="fab fa-instagram text-2xl"></i>
-                    </a>
-                    <a href="https://www.facebook.com/aditmlh" target="_blank" class="social-icon flex items-center justify-center p-4 rounded-xl transition-all duration-300 bg-gray-700 hover:bg-blue-700 text-blue-500 hover:text-white">
-                        <i class="fab fa-facebook-f text-2xl"></i>
-                    </a>
-                    <a href="https://www.dreamstime.com/adityamalah_info" target="_blank" class="social-icon flex items-center justify-center p-4 rounded-xl transition-all duration-300 bg-gray-700 hover:bg-yellow-600 text-yellow-400 hover:text-white">
-                        <i class="fas fa-camera-retro text-2xl"></i>
-                    </a>
-                    <a href="https://www.threads.com/@aditmlh" target="_blank" class="social-icon flex items-center justify-center p-4 rounded-xl transition-all duration-300 bg-gray-700 hover:bg-white hover:text-black text-gray-300">
-                        <i class="fab fa-threads text-2xl"></i>
-                    </a>
-                    <a href="https://karyakarsa.com/aditmlh/info" target="_blank" class="social-icon flex items-center justify-center p-4 rounded-xl transition-all duration-300 bg-gray-700 hover:bg-red-600 text-red-400 hover:text-white">
-                        <i class="fas fa-pen-nib text-2xl"></i>
-                    </a>
-                    <a href="https://www.freelancer.co.id/u/adityamalah" target="_blank" class="social-icon flex items-center justify-center p-4 rounded-xl transition-all duration-300 bg-gray-700 hover:bg-teal-600 text-teal-400 hover:text-white">
-                        <i class="fas fa-laptop-code text-2xl"></i>
-                    </a>
-                    <a href="https://www.fiverr.com/adityamalah/" target="_blank" class="social-icon flex items-center justify-center p-4 rounded-xl transition-all duration-300 bg-gray-700 hover:bg-green-600 text-green-400 hover:text-white">
-                        <i class="fas fa-handshake text-2xl"></i>
-                    </a>
-                    <a href="https://github.com/aditmlh/" target="_blank" class="social-icon flex items-center justify-center p-4 rounded-xl transition-all duration-300 bg-gray-700 hover:bg-purple-600 text-purple-400 hover:text-white">
-                        <i class="fab fa-github text-2xl"></i>
-                    </a>
+            <div id="game-wrapper">
+                <canvas id="game-board" width="240" height="480"></canvas>
+                <div id="side-panel">
+                    <div id="info-panel" class="w-full sm:w-auto">
+                        <div class="text-xl font-bold mb-2 text-center" style="color: var(--accent-color-2);">Sistem</div>
+                        <div class="flex justify-between items-center text-lg font-medium">
+                            <span>Skor:</span>
+                            <span id="score-display" style="color: var(--accent-color-1);" class="font-bold">0</span>
+                        </div>
+                        <div class="mt-4">
+                            <div class="text-lg font-medium text-center mb-2" style="color: var(--text-color-secondary);">Antrian:</div>
+                            <canvas id="next-piece-canvas" width="120" height="80"></canvas>
+                        </div>
+                    </div>
+                    <!-- Controls for mobile -->
+                    <div id="controls" class="sm:hidden">
+                        <button id="left-button" class="control-button-mobile w-14 h-14">
+                            <svg class="w-8 h-8" fill="var(--accent-color-1)" viewBox="0 0 24 24">
+                                <path d="M15.41 7.41L14 6L8 12L14 18L15.41 16.59L10.83 12L15.41 7.41Z"/>
+                            </svg>
+                        </button>
+                        <button id="right-button" class="control-button-mobile w-14 h-14">
+                            <svg class="w-8 h-8" fill="var(--accent-color-1)" viewBox="0 0 24 24">
+                                <path d="M8.59 16.59L13.17 12L8.59 7.41L10 6L16 12L10 18L8.59 16.59Z"/>
+                            </svg>
+                        </button>
+                        <button id="rotate-button" class="control-button-mobile w-14 h-14">
+                            <svg class="w-8 h-8" fill="var(--accent-color-1)" viewBox="0 0 24 24">
+                                <path d="M12 4V1L8 5L12 9V6C15.31 6 18 8.69 18 12C18 13.06 17.72 14.07 17.21 14.97L18.66 16.42C19.53 15.22 20 13.68 20 12C20 7.58 16.42 4 12 4Z"/>
+                                <path d="M12 18C8.69 18 6 15.31 6 12C6 10.94 6.28 9.93 6.79 9.03L5.34 7.58C4.47 8.78 4 10.32 4 12C4 16.42 7.58 20 12 20V23L16 19L12 15V18Z"/>
+                            </svg>
+                        </button>
+                        <button id="down-button" class="control-button-mobile w-14 h-14">
+                            <svg class="w-8 h-8" fill="var(--accent-color-1)" viewBox="0 0 24 24">
+                                <path d="M7.41 8.59L12 13.17L16.59 8.59L18 10L12 16L6 10L7.41 8.59Z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <button id="start-pause-button" class="main-button mt-4 px-8 py-3 text-2xl pause-button">Mulai</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- JavaScript for Three.js animation and Tone.js -->
+    <!-- Tutorial Modal -->
+    <div id="tutorial-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 class="text-3xl font-bold mb-4" style="color: var(--accent-color-2);">[ Akses Terminal ]</h2>
+            <p class="mb-4 text-lg">Hancurkan satu baris blok untuk membuka tautan yang sesuai. Setiap tautan memiliki warna blok Tetris yang unik.</p>
+            <div class="text-left">
+                <h3 class="font-bold text-lg mb-2" style="color: var(--accent-color-1);">Input Keyboard:</h3>
+                <ul class="list-disc list-inside mb-4 ml-4">
+                    <li><span class="font-bold">Panah Kiri / Kanan:</span> Pindahkan blok</li>
+                    <li><span class="font-bold">Panah Atas:</span> Putar blok</li>
+                    <li><span class="font-bold">Panah Bawah:</span> Jatuhkan blok lebih cepat</li>
+                    <li><span class="font-bold">Spasi:</span> Jeda/Lanjutkan</li>
+                </ul>
+                <h3 class="font-bold text-lg mb-2" style="color: var(--accent-color-1);">Input Sentuh:</h3>
+                <p class="ml-4">Gunakan tombol-tombol ikon di bawah papan permainan.</p>
+            </div>
+            <button id="close-tutorial-button" class="main-button mt-6">Akses Diberikan</button>
+        </div>
+    </div>
+
+    <!-- Message box for game over/pause -->
+    <div id="message-box" class="modal-overlay">
+        <div class="modal-content">
+            <h2 id="message-title" class="text-4xl font-bold" style="color: var(--accent-color-2);">Game Over</h2>
+            <p id="message-text" class="text-lg">Skor Akhir: <span id="final-score" style="color: var(--accent-color-1);">0</span></p>
+            <button id="restart-button" class="main-button px-6 py-2 text-lg mt-4">Mulai Ulang</button>
+        </div>
+    </div>
+
     <script>
-        // Three.js setup
-        let scene, camera, renderer, particles;
-        let particleCount = 5000;
-        let particlesGeometry;
-        let mouseX = 0, mouseY = 0;
-        let windowHalfX = window.innerWidth / 2;
-        let windowHalfY = window.innerHeight / 2;
+        // Game Constants
+        const COLS = 10;
+        const ROWS = 20;
+        const BLOCK_SIZE = 24;
+        const SHAPES = [
+            // I (index 0, color 1)
+            [[0, 0, 0, 0], [1, 1, 1, 1]],
+            // J (index 1, color 2)
+            [[2, 0, 0], [2, 2, 2]],
+            // L (index 2, color 3)
+            [[0, 0, 3], [3, 3, 3]],
+            // O (index 3, color 4)
+            [[4, 4], [4, 4]],
+            // S (index 4, color 5)
+            [[0, 5, 5], [5, 5, 0]],
+            // T (index 5, color 6)
+            [[0, 6, 0], [6, 6, 6]],
+            // Z (index 6, color 7)
+            [[7, 7, 0], [0, 7, 7]]
+        ];
+        const COLORS = ['', '#00FFC2', '#4D7EFF', '#FF5A00', '#E2FF00', '#00E26A', '#A200FF', '#FF0054'];
+        
+        // Get canvas and context
+        const boardCanvas = document.getElementById('game-board');
+        const boardCtx = boardCanvas.getContext('2d');
+        const nextPieceCanvas = document.getElementById('next-piece-canvas');
+        const nextPieceCtx = nextPieceCanvas.getContext('2d');
+        const scoreDisplay = document.getElementById('score-display');
+        const startPauseButton = document.getElementById('start-pause-button');
+        const messageBox = document.getElementById('message-box');
+        const messageTitle = document.getElementById('message-title');
+        const messageText = document.getElementById('message-text');
+        const finalScore = document.getElementById('final-score');
+        const restartButton = document.getElementById('restart-button');
+        const tutorialModal = document.getElementById('tutorial-modal');
+        const closeTutorialButton = document.getElementById('close-tutorial-button');
 
-        // Tone.js setup
-        const synth = new Tone.Synth().toDestination();
+        let board;
+        let score = 0;
+        let currentPiece;
+        let nextPiece;
+        let gameLoopId;
+        let lastTime = 0;
+        let dropCounter = 0;
+        let dropInterval = 1000;
+        let isPaused = false;
+        let isGameOver = false;
 
-        // Initialize particles on window load
-        window.onload = function () {
-            initParticles();
-            animate();
-            setupEventListeners();
-        };
-
-        function initParticles() {
-            // Scene
-            scene = new THREE.Scene();
-
-            // Camera
-            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = 5;
-
-            // Renderer
-            const canvasContainer = document.getElementById('canvas-container');
-            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(window.devicePixelRatio);
-            canvasContainer.appendChild(renderer.domElement);
-
-            // Particles
-            particlesGeometry = new THREE.BufferGeometry();
-            const positions = new Float32Array(particleCount * 3);
-
-            for (let i = 0; i < particleCount * 3; i++) {
-                positions[i] = (Math.random() - 0.5) * 20;
+        // Tone.js Audio Setup
+        let audioContextStarted = false;
+        const lineClearSynth = new Tone.PolySynth(Tone.Synth, {
+            oscillator: { type: "triangle" },
+            envelope: {
+                attack: 0.005,
+                decay: 0.1,
+                sustain: 0.1,
+                release: 0.1
             }
+        }).toDestination();
+        const dropSynth = new Tone.MembraneSynth({
+            pitchDecay: 0.05,
+            octaves: 2,
+            envelope: {
+                attack: 0.001,
+                decay: 0.4,
+                sustain: 0.01,
+                release: 0.1
+            }
+        }).toDestination();
+        const gameOverSynth = new Tone.NoiseSynth({
+            noise: {
+                type: 'pink'
+            },
+            envelope: {
+                attack: 0.005,
+                decay: 0.5,
+                sustain: 0
+            }
+        }).toDestination();
 
-            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-
-            const particleMaterial = new THREE.PointsMaterial({
-                color: 0x818cf8,
-                size: 0.05,
-                transparent: true,
-                opacity: 0.8
-            });
-
-            particles = new THREE.Points(particlesGeometry, particleMaterial);
-            scene.add(particles);
-
-            // Handle window resize
-            window.addEventListener('resize', onWindowResize, false);
-            // Handle mouse move for parallax effect
-            document.addEventListener('mousemove', onDocumentMouseMove, false);
+        function startAudioContext() {
+            if (!audioContextStarted) {
+                Tone.start();
+                audioContextStarted = true;
+            }
         }
 
-        function onWindowResize() {
-            windowHalfX = window.innerWidth / 2;
-            windowHalfY = window.innerHeight / 2;
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
+        function createBoard() {
+            return Array.from({ length: ROWS }, () => Array(COLS).fill(0));
         }
 
-        function onDocumentMouseMove(event) {
-            mouseX = (event.clientX - windowHalfX);
-            mouseY = (event.clientY - windowHalfY);
+        function createPiece() {
+            const index = Math.floor(Math.random() * SHAPES.length);
+            const shape = SHAPES[index];
+            return {
+                shape,
+                color: COLORS[index + 1],
+                value: index + 1,
+                x: Math.floor(COLS / 2) - Math.floor(shape[0].length / 2),
+                y: 0
+            };
         }
 
-        function animate() {
-            requestAnimationFrame(animate);
-
-            // Move the camera based on mouse position for a smooth parallax effect
-            camera.position.x += (mouseX * 0.001 - camera.position.x) * 0.05;
-            camera.position.y += (-mouseY * 0.001 - camera.position.y) * 0.05;
-            camera.lookAt(scene.position);
-
-            // Rotate particles slowly
-            particles.rotation.x += 0.0002;
-            particles.rotation.y += 0.0004;
-
-            renderer.render(scene, camera);
+        function drawBlock(ctx, x, y, color) {
+            ctx.fillStyle = color;
+            ctx.fillRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+            ctx.strokeStyle = 'rgba(0,0,0,0.4)';
+            ctx.strokeRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
         }
 
-        function setupEventListeners() {
-            const links = document.querySelectorAll('a');
-            links.forEach(link => {
-                link.addEventListener('click', () => {
-                    // Play a quick, simple sound effect
-                    synth.triggerAttackRelease("C4", "8n");
+        function drawBoard() {
+            boardCtx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+            boardCtx.fillRect(0, 0, boardCanvas.width, boardCanvas.height);
+            for (let row = 0; row < ROWS; row++) {
+                for (let col = 0; col < COLS; col++) {
+                    if (board[row][col]) {
+                        drawBlock(boardCtx, col, row, COLORS[board[row][col]]);
+                    }
+                }
+            }
+        }
+
+        function drawPiece() {
+            currentPiece.shape.forEach((row, rowIndex) => {
+                row.forEach((value, colIndex) => {
+                    if (value) {
+                        drawBlock(boardCtx, currentPiece.x + colIndex, currentPiece.y + rowIndex, COLORS[value]);
+                    }
                 });
             });
+        }
+
+        function drawNextPiece() {
+            nextPieceCtx.clearRect(0, 0, nextPieceCanvas.width, nextPieceCanvas.height);
+            const nextPieceWidth = nextPiece.shape[0].length;
+            const nextPieceHeight = nextPiece.shape.length;
+            const startX = (nextPieceCanvas.width / BLOCK_SIZE - nextPieceWidth) / 2;
+            const startY = (nextPieceCanvas.height / BLOCK_SIZE - nextPieceHeight) / 2;
+
+            nextPiece.shape.forEach((row, rowIndex) => {
+                row.forEach((value, colIndex) => {
+                    if (value) {
+                        drawBlock(nextPieceCtx, startX + colIndex, startY + rowIndex, COLORS[value]);
+                    }
+                });
+            });
+        }
+
+        function collision(newX, newY, pieceShape) {
+            for (let row = 0; row < pieceShape.length; row++) {
+                for (let col = 0; col < pieceShape[0].length; col++) {
+                    if (pieceShape[row][col] &&
+                        (board[newY + row] && board[newY + row][newX + col]) !== 0) {
+                        return true;
+                    }
+                    if (pieceShape[row][col] && (newX + col < 0 || newX + col >= COLS || newY + row >= ROWS)) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        function mergePiece() {
+            currentPiece.shape.forEach((row, rowIndex) => {
+                row.forEach((value, colIndex) => {
+                    if (value) {
+                        board[currentPiece.y + rowIndex][currentPiece.x + colIndex] = value;
+                    }
+                });
+            });
+            if (audioContextStarted) {
+                dropSynth.triggerAttackRelease("C2", "8n");
+            }
+        }
+
+        function unlockLink(blockValue) {
+            const linkElement = document.getElementById(`link-${blockValue}`);
+            if (linkElement && !linkElement.classList.contains('unlocked')) {
+                linkElement.classList.add('unlocked');
+            }
+        }
+
+        function clearLines() {
+            let linesCleared = 0;
+            const blockTypesCleared = new Set();
+            for (let row = ROWS - 1; row >= 0; row--) {
+                let isLineFull = true;
+                for (let col = 0; col < COLS; col++) {
+                    if (!board[row][col]) {
+                        isLineFull = false;
+                        break;
+                    }
+                }
+
+                if (isLineFull) {
+                    for (let col = 0; col < COLS; col++) {
+                        blockTypesCleared.add(board[row][col]);
+                    }
+                    board.splice(row, 1);
+                    board.unshift(Array(COLS).fill(0));
+                    row++;
+                    linesCleared++;
+                }
+            }
+
+            if (linesCleared > 0) {
+                score += linesCleared * 100;
+                scoreDisplay.textContent = score;
+
+                if (audioContextStarted) {
+                    const notes = ["C4", "E4", "G4", "C5"];
+                    lineClearSynth.triggerAttackRelease(notes.slice(0, linesCleared), "16n", Tone.now());
+                }
+
+                blockTypesCleared.forEach(blockValue => {
+                    if (blockValue > 0) {
+                        unlockLink(blockValue);
+                    }
+                });
+            }
+        }
+
+        function rotate(piece) {
+            const newShape = piece.shape[0].map((_, colIndex) =>
+                piece.shape.map(row => row[colIndex]).reverse()
+            );
+            return newShape;
+        }
+
+        function movePiece(dir) {
+            if (isPaused || isGameOver) return;
+            const newX = currentPiece.x + dir;
+            if (!collision(newX, currentPiece.y, currentPiece.shape)) {
+                currentPiece.x = newX;
+            }
+        }
+
+        function rotatePiece() {
+            if (isPaused || isGameOver) return;
+            const newShape = rotate(currentPiece);
+            if (!collision(currentPiece.x, currentPiece.y, newShape)) {
+                currentPiece.shape = newShape;
+            }
+        }
+
+        function drop() {
+            if (isPaused || isGameOver) return;
+            const newY = currentPiece.y + 1;
+            if (!collision(currentPiece.x, newY, currentPiece.shape)) {
+                currentPiece.y = newY;
+            } else {
+                mergePiece();
+                clearLines();
+                currentPiece = nextPiece;
+                nextPiece = createPiece();
+                drawNextPiece();
+                if (collision(currentPiece.x, currentPiece.y, currentPiece.shape)) {
+                    gameOver();
+                }
+            }
+        }
+
+        function update(time = 0) {
+            if (isGameOver || isPaused) return;
+            const deltaTime = time - lastTime;
+            lastTime = time;
+            dropCounter += deltaTime;
+            if (dropCounter > dropInterval) {
+                drop();
+                dropCounter = 0;
+            }
+            boardCtx.clearRect(0, 0, boardCanvas.width, boardCanvas.height);
+            drawBoard();
+            drawPiece();
+            gameLoopId = requestAnimationFrame(update);
+        }
+
+        function gameOver() {
+            isGameOver = true;
+            isPaused = true;
+            cancelAnimationFrame(gameLoopId);
+            startPauseButton.textContent = 'Mulai';
+            startPauseButton.classList.remove('pause-button');
+            messageTitle.textContent = "Game Over";
+            messageText.textContent = `Skor Akhir: ${score}`;
+            messageBox.style.display = 'flex';
+            restartButton.style.display = 'inline-block';
+            if (audioContextStarted) {
+                gameOverSynth.triggerAttackRelease("4n");
+            }
+        }
+
+        function resetGame() {
+            board = createBoard();
+            score = 0;
+            scoreDisplay.textContent = score;
+            isGameOver = false;
+            isPaused = false;
+            messageBox.style.display = 'none';
+            startPauseButton.textContent = 'Jeda';
+            startPauseButton.classList.add('pause-button');
+            currentPiece = createPiece();
+            nextPiece = createPiece();
+            drawNextPiece();
+            lastTime = 0;
+            dropCounter = 0;
+            update();
+        }
+
+        function togglePause() {
+            if (isGameOver) return;
+            isPaused = !isPaused;
+            if (isPaused) {
+                cancelAnimationFrame(gameLoopId);
+                startPauseButton.textContent = 'Lanjutkan';
+                startPauseButton.classList.remove('pause-button');
+                messageTitle.textContent = "Jeda";
+                messageText.textContent = "Klik 'Lanjutkan' untuk kembali bermain.";
+                messageBox.style.display = 'flex';
+                restartButton.style.display = 'none';
+            } else {
+                messageBox.style.display = 'none';
+                startPauseButton.textContent = 'Jeda';
+                startPauseButton.classList.add('pause-button');
+                lastTime = performance.now();
+                update();
+            }
+        }
+
+        // Event listeners
+        document.addEventListener('keydown', (e) => {
+            if (isPaused) return;
+            if (e.key === 'ArrowLeft') movePiece(-1);
+            if (e.key === 'ArrowRight') movePiece(1);
+            if (e.key === 'ArrowDown') drop();
+            if (e.key === 'ArrowUp') rotatePiece();
+            if (e.key === ' ') {
+                e.preventDefault();
+                togglePause();
+            }
+        });
+
+        // Mobile control button event listeners
+        document.getElementById('left-button').addEventListener('click', () => movePiece(-1));
+        document.getElementById('right-button').addEventListener('click', () => movePiece(1));
+        document.getElementById('rotate-button').addEventListener('click', () => rotatePiece());
+        document.getElementById('down-button').addEventListener('click', () => drop());
+
+        startPauseButton.addEventListener('click', () => {
+            startAudioContext();
+            
+            if (startPauseButton.textContent === 'Mulai') {
+                resetGame();
+            } else if (startPauseButton.textContent === 'Jeda') {
+                togglePause();
+            } else if (startPauseButton.textContent === 'Lanjutkan') {
+                togglePause();
+            }
+        });
+
+        restartButton.addEventListener('click', resetGame);
+        closeTutorialButton.addEventListener('click', () => {
+            tutorialModal.style.display = 'none';
+        });
+        
+        // Initial setup on page load
+        window.onload = function() {
+            tutorialModal.style.display = 'flex';
         }
     </script>
 </body>
