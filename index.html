@@ -7,363 +7,646 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap">
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
+/* Perbaikan CSS: Menambahkan fallback font, animasi, dan skema warna */
 :root {
-  --bg-dark: #0a0a0a;
-  --cyan: #00ffc2;
-  --blue: #4d7eff;
-  --pink: #ff0054;
-  --text-main: #e0e0e0;
-  --text-sub: #a0a0a0;
+    --bg-dark: #0a0a0a;
+    --cyan: #00ffc2;
+    --blue: #4d7eff;
+    --pink: #ff0054;
+    --text-main: #e0e0e0;
+    --text-sub: #a0a0a0;
 }
 body {
-  background: var(--bg-dark);
-  color: var(--text-main);
-  font-family: 'Roboto Mono', monospace;
-  margin: 0;
-  overflow: hidden;
+    background: var(--bg-dark);
+    color: var(--text-main);
+    font-family: 'Roboto Mono', monospace, sans-serif;
+    margin: 0;
+    overflow: hidden;
 }
 .crt::after {
-  content: "";
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(255,255,255,0.02) 0,
-    rgba(255,255,255,0.02) 1px,
-    transparent 2px
-  );
-  pointer-events: none;
-  z-index: 10;
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(255,255,255,0.02) 0,
+        rgba(255,255,255,0.02) 1px,
+        transparent 2px
+    );
+    pointer-events: none;
+    z-index: 10;
 }
 .neon-text {
-  text-shadow: 0 0 5px var(--cyan), 0 0 10px var(--cyan), 0 0 20px var(--cyan);
+    text-shadow: 0 0 5px var(--cyan), 0 0 10px var(--cyan), 0 0 20px var(--cyan);
 }
 #game-board {
-  border: 2px solid var(--cyan);
-  box-shadow: 0 0 15px var(--cyan);
-  background: black;
-  image-rendering: pixelated;
+    border: 2px solid var(--cyan);
+    box-shadow: 0 0 15px var(--cyan);
+    background: black;
+    image-rendering: pixelated;
+}
+#next-piece-canvas {
+    border: 1px solid var(--blue);
+    background: rgba(0,0,0,0.5);
+    image-rendering: pixelated;
 }
 #link-panel {
-  background: rgba(0,0,0,0.7);
-  border: 2px solid var(--blue);
-  border-radius: 10px;
-  padding: 1rem;
+    background: rgba(0,0,0,0.7);
+    border: 2px solid var(--blue);
+    border-radius: 10px;
+    padding: 1rem;
 }
 #terminal-log {
-  font-size: 0.85rem;
-  color: var(--text-sub);
-  background: rgba(0,0,0,0.5);
-  padding: 0.5rem;
-  height: 120px;
-  overflow-y: auto;
-  border: 1px solid var(--cyan);
+    font-size: 0.85rem;
+    color: var(--text-sub);
+    background: rgba(0,0,0,0.5);
+    padding: 0.5rem;
+    height: 120px;
+    overflow-y: auto;
+    border: 1px solid var(--cyan);
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+#terminal-log::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
 }
 .link-locked {
-  opacity: 0.4;
-  pointer-events: none;
+    opacity: 0.4;
+    pointer-events: none;
 }
 .link-unlocked {
-  opacity: 1;
-  pointer-events: auto;
-  animation: glow 1s infinite alternate;
+    opacity: 1;
+    pointer-events: auto;
+    animation: glow 1s infinite alternate;
 }
 @keyframes glow {
-  from { box-shadow: 0 0 5px var(--cyan); }
-  to { box-shadow: 0 0 15px var(--cyan); }
+    from { box-shadow: 0 0 5px var(--cyan); }
+    to { box-shadow: 0 0 15px var(--cyan); }
 }
 canvas#matrix-bg {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  z-index: 0;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
 }
 .modal {
-  background: #111;
-  border: 2px solid var(--cyan);
-  box-shadow: 0 0 20px var(--cyan);
-  z-index: 20;
+    background: #111;
+    border: 2px solid var(--cyan);
+    box-shadow: 0 0 20px var(--cyan);
+    z-index: 20;
 }
 #audio-btn {
-  position: fixed;
-  top: 10px;
-  right: 10px;
-  background: rgba(0,0,0,0.6);
-  border: 2px solid var(--cyan);
-  padding: 5px 10px;
-  border-radius: 5px;
-  color: var(--cyan);
-  font-size: 18px;
-  cursor: pointer;
-  z-index: 50;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background: rgba(0,0,0,0.6);
+    border: 2px solid var(--cyan);
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: var(--cyan);
+    font-size: 18px;
+    cursor: pointer;
+    z-index: 50;
+    transition: all 0.2s ease-in-out;
+}
+#audio-btn:hover {
+    box-shadow: 0 0 10px var(--cyan);
+    background: rgba(0,0,0,0.8);
+}
+.hidden {
+    display: none;
 }
 </style>
 </head>
 <body class="crt">
 
 <!-- MATRIX BACKGROUND -->
-<canvas id="matrix-bg"></canvas>
+<canvas id="matrix-bg" aria-hidden="true"></canvas>
 
 <!-- AUDIO TOGGLE -->
-<button id="audio-btn">🔊</button>
+<button id="audio-btn" aria-label="Toggle Audio">🔊</button>
 
 <!-- INTRO MODAL -->
-<div id="intro-modal" class="fixed inset-0 flex items-center justify-center z-50">
-  <div class="modal p-6 rounded-lg text-center max-w-md w-full">
-    <h1 class="text-3xl font-bold neon-text mb-4">ADIT HUB</h1>
-    <p class="mb-4">[ Cyber Terminal Quest ]</p>
-    <p class="mb-4">Akses ditolak. Hancurkan baris kode untuk membuka data modul.</p>
-    <button id="start-game-btn" class="px-4 py-2 bg-cyan-500 text-black font-bold rounded">Mulai Misi</button>
-  </div>
+<div id="intro-modal" class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-70">
+    <div class="modal p-6 rounded-lg text-center max-w-md w-full">
+        <h1 class="text-3xl font-bold neon-text mb-4">ADIT HUB</h1>
+        <p class="mb-4 text-sm text-blue-400">[ Cyber Terminal Quest ]</p>
+        <p class="mb-4">
+            Akses ditolak. Saya adalah AI penjaga "Adit Hub". Untuk membuka data modul, Anda harus menghancurkan baris kode yang jatuh.
+            Setiap baris yang dihancurkan akan melemahkan firewall.
+        </p>
+        <p class="mb-4 text-xs text-sub-main">
+            <strong>Kontrol:</strong>
+            <br>Panah Kiri/Kanan: Pindah
+            <br>Panah Bawah: Jatuh Cepat
+            <br>Panah Atas: Putar
+            <br>Spasi: Hard Drop
+        </p>
+        <div id="start-options" class="flex flex-col gap-2 mt-4">
+            <!-- Tombol ini akan muncul jika ada data yang tersimpan -->
+            <button id="continue-game-btn" class="hidden px-6 py-3 bg-blue-500 text-black font-bold rounded-full hover:bg-blue-400 transition-colors duration-300">Lanjutkan Misi</button>
+            <button id="start-new-game-btn" class="px-6 py-3 bg-cyan-500 text-black font-bold rounded-full hover:bg-cyan-400 transition-colors duration-300">Mulai Misi Baru</button>
+        </div>
+    </div>
+</div>
+
+<!-- VICTORY MODAL -->
+<div id="victory-modal" class="hidden fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-70">
+    <div class="modal p-6 rounded-lg text-center max-w-md w-full">
+        <h1 class="text-3xl font-bold neon-text mb-4">Misi Selesai</h1>
+        <p class="mb-4 text-blue-400">Selamat! Anda telah membuka semua modul data dan berhasil menembus firewall.</p>
+        <p class="mb-4">"Adit Hub" sekarang terbuka sepenuhnya. Anda dapat menjelajahi data yang ada.</p>
+        <button id="restart-game-btn" class="px-6 py-3 mt-4 bg-cyan-500 text-black font-bold rounded-full hover:bg-cyan-400 transition-colors duration-300">Mulai Ulang</button>
+    </div>
 </div>
 
 <!-- MAIN CONTENT -->
-<div class="flex flex-col items-center p-4 gap-4 relative z-10">
-  <h1 class="text-4xl font-bold neon-text">ADIT HUB</h1>
-  <p class="text-blue-400">[ Terminal Interaktif ]</p>
+<main class="flex flex-col items-center p-4 gap-4 relative z-10 min-h-screen justify-center">
+    <h1 class="text-5xl font-bold neon-text text-center">ADIT HUB</h1>
+    <p class="text-blue-400 text-lg">[ Terminal Interaktif ]</p>
+    <div class="flex flex-col md:flex-row gap-6 w-full max-w-5xl justify-center items-center md:items-start mt-8">
+        <!-- Link Panel -->
+        <aside id="link-panel" class="flex flex-col gap-2 w-full max-w-xs md:w-60">
+            <h2 class="text-xl text-blue-400 text-center">Data Modules</h2>
+            <a href="https://example.com/portofolio" id="link-1" class="link-locked px-3 py-2 bg-gray-800 rounded hover:bg-gray-700 transition-colors duration-200">Portofolio</a>
+            <a href="https://linkedin.com/in/example" id="link-2" class="link-locked px-3 py-2 bg-gray-800 rounded hover:bg-gray-700 transition-colors duration-200">LinkedIn</a>
+            <a href="mailto:example@example.com" id="link-3" class="link-locked px-3 py-2 bg-gray-800 rounded hover:bg-gray-700 transition-colors duration-200">Email</a>
+            <a href="https://github.com/example" id="link-4" class="link-locked px-3 py-2 bg-gray-800 rounded hover:bg-gray-700 transition-colors duration-200">GitHub</a>
+            <a href="https://example.com/blog" id="link-5" class="link-locked px-3 py-2 bg-gray-800 rounded hover:bg-gray-700 transition-colors duration-200">Blog</a>
+            <a href="https://twitter.com/example" id="link-6" class="link-locked px-3 py-2 bg-gray-800 rounded hover:bg-gray-700 transition-colors duration-200">Twitter</a>
+            <a href="https://instagram.com/example" id="link-7" class="link-locked px-3 py-2 bg-gray-800 rounded hover:bg-gray-700 transition-colors duration-200">Instagram</a>
+        </aside>
 
-  <div class="flex flex-col md:flex-row gap-6 w-full max-w-5xl justify-center items-start">
-    <!-- Link Panel -->
-    <div id="link-panel" class="flex flex-col gap-2 w-60">
-      <h2 class="text-xl text-blue-400 text-center">Data Modules</h2>
-      <a href="#" id="link-1" class="link-locked px-2 py-1 bg-gray-800 rounded">Portofolio</a>
-      <a href="#" id="link-2" class="link-locked px-2 py-1 bg-gray-800 rounded">LinkedIn</a>
-      <a href="#" id="link-3" class="link-locked px-2 py-1 bg-gray-800 rounded">Email</a>
-      <a href="#" id="link-4" class="link-locked px-2 py-1 bg-gray-800 rounded">GitHub</a>
-      <a href="#" id="link-5" class="link-locked px-2 py-1 bg-gray-800 rounded">Blog</a>
-      <a href="#" id="link-6" class="link-locked px-2 py-1 bg-gray-800 rounded">Twitter</a>
-      <a href="#" id="link-7" class="link-locked px-2 py-1 bg-gray-800 rounded">Instagram</a>
-    </div>
+        <!-- Game & Info -->
+        <div class="flex flex-col md:flex-row gap-4">
+            <div class="flex flex-col items-center gap-4 order-2 md:order-1">
+                <canvas id="game-board" width="240" height="480"></canvas>
+            </div>
 
-    <!-- Game & Terminal Log -->
-    <div class="flex flex-col items-center gap-4">
-      <canvas id="game-board" width="240" height="480"></canvas>
-      <div class="flex flex-col items-center">
-        <p>Skor: <span id="score" class="text-cyan-400">0</span></p>
-        <div id="terminal-log" class="mt-2"></div>
-      </div>
+            <div class="flex flex-col gap-4 order-1 md:order-2">
+                <div class="flex flex-col items-center">
+                    <h3 class="text-lg text-blue-400">Next Code Block</h3>
+                    <canvas id="next-piece-canvas" width="96" height="96"></canvas>
+                </div>
+                <div class="flex flex-col items-center">
+                    <p>Skor: <span id="score" class="text-cyan-400 font-bold">0</span></p>
+                    <p>Level: <span id="level" class="text-cyan-400 font-bold">1</span></p>
+                    <div id="terminal-log" class="mt-2 w-full"></div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
+</main>
 
 <script>
-/* === AUDIO === */
+// PENTING: Ganti URL base64 di bawah dengan file audio yang sebenarnya.
+// Gunakan alat konversi online untuk mendapatkan format base64.
 const sounds = {
-  click: new Audio("data:audio/mp3;base64,..."), // isi base64 klik
-  unlock: new Audio("data:audio/mp3;base64,..."), // isi base64 unlock
-  gameover: new Audio("data:audio/mp3;base64,..."), // isi base64 game over
-  type: new Audio("data:audio/mp3;base64,..."), // isi base64 ketik
-  music: new Audio("data:audio/mp3;base64,...") // isi base64 musik cyberpunk
+    click: new Audio("data:audio/mp3;base64,..."),
+    unlock: new Audio("data:audio/mp3;base64,..."),
+    gameover: new Audio("data:audio/mp3;base64,..."),
+    type: new Audio("data:audio/mp3;base64,..."),
+    music: new Audio("data:audio/mp3;base64,..."),
+    clear: new Audio("data:audio/mp3;base64,...") // Suara untuk line clear
 };
 Object.values(sounds).forEach(s => { s.volume = 0.5; });
 sounds.music.loop = true;
 
 let audioEnabled = true;
 
+const audioBtn = document.getElementById('audio-btn');
+const introModal = document.getElementById('intro-modal');
+const victoryModal = document.getElementById('victory-modal');
+const continueGameBtn = document.getElementById('continue-game-btn'); // Tombol baru
+const startNewGameBtn = document.getElementById('start-new-game-btn'); // Tombol yang diubah
+const restartGameBtn = document.getElementById('restart-game-btn');
+const terminalLogElem = document.getElementById("terminal-log");
+const scoreElem = document.getElementById('score');
+const levelElem = document.getElementById('level');
+
+// Kunci untuk localStorage
+const STORAGE_KEY = 'cyberTerminalQuest_unlockedLinks';
+
 function playSound(name) {
-  if (audioEnabled && sounds[name]) {
-    sounds[name].currentTime = 0;
-    sounds[name].play();
-  }
+    if (audioEnabled && sounds[name] && sounds[name].readyState >= 2) {
+        sounds[name].currentTime = 0;
+        sounds[name].play().catch(e => console.error("Audio playback failed:", e));
+    }
 }
 
-document.getElementById('audio-btn').addEventListener('click', () => {
-  audioEnabled = !audioEnabled;
-  document.getElementById('audio-btn').textContent = audioEnabled ? "🔊" : "🔇";
-  if (!audioEnabled) {
-    Object.values(sounds).forEach(s => s.pause());
-  } else {
-    sounds.music.play();
-  }
+audioBtn.addEventListener('click', () => {
+    audioEnabled = !audioEnabled;
+    audioBtn.textContent = audioEnabled ? "🔊" : "�";
+    if (!audioEnabled) {
+        Object.values(sounds).forEach(s => s.pause());
+    } else {
+        if (!sounds.music.paused) {
+            sounds.music.play();
+        }
+    }
 });
 
 /* === TYPE EFFECT === */
+let typingInterval = null;
 function typeLog(text) {
-  let i = 0;
-  const logElem = document.getElementById("terminal-log");
-  const interval = setInterval(() => {
-    logElem.innerHTML += text.charAt(i);
-    playSound('type');
-    i++;
-    if (i >= text.length) {
-      logElem.innerHTML += "<br>";
-      logElem.scrollTop = logElem.scrollHeight;
-      clearInterval(interval);
-    }
-  }, 30);
+    let i = 0;
+    terminalLogElem.innerHTML += "<span class='text-cyan-400'>></span> ";
+    if (typingInterval) clearInterval(typingInterval);
+    typingInterval = setInterval(() => {
+        terminalLogElem.innerHTML += text.charAt(i);
+        playSound('type');
+        i++;
+        if (i >= text.length) {
+            terminalLogElem.innerHTML += "<br>";
+            terminalLogElem.scrollTop = terminalLogElem.scrollHeight;
+            clearInterval(typingInterval);
+        }
+    }, 30);
 }
 
 /* === MATRIX RAIN === */
 const matrixCanvas = document.getElementById("matrix-bg");
 const matrixCtx = matrixCanvas.getContext("2d");
-matrixCanvas.width = window.innerWidth;
-matrixCanvas.height = window.innerHeight;
 const letters = "アァイィウヴエェオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂッヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモヤユヨラリルレロワヰヱヲンABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 const matrix = letters.split("");
 const fontSize = 14;
-const columns = matrixCanvas.width / fontSize;
-const drops = Array(Math.floor(columns)).fill(1);
+let columns = Math.floor(window.innerWidth / fontSize);
+let drops = Array(columns).fill(1);
 
 function drawMatrix() {
-  matrixCtx.fillStyle = "rgba(0,0,0,0.05)";
-  matrixCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
-  matrixCtx.fillStyle = "#0F0";
-  matrixCtx.font = fontSize + "px monospace";
-  for(let i=0;i<drops.length;i++){
-    const text = matrix[Math.floor(Math.random()*matrix.length)];
-    matrixCtx.fillText(text, i*fontSize, drops[i]*fontSize);
-    if(drops[i]*fontSize > matrixCanvas.height && Math.random()>0.975) drops[i]=0;
-    drops[i]++;
-  }
+    matrixCtx.fillStyle = "rgba(0,0,0,0.05)";
+    matrixCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+    matrixCtx.fillStyle = "#0F0";
+    matrixCtx.font = fontSize + "px monospace";
+    for(let i = 0; i < drops.length; i++) {
+        const text = matrix[Math.floor(Math.random() * matrix.length)];
+        matrixCtx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if(drops[i] * fontSize > matrixCanvas.height && Math.random() > 0.975) {
+            drops[i] = 0;
+        }
+        drops[i]++;
+    }
 }
 setInterval(drawMatrix, 35);
-window.addEventListener("resize",()=>{
-  matrixCanvas.width = window.innerWidth;
-  matrixCanvas.height = window.innerHeight;
+window.addEventListener("resize", () => {
+    matrixCanvas.width = window.innerWidth;
+    matrixCanvas.height = window.innerHeight;
+    columns = Math.floor(window.innerWidth / fontSize);
+    drops = Array(columns).fill(1);
 });
 
 /* === TETRIS GAME === */
 const canvas = document.getElementById('game-board');
 const ctx = canvas.getContext('2d');
-const scoreElem = document.getElementById('score');
+const nextCanvas = document.getElementById('next-piece-canvas');
+const nextCtx = nextCanvas.getContext('2d');
 const grid = 24;
+const COLS = 10;
+const ROWS = 20;
+canvas.width = grid * COLS;
+canvas.height = grid * ROWS;
 const tetrominoes = [
-  [[1,1,1,1]],
-  [[1,1],[1,1]],
-  [[0,1,0],[1,1,1]],
-  [[1,0,0],[1,1,1]],
-  [[0,0,1],[1,1,1]],
-  [[1,1,0],[0,1,1]],
-  [[0,1,1],[1,1,0]]
+    { shape: [[1,1,1,1]], color: '#00ffff' }, // I
+    { shape: [[1,1],[1,1]], color: '#ffff00' }, // O
+    { shape: [[0,1,0],[1,1,1]], color: '#ff00ff' }, // T
+    { shape: [[1,0,0],[1,1,1]], color: '#0000ff' }, // J
+    { shape: [[0,0,1],[1,1,1]], color: '#ff7f00' }, // L
+    { shape: [[1,1,0],[0,1,1]], color: '#00ff00' }, // S
+    { shape: [[0,1,1],[1,1,0]], color: '#ff0000' } // Z
 ];
-let board = Array.from({length:20},()=>Array(10).fill(0));
-let piece = {shape:[],x:0,y:0};
+let board = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
+let piece = null;
+let nextPiece = null;
+let ghostPiece = null;
 let score = 0;
+let level = 1;
+let linesCleared = 0;
 let dropCounter = 0;
-let dropInterval = 500;
+let dropInterval = 1000;
 let lastTime = 0;
 let gameOver = false;
 let unlockedLinks = 0;
+const linesToLevelUp = 10;
 
-function randomPiece(){
-  const shape = tetrominoes[Math.floor(Math.random()*tetrominoes.length)];
-  piece.shape = shape;
-  piece.x = Math.floor(board[0].length/2) - Math.ceil(shape[0].length/2);
-  piece.y = 0;
-  if(collide(board,piece)) { gameOver = true; playSound('gameover'); typeLog("[!] Misi gagal - Sistem terkunci."); }
+const storyline = [
+    "[1/7] Firewall level 1 terhancurkan. Data modul 1 terbuka. ✅",
+    "[2/7] Firewall level 2 terhancurkan. Data modul 2 terbuka. ✅",
+    "[3/7] Firewall level 3 terhancurkan. Data modul 3 terbuka. ✅",
+    "[4/7] Firewall level 4 terhancurkan. Data modul 4 terbuka. ✅",
+    "[5/7] Firewall level 5 terhancurkan. Data modul 5 terbuka. ✅",
+    "[6/7] Firewall level 6 terhancurkan. Data modul 6 terbuka. ✅",
+    "[7/7] Firewall level 7 terhancurkan. Semua modul data terbuka. ✅"
+];
+
+function createPiece() {
+    const pieceData = tetrominoes[Math.floor(Math.random() * tetrominoes.length)];
+    const shape = pieceData.shape;
+    const x = Math.floor(COLS / 2) - Math.ceil(shape[0].length / 2);
+    const y = 0;
+    return { shape, x, y, color: pieceData.color };
 }
-function collide(board,piece){
-  for(let y=0;y<piece.shape.length;y++){
-    for(let x=0;x<piece.shape[y].length;x++){
-      if(piece.shape[y][x] && 
-         (board[y+piece.y] && board[y+piece.y][x+piece.x]) !== 0){
-        return true;
-      }
+
+function collide(board, piece) {
+    if (!piece) return false;
+    for (let y = 0; y < piece.shape.length; y++) {
+        for (let x = 0; x < piece.shape[y].length; x++) {
+            if (piece.shape[y][x]) {
+                const boardX = piece.x + x;
+                const boardY = piece.y + y;
+                if (boardX < 0 || boardX >= COLS || boardY >= ROWS || (board[boardY] && board[boardY][boardX] !== 0)) {
+                    return true;
+                }
+            }
+        }
     }
-  }
-  return false;
+    return false;
 }
-function merge(board,piece){
-  piece.shape.forEach((row,dy)=>{
-    row.forEach((value,dx)=>{
-      if(value){
-        board[dy+piece.y][dx+piece.x] = value;
-      }
+
+function merge(board, piece) {
+    if (!piece) return;
+    piece.shape.forEach((row, dy) => {
+        row.forEach((value, dx) => {
+            if (value) {
+                board[dy + piece.y][dx + piece.x] = 1;
+            }
+        });
     });
-  });
 }
-function drawMatrixBlock(matrix, offset){
-  matrix.forEach((row,y)=>{
-    row.forEach((value,x)=>{
-      if(value){
-        ctx.fillStyle = 'cyan';
-        ctx.fillRect((x+offset.x)*grid, (y+offset.y)*grid, grid-1, grid-1);
-      }
+
+function drawMatrixBlock(ctx, matrix, offset, color, opacity = 1) {
+    ctx.globalAlpha = opacity;
+    ctx.fillStyle = color;
+    matrix.forEach((row, y) => {
+        row.forEach((value, x) => {
+            if (value) {
+                ctx.fillRect((x + offset.x) * grid, (y + offset.y) * grid, grid - 1, grid - 1);
+            }
+        });
     });
-  });
+    ctx.globalAlpha = 1;
 }
-function drawBoard(){
-  ctx.fillStyle = '#000';
-  ctx.fillRect(0,0,canvas.width,canvas.height);
-  drawMatrixBlock(board,{x:0,y:0});
-  drawMatrixBlock(piece.shape,{x:piece.x,y:piece.y});
-}
-function drop(){
-  piece.y++;
-  if(collide(board,piece)){
-    piece.y--;
-    merge(board,piece);
-    lineClear();
-    randomPiece();
-  }
-  dropCounter = 0;
-}
-function lineClear(){
-  let rowCount = 0;
-  outer: for(let y=board.length-1;y>=0;y--){
-    if(board[y].every(val => val !== 0)){
-      board.splice(y,1);
-      board.unshift(Array(10).fill(0));
-      rowCount++;
+
+function draw() {
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    board.forEach((row, y) => {
+        row.forEach((value, x) => {
+            if (value) {
+                ctx.fillStyle = '#ff0054';
+                ctx.fillRect(x * grid, y * grid, grid - 1, grid - 1);
+            }
+        });
+    });
+    if (ghostPiece) {
+        drawMatrixBlock(ctx, ghostPiece.shape, { x: ghostPiece.x, y: ghostPiece.y }, piece.color, 0.3);
     }
-  }
-  if(rowCount > 0){
-    score += rowCount * 10;
+    if (piece) {
+        drawMatrixBlock(ctx, piece.shape, { x: piece.x, y: piece.y }, piece.color);
+    }
+}
+
+function drawNextPiece() {
+    nextCtx.clearRect(0, 0, nextCanvas.width, nextCanvas.height);
+    if (nextPiece) {
+        const shapeWidth = nextPiece.shape[0].length;
+        const shapeHeight = nextPiece.shape.length;
+        const offsetX = (nextCanvas.width / grid - shapeWidth) / 2;
+        const offsetY = (nextCanvas.height / grid - shapeHeight) / 2;
+        drawMatrixBlock(nextCtx, nextPiece.shape, { x: offsetX, y: offsetY }, nextPiece.color);
+    }
+}
+
+function drop() {
+    piece.y++;
+    if (collide(board, piece)) {
+        piece.y--;
+        merge(board, piece);
+        lineClear();
+        piece = nextPiece;
+        nextPiece = createPiece();
+        drawNextPiece();
+        if (collide(board, piece)) {
+            gameOver = true;
+            playSound('gameover');
+            typeLog("[!] Error: Firewall terdeteksi! Sistem overload. Misi gagal.");
+        }
+    }
+    updateGhostPiece();
+    dropCounter = 0;
+}
+
+function hardDrop() {
+    if (!piece) return;
+    playSound('click');
+    let finalY = piece.y;
+    while (!collide(board, { ...piece, y: finalY + 1 })) {
+        finalY++;
+    }
+    piece.y = finalY;
+    drop();
+}
+
+function lineClear() {
+    let rowsCleared = 0;
+    for (let y = ROWS - 1; y >= 0; y--) {
+        if (board[y].every(val => val !== 0)) {
+            board.splice(y, 1);
+            board.unshift(Array(COLS).fill(0));
+            rowsCleared++;
+            y++;
+        }
+    }
+    if (rowsCleared > 0) {
+        playSound('clear');
+        score += rowsCleared * 10 * level;
+        scoreElem.textContent = score;
+        linesCleared += rowsCleared;
+        if (linesCleared >= linesToLevelUp) {
+            linesCleared = 0;
+            levelUp();
+        }
+        unlockLink(rowsCleared);
+    }
+}
+
+function levelUp() {
+    level++;
+    levelElem.textContent = level;
+    dropInterval *= 0.85; // Kecepatan meningkat 15% setiap level
+    typeLog(`Level ${level} tercapai. Kecepatan firewall meningkat.`);
+}
+
+function unlockLink(count) {
+    for (let i = 0; i < count; i++) {
+        if (unlockedLinks < 7) {
+            unlockedLinks++;
+            const link = document.getElementById(`link-${unlockedLinks}`);
+            link.classList.remove('link-locked');
+            link.classList.add('link-unlocked');
+            playSound('unlock');
+            typeLog(storyline[unlockedLinks - 1]);
+        }
+    }
+    // Simpan kemajuan ke localStorage
+    localStorage.setItem(STORAGE_KEY, unlockedLinks);
+    
+    if (unlockedLinks === 7) {
+        gameOver = true;
+        victoryModal.classList.remove('hidden');
+        typeLog("Semua modul data telah terbuka. Misi selesai!");
+    }
+}
+
+function rotatePiece() {
+    const prevShape = piece.shape;
+    const newShape = prevShape[0].map((_, i) => prevShape.map(row => row[i]).reverse());
+    const kickTests = [0, -1, 1, -2, 2];
+    for (const kick of kickTests) {
+        piece.shape = newShape;
+        piece.x += kick;
+        if (!collide(board, piece)) {
+            return;
+        }
+        piece.x -= kick;
+    }
+    piece.shape = prevShape;
+}
+
+function updateGhostPiece() {
+    if (!piece) {
+        ghostPiece = null;
+        return;
+    }
+    ghostPiece = { ...piece };
+    while (!collide(board, { ...ghostPiece, y: ghostPiece.y + 1 })) {
+        ghostPiece.y++;
+    }
+}
+
+function update(time = 0) {
+    if (gameOver) return;
+    const delta = time - lastTime;
+    lastTime = time;
+    dropCounter += delta;
+    if (dropCounter > dropInterval) drop();
+    draw();
+    requestAnimationFrame(update);
+}
+
+document.addEventListener('keydown', e => {
+    if (gameOver || introModal.style.display === 'flex' || victoryModal.style.display === 'flex') return;
+    const prevX = piece.x;
+    const prevShape = piece.shape;
+
+    if (e.key === 'ArrowLeft') {
+        piece.x--;
+    } else if (e.key === 'ArrowRight') {
+        piece.x++;
+    } else if (e.key === 'ArrowDown') {
+        drop();
+    } else if (e.key === 'ArrowUp') {
+        rotatePiece();
+    } else if (e.key === ' ') {
+        e.preventDefault();
+        hardDrop();
+    }
+    
+    if (collide(board, piece)) {
+        piece.x = prevX;
+        piece.shape = prevShape;
+    }
+    updateGhostPiece();
+});
+
+// Fungsi untuk memuat kemajuan dari localStorage
+function loadGame() {
+    const savedLinks = localStorage.getItem(STORAGE_KEY);
+    if (savedLinks) {
+        const numLinks = parseInt(savedLinks, 10);
+        for (let i = 1; i <= numLinks; i++) {
+            unlockedLinks = i;
+            const link = document.getElementById(`link-${unlockedLinks}`);
+            link.classList.remove('link-locked');
+            link.classList.add('link-unlocked');
+        }
+    }
+    introModal.classList.add('hidden');
+    typeLog("[*] Melanjutkan misi. Firewall telah ditembus hingga level " + unlockedLinks + ".");
+    
+    sounds.music.volume = 0;
+    sounds.music.play().catch(e => console.error("Music playback failed:", e));
+    let fade = setInterval(() => {
+        if (sounds.music.volume < 0.5) {
+            sounds.music.volume += 0.05;
+        } else {
+            clearInterval(fade);
+        }
+    }, 200);
+    piece = createPiece();
+    nextPiece = createPiece();
+    drawNextPiece();
+    updateGhostPiece();
+    update();
+}
+
+// Fungsi untuk memulai game baru
+function startNewGame() {
+    localStorage.removeItem(STORAGE_KEY); // Hapus data yang tersimpan
+    board = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
+    score = 0;
+    level = 1;
+    linesCleared = 0;
+    dropInterval = 1000;
+    gameOver = false;
+    unlockedLinks = 0;
     scoreElem.textContent = score;
-    unlockLink(rowCount);
-  }
-}
-function unlockLink(count){
-  for(let i=0;i<count;i++){
-    if(unlockedLinks < 7){
-      unlockedLinks++;
-      const link = document.getElementById(`link-${unlockedLinks}`);
-      link.classList.remove('link-locked');
-      link.classList.add('link-unlocked');
-      playSound('unlock');
-      typeLog(`Module ${unlockedLinks} unlocked ✅`);
-    }
-  }
-}
-function update(time=0){
-  const delta = time - lastTime;
-  lastTime = time;
-  dropCounter += delta;
-  if(dropCounter > dropInterval) drop();
-  drawBoard();
-  if(!gameOver) requestAnimationFrame(update);
-}
-document.addEventListener('keydown', e=>{
-  playSound('click');
-  if(e.keyCode===37){ piece.x--; if(collide(board,piece)) piece.x++; }
-  else if(e.keyCode===39){ piece.x++; if(collide(board,piece)) piece.x--; }
-  else if(e.keyCode===40){ drop(); }
-  else if(e.keyCode===38){
-    const rotated = piece.shape[0].map((_,i)=>piece.shape.map(row=>row[i]).reverse());
-    const prev = piece.shape;
-    piece.shape = rotated;
-    if(collide(board,piece)) piece.shape = prev;
-  }
-});
+    levelElem.textContent = level;
+    terminalLogElem.innerHTML = '';
+    document.querySelectorAll('.link-unlocked').forEach(link => {
+        link.classList.remove('link-unlocked');
+        link.classList.add('link-locked');
+    });
+    victoryModal.classList.add('hidden');
 
-/* === START GAME BUTTON === */
-document.getElementById('start-game-btn').addEventListener('click', () => {
-  playSound('click');
-  document.getElementById('intro-modal').style.display = 'none';
-  typeLog("[*] Misi dimulai - Hancurkan baris untuk membuka modul...");
-  sounds.music.volume = 0;
-  sounds.music.play();
-  let fade = setInterval(() => {
-    if (sounds.music.volume < 0.5) {
-      sounds.music.volume += 0.05;
+    introModal.classList.add('hidden');
+    typeLog("[*] Misi dimulai - Hancurkan baris untuk menembus firewall...");
+    sounds.music.volume = 0;
+    sounds.music.play().catch(e => console.error("Music playback failed:", e));
+    let fade = setInterval(() => {
+        if (sounds.music.volume < 0.5) {
+            sounds.music.volume += 0.05;
+        } else {
+            clearInterval(fade);
+        }
+    }, 200);
+    piece = createPiece();
+    nextPiece = createPiece();
+    drawNextPiece();
+    updateGhostPiece();
+    update();
+}
+
+
+/* === EVENT LISTENERS === */
+continueGameBtn.addEventListener('click', loadGame);
+startNewGameBtn.addEventListener('click', startNewGame);
+restartGameBtn.addEventListener('click', startNewGame);
+
+// Awal game
+window.onload = () => {
+    drawMatrix();
+    // Cek apakah ada game yang tersimpan
+    const savedLinks = localStorage.getItem(STORAGE_KEY);
+    if (savedLinks && parseInt(savedLinks, 10) > 0 && parseInt(savedLinks, 10) < 7) {
+        continueGameBtn.classList.remove('hidden');
+        document.querySelector('#start-options p').textContent = "Kemajuan misi Anda ditemukan.";
     } else {
-      clearInterval(fade);
+        // Hapus tombol "Lanjutkan" jika tidak ada data
+        continueGameBtn.classList.add('hidden');
     }
-  }, 200);
-  randomPiece();
-  update();
-});
+};
 </script>
 </body>
 </html>
+�
