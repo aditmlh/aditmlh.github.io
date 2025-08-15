@@ -1,491 +1,94 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portofolio Aditya Pratama Malah | IT Support & Web Developer</title>
-    <!-- Memuat Tailwind CSS dari CDN -->
+    <title>Adit's Digital Hub</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Menggunakan font Inter dari Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet">
-    <!-- Menggunakan Font Awesome untuk ikon -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Font Awesome CDN for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" xintegrity="sha512-iecdLwA7N88Wp5LqXv4+wY1I+8yv78xR1+dD1PqJz8gXz6gX2mE/6N5f2t+d1lG1F5eA1j5tA9E4eK2s5u+d1g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #19052D; /* Dark purple background */
-            color: #ffffff;
-            overflow-x: hidden;
-            line-height: 1.6;
         }
-
-        .gradient-bg {
-            background: radial-gradient(circle at 100% 50%, rgba(128, 0, 128, 0.5) 0%, rgba(128, 0, 128, 0.0) 70%),
-                        radial-gradient(circle at 0% 50%, rgba(128, 0, 128, 0.5) 0%, rgba(128, 0, 128, 0.0) 70%),
-                        #19052D;
-        }
-
-        .menu-icon {
-            cursor: pointer;
-            width: 30px;
-            height: 20px;
-            position: relative;
-        }
-
-        .menu-icon span {
-            display: block;
-            width: 100%;
-            height: 2px;
-            background-color: white;
-            position: absolute;
-            left: 0;
-            transition: all 0.3s ease;
-        }
-
-        .menu-icon span:nth-child(1) { top: 0; }
-        .menu-icon span:nth-child(2) { top: 50%; transform: translateY(-50%); }
-        .menu-icon span:nth-child(3) { bottom: 0; }
-
-        .menu-icon.open span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
-        .menu-icon.open span:nth-child(2) { opacity: 0; }
-        .menu-icon.open span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
-
-        .mobile-menu {
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: 100%;
-            height: 100vh;
-            background-color: #19052D;
-            z-index: 50;
-            transform: translateX(100%);
-            transition: transform 0.3s ease-in-out;
-            padding: 4rem 2rem;
-        }
-
-        .mobile-menu.open { transform: translateX(0); }
-
-        /* Gaya animasi reveal saat halaman dimuat */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .page-content {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1), transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-        }
-
-        .page-content.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Gaya untuk elemen-elemen di dalam halaman agar muncul satu per satu */
-        .reveal-item {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-        }
-        
-        .reveal-delay-0 { animation-delay: 0.1s; }
-        .reveal-delay-1 { animation-delay: 0.2s; }
-        .reveal-delay-2 { animation-delay: 0.3s; }
-        .reveal-delay-3 { animation-delay: 0.4s; }
-        .reveal-delay-4 { animation-delay: 0.5s; }
-        .reveal-delay-5 { animation-delay: 0.6s; }
-        .reveal-delay-6 { animation-delay: 0.7s; }
-        .reveal-delay-7 { animation-delay: 0.8s; }
-        
-        .skill-item {
-            background-color: #36294D;
-            padding: 1rem;
-            border-radius: 0.75rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            transition: transform 0.2s;
-        }
-        
-        .skill-item:hover {
-            transform: translateY(-5px);
-        }
-        
-        .skill-item i {
-            font-size: 1.5rem;
-            color: #A78BFA;
-        }
-
     </style>
 </head>
-<body class="bg-[#19052D] font-inter">
+<body class="bg-gray-900 text-gray-100 min-h-screen flex items-center justify-center p-4">
 
-    <!-- Kontainer utama dengan background gradasi -->
-    <div class="min-h-screen relative overflow-hidden flex flex-col p-8 md:p-16 gradient-bg">
+    <div class="w-full max-w-2xl bg-gray-800 rounded-xl shadow-2xl p-8 space-y-8">
+        <!-- Profile Section -->
+        <div class="flex flex-col items-center text-center">
+            <h1 class="text-3xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600">
+                Aditya Pratama Malah
+            </h1>
+            <p class="text-md sm:text-lg mt-2 text-gray-400">IT Support & Web Developer</p>
+        </div>
 
-        <!-- Navbar -->
-        <header class="flex justify-between items-center mb-16 md:mb-24 relative z-20">
-            <div class="text-3xl font-bold cursor-pointer" onclick="renderPage('utama')">Aditya Malah</div>
-            <!-- Menu untuk desktop -->
-            <nav class="hidden md:flex space-x-8 text-white font-medium text-lg">
-                <a href="#" class="hover:text-gray-300 transition duration-300" onclick="renderPage('tentang-saya')">Tentang Saya</a>
-                <a href="#" class="hover:text-gray-300 transition duration-300" onclick="renderPage('portofolio')">Portofolio</a>
-                <a href="#" class="hover:text-gray-300 transition duration-300" onclick="renderPage('keahlian')">Keahlian</a>
-                <a href="#" class="hover:text-gray-300 transition duration-300" onclick="renderPage('kontak')">Kontak</a>
-            </nav>
-            <!-- Ikon menu untuk mobile -->
-            <div id="mobile-menu-toggle" class="menu-icon md:hidden z-30">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </header>
+        <!-- Personal Websites Section -->
+        <div class="space-y-4">
+            <h2 class="text-xl font-semibold text-gray-300">Situs Web Pribadi</h2>
+            <a href="https://aditmlh.rf.gd/" target="_blank" class="flex items-center justify-center p-4 bg-gray-700 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 hover:bg-gray-600">
+                <i class="fas fa-link text-xl text-blue-400 mr-4"></i>
+                <span class="text-lg font-medium">Portfolio Utama</span>
+            </a>
+            <a href="https://aditmlh.github.io/" target="_blank" class="flex items-center justify-center p-4 bg-gray-700 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 hover:bg-gray-600">
+                <i class="fab fa-github-square text-xl text-purple-400 mr-4"></i>
+                <span class="text-lg font-medium">GitHub Pages</span>
+            </a>
+        </div>
 
-        <!-- Menu mobile (off-canvas) -->
-        <div id="mobile-menu" class="mobile-menu flex flex-col items-center justify-center">
-            <ul class="space-y-8 text-white text-3xl font-bold text-center">
-                <li><a href="#" class="hover:text-gray-400 transition duration-300" onclick="renderPage('tentang-saya')">Tentang Saya</a></li>
-                <li><a href="#" class="hover:text-gray-400 transition duration-300" onclick="renderPage('portofolio')">Portofolio</a></li>
-                <li><a href="#" class="hover:text-gray-400 transition duration-300" onclick="renderPage('keahlian')">Keahlian</a></li>
-                <li><a href="#" class="hover:text-gray-400 transition duration-300" onclick="renderPage('kontak')">Kontak</a></li>
-            </ul>
+        <!-- Project Links Section -->
+        <div class="space-y-4">
+            <h2 class="text-xl font-semibold text-gray-300">Tautan Proyek</h2>
+            <a href="https://ct2.rf.gd/" target="_blank" class="flex items-center justify-center p-4 bg-gray-700 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 hover:bg-gray-600">
+                <i class="fas fa-project-diagram text-xl text-green-400 mr-4"></i>
+                <span class="text-lg font-medium">ct2.rf.gd</span>
+            </a>
+            <a href="https://santara.rf.gd/" target="_blank" class="flex items-center justify-center p-4 bg-gray-700 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 hover:bg-gray-600">
+                <i class="fas fa-project-diagram text-xl text-yellow-400 mr-4"></i>
+                <span class="text-lg font-medium">santara.rf.gd</span>
+            </a>
+            <a href="https://masigi.rf.gd/" target="_blank" class="flex items-center justify-center p-4 bg-gray-700 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 hover:bg-gray-600">
+                <i class="fas fa-project-diagram text-xl text-red-400 mr-4"></i>
+                <span class="text-lg font-medium">masigi.rf.gd</span>
+            </a>
         </div>
         
-        <!-- Kontainer utama untuk semua halaman -->
-        <main id="app-container" class="flex-1 flex flex-col">
-            <!-- Halaman Utama (Hero Section) -->
-            <div id="page-utama" class="page-content flex-1 flex flex-col md:flex-row items-center justify-between">
-                <div class="max-w-xl text-center md:text-left mb-12 md:mb-0 reveal-item">
-                    <p class="text-base tracking-widest text-gray-400 mb-2 md:mb-4 reveal-delay-0">IT SUPPORT & WEB DEVELOPER</p>
-                    <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold leading-tight mb-4 md:mb-6 reveal-item reveal-delay-1">Halo,<br>Saya Aditya<br>Malah</h1>
-                    <p class="text-lg md:text-xl text-gray-300 max-w-md mx-auto md:mx-0 leading-relaxed reveal-item reveal-delay-2">
-                        Teknisi Komputer dan Freelancer Web Developer dari Kotamobagu, Sulawesi Utara, dengan pengalaman 8+ tahun.
-                    </p>
-                    <div class="mt-8 md:mt-12 flex items-center justify-center md:justify-start space-x-4 reveal-item reveal-delay-3">
-                        <a href="https://wa.me/6285757043312" target="_blank" class="bg-purple-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-purple-700 transition-colors">Hubungi Saya</a>
-                        <a href="#" class="border-2 border-white rounded-lg p-2 pr-6 transition duration-300 hover:bg-white hover:text-black" onclick="renderPage('portofolio')">
-                            <span class="text-sm md:text-base">Lihat Proyek</span>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Bagian gambar dan gradasi di belakangnya -->
-                <div class="relative w-full md:w-1/2 flex justify-center md:justify-end reveal-item reveal-delay-1">
-                    <div class="absolute inset-0 bg-purple-600 rounded-full opacity-50 blur-3xl" style="width: 80%; height: 80%; transform: translate(20%, -10%);"></div>
-                    <!-- Menggunakan gambar placeholder dari CV -->
-                    <img src="https://placehold.co/500x700/19052D/FFFFFF?text=Aditya+Pratama+Malah" alt="Foto Profil Aditya Malah" class="relative z-10 w-3/4 md:w-auto h-auto rounded-xl">
-                </div>
+        <!-- Social & Professional Links Section -->
+        <div class="space-y-4">
+            <h2 class="text-xl font-semibold text-gray-300">Media Sosial & Profesional</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <a href="https://id.linkedin.com/in/aditya-pratama-malah" target="_blank" class="flex items-center justify-center p-4 bg-gray-700 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 hover:bg-gray-600">
+                    <i class="fab fa-linkedin-in text-2xl text-blue-500"></i>
+                </a>
+                <a href="https://www.instagram.com/aditmlh/" target="_blank" class="flex items-center justify-center p-4 bg-gray-700 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 hover:bg-gray-600">
+                    <i class="fab fa-instagram text-2xl text-pink-500"></i>
+                </a>
+                <a href="https://www.facebook.com/aditmlh" target="_blank" class="flex items-center justify-center p-4 bg-gray-700 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 hover:bg-gray-600">
+                    <i class="fab fa-facebook-f text-2xl text-blue-600"></i>
+                </a>
+                <a href="https://www.dreamstime.com/adityamalah_info" target="_blank" class="flex items-center justify-center p-4 bg-gray-700 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 hover:bg-gray-600">
+                    <i class="fas fa-camera-retro text-2xl text-yellow-400"></i>
+                </a>
+                <a href="https://www.threads.com/@aditmlh" target="_blank" class="flex items-center justify-center p-4 bg-gray-700 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 hover:bg-gray-600">
+                    <i class="fab fa-threads text-2xl text-white"></i>
+                </a>
+                <a href="https://karyakarsa.com/aditmlh/info" target="_blank" class="flex items-center justify-center p-4 bg-gray-700 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 hover:bg-gray-600">
+                    <i class="fas fa-pen-nib text-2xl text-red-500"></i>
+                </a>
+                <a href="https://www.freelancer.co.id/u/adityamalah" target="_blank" class="flex items-center justify-center p-4 bg-gray-700 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 hover:bg-gray-600">
+                    <i class="fas fa-laptop-code text-2xl text-teal-400"></i>
+                </a>
+                <a href="https://www.fiverr.com/adityamalah/" target="_blank" class="flex items-center justify-center p-4 bg-gray-700 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 hover:bg-gray-600">
+                    <i class="fas fa-handshake text-2xl text-green-400"></i>
+                </a>
+                <a href="https://github.com/aditmlh/" target="_blank" class="flex items-center justify-center p-4 bg-gray-700 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 hover:bg-gray-600">
+                    <i class="fab fa-github text-2xl text-purple-400"></i>
+                </a>
             </div>
-
-            <!-- Halaman Tentang Saya -->
-            <div id="page-tentang-saya" class="page-content hidden flex-1 flex-col pt-16">
-                <h2 class="text-4xl md:text-5xl font-bold mb-8 reveal-item reveal-delay-0 text-center md:text-left">Tentang Saya</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                    <div class="reveal-item reveal-delay-1">
-                        <p class="text-lg text-gray-300 mb-6 leading-relaxed">
-                            Saya adalah Teknisi Komputer yang berpengalaman di bidang dukungan IT, perbaikan perangkat keras dan lunak, serta konfigurasi jaringan. Saya pernah bertugas sebagai IT Support di lingkungan pemerintahan dan terlibat dalam berbagai proyek digital sebagai freelancer.
-                        </p>
-                        <p class="text-base text-gray-400 leading-relaxed">
-                            Sebagai freelancer, saya telah merancang dan mengembangkan lebih dari 100 situs web untuk berbagai klien. Saya memiliki keterampilan dalam instalasi sistem operasi, manajemen jaringan, dan dokumentasi visual. Saya berkomitmen untuk bekerja secara terstruktur, komunikatif, dan mendukung kelancaran operasional IT.
-                        </p>
-                        <h4 class="text-2xl font-bold mt-8 mb-4 reveal-delay-3">Pendidikan & Pengalaman</h4>
-                        <ul class="space-y-2 text-gray-300 reveal-delay-4">
-                            <li class="flex items-center"><i class="fas fa-graduation-cap text-purple-400 mr-2"></i><span>SMK Cokroaminoto Kotamobagu (2014-2016)</span></li>
-                            <li class="flex items-center"><i class="fas fa-briefcase text-purple-400 mr-2"></i><span>IT Support & Dokumentasi Visual (2016-2018)</span></li>
-                            <li class="flex items-center"><i class="fas fa-briefcase text-purple-400 mr-2"></i><span>Freelance Teknisi Komputer & Web Developer (2017-Sekarang)</span></li>
-                        </ul>
-                    </div>
-                    <img src="https://placehold.co/600x400/19052D/FFFFFF?text=Aditya+di+Tempat+Kerja" alt="Aditya di tempat kerja" class="rounded-xl shadow-lg reveal-item reveal-delay-1">
-                </div>
-            </div>
-            
-            <!-- Halaman Portofolio -->
-            <div id="page-portofolio" class="page-content hidden flex-1 flex-col pt-16">
-                <h2 class="text-4xl md:text-5xl font-bold mb-4 md:mb-8 text-center md:text-left reveal-item reveal-delay-0">Proyek Terbaru Saya</h2>
-                <p class="text-lg text-gray-300 mb-8 md:mb-12 max-w-2xl reveal-item reveal-delay-1">
-                    Berikut adalah beberapa proyek yang telah saya kerjakan sebagai freelancer. Setiap proyek adalah bukti komitmen saya terhadap kualitas dan fungsionalitas.
-                </p>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Item portofolio 1 -->
-                    <div class="bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105 reveal-item reveal-delay-2">
-                        <img src="https://placehold.co/600x400/2D0544/FFFFFF?text=Proyek+Pemerintah" alt="Proyek Pemerintah" class="w-full h-48 object-cover">
-                        <div class="p-6">
-                            <h4 class="text-xl font-semibold mb-2">Sistem Informasi Medis</h4>
-                            <p class="text-gray-400 text-sm leading-relaxed">Aplikasi web yang dibuat khusus untuk manajemen rekam medis di Puskesmas Tanoyan Utara.</p>
-                        </div>
-                    </div>
-                    <!-- Item portofolio 2 -->
-                    <div class="bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105 reveal-item reveal-delay-3">
-                        <img src="https://placehold.co/600x400/2D0544/FFFFFF?text=Website+E-Commerce" alt="Website E-Commerce" class="w-full h-48 object-cover">
-                        <div class="p-6">
-                            <h4 class="text-xl font-semibold mb-2">Toko Online & E-Commerce</h4>
-                            <p class="text-gray-400 text-sm leading-relaxed">Pengembangan website e-commerce dengan sistem pembayaran terintegrasi dan manajemen produk yang mudah.</p>
-                        </div>
-                    </div>
-                    <!-- Item portofolio 3 -->
-                    <div class="bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105 reveal-item reveal-delay-4">
-                        <img src="https://placehold.co/600x400/2D0544/FFFFFF?text=Website+Bisnis" alt="Website Bisnis" class="w-full h-48 object-cover">
-                        <div class="p-6">
-                            <h4 class="text-xl font-semibold mb-2">Website Bisnis</h4>
-                            <p class="text-gray-400 text-sm leading-relaxed">Merancang dan membangun website profesional untuk berbagai klien bisnis, dari landing page hingga multi-halaman.</p>
-                        </div>
-                    </div>
-                    <!-- Item portofolio 4 -->
-                    <div class="bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105 reveal-item reveal-delay-5">
-                        <img src="https://placehold.co/600x400/2D0544/FFFFFF?text=Website+Blogger" alt="Website Blogger" class="w-full h-48 object-cover">
-                        <div class="p-6">
-                            <h4 class="text-xl font-semibold mb-2">Blog Pribadi & Media</h4>
-                            <p class="text-gray-400 text-sm leading-relaxed">Menciptakan platform blog yang cepat dan mobile-friendly untuk para blogger dan media.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Halaman Keahlian -->
-            <div id="page-keahlian" class="page-content hidden flex-1 flex-col pt-16">
-                <h2 class="text-4xl md:text-5xl font-bold mb-4 md:mb-8 text-center md:text-left reveal-item reveal-delay-0">Keahlian Saya</h2>
-                <p class="text-lg text-gray-300 mb-8 md:mb-12 max-w-3xl mx-auto md:mx-0 leading-relaxed reveal-item reveal-delay-1">
-                    Dengan latar belakang yang kuat di bidang IT dan pengalaman praktis, saya memiliki beragam keahlian teknis dan tambahan yang relevan.
-                </p>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 reveal-item reveal-delay-2">
-                    <!-- Keahlian Teknis & IT Support -->
-                    <div>
-                        <h3 class="text-2xl font-bold mb-4">Teknis & IT Support</h3>
-                        <div class="space-y-4">
-                            <div class="skill-item">
-                                <i class="fas fa-laptop-code"></i>
-                                <span>Instalasi & konfigurasi OS (Windows, Linux)</span>
-                            </div>
-                            <div class="skill-item">
-                                <i class="fas fa-microchip"></i>
-                                <span>Perakitan, upgrade, & perawatan PC/laptop</span>
-                            </div>
-                            <div class="skill-item">
-                                <i class="fas fa-tools"></i>
-                                <span>Troubleshooting hardware & software</span>
-                            </div>
-                            <div class="skill-item">
-                                <i class="fas fa-database"></i>
-                                <span>Backup & recovery data</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Keahlian Jaringan Komputer -->
-                    <div>
-                        <h3 class="text-2xl font-bold mb-4">Jaringan Komputer</h3>
-                        <div class="space-y-4">
-                            <div class="skill-item">
-                                <i class="fas fa-network-wired"></i>
-                                <span>Konfigurasi MikroTik (NAT, DHCP, Port Forwarding)</span>
-                            </div>
-                            <div class="skill-item">
-                                <i class="fas fa-server"></i>
-                                <span>Setup & troubleshooting jaringan LAN/WAN</span>
-                            </div>
-                            <div class="skill-item">
-                                <i class="fas fa-sitemap"></i>
-                                <span>Pengaturan topologi & protokol TCP/IP</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Keahlian Pengembangan Web -->
-                    <div class="md:col-span-2">
-                        <h3 class="text-2xl font-bold mb-4">Pengembangan Web</h3>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                            <div class="skill-item"><i class="fab fa-html5"></i><span>HTML, CSS, JavaScript</span></div>
-                            <div class="skill-item"><i class="fab fa-php"></i><span>PHP, Python, Node.js, C++</span></div>
-                            <div class="skill-item"><i class="fas fa-code"></i><span>Laravel, Codeigniter, Next.js</span></div>
-                            <div class="skill-item"><i class="fas fa-database"></i><span>MySQL, MongoDB, Firebase</span></div>
-                            <div class="skill-item"><i class="fab fa-wordpress"></i><span>WordPress</span></div>
-                        </div>
-                    </div>
-                    <!-- Keahlian Desain & Multimedia -->
-                    <div class="md:col-span-2">
-                        <h3 class="text-2xl font-bold mb-4">Desain & Multimedia</h3>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                            <div class="skill-item"><i class="fas fa-paint-brush"></i><span>Adobe Photoshop, Illustrator, Figma</span></div>
-                            <div class="skill-item"><i class="fas fa-video"></i><span>Adobe Premiere Pro, After Effects, CapCut</span></div>
-                            <div class="skill-item"><i class="fas fa-camera"></i><span>OBS Studio untuk siaran & dokumentasi</span></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Halaman Kontak -->
-            <div id="page-kontak" class="page-content hidden flex-1 flex-col pt-16">
-                <h2 class="text-4xl md:text-5xl font-bold mb-8 reveal-item reveal-delay-0">Hubungi Saya</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                    <div class="reveal-item reveal-delay-1">
-                        <p class="text-lg text-gray-300 mb-6 leading-relaxed">
-                            Tertarik untuk berkolaborasi atau membutuhkan bantuan teknis? Jangan ragu untuk menghubungi saya. Saya siap untuk mendiskusikan proyek Anda.
-                        </p>
-                        <div class="space-y-4 text-base">
-                            <p><i class="fas fa-envelope text-purple-400 mr-2"></i> dtmalah@gmail.com</p>
-                            <p><i class="fas fa-phone-alt text-purple-400 mr-2"></i> +62 857-5704-3312</p>
-                            <p><i class="fas fa-map-marker-alt text-purple-400 mr-2"></i> Kotamobagu, Sulawesi Utara</p>
-                        </div>
-                    </div>
-                    <div class="bg-gray-800 p-8 rounded-xl shadow-lg reveal-item reveal-delay-2">
-                        <form id="contact-form" class="space-y-6">
-                            <div>
-                                <label for="name" class="block text-lg font-medium text-gray-200 mb-1">Nama Lengkap</label>
-                                <input type="text" id="name" name="name" required class="w-full p-3 bg-gray-700 rounded-lg border-2 border-gray-600 focus:outline-none focus:border-purple-500">
-                            </div>
-                            <div>
-                                <label for="email" class="block text-lg font-medium text-gray-200 mb-1">Email</label>
-                                <input type="email" id="email" name="email" required class="w-full p-3 bg-gray-700 rounded-lg border-2 border-gray-600 focus:outline-none focus:border-purple-500">
-                            </div>
-                            <div>
-                                <label for="message" class="block text-lg font-medium text-gray-200 mb-1">Pesan</label>
-                                <textarea id="message" name="message" rows="4" class="w-full p-3 bg-gray-700 rounded-lg border-2 border-gray-600 focus:outline-none focus:border-purple-500"></textarea>
-                            </div>
-                            <button type="submit" class="w-full bg-purple-600 text-white font-bold py-3 rounded-lg hover:bg-purple-700 transition-colors">Kirim ke WhatsApp</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            
-        </main>
-        
-        <!-- Footer Indikator Halaman & Ikon Media Sosial -->
-        <footer id="footer-indicator" class="flex justify-between items-center mt-16 md:mt-24">
-            <!-- Ikon Media Sosial -->
-            <div class="flex items-center space-x-6">
-                <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-facebook-f text-xl"></i></a>
-                <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-instagram text-xl"></i></a>
-                <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-linkedin-in text-xl"></i></a>
-            </div>
-            <!-- Indikator Halaman -->
-            <div class="flex items-center space-x-4">
-                <span id="current-page-num" class="text-lg">01</span>
-                <div class="w-24 bg-gray-600 rounded-full h-1">
-                    <div id="progress-bar" class="bg-white h-full rounded-full" style="width: 25%;"></div>
-                </div>
-                <span id="total-page-num" class="text-lg">04</span>
-            </div>
-        </footer>
+        </div>
     </div>
 
-    <!-- JavaScript untuk menangani SPA, menu mobile, dan animasi -->
-    <script>
-        const pages = ['utama', 'tentang-saya', 'portofolio', 'keahlian', 'kontak'];
-        const whatsappNumber = '6285757043312'; // Nomor WhatsApp dari CV
-
-        /**
-         * Mengubah tampilan halaman berdasarkan nama halaman yang diberikan.
-         * @param {string} pageName Nama halaman yang akan ditampilkan.
-         */
-        function renderPage(pageName) {
-            // Sembunyikan semua halaman
-            document.querySelectorAll('.page-content').forEach(page => {
-                page.classList.add('hidden');
-                page.classList.remove('active');
-            });
-
-            // Tampilkan halaman yang diminta
-            const newPage = document.getElementById(`page-${pageName}`);
-            if (newPage) {
-                newPage.classList.remove('hidden');
-                
-                // Beri sedikit jeda untuk transisi
-                setTimeout(() => {
-                    newPage.classList.add('active');
-                    // Terapkan animasi reveal ke elemen-elemen di dalamnya
-                    newPage.querySelectorAll('.reveal-item').forEach(item => {
-                        item.style.animation = ''; // Reset animation
-                        void item.offsetWidth; // Trigger reflow
-                        item.style.animation = 'fadeInUp 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards';
-                    });
-                }, 10);
-            }
-            
-            // Perbarui indikator footer
-            updateFooterIndicator(pageName);
-            
-            // Tutup menu mobile jika terbuka
-            closeMobileMenu();
-        }
-
-        /**
-         * Mengupdate indikator footer sesuai halaman yang sedang aktif.
-         * @param {string} pageName Nama halaman yang sedang aktif.
-         */
-        function updateFooterIndicator(pageName) {
-            const index = pages.indexOf(pageName);
-            if (index !== -1) {
-                const totalPages = pages.length;
-                const progress = ((index + 1) / totalPages) * 100;
-                
-                document.getElementById('current-page-num').innerText = String(index + 1).padStart(2, '0');
-                document.getElementById('total-page-num').innerText = String(totalPages).padStart(2, '0');
-                document.getElementById('progress-bar').style.width = `${progress}%`;
-            }
-        }
-        
-        /**
-         * Menangani fungsi toggle untuk menu mobile.
-         */
-        function closeMobileMenu() {
-            const menuToggle = document.getElementById('mobile-menu-toggle');
-            const mobileMenu = document.getElementById('mobile-menu');
-            if (menuToggle.classList.contains('open')) {
-                menuToggle.classList.remove('open');
-                mobileMenu.classList.remove('open');
-            }
-        }
-
-        // Event listener untuk tombol menu mobile
-        document.getElementById('mobile-menu-toggle').addEventListener('click', function() {
-            const menu = document.getElementById('mobile-menu');
-            this.classList.toggle('open');
-            menu.classList.toggle('open');
-        });
-
-        // Tangani pengiriman formulir untuk mengirim data ke WhatsApp
-        document.getElementById('contact-form').addEventListener('submit', function(event) {
-            event.preventDefault(); // Mencegah formulir untuk melakukan submit secara default
-
-            // Dapatkan data dari formulir
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const message = document.getElementById('message').value;
-
-            // Buat pesan untuk WhatsApp
-            let whatsappMessage = `Halo, saya ${name} ingin bertanya tentang kolaborasi.\n\n`;
-            
-            whatsappMessage += `Nama: ${name}\n`;
-            whatsappMessage += `Email: ${email}\n`;
-            
-            if (message) {
-                 whatsappMessage += `Pesan: ${message}\n`;
-            }
-            whatsappMessage += `\nMohon informasinya lebih lanjut. Terima kasih.`;
-
-            // Enkode pesan agar aman untuk URL
-            const encodedMessage = encodeURIComponent(whatsappMessage);
-
-            // Buat URL WhatsApp
-            const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
-
-            // Arahkan pengguna ke URL WhatsApp
-            window.open(whatsappUrl, '_blank');
-        });
-
-        // Tampilkan halaman utama saat pertama kali dimuat
-        document.addEventListener('DOMContentLoaded', () => {
-            renderPage('utama');
-        });
-    </script>
 </body>
 </html>
-
