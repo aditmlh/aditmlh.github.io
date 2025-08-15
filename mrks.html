@@ -1,0 +1,1920 @@
+
+
+<!DOCTYPE html>
+<html lang="ID">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>MRKS. Studio | Creative Design & Development Agency</title>
+        
+        <!-- SEO Meta Tags -->
+        <meta name="description" content="MRKS. Studio is a leading creative design and development agency specializing in delivering top-notch branding, web development, and digital marketing solutions.">
+        <meta name="keywords" content="MRKS Studio, Creative Agency, Web Development, Branding, Digital Marketing, Design Agency, UI/UX">
+        <meta name="author" content="MRKS. Studio">
+        <meta name="robots" content="index, follow">
+        <meta name="google-site-verification" content="your-google-site-verification-code-here">
+        <link rel="canonical" href="https://aditmlh.github.io/">
+        
+        <!-- Open Graph / Facebook -->
+        <meta property="og:title" content="MRKS. Studio | Creative Design & Development Agency">
+        <meta property="og:description" content="Discover MRKS. Studio, your partner in creating stunning brands and digital experiences.">
+        <meta property="og:image" content="https://aditmlh.github.io/og-image.jpg">
+        <meta property="og:url" content="https://aditmlh.github.io/">
+        <meta property="og:type" content="website">
+        <meta property="og:site_name" content="MRKS. Studio">
+        
+        <!-- Twitter -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="MRKS. Studio | Creative Design & Development Agency">
+        <meta name="twitter:description" content="Discover MRKS. Studio, your partner in creating stunning brands and digital experiences.">
+        <meta name="twitter:image" content="https://aditmlh.github.io/twitter-image.jpg">
+        <meta name="twitter:site" content="@mrksstudio">
+        <meta name="twitter:creator" content="@mrksstudio">
+    
+        <!-- Schema.org Markup -->
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          "name": "MRKS. Studio",
+          "url": "https://aditmlh.github.io/",
+          "logo": "https://aditmlh.github.io/logo.png",
+          "sameAs": [
+            "https://www.facebook.com/mrksstudio",
+            "https://www.twitter.com/mrksstudio",
+            "https://www.instagram.com/mrksstudio",
+            "https://www.linkedin.com/company/mrksstudio"
+          ],
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+62-857-5704-3312",
+            "contactType": "Customer Service",
+            "areaServed": "Global",
+            "availableLanguage": "Indonesia"
+          }
+        }        </script>
+        
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+        
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+        
+        <!-- jQuery -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        
+        <!-- Slick Carousel CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
+       
+        <!-- CSS Styles -->
+    <style>
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+    color: #000000;
+    overflow-x: hidden;
+    position: relative;
+}
+
+header {
+    background: linear-gradient(135deg, #1a1a1a, #333333);
+    color: #181818;
+    padding: 20px;
+    text-align: center;
+    border-bottom: 2px solid #1d1d1d;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+main {
+    padding: 20px;
+    margin: 0 auto;
+    max-width: 1200px;
+    animation: fadeInUp 1.5s ease-in-out;
+    position: relative;
+    z-index: 1;
+}
+
+h1, h2 {
+    color: #000000;
+}
+
+h1 {
+    background-image: url(8e18182938f5648727e9784a7c8fcc1b.gif);
+    background-size: cover;
+    color: transparent;
+    -moz-background-clip: text;
+    -webkit-background-clip: text;
+    text-transform: uppercase;
+    font-size: 100px;
+    margin: 10px 0;
+    line-height: 1.2;
+    animation: slideIn 1s forwards;
+}
+
+.app-list, .why-choose-us-list, .service-list, .logo-packages {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.app-card, .why-card, .service-card, .logo-card {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
+    width: calc(100% - 40px);
+    max-width: 300px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    margin: 10px;
+    border: 1px solid #030303;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+.app-card:hover, .service-card:hover, .logo-card:hover, .why-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 6px 12px rgba(255, 255, 255, 0.4);
+}
+/* Team section styling */
+.team {
+    padding: 1rem;
+    text-align: center;
+}
+
+.team h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.team-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.team-member {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    width: 250px; /* Adjust as needed */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.team-member img {
+    border-radius: 50%;
+    width: 100px; /* Adjust size as needed */
+    height: 100px; /* Adjust size as needed */
+    object-fit: cover;
+    margin-bottom: 1rem;
+}
+
+.team-member h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.team-member p {
+    font-size: 1rem;
+    color: #666;
+}
+
+.social-media {
+    margin-top: 1rem;
+}
+
+.social-media a {
+    margin: 0 0.5rem;
+    text-decoration: none;
+    color: #007bff;
+    font-size: 0.9rem;
+}
+
+.social-media a:hover {
+    text-decoration: underline;
+}
+
+/* Hover effect for team members */
+.team-member:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+.app-card h3, .why-card h3 {
+    margin-top: 0;
+    font-weight: 500;
+    font-size: 1.5rem;
+    animation: fadeIn 1.5s ease-in-out;
+
+}
+
+/* Container for the services list */
+.services-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* Space between items */
+  padding: 1rem;
+  max-width: 800px; /* Adjust as needed */
+  margin: auto; /* Center the list */
+  animation: fadeIn 1.5s ease-in-out;
+
+}
+
+/* Individual service item */
+.service-item {
+    animation: fadeIn 1.5s ease-in-out;
+
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Service title */
+.service-item h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+/* Service description */
+.service-item p {
+  font-size: 1rem;
+  color: #666;
+}
+
+/* Optional: Add a hover effect for interactivity */
+.service-item:hover {
+  background: #eaf4f4;
+  border-color: #ccc;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #020202;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 10px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.btn:hover {
+    background-color: #ffffff;
+    color: #000000;
+    border: 1px solid #222121;
+}
+
+.footer {
+    color: #000000;
+    text-align: center;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    margin-top: 20px;
+    animation: fadeIn 1.5s ease-in-out;
+    border-top: 2px solid #ffffff;
+    z-index: 1;
+}
+
+.team-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.team-card {
+    width: calc(33.333% - 20px);
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+.team-card img {
+    width: 270px;
+    border-radius: 12px 12px 0px 0px;
+    height: auto;
+    object-fit: cover;
+    margin-bottom: 10px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    animation: fadeIn 1.5s ease-in-out;
+
+}
+
+svg {
+	font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	width: 100%; height: 100%;
+}
+svg text {
+	animation: stroke 5s infinite alternate;
+	stroke-width: 2;
+	stroke: #365FA0;
+	font-size: 0px;
+}
+@keyframes stroke {
+	0%   {
+		fill: rgba(72,138,204,0); stroke: rgba(54,95,160,1);
+		stroke-dashoffset: 25%; stroke-dasharray: 0 50%; stroke-width: 2;
+	}
+	70%  {fill: rgba(72,138,204,0); stroke: rgba(54,95,160,1); }
+	80%  {fill: rgba(72,138,204,0); stroke: rgba(54,95,160,1); stroke-width: 3; }
+	100% {
+		fill: rgba(72,138,204,1); stroke: rgba(54,95,160,0);
+		stroke-dashoffset: -25%; stroke-dasharray: 50% 0; stroke-width: 0;
+	}
+}
+
+.team-card:hover img {
+    transform: scale(1.1);
+    animation: fadeIn 1.5s ease-in-out;
+
+    box-shadow: 0 8px 16px rgba(255, 255, 255, 0.5);
+}
+
+.team-card .social-links {
+    animation: fadeIn 1.5s ease-in-out;
+
+    margin-top: 10px;
+}
+
+.team-card .social-links a {
+    color: #ffffff;
+    text-decoration: none;
+    margin: 0 5px;
+    font-size: 1.5rem;
+    transition: color 0.3s;
+}
+
+.team-card .social-links a:hover {
+    color: #1e1e1e;
+    background-color: #ffffff;
+    border-radius: 50%;
+    padding: 5px;
+}
+
+.client-carousel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.client-carousel div {
+    display: block;
+    font-size: 1.5rem;
+    color: #000000;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
+    text-align: center;
+}
+
+.client-carousel p{
+    display: flex;
+    gap: 20px;
+    padding:10px;
+    animation: scroll 20s linear infinite;
+}
+
+@keyframes scroll {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(calc(-100% / 3));
+    }
+}
+
+
+.line-text {
+    color: #ffffff;
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 4px solid #ffffff;
+    animation: typing 4s steps(30, end), blink 0.75s step-end infinite;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes typing {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+@keyframes blink {
+    from, to {
+        border-color: transparent;
+    }
+    50% {
+        border-color: #ffffff;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.crypto-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+}
+
+svg {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0.3;
+}
+
+.content {
+    display: none;
+}
+
+.content.active {
+    display: block;
+    animation: fadeInUp 1.5s ease-in-out;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 30px;
+    background: #333;
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.3);
+}
+
+.progress-bar span {
+    display: block;
+    height: 100%;
+    background: #ffffff;
+    width: 0;
+    transition: width 0.5s;
+}
+
+.scroll-btn {
+   
+    margin-top: 20px;
+    display: inline-block;
+    padding: 19px 100px;
+    background-color: #ffffff;
+    color: #1e1e1e;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.scroll-btn:hover {
+    background-color: #1e1e1e;
+    color: #ffffff;
+    border: 1px solid #ffffff;
+}
+
+.white-mode {
+    text-decoration: none;
+    padding: 7px 10px;
+    background-color: #122;
+    border-radius: 3px;
+    color: #FFF;
+    transition: .35s ease-in-out;
+    position: absolute;
+    left: 15px;
+    bottom: 15px;
+    font-family: "Cairo", sans-serif;
+}
+
+.white-mode:hover {
+    background-color: #FFF;
+    color: #122;
+}
+.faq-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.faq-item {
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.faq-question {
+    background-color: #f4f4f4;
+    border: none;
+    width: 100%;
+    padding: 10px;
+    text-align: left;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    outline: none;
+    border-radius: 5px 5px 0 0;
+}
+
+.faq-answer {
+    padding: 10px;
+    display: none; /* Default state is hidden */
+}
+
+.faq-answer p {
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .app-list {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .app-card {
+        width: 80%;
+        max-width: none;
+    }
+
+    .team-card {
+        width: calc(50% - 20px);
+    }
+}
+
+@media (max-width: 480px) {
+    .team-card {
+        width: 100%;
+    }
+}
+
+.title {
+    text-align: center;
+    color: #000000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 90vh;
+    letter-spacing: 1px;
+    line-height: 2;
+    animation: fadeIn 1.5s ease-in-out;
+    padding: 0 20px;
+}
+
+@media (max-width: 1024px) {
+    .title {
+        height: 100vh; /* Adjust height for tablets */
+    }
+
+    h1 {
+        font-size: 10vw; /* Slightly larger font size for tablets */
+    }
+}
+
+@media (max-width: 768px) {
+    .title {
+        height: 100vh; /* Adjust height for tablets */
+
+        padding: 0 10px; /* Reduced padding for mobile */
+    }
+
+    h1 {
+        font-size: 12vw; /* Larger font size for mobile */
+    }
+
+    .scroll-btn {
+        font-size: 0.9rem; /* Smaller font size for buttons on mobile */
+    }
+}
+
+@media (max-width: 480px) {
+    .title {
+        padding: 0 5px; /* Minimal padding for very small screens */
+    }
+
+    h1 {
+        font-size: 15vw; /* Even larger font size for very small screens */
+    }
+
+    .scroll-btn {
+        font-size: 0.8rem; /* Adjust font size for very small screens */
+    }
+}
+
+section {
+    animation: fadeIn 1.5s ease-in-out;
+
+    margin-bottom: 60px;
+}
+
+    </style>
+    
+</head>
+
+<body>
+ 
+
+    <main>
+        <div class="title">
+            <svg>
+                <text x="50%" y="50%" dy=".35em" text-anchor="middle">
+                    MRKS. Studio
+                </text>
+            </svg>
+            <h1>MRKS. Studio<br>
+            <button class="scroll-btn" onclick="showContent('content-1')">Tentang MRKS.</button>
+          </a></h1>
+        </div>
+    </main>
+    
+    <section class="content" id="content-1">
+        <main>
+    
+            <!-- About Us Section -->
+            <section id="about">
+                <h2>Tentang Kami</h2>
+                <p>MRKS Studio adalah penyedia layanan kreatif profesional yang mengkhususkan diri dalam desain grafis, video editing, pembuatan website, dan banyak lagi. Kami memiliki tim yang berpengalaman dan berdedikasi untuk memberikan solusi yang inovatif dan berkualitas tinggi untuk setiap kebutuhan Anda.</p>
+                <p>Kami memahami pentingnya citra visual dan digital yang kuat dalam dunia bisnis saat ini. Oleh karena itu, kami berkomitmen untuk membantu Anda mencapai tujuan tersebut melalui layanan yang kami tawarkan. Dengan pendekatan yang kreatif dan profesional, kami siap untuk membawa ide Anda menjadi kenyataan.</p>
+                <p><strong>Visi Kami:</strong> Menjadi mitra terpercaya dalam mewujudkan ide-ide kreatif klien kami dengan kualitas dan inovasi yang luar biasa.</p>
+                <p><strong>Misi Kami:</strong> Memberikan solusi kreatif yang efektif dan personal untuk membantu klien kami menonjol di pasar yang kompetitif.</p>
+            </section>
+    
+          <!-- Why Choose Us Section -->
+<section id="why-choose-us">
+    <h2>Kenapa Memilih Jasa Kami?</h2>
+    <div class="why-choose-us-list">
+        <div class="why-card">
+            <h3><i class="fas fa-user-tie"></i> Keahlian dan Pengalaman</h3>
+            <p>Dengan tim profesional yang berpengalaman di berbagai bidang, kami menjamin hasil yang berkualitas tinggi dan solusi kreatif untuk setiap proyek. Kami memahami kebutuhan Anda dan memberikan hasil yang memenuhi standar tertinggi.</p>
+        </div>
+        <div class="why-card">
+            <h3><i class="fas fa-handshake"></i> Pelayanan Klien yang Personal</h3>
+            <p>Kami percaya bahwa setiap klien unik. Oleh karena itu, kami menyediakan pelayanan yang personal dan responsif. Tim kami siap membantu Anda setiap langkah dari awal hingga akhir proyek untuk memastikan kepuasan Anda.</p>
+        </div>
+        <div class="why-card">
+            <h3><i class="fas fa-lightbulb"></i> Solusi Kreatif dan Inovatif</h3>
+            <p>Kami selalu berkomitmen untuk menghadirkan solusi yang kreatif dan inovatif. Dengan pendekatan yang fresh dan teknologi terkini, kami menciptakan desain dan konten yang menonjol dan efektif dalam mencapai tujuan Anda.</p>
+        </div>
+        <div class="why-card">
+            <h3><i class="fas fa-tags"></i> Harga Kompetitif</h3>
+            <p>Kami menawarkan berbagai paket layanan dengan harga yang bersaing dan transparan. Kami memastikan bahwa Anda mendapatkan nilai terbaik untuk investasi Anda tanpa mengorbankan kualitas.</p>
+        </div>
+        <div class="why-card">
+            <h3><i class="fas fa-clock"></i> Waktu Pengerjaan Tepat Waktu</h3>
+            <p>Kami memahami pentingnya tenggat waktu. Dengan proses kerja yang efisien dan terorganisir, kami berkomitmen untuk menyelesaikan setiap proyek tepat waktu sesuai dengan jadwal yang telah disepakati.</p>
+        </div>
+        <div class="why-card">
+            <h3><i class="fas fa-briefcase"></i> Portofolio yang Kuat</h3>
+            <p>Portofolio kami mencerminkan kualitas dan keberagaman proyek yang telah kami selesaikan. Kami bangga dengan hasil kerja kami dan siap untuk menunjukkan bagaimana kami dapat memberikan hasil yang luar biasa untuk Anda.</p>
+        </div>
+    </div>
+</section>
+<!-- Services Offered Section -->
+<section id="services">
+    <h2>Jasa yang Kami Tawarkan</h2>
+    <div class="why-choose-us-list">
+        <div class="service-card">
+            <h3><i class="fas fa-paint-brush"></i> Desain Grafis</h3>
+            <p>Kami menyediakan layanan desain grafis untuk kebutuhan branding, seperti logo, brosur, poster, dan materi promosi lainnya. Desain kami selalu dibuat dengan mempertimbangkan identitas brand dan pesan yang ingin disampaikan.</p>
+        </div>
+        <div class="service-card">
+            <h3><i class="fas fa-video"></i> Video Editing</h3>
+            <p>Jasa editing video kami meliputi pembuatan video promosi, video konten, dan editing footage untuk berbagai keperluan. Kami menggunakan software terkini untuk menghasilkan video yang berkualitas tinggi dan sesuai dengan kebutuhan Anda.</p>
+        </div>
+        <div class="service-card">
+            <h3><i class="fas fa-code"></i> Pembuatan Website</h3>
+            <p>Kami menawarkan layanan pembuatan website yang responsif, user-friendly, dan sesuai dengan kebutuhan bisnis Anda. Dari desain hingga pengembangan, kami memastikan website Anda tampil profesional dan fungsional.</p>
+        </div>
+        <div class="service-card">
+            <h3><i class="fas fa-photo-video"></i> Fotografi dan Videografi</h3>
+            <p>Kami juga menyediakan jasa fotografi dan videografi untuk berbagai keperluan seperti event, produk, dan dokumentasi lainnya. Tim kami siap mengabadikan momen penting Anda dengan hasil yang memukau.</p>
+        </div>
+        <div class="service-card">
+            <h3><i class="fas fa-bullhorn"></i> Digital Marketing</h3>
+            <p>Kami membantu mempromosikan bisnis Anda secara online melalui strategi digital marketing yang efektif. Layanan ini mencakup manajemen media sosial, SEO, content marketing, dan iklan online.</p>
+        </div>
+        <div class="service-card">
+            <h3><i class="fas fa-pencil-alt"></i> Penulisan Konten</h3>
+            <p>Kami menyediakan jasa penulisan konten berkualitas tinggi untuk website, blog, dan media sosial. Konten yang kami buat disesuaikan dengan target audiens dan tujuan bisnis Anda.</p>
+        </div>
+    </div>
+    <div style="text-align: center;"><button class="scroll-btn" onclick="showContent('content-2')">Order Jasa</button>
+    <a href="https://une8wtc.localto.net/emasigi/"><button class="scroll-btn">Demo App</button></a></div>
+</section>
+
+    
+            <!-- Portfolio Gallery Section -->
+            <section id="portfolio">
+                <h2>Portofolio Kami</h2>
+         <div class="gallery">
+    <div class="gallery-item"><img src="https://via.placeholder.com/300x200?text=Project+1" alt="Project 1"></div>
+    <div class="gallery-item"><img src="https://via.placeholder.com/300x200?text=Project+2" alt="Project 2"></div>
+    <div class="gallery-item"><img src="https://via.placeholder.com/300x200?text=Project+3" alt="Project 3"></div>
+    <div class="gallery-item"><img src="https://via.placeholder.com/300x200?text=Project+4" alt="Project 4"></div>
+    <div class="gallery-item"><img src="https://via.placeholder.com/300x200?text=Project+5" alt="Project 5"></div>
+    <div class="gallery-item"><img src="https://via.placeholder.com/300x200?text=Project+6" alt="Project 6"></div>
+</div>
+
+                <p>Kami telah mengerjakan berbagai proyek mulai dari desain grafis, video editing, hingga pembuatan website. Setiap proyek kami kerjakan dengan dedikasi tinggi untuk memastikan hasil terbaik bagi klien kami.</p>
+            </section>
+    
+            <!-- Client Logo Carousel Section -->
+            <section id="clients">
+                <h2>Client Kami</h2>
+                <p>Kami bangga telah bekerja dengan berbagai klien dari berbagai industri. Berikut adalah beberapa klien yang telah mempercayakan proyek mereka kepada kami:</p>
+        
+                <div class="gallery"">
+                    <div class="gallery-item"><p>Kotamobagukota.go.id</p></div>
+                    <div class="gallery-item"><p>Kroniktotabuan.com</p></div>
+                    <div class="gallery-item"><p>Mongondownet.tv</p></div>
+                    <div class="gallery-item"><p>Smkcokroaminotoktg</p></div>
+                    <div class="gallery-item"><p>Rakyatnews.net</p></div>
+                    <div class="gallery-item"><p>BaluanaAtjo.co.id</p></div>
+                    <div class="gallery-item"><p>Puskesmas Tanoyan</p></div>
+                    <div class="gallery-item"><p>Vita Collection </p></div>
+                    <div class="gallery-item"><p>Affshen Car Wash</p></div>
+                    <div class="gallery-item"><p>Dapur Botugs</p></div>
+                    <div class="gallery-item"><p>Zea Store</p></div>
+                    <div class="gallery-item"><p>PortalMongondow</p></div>
+                    <div class="gallery-item"><p>Pedagogi.id</p></div>
+                    <div class="gallery-item"><p>Kontras.id</p></div>
+                    <div class="gallery-item"><p>DutaPendidikanSulut</p></div>
+                    <div class="gallery-item"><p>Kampus.kontras.id</p></div>
+                    <div class="gallery-item"><p>B-townkids.com.au</p></div>
+                    <div class="gallery-item"><p>Kontras.co.id</p></div>
+                    <div class="gallery-item"><p>Sulutplus.com</p></div>
+                    <div class="gallery-item"><p>ToyotaKotamobagu.com</p></div>
+                    <div class="gallery-item"><p>Hondasulut.com</p></div>
+                    <div class="gallery-item"><p>ToyotaSulut.com</p></div>
+                    <div class="gallery-item"><p>HondaKotamobagu.com</p></div>
+                    <div class="gallery-item"><p>Toyota-Kotamobagu.com</p></div>
+                    <div class="gallery-item"><p>kilas24.com</p></div>
+                    <div class="gallery-item"><p>Kilastotabuan.com</p></div>
+                    <div class="gallery-item"><p>Fpmik.or.id</p></div>
+                    <div class="gallery-item"><p>Kanalkota.com</p></div>
+                </div>
+                <p>Apakah Anda siap untuk bergabung dengan daftar klien kami yang puas? Hubungi kami hari ini untuk mendiskusikan proyek Anda!</p>
+            </section>
+            <section class="team">
+                <h2>Our Team</h2>
+                <div class="team-container">
+                    <div class="team-member">
+                        <img src="https://via.placeholder.com/100" alt="Aditya Malah">
+                        <h3>Aditya Malah</h3>
+                        <p>Creative Director</p>
+                        <div class="social-media">
+                            <a href="https://twitter.com" target="_blank">Twitter</a>
+                            <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+                            <a href="https://facebook.com" target="_blank">Facebook</a>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <img src="https://via.placeholder.com/100" alt="Aldi Paputungan">
+                        <h3>Aldi Paputungan</h3>
+                        <p>Lead Developer</p>
+                        <div class="social-media">
+                            <a href="https://twitter.com" target="_blank">Twitter</a>
+                            <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+                            <a href="https://facebook.com" target="_blank">Facebook</a>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <img src="https://via.placeholder.com/100" alt="Alhardjo">
+                        <h3>Alhardjo</h3>
+                        <p>Graphic Designer</p>
+                        <div class="social-media">
+                            <a href="https://twitter.com" target="_blank">Twitter</a>
+                            <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+                            <a href="https://facebook.com" target="_blank">Facebook</a>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <img src="https://via.placeholder.com/100" alt="Wahyu Loloy">
+                        <h3>Wahyu Loloy</h3>
+                        <p>Project Manager</p>
+                        <div class="social-media">
+                            <a href="https://twitter.com" target="_blank">Twitter</a>
+                            <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+                            <a href="https://facebook.com" target="_blank">Facebook</a>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <img src="https://via.placeholder.com/100" alt="Fatrah Makalalag">
+                        <h3>Fatrah Makalalag</h3>
+                        <p>UX/UI Designer</p>
+                        <div class="social-media">
+                            <a href="https://twitter.com" target="_blank">Twitter</a>
+                            <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+                            <a href="https://facebook.com" target="_blank">Facebook</a>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <img src="https://via.placeholder.com/100" alt="Cipto Dolot">
+                        <h3>Cipto Dolot</h3>
+                        <p>Front-end Developer</p>
+                        <div class="social-media">
+                            <a href="https://twitter.com" target="_blank">Twitter</a>
+                            <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+                            <a href="https://facebook.com" target="_blank">Facebook</a>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <img src="https://via.placeholder.com/100" alt="Diki Tegema">
+                        <h3>Diki Tegema</h3>
+                        <p>Back-end Developer</p>
+                        <div class="social-media">
+                            <a href="https://twitter.com" target="_blank">Twitter</a>
+                            <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+                            <a href="https://facebook.com" target="_blank">Facebook</a>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <img src="https://via.placeholder.com/100" alt="Alif Malah">
+                        <h3>Alif Malah</h3>
+                        <p>Marketing Specialist</p>
+                        <div class="social-media">
+                            <a href="https://twitter.com" target="_blank">Twitter</a>
+                            <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+                            <a href="https://facebook.com" target="_blank">Facebook</a>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <img src="https://via.placeholder.com/100" alt="Yunda Kasnawi">
+                        <h3>Yunda Kasnawi</h3>
+                        <p>Content Strategist</p>
+                        <div class="social-media">
+                            <a href="https://twitter.com" target="_blank">Twitter</a>
+                            <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+                            <a href="https://facebook.com" target="_blank">Facebook</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="faq-container">
+                <h2>F.A.Q</h2>
+                <div class="faq-item">
+                    <button class="faq-question">Apa itu MRKS. Studio?</button>
+                    <div class="faq-answer">
+                        <p>MRKS. Studio adalah layanan kreatif profesional yang menawarkan berbagai layanan termasuk desain grafis, pengeditan video, dan pengembangan situs web. Kami berdedikasi untuk membantu Anda mencapai tujuan kreatif Anda dengan solusi yang inovatif dan berkualitas tinggi.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">Bagaimana cara saya memulai proyek dengan MRKS. Studio?</button>
+                    <div class="faq-answer">
+                        <p>Untuk memulai proyek, Anda bisa menghubungi kami melalui formulir kontak di situs web kami atau mengirim email ke [alamat email]. Kami akan melakukan konsultasi awal untuk memahami kebutuhan dan tujuan proyek Anda sebelum memberikan proposal dan jadwal.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">Berapa lama waktu yang diperlukan untuk menyelesaikan proyek?</button>
+                    <div class="faq-answer">
+                        <p>Waktu penyelesaian proyek bervariasi tergantung pada kompleksitas dan ukuran proyek. Kami akan memberikan estimasi waktu setelah konsultasi awal dan sebelum memulai pekerjaan. Kami berkomitmen untuk memenuhi tenggat waktu yang disepakati.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">Apa yang termasuk dalam paket layanan desain grafis?</button>
+                    <div class="faq-answer">
+                        <p>Paket layanan desain grafis kami biasanya mencakup pembuatan konsep desain, revisi, dan pengiriman file dalam format yang sesuai dengan kebutuhan Anda. Detail spesifik akan dijelaskan dalam proposal setelah konsultasi.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">Apakah Anda menawarkan layanan pengeditan video untuk proyek jangka panjang?</button>
+                    <div class="faq-answer">
+                        <p>Ya, kami menawarkan layanan pengeditan video baik untuk proyek jangka panjang maupun jangka pendek. Kami dapat bekerja sama dengan Anda untuk mengembangkan dan menyempurnakan video sesuai kebutuhan.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">Bagaimana cara membayar layanan MRKS. Studio?</button>
+                    <div class="faq-answer">
+                        <p>Kami menerima berbagai metode pembayaran, termasuk transfer bank, kartu kredit, dan pembayaran melalui platform pembayaran online. Rincian pembayaran akan disediakan dalam kontrak atau proposal.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">Apakah ada jaminan kepuasan pelanggan?</button>
+                    <div class="faq-answer">
+                        <p>Kami berkomitmen untuk memberikan hasil yang memuaskan dan bekerja sama dengan Anda untuk memastikan bahwa proyek selesai sesuai dengan harapan Anda. Jika ada masalah atau revisi yang diperlukan, kami akan bekerja untuk memperbaikinya.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">Bisakah saya melihat contoh pekerjaan sebelumnya?</button>
+                    <div class="faq-answer">
+                        <p>Tentu! Kami akan dengan senang hati menunjukkan portofolio kami yang mencakup contoh proyek sebelumnya. Anda dapat melihat beberapa contoh di bagian portofolio di situs web kami atau menghubungi kami untuk mendapatkan informasi lebih lanjut.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">Apakah MRKS. Studio menerima proyek internasional?</button>
+                    <div class="faq-answer">
+                        <p>Ya, kami menerima proyek dari klien internasional. Kami akan bekerja dengan Anda untuk memahami kebutuhan dan memastikan komunikasi yang efektif selama proyek.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">Bagaimana cara menghubungi tim MRKS. Studio?</button>
+                    <div class="faq-answer">
+                        <p>Anda dapat menghubungi kami melalui formulir kontak di situs web kami, mengirim email ke [alamat email], atau menghubungi kami melalui media sosial kami. Tim kami akan segera merespons pertanyaan atau permintaan Anda.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Contact Section -->
+            <section id="contact">
+                <h2>Hubungi Kami</h2>
+                <p>Untuk informasi lebih lanjut atau untuk memulai proyek Anda dengan kami, silakan hubungi kami melalui WhatsApp atau email. Kami siap untuk membantu Anda mewujudkan ide-ide Anda menjadi kenyataan.</p>
+                <p>Email: <a href="mailto:info@mrksstudio.com">info@mrksstudio.com</a></p>
+                <p>WhatsApp: <a href="https://wa.me/6285757043312">+62 857-5704-3312</a></p>
+                <p>Jangan ragu untuk menghubungi kami kapan saja. Kami akan dengan senang hati menjawab pertanyaan Anda dan membantu Anda memulai proyek Anda.</p>
+            </section>
+            
+        </main>
+        
+    </section>
+    
+    <style>
+        /* Responsive Portfolio Gallery */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+    
+        .gallery-item {
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+    
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+    
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+    .gallery-item p{
+        text-align: center;
+    }
+        /* Responsive Design for Smaller Screens */
+        @media (max-width: 768px) {
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+    </style>
+
+        <section class="content" id="content-2">
+        <main>
+
+        <h2>MRKS STUDIO</h2>
+        <p>Selamat datang di MRKS STUDIO Kami menyediakan berbagai layanan terbaik untuk memenuhi kebutuhan Anda, dari desain grafis hingga pengembangan aplikasi dan Keamanan Cyber. Jelajahi berbagai layanan kami di bawah ini dan temukan solusi yang tepat untuk kebutuhan Anda.</p>
+
+
+
+
+<!-- Logo Design Packages Section -->
+<section id="logo-packages">
+    <h2>Desain Logo</h2>
+    <div class="logo-packages">
+        <!-- Paket Bronze -->
+        <div class="logo-card">
+            <h3>Paket Bronze</h3>
+            <p><strong>Harga: Rp. 200.000</strong></p>
+            <ul>
+                <li>Logo HD</li>
+                <li>2 Variant Logo</li>
+                <li>Revisi 3 kali</li>
+                <li>Waktu pengerjaan: 1 Minggu</li>
+            </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Paket Silver -->
+        <div class="logo-card">
+            <h3>Paket Silver</h3>
+            <p><strong>Harga: Rp. 500.000</strong></p>
+            <ul>
+                <li>Logo HD</li>
+                <li>2 Variant Logo</li>
+                <li>Revisi 5 kali</li>
+                <li>Waktu pengerjaan: 5 Hari</li>
+            </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Paket Platinum -->
+        <div class="logo-card">
+            <h3>Paket Platinum</h3>
+            <p><strong>Harga: Rp. 800.000</strong></p>
+            <ul>
+                <li>Logo HD</li>
+                <li>2 Variant Logo</li>
+                <li>Revisi 7 kali</li>
+                <li>File Mockup disertakan</li>
+                <li>Waktu pengerjaan: 3 Hari</li>
+            </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+    </div>
+</section>
+<!-- Desain Grafis Lainnya Section -->
+<section id="graphic-designs">
+    <h2>Desain Grafis Lainnya</h2>
+    <div class="service-list">
+        <!-- Flyer -->
+        <div class="service-card">
+            <h3>Flyer</h3>
+            <p><strong>Harga: Rp. 75.000</strong></p>
+            <ul>
+                <li>Desain satu halaman</li>
+                <li>File dalam format JPG dan PNG</li>
+                <li>Waktu pengerjaan: 1-2 Hari</li>
+            </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Poster -->
+        <div class="service-card">
+            <h3>Poster</h3>
+            <p><strong>Harga: Rp. 50.000</strong></p>
+            <ul>
+                <li>Desain satu halaman</li>
+                <li>File dalam format JPG dan PNG</li>
+                <li>Waktu pengerjaan: 1-2 Hari</li>
+            </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Spanduk -->
+        <div class="service-card">
+            <h3>Spanduk</h3>
+            <p><strong>Harga: Mulai dari Rp. 150.000</strong></p>
+            <ul>
+                <li>Ukuran standar 1x3 meter</li>
+                <li>File dalam format PDF dan AI</li>
+                <li>Waktu pengerjaan: 2-3 Hari</li>
+            </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Cover Buku -->
+        <div class="service-card">
+            <h3>Cover Buku</h3>
+            <p><strong>Harga: Mulai dari Rp. 200.000</strong></p>
+            <ul>
+                <li>Desain depan dan belakang</li>
+                <li>File dalam format PDF dan AI</li>
+                <li>Waktu pengerjaan: 3-5 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Brosur -->
+        <div class="service-card">
+            <h3>Brosur</h3>
+            <p><strong>Harga: Mulai dari Rp. 150.000</strong></p>
+            <ul>
+                <li>Desain lipat 2 atau 3</li>
+                <li>File dalam format PDF dan AI</li>
+                <li>Waktu pengerjaan: 2-3 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Kartu Nama -->
+        <div class="service-card">
+            <h3>Kartu Nama</h3>
+            <p><strong>Harga: Rp. 50.000</strong></p>
+            <ul>
+                <li>Desain 2 sisi</li>
+                <li>File dalam format PDF dan AI</li>
+                <li>Waktu pengerjaan: 1-2 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- ID Card -->
+        <div class="service-card">
+            <h3>ID Card</h3>
+            <p><strong>Harga: Rp. 75.000</strong></p>
+            <ul>
+                <li>Desain satu sisi</li>
+                <li>File dalam format PDF dan AI</li>
+                <li>Waktu pengerjaan: 1-2 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Undangan -->
+        <div class="service-card">
+            <h3>Undangan</h3>
+            <p><strong>Harga: Mulai dari Rp. 100.000</strong></p>
+            <ul>
+                <li>Desain satu sisi atau lipat</li>
+                <li>File dalam format PDF dan AI</li>
+                <li>Waktu pengerjaan: 2-3 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Baliho -->
+        <div class="service-card">
+            <h3>Baliho</h3>
+            <p><strong>Harga: Mulai dari Rp. 300.000</strong></p>
+            <ul>
+                <li>Ukuran sesuai kebutuhan</li>
+                <li>File dalam format PDF dan AI</li>
+                <li>Waktu pengerjaan: 3-5 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Banner -->
+        <div class="service-card">
+            <h3>Banner</h3>
+            <p><strong>Harga: Mulai dari Rp. 150.000</strong></p>
+            <ul>
+                <li>Ukuran standar 1x2 meter</li>
+                <li>File dalam format PDF dan AI</li>
+                <li>Waktu pengerjaan: 2-3 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- X-Banner -->
+        <div class="service-card">
+            <h3>X-Banner</h3>
+            <p><strong>Harga: Rp. 200.000</strong></p>
+            <ul>
+                <li>Ukuran standar 60x160 cm</li>
+                <li>File dalam format PDF dan AI</li>
+                <li>Waktu pengerjaan: 2-3 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Billboard -->
+        <div class="service-card">
+            <h3>Billboard</h3>
+            <p><strong>Harga: Mulai dari Rp. 500.000</strong></p>
+            <ul>
+                <li>Ukuran besar sesuai kebutuhan</li>
+                <li>File dalam format PDF dan AI</li>
+                <li>Waktu pengerjaan: 5-7 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Ads Reklame -->
+        <div class="service-card">
+            <h3>Ads Reklame</h3>
+            <p><strong>Harga: Mulai dari Rp. 200.000</strong></p>
+            <ul>
+                <li>Ukuran sesuai kebutuhan</li>
+                <li>File dalam format PDF dan AI</li>
+                <li>Waktu pengerjaan: 2-4 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Video Tron -->
+        <div class="service-card">
+            <h3>Video Tron</h3>
+            <p><strong>Harga: Mulai dari Rp. 300.000</strong></p>
+            <ul>
+                <li>Durasi 30 detik</li>
+                <li>Resolusi sesuai kebutuhan</li>
+                <li>Waktu pengerjaan: 3-5 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Social Media Post -->
+        <div class="service-card">
+            <h3>Social Media Post</h3>
+            <p><strong>Harga: Rp. 50.000/post</strong></p>
+            <ul>
+                <li>Desain untuk feed atau story</li>
+                <li>File dalam format JPG dan PNG</li>
+                <li>Waktu pengerjaan: 1-2 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Social Media Reels -->
+        <div class="service-card">
+            <h3>Social Media Reels</h3>
+            <p><strong>Harga: Rp. 100.000</strong></p>
+            <ul>
+                <li>Desain untuk reels 15-30 detik</li>
+                <li>File dalam format MP4</li>
+                <li>Waktu pengerjaan: 1-2 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- WPAP Karikatur -->
+        <div class="service-card">
+            <h3>WPAP Karikatur</h3>
+            <p><strong>Harga: Mulai dari Rp. 500.000</strong></p>
+            <ul>
+                <li>Desain potret WPAP</li>
+                <li>File dalam format JPG dan PNG</li>
+                <li>Waktu pengerjaan: 5-7 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Desain Jersey -->
+        <div class="service-card">
+            <h3>Desain Jersey</h3>
+            <p><strong>Harga: Mulai dari Rp. 300.000</strong></p>
+            <ul>
+                <li>Desain jersey depan dan belakang</li>
+                <li>File dalam format PDF dan AI</li>
+                <li>Waktu pengerjaan: 3-5 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Desain Clothing -->
+        <div class="service-card">
+            <h3>Desain Clothing</h3>
+            <p><strong>Harga: Mulai dari Rp. 250.000</strong></p>
+            <ul>
+                <li>Desain untuk t-shirt atau hoodie</li>
+                <li>File dalam format PDF dan AI</li>
+                <li>Waktu pengerjaan: 3-5 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Stiker -->
+        <div class="service-card">
+            <h3>Stiker</h3>
+            <p><strong>Harga: Mulai dari Rp. 50.000</strong></p>
+            <ul>
+                <li>Desain stiker ukuran kecil</li>
+                <li>File dalam format JPG dan PNG</li>
+                <li>Waktu pengerjaan: 1-2 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+    </div>
+</section>
+<!-- Jasa Edit Video Section -->
+<section id="video-editing">
+    <h2>Jasa Edit Video</h2>
+    <div class="service-list">
+        <!-- Basic Editing -->
+        <div class="service-card">
+            <h3>Basic Editing</h3>
+            <p><strong>Harga: Mulai dari Rp. 500.000</strong></p>
+            <ul>
+                <li>Pemotongan video, transisi sederhana, dan penambahan musik</li>
+                <li>Durasi hingga 5 menit</li>
+                <li>Waktu pengerjaan: 2-3 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Advanced Editing -->
+        <div class="service-card">
+            <h3>Advanced Editing</h3>
+            <p><strong>Harga: Mulai dari Rp. 1.500.000</strong></p>
+            <ul>
+                <li>Pemotongan video, transisi, efek visual, dan penambahan musik</li>
+                <li>Durasi hingga 10 menit</li>
+                <li>Waktu pengerjaan: 3-5 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Professional Editing -->
+        <div class="service-card">
+            <h3>Professional Editing</h3>
+            <p><strong>Harga: Mulai dari Rp. 3.000.000</strong></p>
+            <ul>
+                <li>Pemotongan video, transisi, efek visual, color grading, dan penambahan musik serta suara</li>
+                <li>Durasi hingga 15 menit</li>
+                <li>Waktu pengerjaan: 5-7 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+    </div>
+</section>
+<!-- Jasa Website Section -->
+<section id="website-services">
+    <h2>Jasa Website</h2>
+    <div class="service-list">
+        <!-- Paket Diamond -->
+        <div class="service-card">
+            <h3>Paket Diamond</h3>
+            <p><strong>Harga: Rp. 15.500.000</strong></p>
+            <ul>
+                <li>Website premium dengan desain kustom</li>
+                <li>Fitur e-commerce lengkap</li>
+                <li>Integrasi SEO dan social media</li>
+                <li>Waktu pengerjaan: 30 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Paket Platinum -->
+        <div class="service-card">
+            <h3>Paket Platinum</h3>
+            <p><strong>Harga: Rp. 5.800.000</strong></p>
+            <ul>
+                <li>Website perusahaan dengan desain kustom</li>
+                <li>Fitur CMS</li>
+                <li>Integrasi SEO dasar</li>
+                <li>Waktu pengerjaan: 20 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Paket Gold -->
+        <div class="service-card">
+            <h3>Paket Gold</h3>
+            <p><strong>Harga: Rp. 2.800.000</strong></p>
+            <ul>
+                <li>Website portofolio atau personal</li>
+                <li>Fitur CMS dasar</li>
+                <li>Waktu pengerjaan: 15 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Paket Silver -->
+        <div class="service-card">
+            <h3>Paket Silver</h3>
+            <p><strong>Harga: Rp. 1.800.000</strong></p>
+            <ul>
+                <li>Website sederhana dengan tema siap pakai</li>
+                <li>Integrasi media sosial</li>
+                <li>Waktu pengerjaan: 10 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Paket Bronze -->
+        <div class="service-card">
+            <h3>Paket Bronze</h3>
+            <p><strong>Harga: Rp. 800.000</strong></p>
+            <ul>
+                <li>Landing page sederhana</li>
+                <li>1-2 halaman</li>
+                <li>Waktu pengerjaan: 5 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Jasa Redesign Website -->
+        <div class="service-card">
+            <h3>Jasa Redesign Website</h3>
+            <p><strong>Harga: Mulai dari Rp. 1.800.000</strong></p>
+            <ul>
+                <li>Desain ulang tampilan website</li>
+                <li>Penambahan fitur sesuai kebutuhan</li>
+                <li>Waktu pengerjaan: 10-15 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+    </div>
+</section>
+<!-- Jasa Aplikasi Section -->
+<section id="app-services">
+    <h2>Jasa Aplikasi</h2>
+    <div class="service-list">
+        <!-- Paket Diamond -->
+        <div class="service-card">
+            <h3>Paket Diamond</h3>
+            <p><strong>Harga: Rp. 25.500.000</strong></p>
+            <ul>
+                <li>Aplikasi kustom dengan fitur lengkap</li>
+                <li>Integrasi dengan sistem pihak ketiga</li>
+                <li>Waktu pengerjaan: 60 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Paket Platinum -->
+        <div class="service-card">
+            <h3>Paket Platinum</h3>
+            <p><strong>Harga: Rp. 15.800.000</strong></p>
+            <ul>
+                <li>Aplikasi bisnis dengan fitur standar</li>
+                <li>Integrasi API dasar</li>
+                <li>Waktu pengerjaan: 45 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Paket Gold -->
+        <div class="service-card">
+            <h3>Paket Gold</h3>
+            <p><strong>Harga: Rp. 10.800.000</strong></p>
+            <ul>
+                <li>Aplikasi sederhana dengan beberapa modul</li>
+                <li>User management dan laporan</li>
+                <li>Waktu pengerjaan: 30 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Paket Silver -->
+        <div class="service-card">
+            <h3>Paket Silver</h3>
+            <p><strong>Harga: Rp. 5.800.000</strong></p>
+            <ul>
+                <li>Aplikasi dasar dengan 1-2 fitur utama</li>
+                <li>User management</li>
+                <li>Waktu pengerjaan: 20 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Paket Bronze -->
+        <div class="service-card">
+            <h3>Paket Bronze</h3>
+            <p><strong>Harga: Rp. 4.800.000</strong></p>
+            <ul>
+                <li>Aplikasi sederhana</li>
+                <li>Satu fitur utama</li>
+                <li>Waktu pengerjaan: 15 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+    </div>
+</section>
+<!-- Jasa Service Komputer/Laptop/Handphone Section -->
+<section id="computer-services">
+    <h2>Jasa Service Komputer/Laptop/Handphone</h2>
+    <div class="service-list">
+        <!-- Install Sistem Operasi -->
+        <div class="service-card">
+            <h3>Install Sistem Operasi</h3>
+            <p><strong>Harga: Rp. 300.000</strong></p>
+            <ul>
+                <li>Instalasi sistem operasi pada komputer, laptop, atau handphone</li>
+                <li>Waktu pengerjaan: 1 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Perbaikan Hardware -->
+        <div class="service-card">
+            <h3>Perbaikan Hardware</h3>
+            <p><strong>Harga: Mulai dari Rp. 500.000</strong></p>
+            <ul>
+                <li>Perbaikan komponen seperti motherboard, hard drive, RAM</li>
+                <li>Waktu pengerjaan: 2-4 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Pemeliharaan dan Pembersihan -->
+        <div class="service-card">
+            <h3>Pemeliharaan dan Pembersihan</h3>
+            <p><strong>Harga: Rp. 200.000</strong></p>
+            <ul>
+                <li>Pembersihan debu, perawatan sistem</li>
+                <li>Waktu pengerjaan: 1 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Recovery Data -->
+        <div class="service-card">
+            <h3>Recovery Data</h3>
+            <p><strong>Harga: Mulai dari Rp. 1.000.000</strong></p>
+            <ul>
+                <li>Pemulihan data dari hard drive yang rusak</li>
+                <li>Waktu pengerjaan: 3-5 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Penggantian Komponen -->
+        <div class="service-card">
+            <h3>Penggantian Komponen</h3>
+            <p><strong>Harga: Mulai dari Rp. 250.000</strong></p>
+            <ul>
+                <li>Penggantian komponen seperti keyboard, layar, baterai</li>
+                <li>Waktu pengerjaan: 1-3 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Pemasangan dan Konfigurasi Jaringan -->
+        <div class="service-card">
+            <h3>Pemasangan dan Konfigurasi Jaringan</h3>
+            <p><strong>Harga: Rp. 400.000</strong></p>
+            <ul>
+                <li>Pemasangan router, konfigurasi jaringan</li>
+                <li>Waktu pengerjaan: 1 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+    </div>
+</section>
+<!-- Jasa Jaringan Section -->
+<section id="network-services">
+    <h2>Jasa Jaringan</h2>
+    <div class="service-list">
+        <!-- Instalasi Jaringan LAN -->
+        <div class="service-card">
+            <h3>Instalasi Jaringan LAN</h3>
+            <p><strong>Harga: Rp. 800.000</strong></p>
+            <ul>
+                <li>Instalasi kabel dan perangkat jaringan</li>
+                <li>Waktu pengerjaan: 2 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Konfigurasi Router dan Switch -->
+        <div class="service-card">
+            <h3>Konfigurasi Router dan Switch</h3>
+            <p><strong>Harga: Rp. 500.000</strong></p>
+            <ul>
+                <li>Konfigurasi perangkat jaringan untuk optimalisasi kinerja</li>
+                <li>Waktu pengerjaan: 1 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Setup Jaringan Wifi -->
+        <div class="service-card">
+            <h3>Setup Jaringan Wifi</h3>
+            <p><strong>Harga: Rp. 400.000</strong></p>
+            <ul>
+                <li>Pemasangan dan konfigurasi jaringan wifi</li>
+                <li>Waktu pengerjaan: 1 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Perawatan Jaringan -->
+        <div class="service-card">
+            <h3>Perawatan Jaringan</h3>
+            <p><strong>Harga: Rp. 600.000</strong></p>
+            <ul>
+                <li>Pemeliharaan dan perbaikan masalah jaringan</li>
+                <li>Waktu pengerjaan: 1-2 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Audit Keamanan Jaringan -->
+        <div class="service-card">
+            <h3>Audit Keamanan Jaringan</h3>
+            <p><strong>Harga: Rp. 1.000.000</strong></p>
+            <ul>
+                <li>Penilaian dan perbaikan potensi kerentanan keamanan</li>
+                <li>Waktu pengerjaan: 3 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+    </div>
+</section>
+<!-- Jasa Cyber Security Section -->
+<section id="cyber-security-services">
+    <h2>Jasa Cyber Security</h2>
+    <div class="service-list">
+        <!-- Penilaian Keamanan -->
+        <div class="service-card">
+            <h3>Penilaian Keamanan</h3>
+            <p><strong>Harga: Rp. 2.000.000</strong></p>
+            <ul>
+                <li>Audit keamanan sistem IT</li>
+                <li>Waktu pengerjaan: 5 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Penetration Testing -->
+        <div class="service-card">
+            <h3>Penetration Testing</h3>
+            <p><strong>Harga: Rp. 3.000.000</strong></p>
+            <ul>
+                <li>Uji penetrasi untuk menemukan kerentanan</li>
+                <li>Waktu pengerjaan: 7 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Pemulihan dari Serangan -->
+        <div class="service-card">
+            <h3>Pemulihan dari Serangan</h3>
+            <p><strong>Harga: Rp. 2.500.000</strong></p>
+            <ul>
+                <li>Pemulihan setelah serangan siber</li>
+                <li>Waktu pengerjaan: 7-10 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Pemasangan dan Konfigurasi Firewall -->
+        <div class="service-card">
+            <h3>Pemasangan dan Konfigurasi Firewall</h3>
+            <p><strong>Harga: Rp. 1.500.000</strong></p>
+            <ul>
+                <li>Pemasangan dan konfigurasi firewall untuk melindungi sistem</li>
+                <li>Waktu pengerjaan: 3 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Pelatihan Keamanan Siber -->
+        <div class="service-card">
+            <h3>Pelatihan Keamanan Siber</h3>
+            <p><strong>Harga: Rp. 1.000.000</strong></p>
+            <ul>
+                <li>Pelatihan untuk meningkatkan kesadaran keamanan</li>
+                <li>Waktu pengerjaan: 1 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+    </div>
+</section>
+<!-- Jasa Pembuatan Game dan Animasi Section -->
+<section id="game-animation-services">
+    <h2>Jasa Pembuatan Game dan Animasi</h2>
+    <div class="service-list">
+        <!-- Pembuatan Game Sederhana -->
+        <div class="service-card">
+            <h3>Pembuatan Game Sederhana</h3>
+            <p><strong>Harga: Mulai dari Rp. 5.000.000</strong></p>
+            <ul>
+                <li>Game 2D atau 3D dengan fitur dasar</li>
+                <li>Waktu pengerjaan: 8-12 Minggu</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Pembuatan Game Kustom -->
+        <div class="service-card">
+            <h3>Pembuatan Game Kustom</h3>
+            <p><strong>Harga: Mulai dari Rp. 10.000.000</strong></p>
+            <ul>
+                <li>Game dengan desain dan fitur khusus</li>
+                <li>Waktu pengerjaan: 12-16 Minggu</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Animasi 2D -->
+        <div class="service-card">
+            <h3>Animasi 2D</h3>
+            <p><strong>Harga: Mulai dari Rp. 3.000.000</strong></p>
+            <ul>
+                <li>Animasi karakter dan objek 2D</li>
+                <li>Waktu pengerjaan: 4-6 Minggu</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Animasi 3D -->
+        <div class="service-card">
+            <h3>Animasi 3D</h3>
+            <p><strong>Harga: Mulai dari Rp. 6.000.000</strong></p>
+            <ul>
+                <li>Animasi karakter dan objek 3D</li>
+                <li>Waktu pengerjaan: 6-8 Minggu</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Video Explainer -->
+        <div class="service-card">
+            <h3>Video Explainer</h3>
+            <p><strong>Harga: Mulai dari Rp. 2.500.000</strong></p>
+            <ul>
+                <li>Video animasi untuk penjelasan produk atau layanan</li>
+                <li>Durasi 1-2 menit</li>
+                <li>Waktu pengerjaan: 3-5 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+    </div>
+</section>
+<!-- Jasa Pengetikan dan Pengolahan Dokumen Section -->
+<section id="typing-document-services">
+    <h2>Jasa Pengetikan dan Pengolahan Dokumen</h2>
+    <div class="service-list">
+        <!-- Pengetikan Dokumen -->
+        <div class="service-card">
+            <h3>Pengetikan Dokumen</h3>
+            <p><strong>Harga: Rp. 100.000 per 10 halaman</strong></p>
+            <ul>
+                <li>Pengetikan teks, laporan, makalah</li>
+                <li>Waktu pengerjaan: 2-3 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Pengolahan Dokumen -->
+        <div class="service-card">
+            <h3>Pengolahan Dokumen</h3>
+            <p><strong>Harga: Rp. 150.000 per 10 halaman</strong></p>
+            <ul>
+                <li>Pengeditan, pemformatan, dan konversi dokumen</li>
+                <li>Waktu pengerjaan: 2-3 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Pembuatan Resume dan CV -->
+        <div class="service-card">
+            <h3>Pembuatan Resume dan CV</h3>
+            <p><strong>Harga: Rp. 250.000 per dokumen</strong></p>
+            <ul>
+                <li>Desain profesional, penulisan, dan format</li>
+                <li>Waktu pengerjaan: 2 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Transkripsi Audio -->
+        <div class="service-card">
+            <h3>Transkripsi Audio</h3>
+            <p><strong>Harga: Rp. 200.000 per jam rekaman</strong></p>
+            <ul>
+                <li>Transkripsi rekaman audio ke teks</li>
+                <li>Waktu pengerjaan: 3-5 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+    </div>
+</section>
+<!-- Jasa Lainnya Section -->
+<section id="other-services">
+    <h2>Jasa Lainnya</h2>
+    <div class="service-list">
+        <!-- Pembuatan Presentasi -->
+        <div class="service-card">
+            <h3>Pembuatan Presentasi</h3>
+            <p><strong>Harga: Rp. 500.000 per 10 slide</strong></p>
+            <ul>
+                <li>Desain slide, penulisan konten</li>
+                <li>Waktu pengerjaan: 3-5 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Pembuatan Katalog dan Brosur Digital -->
+        <div class="service-card">
+            <h3>Pembuatan Katalog dan Brosur Digital</h3>
+            <p><strong>Harga: Rp. 1.000.000 per 20 halaman</strong></p>
+            <ul>
+                <li>Desain grafis, layout digital</li>
+                <li>Waktu pengerjaan: 5-7 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Pembuatan Surat Resmi dan Proposal -->
+        <div class="service-card">
+            <h3>Pembuatan Surat Resmi dan Proposal</h3>
+            <p><strong>Harga: Rp. 300.000 per dokumen</strong></p>
+            <ul>
+                <li>Penulisan profesional, format resmi</li>
+                <li>Waktu pengerjaan: 2-3 Hari</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Jasa Pengelolaan Media Sosial -->
+        <div class="service-card">
+            <h3>Jasa Pengelolaan Media Sosial</h3>
+            <p><strong>Harga: Rp. 2.000.000 per bulan</strong></p>
+            <ul>
+                <li>Penjadwalan posting, pembuatan konten</li>
+                <li>Waktu pengerjaan: 1 Bulan</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Jasa SEO dan Optimasi Website -->
+        <div class="service-card">
+            <h3>Jasa SEO dan Optimasi Website</h3>
+            <p><strong>Harga: Rp. 3.000.000 per bulan</strong></p>
+            <ul>
+                <li>Optimasi SEO on-page dan off-page</li>
+                <li>Waktu pengerjaan: 1 Bulan</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Jasa Perancangan UX/UI -->
+        <div class="service-card">
+            <h3>Jasa Perancangan UX/UI</h3>
+            <p><strong>Harga: Rp. 4.000.000 per proyek</strong></p>
+            <ul>
+                <li>Wireframing, prototyping, desain visual</li>
+                <li>Waktu pengerjaan: 3-4 Minggu</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Jasa Pembuatan dan Manajemen Konten Web -->
+        <div class="service-card">
+            <h3>Jasa Pembuatan dan Manajemen Konten Web</h3>
+            <p><strong>Harga: Rp. 2.500.000 per bulan</strong></p>
+            <ul>
+                <li>Penulisan artikel, pembaruan konten</li>
+                <li>Waktu pengerjaan: 1 Bulan</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+        <!-- Jasa Pengembangan dan Pemeliharaan Aplikasi Mobile -->
+        <div class="service-card">
+            <h3>Jasa Pengembangan dan Pemeliharaan Aplikasi Mobile</h3>
+            <p><strong>Harga: Rp. 10.000.000 per aplikasi</strong></p>
+            <ul>
+                <li>Desain UI/UX, pengembangan, pengujian, pemeliharaan</li>
+                <li>Waktu pengerjaan: 8-12 Minggu</li>
+          </ul>
+            <a href="https://wa.me/6285757043312" class="btn">Order Jasa</a>
+        </div>
+    </div>
+</section>
+
+    </main>
+        </section>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+        <!-- Custom JS -->
+    
+
+    </main>
+         <!-- Slick Carousel JS -->
+   
+
+    <footer class="footer">
+        &copy; 2024 @ Tim MRKS. Studio | Aditya Malah- Rizky AldiMulia Paputungan
+    </footer>
+
+  <!-- JavaScript Animations -->
+  <script>
+    document.querySelectorAll('.app-card').forEach(card => {
+        card.addEventListener('mouseover', () => {
+            card.style.transform = 'scale(1.05)';
+        });
+        card.addEventListener('mouseout', () => {
+            card.style.transform = 'scale(1)';
+        });
+    });
+   
+</script>
+
+    <script>
+        // Function to show content with animation
+        function showContent(contentId) {
+            const content = document.getElementById(contentId);
+            if (content) {
+                document.querySelectorAll('.content').forEach(el => el.classList.remove('active'));
+                content.classList.add('active');
+                window.scrollTo({
+                    top: content.offsetTop,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        // Example of setting the progress bar to 50%
+        // updateProgressBar(50);
+    </script>
+    <script>
+        // Array untuk menyimpan item yang dipilih
+        let selectedItems = [];
+    
+        document.addEventListener('DOMContentLoaded', () => {
+            // Handle clicks on the checkout button
+            document.getElementById('checkout-button').addEventListener('click', (event) => {
+                event.preventDefault(); // Prevent default anchor behavior
+                checkoutItems();
+            });
+        });
+    
+        // Fungsi untuk mengelola checkout dan mengarahkan ke WhatsApp
+        function checkoutItems() {
+            if (selectedItems.length === 0) {
+                alert('Tidak ada item yang dipilih.');
+                return;
+            }
+    
+            let message = 'Checkout:\n';
+            selectedItems.forEach(item => {
+                message += `${item.name} - Rp. ${item.price.toLocaleString()}\n`;
+            });
+    
+            // Kosongkan daftar item setelah checkout
+            selectedItems = [];
+    
+            // Mengarahkan ke WhatsApp dengan pesan checkout
+            window.location.href = `https://wa.me/6285757043312?text=${encodeURIComponent(message)}`;
+        }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    const questions = document.querySelectorAll('.faq-question');
+
+    questions.forEach(question => {
+        question.addEventListener('click', function() {
+            const answer = this.nextElementSibling;
+            if (answer.style.display === 'block') {
+                answer.style.display = 'none';
+            } else {
+                answer.style.display = 'block';
+            }
+        });
+    });
+});
+    </script>
+</body>
+
+</html>
