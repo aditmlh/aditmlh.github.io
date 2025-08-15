@@ -195,10 +195,157 @@ function typeLog(text) {
 }
 
 /* === MATRIX RAIN === */
-// ... kode matrix rain tetap sama seperti versi sebelumnya ...
+const matrixCanvas = document.getElementById("matrix-bg");
+const matrixCtx = matrixCanvas.getContext("2d");
+matrixCanvas.width = window.innerWidth;
+matrixCanvas.height = window.innerHeight;
+const letters = "アァイィウヴエェオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂッヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモヤユヨラリルレロワヰヱヲンABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+const matrix = letters.split("");
+const fontSize = 14;
+const columns = matrixCanvas.width / fontSize;
+const drops = Array(Math.floor(columns)).fill(1);
 
-/* === GAME LOGIC === */
-// ... kode tetris tetap sama seperti versi sebelumnya ...
+function drawMatrix() {
+  matrixCtx.fillStyle = "rgba(0,0,0,0.05)";
+  matrixCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+  matrixCtx.fillStyle = "#0F0";
+  matrixCtx.font = fontSize + "px monospace";
+  for(let i=0;i<drops.length;i++){
+    const text = matrix[Math.floor(Math.random()*matrix.length)];
+    matrixCtx.fillText(text, i*fontSize, drops[i]*fontSize);
+    if(drops[i]*fontSize > matrixCanvas.height && Math.random()>0.975) drops[i]=0;
+    drops[i]++;
+  }
+}
+setInterval(drawMatrix, 35);
+window.addEventListener("resize",()=>{
+  matrixCanvas.width = window.innerWidth;
+  matrixCanvas.height = window.innerHeight;
+});
+
+/* === TETRIS GAME === */
+const canvas = document.getElementById('game-board');
+const ctx = canvas.getContext('2d');
+const scoreElem = document.getElementById('score');
+const grid = 24;
+const tetrominoes = [
+  [[1,1,1,1]],
+  [[1,1],[1,1]],
+  [[0,1,0],[1,1,1]],
+  [[1,0,0],[1,1,1]],
+  [[0,0,1],[1,1,1]],
+  [[1,1,0],[0,1,1]],
+  [[0,1,1],[1,1,0]]
+];
+let board = Array.from({length:20},()=>Array(10).fill(0));
+let piece = {shape:[],x:0,y:0};
+let score = 0;
+let dropCounter = 0;
+let dropInterval = 500;
+let lastTime = 0;
+let gameOver = false;
+let unlockedLinks = 0;
+
+function randomPiece(){
+  const shape = tetrominoes[Math.floor(Math.random()*tetrominoes.length)];
+  piece.shape = shape;
+  piece.x = Math.floor(board[0].length/2) - Math.ceil(shape[0].length/2);
+  piece.y = 0;
+  if(collide(board,piece)) { gameOver = true; playSound('gameover'); typeLog("[!] Misi gagal - Sistem terkunci."); }
+}
+function collide(board,piece){
+  for(let y=0;y<piece.shape.length;y++){
+    for(let x=0;x<piece.shape[y].length;x++){
+      if(piece.shape[y][x] && 
+         (board[y+piece.y] && board[y+piece.y][x+piece.x]) !== 0){
+        return true;
+      }
+    }
+  }
+  return false;
+}
+function merge(board,piece){
+  piece.shape.forEach((row,dy)=>{
+    row.forEach((value,dx)=>{
+      if(value){
+        board[dy+piece.y][dx+piece.x] = value;
+      }
+    });
+  });
+}
+function drawMatrixBlock(matrix, offset){
+  matrix.forEach((row,y)=>{
+    row.forEach((value,x)=>{
+      if(value){
+        ctx.fillStyle = 'cyan';
+        ctx.fillRect((x+offset.x)*grid, (y+offset.y)*grid, grid-1, grid-1);
+      }
+    });
+  });
+}
+function drawBoard(){
+  ctx.fillStyle = '#000';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  drawMatrixBlock(board,{x:0,y:0});
+  drawMatrixBlock(piece.shape,{x:piece.x,y:piece.y});
+}
+function drop(){
+  piece.y++;
+  if(collide(board,piece)){
+    piece.y--;
+    merge(board,piece);
+    lineClear();
+    randomPiece();
+  }
+  dropCounter = 0;
+}
+function lineClear(){
+  let rowCount = 0;
+  outer: for(let y=board.length-1;y>=0;y--){
+    if(board[y].every(val => val !== 0)){
+      board.splice(y,1);
+      board.unshift(Array(10).fill(0));
+      rowCount++;
+    }
+  }
+  if(rowCount > 0){
+    score += rowCount * 10;
+    scoreElem.textContent = score;
+    unlockLink(rowCount);
+  }
+}
+function unlockLink(count){
+  for(let i=0;i<count;i++){
+    if(unlockedLinks < 7){
+      unlockedLinks++;
+      const link = document.getElementById(`link-${unlockedLinks}`);
+      link.classList.remove('link-locked');
+      link.classList.add('link-unlocked');
+      playSound('unlock');
+      typeLog(`Module ${unlockedLinks} unlocked ✅`);
+    }
+  }
+}
+function update(time=0){
+  const delta = time - lastTime;
+  lastTime = time;
+  dropCounter += delta;
+  if(dropCounter > dropInterval) drop();
+  drawBoard();
+  if(!gameOver) requestAnimationFrame(update);
+}
+document.addEventListener('keydown', e=>{
+  playSound('click');
+  if(e.keyCode===37){ piece.x--; if(collide(board,piece)) piece.x++; }
+  else if(e.keyCode===39){ piece.x++; if(collide(board,piece)) piece.x--; }
+  else if(e.keyCode===40){ drop(); }
+  else if(e.keyCode===38){
+    const rotated = piece.shape[0].map((_,i)=>piece.shape.map(row=>row[i]).reverse());
+    const prev = piece.shape;
+    piece.shape = rotated;
+    if(collide(board,piece)) piece.shape = prev;
+  }
+});
 
 /* === START GAME BUTTON === */
 document.getElementById('start-game-btn').addEventListener('click', () => {
