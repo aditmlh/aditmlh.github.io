@@ -3,92 +3,259 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adit's Digital Hub</title>
+    <title>Adit's Game-like Links</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome CDN for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" xintegrity="sha512-iecdLwA7N88Wp5LqXv4+wY1I+8yv78xR1+dD1PqJz8gXz6gX2mE/6N5f2t+d1lG1F5eA1j5tA9E4eK2s5u+d1g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Three.js CDN for 3D animation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Tone.js for simple audio effects -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            overflow: hidden; /* Hide scrollbars for the canvas */
+            color: #ecf0f1;
+        }
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        #content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background-color: rgba(17, 24, 39, 0.85);
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            padding: 2rem;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            animation: fadeIn 1.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animated-title {
+            background: linear-gradient(90deg, #38bdf8, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-flow 5s ease infinite;
+            background-size: 200% 200%;
+        }
+        @keyframes gradient-flow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .link-button {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            background-image: linear-gradient(45deg, #1d4ed8, #4f46e5);
+        }
+        .link-button:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            background-image: linear-gradient(45deg, #3b82f6, #6366f1);
         }
     </style>
 </head>
-<body class="bg-gray-900 text-gray-100 min-h-screen flex items-center justify-center p-4">
+<body>
 
-    <div class="w-full max-w-2xl bg-gray-800 rounded-xl shadow-2xl p-8 space-y-8">
-        <!-- Profile Section -->
-        <div class="flex flex-col items-center text-center">
-            <h1 class="text-3xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600">
-                Aditya Pratama Malah
-            </h1>
+    <!-- Three.js Canvas Container -->
+    <div id="canvas-container"></div>
+
+    <!-- Main Content -->
+    <div id="content">
+        <div class="container text-center">
+            <h1 class="text-4xl sm:text-5xl font-extrabold mb-2 animated-title">Aditya Pratama Malah</h1>
             <p class="text-md sm:text-lg mt-2 text-gray-400">IT Support & Web Developer</p>
-        </div>
+            <hr class="my-6 border-gray-600">
 
-        <!-- Personal Websites Section -->
-        <div class="space-y-4">
-            <h2 class="text-xl font-semibold text-gray-300">Situs Web Pribadi</h2>
-            <a href="https://aditmlh.rf.gd/" target="_blank" class="flex items-center justify-center p-4 bg-gray-700 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 hover:bg-gray-600">
-                <i class="fas fa-link text-xl text-blue-400 mr-4"></i>
-                <span class="text-lg font-medium">Portfolio Utama</span>
-            </a>
-            <a href="https://aditmlh.github.io/" target="_blank" class="flex items-center justify-center p-4 bg-gray-700 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 hover:bg-gray-600">
-                <i class="fab fa-github-square text-xl text-purple-400 mr-4"></i>
-                <span class="text-lg font-medium">GitHub Pages</span>
-            </a>
-        </div>
+            <!-- Personal Websites Section -->
+            <div class="space-y-4 mb-6">
+                <h3 class="text-xl font-semibold text-gray-300 border-b-2 border-indigo-400 pb-2">Situs Web Pribadi</h3>
+                <a href="https://aditmlh.rf.gd/" target="_blank" class="link-button block p-4 rounded-xl shadow-lg hover:shadow-2xl text-white font-semibold">
+                    <i class="fas fa-link mr-4"></i>
+                    <span>Portfolio Utama</span>
+                </a>
+                <a href="https://aditmlh.github.io/" target="_blank" class="link-button block p-4 rounded-xl shadow-lg hover:shadow-2xl text-white font-semibold">
+                    <i class="fab fa-github-square mr-4"></i>
+                    <span>GitHub Pages</span>
+                </a>
+            </div>
 
-        <!-- Project Links Section -->
-        <div class="space-y-4">
-            <h2 class="text-xl font-semibold text-gray-300">Tautan Proyek</h2>
-            <a href="https://ct2.rf.gd/" target="_blank" class="flex items-center justify-center p-4 bg-gray-700 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 hover:bg-gray-600">
-                <i class="fas fa-project-diagram text-xl text-green-400 mr-4"></i>
-                <span class="text-lg font-medium">ct2.rf.gd</span>
-            </a>
-            <a href="https://santara.rf.gd/" target="_blank" class="flex items-center justify-center p-4 bg-gray-700 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 hover:bg-gray-600">
-                <i class="fas fa-project-diagram text-xl text-yellow-400 mr-4"></i>
-                <span class="text-lg font-medium">santara.rf.gd</span>
-            </a>
-            <a href="https://masigi.rf.gd/" target="_blank" class="flex items-center justify-center p-4 bg-gray-700 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 hover:bg-gray-600">
-                <i class="fas fa-project-diagram text-xl text-red-400 mr-4"></i>
-                <span class="text-lg font-medium">masigi.rf.gd</span>
-            </a>
-        </div>
-        
-        <!-- Social & Professional Links Section -->
-        <div class="space-y-4">
-            <h2 class="text-xl font-semibold text-gray-300">Media Sosial & Profesional</h2>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <a href="https://id.linkedin.com/in/aditya-pratama-malah" target="_blank" class="flex items-center justify-center p-4 bg-gray-700 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 hover:bg-gray-600">
-                    <i class="fab fa-linkedin-in text-2xl text-blue-500"></i>
+            <!-- Project Links Section -->
+            <div class="space-y-4 mb-6">
+                <h3 class="text-xl font-semibold text-gray-300 border-b-2 border-indigo-400 pb-2">Tautan Proyek</h3>
+                <a href="https://aditmlh.github.io/mrks.html" target="_blank" class="link-button block p-4 rounded-xl shadow-lg hover:shadow-2xl text-white font-semibold">
+                    <i class="fas fa-project-diagram mr-4 text-orange-300"></i>
+                    <span>mrks.html</span>
                 </a>
-                <a href="https://www.instagram.com/aditmlh/" target="_blank" class="flex items-center justify-center p-4 bg-gray-700 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 hover:bg-gray-600">
-                    <i class="fab fa-instagram text-2xl text-pink-500"></i>
+                <a href="https://ct2.rf.gd/" target="_blank" class="link-button block p-4 rounded-xl shadow-lg hover:shadow-2xl text-white font-semibold">
+                    <i class="fas fa-project-diagram mr-4 text-green-300"></i>
+                    <span>ct2.rf.gd</span>
                 </a>
-                <a href="https://www.facebook.com/aditmlh" target="_blank" class="flex items-center justify-center p-4 bg-gray-700 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 hover:bg-gray-600">
-                    <i class="fab fa-facebook-f text-2xl text-blue-600"></i>
+                <a href="https://santara.rf.gd/" target="_blank" class="link-button block p-4 rounded-xl shadow-lg hover:shadow-2xl text-white font-semibold">
+                    <i class="fas fa-project-diagram mr-4 text-yellow-300"></i>
+                    <span>santara.rf.gd</span>
                 </a>
-                <a href="https://www.dreamstime.com/adityamalah_info" target="_blank" class="flex items-center justify-center p-4 bg-gray-700 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 hover:bg-gray-600">
-                    <i class="fas fa-camera-retro text-2xl text-yellow-400"></i>
+                <a href="https://masigi.rf.gd/" target="_blank" class="link-button block p-4 rounded-xl shadow-lg hover:shadow-2xl text-white font-semibold">
+                    <i class="fas fa-project-diagram mr-4 text-red-300"></i>
+                    <span>masigi.rf.gd</span>
                 </a>
-                <a href="https://www.threads.com/@aditmlh" target="_blank" class="flex items-center justify-center p-4 bg-gray-700 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 hover:bg-gray-600">
-                    <i class="fab fa-threads text-2xl text-white"></i>
-                </a>
-                <a href="https://karyakarsa.com/aditmlh/info" target="_blank" class="flex items-center justify-center p-4 bg-gray-700 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 hover:bg-gray-600">
-                    <i class="fas fa-pen-nib text-2xl text-red-500"></i>
-                </a>
-                <a href="https://www.freelancer.co.id/u/adityamalah" target="_blank" class="flex items-center justify-center p-4 bg-gray-700 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 hover:bg-gray-600">
-                    <i class="fas fa-laptop-code text-2xl text-teal-400"></i>
-                </a>
-                <a href="https://www.fiverr.com/adityamalah/" target="_blank" class="flex items-center justify-center p-4 bg-gray-700 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 hover:bg-gray-600">
-                    <i class="fas fa-handshake text-2xl text-green-400"></i>
-                </a>
-                <a href="https://github.com/aditmlh/" target="_blank" class="flex items-center justify-center p-4 bg-gray-700 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 hover:bg-gray-600">
-                    <i class="fab fa-github text-2xl text-purple-400"></i>
-                </a>
+            </div>
+            
+            <!-- Social & Professional Links Section -->
+            <div class="space-y-4">
+                <h3 class="text-xl font-semibold text-gray-300 border-b-2 border-indigo-400 pb-2">Media Sosial & Profesional</h3>
+                <div class="grid grid-cols-3 md:grid-cols-5 gap-4">
+                    <a href="https://id.linkedin.com/in/aditya-pratama-malah" target="_blank" class="social-icon flex items-center justify-center p-4 rounded-xl transition-all duration-300 bg-gray-700 hover:bg-blue-600 text-blue-400 hover:text-white">
+                        <i class="fab fa-linkedin-in text-2xl"></i>
+                    </a>
+                    <a href="https://www.instagram.com/aditmlh/" target="_blank" class="social-icon flex items-center justify-center p-4 rounded-xl transition-all duration-300 bg-gray-700 hover:bg-pink-600 text-pink-400 hover:text-white">
+                        <i class="fab fa-instagram text-2xl"></i>
+                    </a>
+                    <a href="https://www.facebook.com/aditmlh" target="_blank" class="social-icon flex items-center justify-center p-4 rounded-xl transition-all duration-300 bg-gray-700 hover:bg-blue-700 text-blue-500 hover:text-white">
+                        <i class="fab fa-facebook-f text-2xl"></i>
+                    </a>
+                    <a href="https://www.dreamstime.com/adityamalah_info" target="_blank" class="social-icon flex items-center justify-center p-4 rounded-xl transition-all duration-300 bg-gray-700 hover:bg-yellow-600 text-yellow-400 hover:text-white">
+                        <i class="fas fa-camera-retro text-2xl"></i>
+                    </a>
+                    <a href="https://www.threads.com/@aditmlh" target="_blank" class="social-icon flex items-center justify-center p-4 rounded-xl transition-all duration-300 bg-gray-700 hover:bg-white hover:text-black text-gray-300">
+                        <i class="fab fa-threads text-2xl"></i>
+                    </a>
+                    <a href="https://karyakarsa.com/aditmlh/info" target="_blank" class="social-icon flex items-center justify-center p-4 rounded-xl transition-all duration-300 bg-gray-700 hover:bg-red-600 text-red-400 hover:text-white">
+                        <i class="fas fa-pen-nib text-2xl"></i>
+                    </a>
+                    <a href="https://www.freelancer.co.id/u/adityamalah" target="_blank" class="social-icon flex items-center justify-center p-4 rounded-xl transition-all duration-300 bg-gray-700 hover:bg-teal-600 text-teal-400 hover:text-white">
+                        <i class="fas fa-laptop-code text-2xl"></i>
+                    </a>
+                    <a href="https://www.fiverr.com/adityamalah/" target="_blank" class="social-icon flex items-center justify-center p-4 rounded-xl transition-all duration-300 bg-gray-700 hover:bg-green-600 text-green-400 hover:text-white">
+                        <i class="fas fa-handshake text-2xl"></i>
+                    </a>
+                    <a href="https://github.com/aditmlh/" target="_blank" class="social-icon flex items-center justify-center p-4 rounded-xl transition-all duration-300 bg-gray-700 hover:bg-purple-600 text-purple-400 hover:text-white">
+                        <i class="fab fa-github text-2xl"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- JavaScript for Three.js animation and Tone.js -->
+    <script>
+        // Three.js setup
+        let scene, camera, renderer, particles;
+        let particleCount = 5000;
+        let particlesGeometry;
+        let mouseX = 0, mouseY = 0;
+        let windowHalfX = window.innerWidth / 2;
+        let windowHalfY = window.innerHeight / 2;
+
+        // Tone.js setup
+        const synth = new Tone.Synth().toDestination();
+
+        // Initialize particles on window load
+        window.onload = function () {
+            initParticles();
+            animate();
+            setupEventListeners();
+        };
+
+        function initParticles() {
+            // Scene
+            scene = new THREE.Scene();
+
+            // Camera
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 5;
+
+            // Renderer
+            const canvasContainer = document.getElementById('canvas-container');
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            canvasContainer.appendChild(renderer.domElement);
+
+            // Particles
+            particlesGeometry = new THREE.BufferGeometry();
+            const positions = new Float32Array(particleCount * 3);
+
+            for (let i = 0; i < particleCount * 3; i++) {
+                positions[i] = (Math.random() - 0.5) * 20;
+            }
+
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+            const particleMaterial = new THREE.PointsMaterial({
+                color: 0x818cf8,
+                size: 0.05,
+                transparent: true,
+                opacity: 0.8
+            });
+
+            particles = new THREE.Points(particlesGeometry, particleMaterial);
+            scene.add(particles);
+
+            // Handle window resize
+            window.addEventListener('resize', onWindowResize, false);
+            // Handle mouse move for parallax effect
+            document.addEventListener('mousemove', onDocumentMouseMove, false);
+        }
+
+        function onWindowResize() {
+            windowHalfX = window.innerWidth / 2;
+            windowHalfY = window.innerHeight / 2;
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function onDocumentMouseMove(event) {
+            mouseX = (event.clientX - windowHalfX);
+            mouseY = (event.clientY - windowHalfY);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Move the camera based on mouse position for a smooth parallax effect
+            camera.position.x += (mouseX * 0.001 - camera.position.x) * 0.05;
+            camera.position.y += (-mouseY * 0.001 - camera.position.y) * 0.05;
+            camera.lookAt(scene.position);
+
+            // Rotate particles slowly
+            particles.rotation.x += 0.0002;
+            particles.rotation.y += 0.0004;
+
+            renderer.render(scene, camera);
+        }
+
+        function setupEventListeners() {
+            const links = document.querySelectorAll('a');
+            links.forEach(link => {
+                link.addEventListener('click', () => {
+                    // Play a quick, simple sound effect
+                    synth.triggerAttackRelease("C4", "8n");
+                });
+            });
+        }
+    </script>
 </body>
 </html>
