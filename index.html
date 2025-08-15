@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Adit Hub – Cyber Terminal Quest</title>
+<title>ADITYA MALAH</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap">
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
@@ -40,24 +40,83 @@ body {
 .neon-text {
     text-shadow: 0 0 5px var(--cyan), 0 0 10px var(--cyan), 0 0 20px var(--cyan);
 }
-#game-board {
+.button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: rgba(10, 10, 10, 0.8);
+    border: 2px solid var(--blue);
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(77, 126, 255, 0.5);
+    backdrop-filter: blur(5px);
+}
+.game-button {
+    padding: 1.2rem 2.5rem;
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: var(--bg-dark);
+    background: var(--cyan);
+    border: none;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 4px 15px rgba(0, 255, 194, 0.3);
+}
+.game-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 255, 194, 0.5);
+    background: var(--blue);
+    color: white;
+}
+.hidden {
+    display: none;
+}
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+.modal {
+    background: rgba(10, 10, 10, 0.9);
+    border: 2px solid var(--pink);
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(255, 0, 84, 0.5);
+    padding: 2rem;
+    text-align: center;
+    max-width: 90%;
+    width: 400px;
+    position: relative;
+    z-index: 50;
+    animation: fadeIn 0.5s ease-out;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* === CYBER TERMINAL GAME STYLING === */
+#cyberTerminalGame #game-board {
     border: 2px solid var(--cyan);
     box-shadow: 0 0 15px var(--cyan);
-    background: black;
+    background: #000;
     image-rendering: pixelated;
 }
-#next-piece-canvas {
+#cyberTerminalGame #next-piece-canvas {
     border: 1px solid var(--blue);
     background: rgba(0,0,0,0.5);
     image-rendering: pixelated;
 }
-#link-panel {
+#cyberTerminalGame .link-panel {
     background: rgba(0,0,0,0.7);
     border: 2px solid var(--blue);
     border-radius: 10px;
     padding: 1rem;
+    box-shadow: 0 0 10px rgba(77, 126, 255, 0.3);
 }
-#terminal-log {
+#cyberTerminalGame #terminal-log {
     font-size: 0.85rem;
     color: var(--text-sub);
     background: rgba(0,0,0,0.5);
@@ -68,7 +127,7 @@ body {
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
 }
-#terminal-log::-webkit-scrollbar {
+#cyberTerminalGame #terminal-log::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera */
 }
 .link-locked {
@@ -84,569 +143,772 @@ body {
     from { box-shadow: 0 0 5px var(--cyan); }
     to { box-shadow: 0 0 15px var(--cyan); }
 }
-canvas#matrix-bg {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    z-index: 0;
-}
-.modal {
-    background: #111;
-    border: 2px solid var(--cyan);
-    box-shadow: 0 0 20px var(--cyan);
-    z-index: 20;
-}
-#audio-btn {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    background: rgba(0,0,0,0.6);
-    border: 2px solid var(--cyan);
-    padding: 5px 10px;
-    border-radius: 5px;
-    color: var(--cyan);
-    font-size: 18px;
-    cursor: pointer;
-    z-index: 50;
-    transition: all 0.2s ease-in-out;
-}
-#audio-btn:hover {
-    box-shadow: 0 0 10px var(--cyan);
+
+/* === DATA STREAM RUNNER STYLING === */
+#dataStreamGame canvas {
+    --ui-color: #00ffc2;
+    --player-color: #4d7eff;
+    --obstacle-color: #ff0054;
+    --pickup-color: #ffff00;
+    border: 2px solid var(--ui-color);
+    box-shadow: 0 0 10px var(--ui-color);
     background: rgba(0,0,0,0.8);
+    margin-top: 1rem;
 }
-.hidden {
+#dataStreamGame .ui-panel {
+    text-align: center;
+    color: var(--ui-color);
+}
+#dataStreamGame .ui-panel h1 {
+    font-size: 2.5rem;
+    text-shadow: 0 0 5px var(--ui-color);
+}
+#dataStreamGame .ui-panel p {
+    font-size: 1.2rem;
+}
+#dataStreamGame .score-display {
+    color: var(--player-color);
+    font-size: 2rem;
+    font-weight: bold;
+}
+#dataStreamGame .modal {
     display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(10, 10, 10, 0.9);
+    border: 2px solid var(--obstacle-color);
+    box-shadow: 0 0 20px var(--obstacle-color);
+    padding: 2rem;
+    text-align: center;
+    border-radius: 10px;
+    z-index: 10;
+}
+#dataStreamGame .modal h2 {
+    font-size: 2rem;
+    color: var(--obstacle-color);
+    text-shadow: 0 0 5px var(--obstacle-color);
+}
+#dataStreamGame .modal button, .game-button.back-btn {
+    margin-top: 1rem;
+    padding: 0.75rem 2rem;
+    background: var(--ui-color);
+    color: var(--bg-dark);
+    font-weight: bold;
+    border-radius: 9999px;
+    transition: transform 0.2s ease-in-out;
+    border: none;
+}
+#dataStreamGame .modal button:hover, .game-button.back-btn:hover {
+    transform: scale(1.05);
 }
 </style>
 </head>
 <body class="crt">
 
 <!-- MATRIX BACKGROUND -->
-<canvas id="matrix-bg" aria-hidden="true"></canvas>
+<canvas id="matrix-bg" aria-hidden="true" class="fixed inset-0 w-full h-full z-0"></canvas>
 
 <!-- AUDIO TOGGLE -->
-<button id="audio-btn" aria-label="Toggle Audio">🔊</button>
+<button id="audio-btn" aria-label="Toggle Audio" class="fixed top-4 right-4 bg-black bg-opacity-60 border border-cyan-400 text-cyan-400 p-2 rounded-md z-50">🔊</button>
 
-<!-- INTRO MODAL -->
-<div id="intro-modal" class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-70">
-    <div class="modal p-6 rounded-lg text-center max-w-md w-full">
-        <h1 class="text-3xl font-bold neon-text mb-4">ADIT HUB</h1>
-        <p class="mb-4 text-sm text-blue-400">[ Cyber Terminal Quest ]</p>
-        <p class="mb-4">
-            Akses ditolak. Saya adalah AI penjaga "Adit Hub". Untuk membuka data modul, Anda harus menghancurkan baris kode yang jatuh.
-            Setiap baris yang dihancurkan akan melemahkan firewall.
-        </p>
-        <p class="mb-4 text-xs text-sub-main">
-            <strong>Kontrol:</strong>
-            <br>Panah Kiri/Kanan: Pindah
-            <br>Panah Bawah: Jatuh Cepat
-            <br>Panah Atas: Putar
-            <br>Spasi: Hard Drop
-        </p>
-        <div id="start-options" class="flex flex-col gap-2 mt-4">
-            <!-- Tombol ini akan muncul jika ada data yang tersimpan -->
-            <button id="continue-game-btn" class="hidden px-6 py-3 bg-blue-500 text-black font-bold rounded-full hover:bg-blue-400 transition-colors duration-300">Lanjutkan Misi</button>
-            <button id="start-new-game-btn" class="px-6 py-3 bg-cyan-500 text-black font-bold rounded-full hover:bg-cyan-400 transition-colors duration-300">Mulai Misi Baru</button>
-        </div>
+<!-- MAIN GAME HUB -->
+<div id="gameHub" class="game-container relative z-10">
+    <h1 class="text-5xl font-bold neon-text text-center mb-6">ADIT HUB</h1>
+    <p class="text-blue-400 text-lg mb-8">[ Pilih Misi ]</p>
+    <div class="button-container w-full max-w-sm">
+        <button id="startCyberTerminal" class="game-button">Cyber Terminal Quest</button>
+        <button id="startDataStreamRunner" class="game-button">Data Stream Runner</button>
     </div>
 </div>
 
-<!-- VICTORY MODAL -->
-<div id="victory-modal" class="hidden fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-70">
-    <div class="modal p-6 rounded-lg text-center max-w-md w-full">
-        <h1 class="text-3xl font-bold neon-text mb-4">Misi Selesai</h1>
-        <p class="mb-4 text-blue-400">Selamat! Anda telah membuka semua modul data dan berhasil menembus firewall.</p>
-        <p class="mb-4">"Adit Hub" sekarang terbuka sepenuhnya. Anda dapat menjelajahi data yang ada.</p>
-        <button id="restart-game-btn" class="px-6 py-3 mt-4 bg-cyan-500 text-black font-bold rounded-full hover:bg-cyan-400 transition-colors duration-300">Mulai Ulang</button>
-    </div>
-</div>
-
-<!-- MAIN CONTENT -->
-<main class="flex flex-col items-center p-4 gap-4 relative z-10 min-h-screen justify-center">
-    <h1 class="text-5xl font-bold neon-text text-center">ADIT HUB</h1>
-    <p class="text-blue-400 text-lg">[ Terminal Interaktif ]</p>
-    <div class="flex flex-col md:flex-row gap-6 w-full max-w-5xl justify-center items-center md:items-start mt-8">
-        <!-- Link Panel -->
-        <aside id="link-panel" class="flex flex-col gap-2 w-full max-w-xs md:w-60">
-            <h2 class="text-xl text-blue-400 text-center">Data Modules</h2>
-            <a href="https://example.com/portofolio" id="link-1" class="link-locked px-3 py-2 bg-gray-800 rounded hover:bg-gray-700 transition-colors duration-200">Portofolio</a>
-            <a href="https://linkedin.com/in/example" id="link-2" class="link-locked px-3 py-2 bg-gray-800 rounded hover:bg-gray-700 transition-colors duration-200">LinkedIn</a>
-            <a href="mailto:example@example.com" id="link-3" class="link-locked px-3 py-2 bg-gray-800 rounded hover:bg-gray-700 transition-colors duration-200">Email</a>
-            <a href="https://github.com/example" id="link-4" class="link-locked px-3 py-2 bg-gray-800 rounded hover:bg-gray-700 transition-colors duration-200">GitHub</a>
-            <a href="https://example.com/blog" id="link-5" class="link-locked px-3 py-2 bg-gray-800 rounded hover:bg-gray-700 transition-colors duration-200">Blog</a>
-            <a href="https://twitter.com/example" id="link-6" class="link-locked px-3 py-2 bg-gray-800 rounded hover:bg-gray-700 transition-colors duration-200">Twitter</a>
-            <a href="https://instagram.com/example" id="link-7" class="link-locked px-3 py-2 bg-gray-800 rounded hover:bg-gray-700 transition-colors duration-200">Instagram</a>
-        </aside>
-
-        <!-- Game & Info -->
-        <div class="flex flex-col md:flex-row gap-4">
-            <div class="flex flex-col items-center gap-4 order-2 md:order-1">
-                <canvas id="game-board" width="240" height="480"></canvas>
-            </div>
-
-            <div class="flex flex-col gap-4 order-1 md:order-2">
-                <div class="flex flex-col items-center">
-                    <h3 class="text-lg text-blue-400">Next Code Block</h3>
-                    <canvas id="next-piece-canvas" width="96" height="96"></canvas>
-                </div>
-                <div class="flex flex-col items-center">
-                    <p>Skor: <span id="score" class="text-cyan-400 font-bold">0</span></p>
-                    <p>Level: <span id="level" class="text-cyan-400 font-bold">1</span></p>
-                    <div id="terminal-log" class="mt-2 w-full"></div>
-                </div>
+<!-- ==================================== -->
+<!-- CYBER TERMINAL GAME -->
+<!-- ==================================== -->
+<div id="cyberTerminalGame" class="game-container hidden relative z-10">
+    <!-- INTRO MODAL -->
+    <div id="intro-modal" class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-70">
+        <div class="modal p-6 rounded-lg text-center max-w-md w-full">
+            <h1 class="text-3xl font-bold neon-text mb-4">ADIT HUB</h1>
+            <p class="mb-4 text-sm text-blue-400">[ Cyber Terminal Quest ]</p>
+            <p class="mb-4">
+                Akses ditolak. Saya adalah AI penjaga "Adit Hub". Untuk membuka data modul, Anda harus menghancurkan baris kode yang jatuh.
+                Setiap baris yang dihancurkan akan melemahkan firewall.
+            </p>
+            <p class="mb-4 text-xs text-sub-main">
+                <strong>Kontrol:</strong>
+                <br>Panah Kiri/Kanan: Pindah
+                <br>Panah Bawah: Jatuh Cepat
+                <br>Panah Atas: Putar
+                <br>Spasi: Hard Drop
+            </p>
+            <div id="start-options" class="flex flex-col gap-2 mt-4">
+                <label for="difficulty-select" class="text-white text-sm">Pilih Tingkat Kesulitan:</label>
+                <select id="difficulty-select" class="px-4 py-2 bg-gray-800 text-cyan-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500">
+                    <option value="easy">Mudah</option>
+                    <option value="normal" selected>Normal</option>
+                    <option value="hard">Sulit</option>
+                    <option value="extreme">Ekstrim</option>
+                </select>
+                <button id="continue-game-btn" class="hidden px-6 py-3 bg-blue-500 text-black font-bold rounded-full hover:bg-blue-400 transition-colors duration-300">Lanjutkan Misi</button>
+                <button id="start-new-game-btn" class="px-6 py-3 bg-cyan-500 text-black font-bold rounded-full hover:bg-cyan-400 transition-colors duration-300">Mulai Misi Baru</button>
+                <button id="back-to-menu-ct" class="px-6 py-3 bg-gray-500 text-black font-bold rounded-full hover:bg-gray-400 transition-colors duration-300">Kembali ke Menu</button>
             </div>
         </div>
     </div>
-</main>
+    
+    <!-- VICTORY MODAL -->
+    <div id="victory-modal" class="hidden fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-70">
+        <div class="modal p-6 rounded-lg text-center max-w-md w-full">
+            <h1 class="text-3xl font-bold neon-text mb-4">Misi Selesai</h1>
+            <p class="mb-4 text-blue-400">Selamat! Anda telah membuka semua modul data dan berhasil menembus firewall.</p>
+            <p class="mb-4">"Adit Hub" sekarang terbuka sepenuhnya. Anda dapat menjelajahi data yang ada.</p>
+            <button id="restart-game-btn-ct" class="px-6 py-3 mt-4 bg-cyan-500 text-black font-bold rounded-full hover:bg-cyan-400 transition-colors duration-300">Mulai Ulang</button>
+            <button id="back-to-menu-victory-ct" class="px-6 py-3 mt-4 bg-gray-500 text-black font-bold rounded-full hover:bg-gray-400 transition-colors duration-300">Kembali ke Menu</button>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex flex-col items-center p-4 gap-4 relative z-10 min-h-screen justify-center">
+        <h1 class="text-5xl font-bold neon-text text-center">ADIT HUB</h1>
+        <p class="text-blue-400 text-lg">[ Terminal Interaktif ]</p>
+        <div class="flex flex-col md:flex-row gap-6 w-full max-w-5xl justify-center items-center md:items-start mt-8">
+            <!-- Link Panel -->
+            <aside id="link-panel" class="flex flex-col gap-2 w-full max-w-xs md:w-60 link-panel">
+                <h2 class="text-xl text-blue-400 text-center">Data Modules</h2>
+                <a href="https://example.com/portofolio" id="link-1" class="link-locked px-3 py-2 bg-gray-800 rounded hover:bg-gray-700 transition-colors duration-200">Portofolio</a>
+                <a href="https://linkedin.com/in/example" id="link-2" class="link-locked px-3 py-2 bg-gray-800 rounded hover:bg-gray-700 transition-colors duration-200">LinkedIn</a>
+                <a href="mailto:example@example.com" id="link-3" class="link-locked px-3 py-2 bg-gray-800 rounded hover:bg-gray-700 transition-colors duration-200">Email</a>
+                <a href="https://github.com/example" id="link-4" class="link-locked px-3 py-2 bg-gray-800 rounded hover:bg-gray-700 transition-colors duration-200">GitHub</a>
+                <a href="https://example.com/blog" id="link-5" class="link-locked px-3 py-2 bg-gray-800 rounded hover:bg-gray-700 transition-colors duration-200">Blog</a>
+                <a href="https://twitter.com/example" id="link-6" class="link-locked px-3 py-2 bg-gray-800 rounded hover:bg-gray-700 transition-colors duration-200">Twitter</a>
+                <a href="https://instagram.com/example" id="link-7" class="link-locked px-3 py-2 bg-gray-800 rounded hover:bg-gray-700 transition-colors duration-200">Instagram</a>
+            </aside>
+
+            <!-- Game & Info -->
+            <div class="flex flex-col md:flex-row gap-4">
+                <div class="flex flex-col items-center gap-4 order-2 md:order-1">
+                    <canvas id="game-board" width="240" height="480"></canvas>
+                </div>
+                <div class="flex flex-col gap-4 order-1 md:order-2">
+                    <div class="flex flex-col items-center">
+                        <h3 class="text-lg text-blue-400">Next Code Block</h3>
+                        <canvas id="next-piece-canvas" width="96" height="96"></canvas>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <p>Skor: <span id="score" class="text-cyan-400 font-bold">0</span></p>
+                        <p>Level: <span id="level" class="text-cyan-400 font-bold">1</span></p>
+                        <div id="terminal-log" class="mt-2 w-full"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button id="back-to-menu-game-ct" class="game-button back-btn mt-6">Kembali ke Menu</button>
+    </main>
+</div>
+
+<!-- ==================================== -->
+<!-- DATA STREAM RUNNER GAME -->
+<!-- ==================================== -->
+<div id="dataStreamGame" class="game-container hidden relative z-10">
+    <div class="ui-panel">
+        <h1 class="text-4xl">DATA STREAM RUNNER</h1>
+        <p>Skor: <span id="score-display">0</span></p>
+        <p>Skor Tertinggi: <span id="high-score-display">0</span></p>
+    </div>
+    <canvas id="gameCanvas" width="300" height="500"></canvas>
+    <p class="text-sm text-center text-ui-color mt-2">Gunakan panah kiri/kanan atau sentuh layar untuk bergerak.</p>
+    <button id="back-to-menu-dsr" class="game-button back-btn mt-6">Kembali ke Menu</button>
+
+    <div id="gameOverModal" class="modal">
+        <h2 id="gameOverTitle">GAME OVER</h2>
+        <p id="finalScoreText" class="text-ui-color mt-2">Skor Akhir: <strong><span id="finalScore">0</span></strong></p>
+        <button id="restartButton">Mulai Ulang</button>
+        <button id="back-to-menu-gameover-dsr" class="game-button back-btn">Kembali ke Menu</button>
+    </div>
+</div>
 
 <script>
-// PENTING: Ganti URL base64 di bawah dengan file audio yang sebenarnya.
-// Gunakan alat konversi online untuk mendapatkan format base64.
-const sounds = {
-    click: new Audio("data:audio/mp3;base64,..."),
-    unlock: new Audio("data:audio/mp3;base64,..."),
-    gameover: new Audio("data:audio/mp3;base64,..."),
-    type: new Audio("data:audio/mp3;base64,..."),
-    music: new Audio("data:audio/mp3;base64,..."),
-    clear: new Audio("data:audio/mp3;base64,...") // Suara untuk line clear
-};
-Object.values(sounds).forEach(s => { s.volume = 0.5; });
-sounds.music.loop = true;
+    // GLOBAL GAME STATE AND UTILITIES
+    let activeGame = null;
+    let gameLoops = {};
+    let soundEnabled = true;
 
-let audioEnabled = true;
+    // PENTING: Ganti URL base64 di bawah dengan file audio yang sebenarnya.
+    const sounds = {
+        ct_click: new Audio("data:audio/mp3;base64,..."),
+        ct_unlock: new Audio("data:audio/mp3;base64,..."),
+        ct_gameover: new Audio("data:audio/mp3;base64,..."),
+        ct_type: new Audio("data:audio/mp3;base64,..."),
+        ct_music: new Audio("data:audio/mp3;base64,..."),
+        ct_clear: new Audio("data:audio/mp3;base64,..."),
+        dsr_pickup: new Audio('data:audio/mp3;base64,...'),
+        dsr_gameover: new Audio('data:audio/mp3;base64,...')
+    };
+    Object.values(sounds).forEach(s => { s.volume = 0.5; });
+    if (sounds.ct_music) sounds.ct_music.loop = true;
 
-const audioBtn = document.getElementById('audio-btn');
-const introModal = document.getElementById('intro-modal');
-const victoryModal = document.getElementById('victory-modal');
-const continueGameBtn = document.getElementById('continue-game-btn'); // Tombol baru
-const startNewGameBtn = document.getElementById('start-new-game-btn'); // Tombol yang diubah
-const restartGameBtn = document.getElementById('restart-game-btn');
-const terminalLogElem = document.getElementById("terminal-log");
-const scoreElem = document.getElementById('score');
-const levelElem = document.getElementById('level');
-
-// Kunci untuk localStorage
-const STORAGE_KEY = 'cyberTerminalQuest_unlockedLinks';
-
-function playSound(name) {
-    if (audioEnabled && sounds[name] && sounds[name].readyState >= 2) {
-        sounds[name].currentTime = 0;
-        sounds[name].play().catch(e => console.error("Audio playback failed:", e));
+    function playSound(name) {
+        if (!soundEnabled) return;
+        if (sounds[name] && sounds[name].readyState >= 2) {
+            sounds[name].currentTime = 0;
+            sounds[name].play().catch(e => console.error("Audio playback failed:", e));
+        }
     }
-}
 
-audioBtn.addEventListener('click', () => {
-    audioEnabled = !audioEnabled;
-    audioBtn.textContent = audioEnabled ? "🔊" : "�";
-    if (!audioEnabled) {
+    // TOGGLE AUDIO BUTTON
+    const audioBtn = document.getElementById('audio-btn');
+    audioBtn.addEventListener('click', () => {
+        soundEnabled = !soundEnabled;
+        audioBtn.textContent = soundEnabled ? "🔊" : "🔇";
+        if (!soundEnabled) {
+            Object.values(sounds).forEach(s => s.pause());
+        } else if (activeGame === 'cyberTerminal' && sounds.ct_music.paused) {
+            sounds.ct_music.play();
+        }
+    });
+
+    // GAME NAVIGATION LOGIC
+    const gameHub = document.getElementById('gameHub');
+    const cyberTerminalGame = document.getElementById('cyberTerminalGame');
+    const dataStreamGame = document.getElementById('dataStreamGame');
+    const startCyberTerminalBtn = document.getElementById('startCyberTerminal');
+    const startDataStreamRunnerBtn = document.getElementById('startDataStreamRunner');
+
+    function showGame(gameId) {
+        gameHub.classList.add('hidden');
+        cyberTerminalGame.classList.add('hidden');
+        dataStreamGame.classList.add('hidden');
+
+        if (gameId === 'cyberTerminal') {
+            cyberTerminalGame.classList.remove('hidden');
+            activeGame = 'cyberTerminal';
+            initCyberTerminal();
+        } else if (gameId === 'dataStreamRunner') {
+            dataStreamGame.classList.remove('hidden');
+            activeGame = 'dataStreamRunner';
+            initDataStreamRunner();
+        }
+    }
+
+    function showGameHub() {
+        gameHub.classList.remove('hidden');
+        cyberTerminalGame.classList.add('hidden');
+        dataStreamGame.classList.add('hidden');
+        activeGame = null;
+        Object.values(gameLoops).forEach(cancelAnimationFrame);
         Object.values(sounds).forEach(s => s.pause());
-    } else {
-        if (!sounds.music.paused) {
-            sounds.music.play();
-        }
     }
-});
 
-/* === TYPE EFFECT === */
-let typingInterval = null;
-function typeLog(text) {
-    let i = 0;
-    terminalLogElem.innerHTML += "<span class='text-cyan-400'>></span> ";
-    if (typingInterval) clearInterval(typingInterval);
-    typingInterval = setInterval(() => {
-        terminalLogElem.innerHTML += text.charAt(i);
-        playSound('type');
-        i++;
-        if (i >= text.length) {
-            terminalLogElem.innerHTML += "<br>";
-            terminalLogElem.scrollTop = terminalLogElem.scrollHeight;
-            clearInterval(typingInterval);
+    startCyberTerminalBtn.addEventListener('click', () => showGame('cyberTerminal'));
+    startDataStreamRunnerBtn.addEventListener('click', () => showGame('dataStreamRunner'));
+
+    // Event listener untuk tombol 'Kembali ke Menu' di semua tempat
+    document.querySelectorAll('[id^="back-to-menu"]').forEach(btn => {
+        btn.addEventListener('click', showGameHub);
+    });
+
+    /* === MATRIX RAIN BACKGROUND === */
+    const matrixCanvas = document.getElementById("matrix-bg");
+    const matrixCtx = matrixCanvas.getContext("2d");
+    const letters = "アァイィウヴエェオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂッヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモヤユヨラリルレロワヰヱヲンABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    const matrix = letters.split("");
+    const fontSize = 14;
+    let columns = Math.floor(window.innerWidth / fontSize);
+    let drops = Array(columns).fill(1);
+
+    function drawMatrix() {
+        if (activeGame) {
+            matrixCtx.fillStyle = "rgba(0,0,0,0.05)";
+        } else {
+            matrixCtx.fillStyle = "rgba(0,0,0,0.1)";
         }
-    }, 30);
-}
-
-/* === MATRIX RAIN === */
-const matrixCanvas = document.getElementById("matrix-bg");
-const matrixCtx = matrixCanvas.getContext("2d");
-const letters = "アァイィウヴエェオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂッヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモヤユヨラリルレロワヰヱヲンABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-const matrix = letters.split("");
-const fontSize = 14;
-let columns = Math.floor(window.innerWidth / fontSize);
-let drops = Array(columns).fill(1);
-
-function drawMatrix() {
-    matrixCtx.fillStyle = "rgba(0,0,0,0.05)";
-    matrixCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
-    matrixCtx.fillStyle = "#0F0";
-    matrixCtx.font = fontSize + "px monospace";
-    for(let i = 0; i < drops.length; i++) {
-        const text = matrix[Math.floor(Math.random() * matrix.length)];
-        matrixCtx.fillText(text, i * fontSize, drops[i] * fontSize);
-        if(drops[i] * fontSize > matrixCanvas.height && Math.random() > 0.975) {
-            drops[i] = 0;
+        matrixCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+        matrixCtx.fillStyle = "#0F0";
+        matrixCtx.font = fontSize + "px monospace";
+        for(let i = 0; i < drops.length; i++) {
+            const text = matrix[Math.floor(Math.random() * matrix.length)];
+            matrixCtx.fillText(text, i * fontSize, drops[i] * fontSize);
+            if(drops[i] * fontSize > matrixCanvas.height && Math.random() > 0.975) {
+                drops[i] = 0;
+            }
+            drops[i]++;
         }
-        drops[i]++;
+        gameLoops.matrix = requestAnimationFrame(drawMatrix);
     }
-}
-setInterval(drawMatrix, 35);
-window.addEventListener("resize", () => {
-    matrixCanvas.width = window.innerWidth;
-    matrixCanvas.height = window.innerHeight;
-    columns = Math.floor(window.innerWidth / fontSize);
-    drops = Array(columns).fill(1);
-});
+    window.addEventListener("resize", () => {
+        matrixCanvas.width = window.innerWidth;
+        matrixCanvas.height = window.innerHeight;
+        columns = Math.floor(window.innerWidth / fontSize);
+        drops = Array(columns).fill(1);
+    });
 
-/* === TETRIS GAME === */
-const canvas = document.getElementById('game-board');
-const ctx = canvas.getContext('2d');
-const nextCanvas = document.getElementById('next-piece-canvas');
-const nextCtx = nextCanvas.getContext('2d');
-const grid = 24;
-const COLS = 10;
-const ROWS = 20;
-canvas.width = grid * COLS;
-canvas.height = grid * ROWS;
-const tetrominoes = [
-    { shape: [[1,1,1,1]], color: '#00ffff' }, // I
-    { shape: [[1,1],[1,1]], color: '#ffff00' }, // O
-    { shape: [[0,1,0],[1,1,1]], color: '#ff00ff' }, // T
-    { shape: [[1,0,0],[1,1,1]], color: '#0000ff' }, // J
-    { shape: [[0,0,1],[1,1,1]], color: '#ff7f00' }, // L
-    { shape: [[1,1,0],[0,1,1]], color: '#00ff00' }, // S
-    { shape: [[0,1,1],[1,1,0]], color: '#ff0000' } // Z
-];
-let board = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
-let piece = null;
-let nextPiece = null;
-let ghostPiece = null;
-let score = 0;
-let level = 1;
-let linesCleared = 0;
-let dropCounter = 0;
-let dropInterval = 1000;
-let lastTime = 0;
-let gameOver = false;
-let unlockedLinks = 0;
-const linesToLevelUp = 10;
+    /* ========================================================== */
+    /* GAME 1: CYBER TERMINAL QUEST LOGIC */
+    /* ========================================================== */
+    function initCyberTerminal() {
+        const canvas = document.getElementById('game-board');
+        const ctx = canvas.getContext('2d');
+        const nextCanvas = document.getElementById('next-piece-canvas');
+        const nextCtx = nextCanvas.getContext('2d');
+        const introModal = document.getElementById('intro-modal');
+        const victoryModal = document.getElementById('victory-modal');
+        const continueGameBtn = document.getElementById('continue-game-btn');
+        const startNewGameBtn = document.getElementById('start-new-game-btn');
+        const restartGameBtn = document.getElementById('restart-game-btn-ct');
+        const terminalLogElem = document.getElementById("terminal-log");
+        const scoreElem = document.getElementById('score');
+        const levelElem = document.getElementById('level');
+        const difficultySelect = document.getElementById('difficulty-select');
+        
+        const grid = 24;
+        const COLS = 10;
+        const ROWS = 20;
+        canvas.width = grid * COLS;
+        canvas.height = grid * ROWS;
+        const tetrominoes = [
+            { shape: [[1,1,1,1]], color: '#00ffff' }, { shape: [[1,1],[1,1]], color: '#ffff00' },
+            { shape: [[0,1,0],[1,1,1]], color: '#ff00ff' }, { shape: [[1,0,0],[1,1,1]], color: '#0000ff' },
+            { shape: [[0,0,1],[1,1,1]], color: '#ff7f00' }, { shape: [[1,1,0],[0,1,1]], color: '#00ff00' },
+            { shape: [[0,1,1],[1,1,0]], color: '#ff0000' }
+        ];
+        let board, piece, nextPiece, ghostPiece, score, level, linesCleared, dropCounter, dropInterval, lastTime, gameOver, unlockedLinks, linesToLevelUp;
+        let typingInterval = null;
+        const storyline = [
+            "[1/7] Firewall level 1 terhancurkan. Data modul 1 terbuka. ✅",
+            "[2/7] Firewall level 2 terhancurkan. Data modul 2 terbuka. ✅",
+            "[3/7] Firewall level 3 terhancurkan. Data modul 3 terbuka. ✅",
+            "[4/7] Firewall level 4 terhancurkan. Data modul 4 terbuka. ✅",
+            "[5/7] Firewall level 5 terhancurkan. Data modul 5 terbuka. ✅",
+            "[6/7] Firewall level 6 terhancurkan. Data modul 6 terbuka. ✅",
+            "[7/7] Firewall level 7 terhancurkan. Semua modul data terbuka. ✅"
+        ];
+        const STORAGE_KEY = 'cyberTerminalQuest_unlockedLinks';
+        const DIFFICULTY_KEY = 'cyberTerminalQuest_difficulty';
+        
+        function typeLog(text) {
+            if (typingInterval) clearInterval(typingInterval);
+            let i = 0;
+            terminalLogElem.innerHTML += "<span class='text-cyan-400'>></span> ";
+            typingInterval = setInterval(() => {
+                terminalLogElem.innerHTML += text.charAt(i);
+                playSound('ct_type');
+                i++;
+                if (i >= text.length) {
+                    terminalLogElem.innerHTML += "<br>";
+                    terminalLogElem.scrollTop = terminalLogElem.scrollHeight;
+                    clearInterval(typingInterval);
+                }
+            }, 30);
+        }
 
-const storyline = [
-    "[1/7] Firewall level 1 terhancurkan. Data modul 1 terbuka. ✅",
-    "[2/7] Firewall level 2 terhancurkan. Data modul 2 terbuka. ✅",
-    "[3/7] Firewall level 3 terhancurkan. Data modul 3 terbuka. ✅",
-    "[4/7] Firewall level 4 terhancurkan. Data modul 4 terbuka. ✅",
-    "[5/7] Firewall level 5 terhancurkan. Data modul 5 terbuka. ✅",
-    "[6/7] Firewall level 6 terhancurkan. Data modul 6 terbuka. ✅",
-    "[7/7] Firewall level 7 terhancurkan. Semua modul data terbuka. ✅"
-];
+        function createPiece() {
+            const pieceData = tetrominoes[Math.floor(Math.random() * tetrominoes.length)];
+            const shape = pieceData.shape;
+            const x = Math.floor(COLS / 2) - Math.ceil(shape[0].length / 2);
+            const y = 0;
+            return { shape, x, y, color: pieceData.color };
+        }
+        function collide(board, piece) {
+            if (!piece) return false;
+            for (let y = 0; y < piece.shape.length; y++) {
+                for (let x = 0; x < piece.shape[y].length; x++) {
+                    if (piece.shape[y][x]) {
+                        const boardX = piece.x + x;
+                        const boardY = piece.y + y;
+                        if (boardX < 0 || boardX >= COLS || boardY >= ROWS || (board[boardY] && board[boardY][boardX] !== 0)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+        function merge(board, piece) {
+            if (!piece) return;
+            piece.shape.forEach((row, dy) => {
+                row.forEach((value, dx) => {
+                    if (value) {
+                        board[dy + piece.y][dx + piece.x] = 1;
+                    }
+                });
+            });
+        }
+        function drawMatrixBlock(ctx, matrix, offset, color, opacity = 1) {
+            ctx.globalAlpha = opacity;
+            ctx.fillStyle = color;
+            matrix.forEach((row, y) => {
+                row.forEach((value, x) => {
+                    if (value) {
+                        ctx.fillRect((x + offset.x) * grid, (y + offset.y) * grid, grid - 1, grid - 1);
+                    }
+                });
+            });
+            ctx.globalAlpha = 1;
+        }
+        function draw() {
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            board.forEach((row, y) => {
+                row.forEach((value, x) => {
+                    if (value) {
+                        ctx.fillStyle = '#ff0054';
+                        ctx.fillRect(x * grid, y * grid, grid - 1, grid - 1);
+                    }
+                });
+            });
+            if (ghostPiece) {
+                drawMatrixBlock(ctx, ghostPiece.shape, { x: ghostPiece.x, y: ghostPiece.y }, piece.color, 0.3);
+            }
+            if (piece) {
+                drawMatrixBlock(ctx, piece.shape, { x: piece.x, y: piece.y }, piece.color);
+            }
+        }
+        function drawNextPiece() {
+            nextCtx.clearRect(0, 0, nextCanvas.width, nextCanvas.height);
+            if (nextPiece) {
+                const shapeWidth = nextPiece.shape[0].length;
+                const shapeHeight = nextPiece.shape.length;
+                const offsetX = (nextCanvas.width / grid - shapeWidth) / 2;
+                const offsetY = (nextCanvas.height / grid - shapeHeight) / 2;
+                drawMatrixBlock(nextCtx, nextPiece.shape, { x: offsetX, y: offsetY }, nextPiece.color);
+            }
+        }
+        function drop() {
+            piece.y++;
+            if (collide(board, piece)) {
+                piece.y--;
+                merge(board, piece);
+                lineClear();
+                piece = nextPiece;
+                nextPiece = createPiece();
+                drawNextPiece();
+                if (collide(board, piece)) {
+                    gameOver = true;
+                    playSound('ct_gameover');
+                    typeLog("[!] Error: Firewall terdeteksi! Sistem overload. Misi gagal.");
+                }
+            }
+            updateGhostPiece();
+            dropCounter = 0;
+        }
+        function hardDrop() {
+            if (!piece) return;
+            playSound('ct_click');
+            let finalY = piece.y;
+            while (!collide(board, { ...piece, y: finalY + 1 })) {
+                finalY++;
+            }
+            piece.y = finalY;
+            drop();
+        }
+        function lineClear() {
+            let rowsCleared = 0;
+            for (let y = ROWS - 1; y >= 0; y--) {
+                if (board[y].every(val => val !== 0)) {
+                    board.splice(y, 1);
+                    board.unshift(Array(COLS).fill(0));
+                    rowsCleared++;
+                    y++;
+                }
+            }
+            if (rowsCleared > 0) {
+                playSound('ct_clear');
+                score += rowsCleared * 10 * level;
+                scoreElem.textContent = score;
+                linesCleared += rowsCleared;
+                if (linesCleared >= linesToLevelUp) {
+                    linesCleared = 0;
+                    levelUp();
+                }
+                unlockLink(rowsCleared);
+            }
+        }
+        function levelUp() {
+            level++;
+            levelElem.textContent = level;
+            let speedFactor = 0.85;
+            const difficulty = localStorage.getItem(DIFFICULTY_KEY) || 'normal';
+            if (difficulty === 'easy') { speedFactor = 0.90; }
+            else if (difficulty === 'hard') { speedFactor = 0.80; }
+            else if (difficulty === 'extreme') { speedFactor = 0.75; }
+            dropInterval *= speedFactor;
+            typeLog(`Level ${level} tercapai. Kecepatan firewall meningkat.`);
+        }
+        function unlockLink(count) {
+            for (let i = 0; i < count; i++) {
+                if (unlockedLinks < 7) {
+                    unlockedLinks++;
+                    const link = document.getElementById(`link-${unlockedLinks}`);
+                    link.classList.remove('link-locked');
+                    link.classList.add('link-unlocked');
+                    playSound('ct_unlock');
+                    typeLog(storyline[unlockedLinks - 1]);
+                }
+            }
+            localStorage.setItem(STORAGE_KEY, unlockedLinks);
+            if (unlockedLinks === 7) {
+                gameOver = true;
+                victoryModal.classList.remove('hidden');
+                typeLog("Semua modul data telah terbuka. Misi selesai!");
+            }
+        }
+        function rotatePiece() {
+            const prevShape = piece.shape;
+            const newShape = prevShape[0].map((_, i) => prevShape.map(row => row[i]).reverse());
+            const kickTests = [0, -1, 1, -2, 2];
+            for (const kick of kickTests) {
+                piece.shape = newShape;
+                piece.x += kick;
+                if (!collide(board, piece)) {
+                    return;
+                }
+                piece.x -= kick;
+            }
+            piece.shape = prevShape;
+        }
+        function updateGhostPiece() {
+            if (!piece) { ghostPiece = null; return; }
+            ghostPiece = { ...piece };
+            while (!collide(board, { ...ghostPiece, y: ghostPiece.y + 1 })) {
+                ghostPiece.y++;
+            }
+        }
+        function update(time = 0) {
+            if (gameOver || activeGame !== 'cyberTerminal') return;
+            const delta = time - lastTime;
+            lastTime = time;
+            dropCounter += delta;
+            if (dropCounter > dropInterval) drop();
+            draw();
+            gameLoops.cyberTerminal = requestAnimationFrame(update);
+        }
+        
+        function loadGame() {
+            const savedLinks = localStorage.getItem(STORAGE_KEY);
+            const savedDifficulty = localStorage.getItem(DIFFICULTY_KEY);
+            if (savedLinks) {
+                const numLinks = parseInt(savedLinks, 10);
+                for (let i = 1; i <= numLinks; i++) {
+                    unlockedLinks = i;
+                    const link = document.getElementById(`link-${unlockedLinks}`);
+                    link.classList.remove('link-locked');
+                    link.classList.add('link-unlocked');
+                }
+            }
+            if (savedDifficulty) { difficultySelect.value = savedDifficulty; }
+            introModal.classList.add('hidden');
+            typeLog("[*] Melanjutkan misi. Firewall telah ditembus hingga level " + unlockedLinks + ".");
+            if (soundEnabled) sounds.ct_music.play();
+            piece = createPiece();
+            nextPiece = createPiece();
+            drawNextPiece();
+            updateGhostPiece();
+            update();
+        }
 
-function createPiece() {
-    const pieceData = tetrominoes[Math.floor(Math.random() * tetrominoes.length)];
-    const shape = pieceData.shape;
-    const x = Math.floor(COLS / 2) - Math.ceil(shape[0].length / 2);
-    const y = 0;
-    return { shape, x, y, color: pieceData.color };
-}
+        function startNewGame() {
+            localStorage.removeItem(STORAGE_KEY);
+            const selectedDifficulty = difficultySelect.value;
+            localStorage.setItem(DIFFICULTY_KEY, selectedDifficulty);
+            if (selectedDifficulty === 'easy') { dropInterval = 1200; linesToLevelUp = 8; }
+            else if (selectedDifficulty === 'normal') { dropInterval = 1000; linesToLevelUp = 10; }
+            else if (selectedDifficulty === 'hard') { dropInterval = 800; linesToLevelUp = 12; }
+            else if (selectedDifficulty === 'extreme') { dropInterval = 600; linesToLevelUp = 15; }
+            board = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
+            score = 0; level = 1; linesCleared = 0; gameOver = false; unlockedLinks = 0;
+            scoreElem.textContent = score; levelElem.textContent = level; terminalLogElem.innerHTML = '';
+            document.querySelectorAll('#cyberTerminalGame .link-unlocked').forEach(link => {
+                link.classList.remove('link-unlocked');
+                link.classList.add('link-locked');
+            });
+            victoryModal.classList.add('hidden');
+            introModal.classList.add('hidden');
+            typeLog(`[*] Misi ${selectedDifficulty.toUpperCase()} dimulai - Hancurkan baris untuk menembus firewall...`);
+            if (soundEnabled) sounds.ct_music.play();
+            piece = createPiece();
+            nextPiece = createPiece();
+            drawNextPiece();
+            updateGhostPiece();
+            update();
+        }
+        
+        document.addEventListener('keydown', e => {
+            if (activeGame !== 'cyberTerminal' || gameOver || !introModal.classList.contains('hidden') || !victoryModal.classList.contains('hidden')) return;
+            const prevX = piece.x; const prevShape = piece.shape;
+            if (e.key === 'ArrowLeft') { piece.x--; }
+            else if (e.key === 'ArrowRight') { piece.x++; }
+            else if (e.key === 'ArrowDown') { drop(); }
+            else if (e.key === 'ArrowUp') { rotatePiece(); }
+            else if (e.key === ' ') { e.preventDefault(); hardDrop(); }
+            if (collide(board, piece)) { piece.x = prevX; piece.shape = prevShape; }
+            updateGhostPiece();
+        });
+        
+        continueGameBtn.addEventListener('click', loadGame);
+        startNewGameBtn.addEventListener('click', startNewGame);
+        restartGameBtn.addEventListener('click', startNewGame);
 
-function collide(board, piece) {
-    if (!piece) return false;
-    for (let y = 0; y < piece.shape.length; y++) {
-        for (let x = 0; x < piece.shape[y].length; x++) {
-            if (piece.shape[y][x]) {
-                const boardX = piece.x + x;
-                const boardY = piece.y + y;
-                if (boardX < 0 || boardX >= COLS || boardY >= ROWS || (board[boardY] && board[boardY][boardX] !== 0)) {
-                    return true;
+        // Tampilkan modal intro saat game dimulai
+        const savedLinks = localStorage.getItem(STORAGE_KEY);
+        const savedDifficulty = localStorage.getItem(DIFFICULTY_KEY);
+        if (savedLinks && parseInt(savedLinks, 10) > 0 && parseInt(savedLinks, 10) < 7) {
+            continueGameBtn.classList.remove('hidden');
+            document.querySelector('#intro-modal p:nth-of-type(2)').textContent = "Kemajuan misi Anda ditemukan.";
+        } else {
+            continueGameBtn.classList.add('hidden');
+        }
+        if (savedDifficulty) { difficultySelect.value = savedDifficulty; }
+        introModal.classList.remove('hidden');
+    }
+
+    /* ========================================================== */
+    /* GAME 2: DATA STREAM RUNNER LOGIC */
+    /* ========================================================== */
+    function initDataStreamRunner() {
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreDisplay = document.getElementById('score-display');
+        const highScoreDisplay = document.getElementById('high-score-display');
+        const gameOverModal = document.getElementById('gameOverModal');
+        const finalScoreText = document.getElementById('finalScoreText');
+        const restartButton = document.getElementById('restartButton');
+        const HIGH_SCORE_KEY = 'dataStreamRunner_highScore';
+        
+        let score = 0, highScore = localStorage.getItem(HIGH_SCORE_KEY) || 0, gameOver = false, speed = 1.5;
+        const player = { x: canvas.width / 2, y: canvas.height - 30, width: 15, height: 15, dx: 0, speed: 5 };
+        const obstacles = [], pickups = [];
+        let obstacleSpawnRate = 120, lastObstacleSpawn = 0;
+        let pickupSpawnRate = 300, lastPickupSpawn = 0;
+        
+        highScoreDisplay.textContent = highScore;
+        
+        function resetGame() {
+            score = 0; speed = 1.5; gameOver = false; obstacles.length = 0; pickups.length = 0;
+            player.x = canvas.width / 2; player.dx = 0;
+            scoreDisplay.textContent = score; gameOverModal.style.display = 'none';
+            gameLoop();
+        }
+
+        function drawPlayer() {
+            ctx.fillStyle = '#4d7eff';
+            ctx.beginPath();
+            ctx.moveTo(player.x, player.y);
+            ctx.lineTo(player.x + player.width, player.y);
+            ctx.lineTo(player.x + player.width / 2, player.y - player.height * 1.5);
+            ctx.closePath();
+            ctx.fill();
+        }
+        function drawObstacles() {
+            ctx.fillStyle = '#ff0054';
+            obstacles.forEach(obstacle => { ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height); });
+        }
+        function drawPickups() {
+            ctx.fillStyle = '#ffff00';
+            pickups.forEach(pickup => {
+                ctx.beginPath();
+                ctx.arc(pickup.x + pickup.size / 2, pickup.y + pickup.size / 2, pickup.size / 2, 0, Math.PI * 2);
+                ctx.fill();
+            });
+        }
+        function update() {
+            player.x += player.dx;
+            if (player.x < 0) player.x = 0;
+            if (player.x + player.width > canvas.width) player.x = canvas.width - player.width;
+            for (let i = obstacles.length - 1; i >= 0; i--) {
+                obstacles[i].y += speed;
+                if (obstacles[i].y > canvas.height) { obstacles.splice(i, 1); }
+            }
+            for (let i = pickups.length - 1; i >= 0; i--) {
+                pickups[i].y += speed;
+                if (pickups[i].y > canvas.height) { pickups.splice(i, 1); }
+            }
+            checkCollisions();
+            score++;
+            scoreDisplay.textContent = Math.floor(score / 10);
+            speed += 0.0005;
+            if (lastObstacleSpawn >= obstacleSpawnRate) { spawnObstacle(); lastObstacleSpawn = 0; } else { lastObstacleSpawn++; }
+            if (lastPickupSpawn >= pickupSpawnRate) { spawnPickup(); lastPickupSpawn = 0; } else { lastPickupSpawn++; }
+        }
+        function checkCollisions() {
+            obstacles.forEach(obstacle => {
+                if ( player.x < obstacle.x + obstacle.width && player.x + player.width > obstacle.x && player.y < obstacle.y + obstacle.height && player.y + player.height > obstacle.y) {
+                    endGame();
+                }
+            });
+            for (let i = pickups.length - 1; i >= 0; i--) {
+                const pickup = pickups[i];
+                if ( player.x < pickup.x + pickup.size && player.x + player.width > pickup.x && player.y < pickup.y + pickup.size && player.y + player.height > pickup.y) {
+                    score += 50;
+                    playSound('dsr_pickup');
+                    pickups.splice(i, 1);
                 }
             }
         }
-    }
-    return false;
-}
-
-function merge(board, piece) {
-    if (!piece) return;
-    piece.shape.forEach((row, dy) => {
-        row.forEach((value, dx) => {
-            if (value) {
-                board[dy + piece.y][dx + piece.x] = 1;
-            }
-        });
-    });
-}
-
-function drawMatrixBlock(ctx, matrix, offset, color, opacity = 1) {
-    ctx.globalAlpha = opacity;
-    ctx.fillStyle = color;
-    matrix.forEach((row, y) => {
-        row.forEach((value, x) => {
-            if (value) {
-                ctx.fillRect((x + offset.x) * grid, (y + offset.y) * grid, grid - 1, grid - 1);
-            }
-        });
-    });
-    ctx.globalAlpha = 1;
-}
-
-function draw() {
-    ctx.fillStyle = '#000';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    board.forEach((row, y) => {
-        row.forEach((value, x) => {
-            if (value) {
-                ctx.fillStyle = '#ff0054';
-                ctx.fillRect(x * grid, y * grid, grid - 1, grid - 1);
-            }
-        });
-    });
-    if (ghostPiece) {
-        drawMatrixBlock(ctx, ghostPiece.shape, { x: ghostPiece.x, y: ghostPiece.y }, piece.color, 0.3);
-    }
-    if (piece) {
-        drawMatrixBlock(ctx, piece.shape, { x: piece.x, y: piece.y }, piece.color);
-    }
-}
-
-function drawNextPiece() {
-    nextCtx.clearRect(0, 0, nextCanvas.width, nextCanvas.height);
-    if (nextPiece) {
-        const shapeWidth = nextPiece.shape[0].length;
-        const shapeHeight = nextPiece.shape.length;
-        const offsetX = (nextCanvas.width / grid - shapeWidth) / 2;
-        const offsetY = (nextCanvas.height / grid - shapeHeight) / 2;
-        drawMatrixBlock(nextCtx, nextPiece.shape, { x: offsetX, y: offsetY }, nextPiece.color);
-    }
-}
-
-function drop() {
-    piece.y++;
-    if (collide(board, piece)) {
-        piece.y--;
-        merge(board, piece);
-        lineClear();
-        piece = nextPiece;
-        nextPiece = createPiece();
-        drawNextPiece();
-        if (collide(board, piece)) {
+        function spawnObstacle() {
+            const size = 20 + Math.random() * 20;
+            const x = Math.random() * (canvas.width - size);
+            obstacles.push({ x: x, y: -size, width: size, height: size });
+        }
+        function spawnPickup() {
+            const size = 15;
+            const x = Math.random() * (canvas.width - size);
+            pickups.push({ x: x, y: -size, size: size });
+        }
+        function endGame() {
             gameOver = true;
-            playSound('gameover');
-            typeLog("[!] Error: Firewall terdeteksi! Sistem overload. Misi gagal.");
+            playSound('dsr_gameover');
+            finalScoreText.textContent = Math.floor(score / 10);
+            gameOverModal.style.display = 'block';
+            if (Math.floor(score / 10) > highScore) {
+                highScore = Math.floor(score / 10);
+                localStorage.setItem(HIGH_SCORE_KEY, highScore);
+                highScoreDisplay.textContent = highScore;
+                document.getElementById('gameOverTitle').textContent = "SKOR TERTINGGI BARU!";
+            } else {
+                document.getElementById('gameOverTitle').textContent = "GAME OVER";
+            }
         }
-    }
-    updateGhostPiece();
-    dropCounter = 0;
-}
-
-function hardDrop() {
-    if (!piece) return;
-    playSound('click');
-    let finalY = piece.y;
-    while (!collide(board, { ...piece, y: finalY + 1 })) {
-        finalY++;
-    }
-    piece.y = finalY;
-    drop();
-}
-
-function lineClear() {
-    let rowsCleared = 0;
-    for (let y = ROWS - 1; y >= 0; y--) {
-        if (board[y].every(val => val !== 0)) {
-            board.splice(y, 1);
-            board.unshift(Array(COLS).fill(0));
-            rowsCleared++;
-            y++;
+        function gameLoop() {
+            if (gameOver || activeGame !== 'dataStreamRunner') return;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'var(--bg-dark)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            update();
+            drawObstacles();
+            drawPickups();
+            drawPlayer();
+            gameLoops.dataStreamRunner = requestAnimationFrame(gameLoop);
         }
-    }
-    if (rowsCleared > 0) {
-        playSound('clear');
-        score += rowsCleared * 10 * level;
-        scoreElem.textContent = score;
-        linesCleared += rowsCleared;
-        if (linesCleared >= linesToLevelUp) {
-            linesCleared = 0;
-            levelUp();
-        }
-        unlockLink(rowsCleared);
-    }
-}
-
-function levelUp() {
-    level++;
-    levelElem.textContent = level;
-    dropInterval *= 0.85; // Kecepatan meningkat 15% setiap level
-    typeLog(`Level ${level} tercapai. Kecepatan firewall meningkat.`);
-}
-
-function unlockLink(count) {
-    for (let i = 0; i < count; i++) {
-        if (unlockedLinks < 7) {
-            unlockedLinks++;
-            const link = document.getElementById(`link-${unlockedLinks}`);
-            link.classList.remove('link-locked');
-            link.classList.add('link-unlocked');
-            playSound('unlock');
-            typeLog(storyline[unlockedLinks - 1]);
-        }
-    }
-    // Simpan kemajuan ke localStorage
-    localStorage.setItem(STORAGE_KEY, unlockedLinks);
-    
-    if (unlockedLinks === 7) {
-        gameOver = true;
-        victoryModal.classList.remove('hidden');
-        typeLog("Semua modul data telah terbuka. Misi selesai!");
-    }
-}
-
-function rotatePiece() {
-    const prevShape = piece.shape;
-    const newShape = prevShape[0].map((_, i) => prevShape.map(row => row[i]).reverse());
-    const kickTests = [0, -1, 1, -2, 2];
-    for (const kick of kickTests) {
-        piece.shape = newShape;
-        piece.x += kick;
-        if (!collide(board, piece)) {
-            return;
-        }
-        piece.x -= kick;
-    }
-    piece.shape = prevShape;
-}
-
-function updateGhostPiece() {
-    if (!piece) {
-        ghostPiece = null;
-        return;
-    }
-    ghostPiece = { ...piece };
-    while (!collide(board, { ...ghostPiece, y: ghostPiece.y + 1 })) {
-        ghostPiece.y++;
-    }
-}
-
-function update(time = 0) {
-    if (gameOver) return;
-    const delta = time - lastTime;
-    lastTime = time;
-    dropCounter += delta;
-    if (dropCounter > dropInterval) drop();
-    draw();
-    requestAnimationFrame(update);
-}
-
-document.addEventListener('keydown', e => {
-    if (gameOver || introModal.style.display === 'flex' || victoryModal.style.display === 'flex') return;
-    const prevX = piece.x;
-    const prevShape = piece.shape;
-
-    if (e.key === 'ArrowLeft') {
-        piece.x--;
-    } else if (e.key === 'ArrowRight') {
-        piece.x++;
-    } else if (e.key === 'ArrowDown') {
-        drop();
-    } else if (e.key === 'ArrowUp') {
-        rotatePiece();
-    } else if (e.key === ' ') {
-        e.preventDefault();
-        hardDrop();
+        
+        document.addEventListener('keydown', e => {
+            if (activeGame !== 'dataStreamRunner') return;
+            if (e.key === 'ArrowLeft') { player.dx = -player.speed; }
+            else if (e.key === 'ArrowRight') { player.dx = player.speed; }
+        });
+        document.addEventListener('keyup', e => {
+            if (activeGame !== 'dataStreamRunner') return;
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { player.dx = 0; }
+        });
+        canvas.addEventListener('touchstart', e => {
+            const touchX = e.touches[0].clientX - canvas.offsetLeft;
+            const midPoint = canvas.width / 2;
+            if (touchX < midPoint) { player.dx = -player.speed; }
+            else { player.dx = player.speed; }
+        });
+        canvas.addEventListener('touchend', () => { player.dx = 0; });
+        restartButton.addEventListener('click', () => { resetGame(); });
+        
+        resetGame();
     }
     
-    if (collide(board, piece)) {
-        piece.x = prevX;
-        piece.shape = prevShape;
-    }
-    updateGhostPiece();
-});
-
-// Fungsi untuk memuat kemajuan dari localStorage
-function loadGame() {
-    const savedLinks = localStorage.getItem(STORAGE_KEY);
-    if (savedLinks) {
-        const numLinks = parseInt(savedLinks, 10);
-        for (let i = 1; i <= numLinks; i++) {
-            unlockedLinks = i;
-            const link = document.getElementById(`link-${unlockedLinks}`);
-            link.classList.remove('link-locked');
-            link.classList.add('link-unlocked');
-        }
-    }
-    introModal.classList.add('hidden');
-    typeLog("[*] Melanjutkan misi. Firewall telah ditembus hingga level " + unlockedLinks + ".");
-    
-    sounds.music.volume = 0;
-    sounds.music.play().catch(e => console.error("Music playback failed:", e));
-    let fade = setInterval(() => {
-        if (sounds.music.volume < 0.5) {
-            sounds.music.volume += 0.05;
-        } else {
-            clearInterval(fade);
-        }
-    }, 200);
-    piece = createPiece();
-    nextPiece = createPiece();
-    drawNextPiece();
-    updateGhostPiece();
-    update();
-}
-
-// Fungsi untuk memulai game baru
-function startNewGame() {
-    localStorage.removeItem(STORAGE_KEY); // Hapus data yang tersimpan
-    board = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
-    score = 0;
-    level = 1;
-    linesCleared = 0;
-    dropInterval = 1000;
-    gameOver = false;
-    unlockedLinks = 0;
-    scoreElem.textContent = score;
-    levelElem.textContent = level;
-    terminalLogElem.innerHTML = '';
-    document.querySelectorAll('.link-unlocked').forEach(link => {
-        link.classList.remove('link-unlocked');
-        link.classList.add('link-locked');
-    });
-    victoryModal.classList.add('hidden');
-
-    introModal.classList.add('hidden');
-    typeLog("[*] Misi dimulai - Hancurkan baris untuk menembus firewall...");
-    sounds.music.volume = 0;
-    sounds.music.play().catch(e => console.error("Music playback failed:", e));
-    let fade = setInterval(() => {
-        if (sounds.music.volume < 0.5) {
-            sounds.music.volume += 0.05;
-        } else {
-            clearInterval(fade);
-        }
-    }, 200);
-    piece = createPiece();
-    nextPiece = createPiece();
-    drawNextPiece();
-    updateGhostPiece();
-    update();
-}
-
-
-/* === EVENT LISTENERS === */
-continueGameBtn.addEventListener('click', loadGame);
-startNewGameBtn.addEventListener('click', startNewGame);
-restartGameBtn.addEventListener('click', startNewGame);
-
-// Awal game
-window.onload = () => {
-    drawMatrix();
-    // Cek apakah ada game yang tersimpan
-    const savedLinks = localStorage.getItem(STORAGE_KEY);
-    if (savedLinks && parseInt(savedLinks, 10) > 0 && parseInt(savedLinks, 10) < 7) {
-        continueGameBtn.classList.remove('hidden');
-        document.querySelector('#start-options p').textContent = "Kemajuan misi Anda ditemukan.";
-    } else {
-        // Hapus tombol "Lanjutkan" jika tidak ada data
-        continueGameBtn.classList.add('hidden');
-    }
-};
+    // Initial setup
+    window.onload = () => {
+        matrixCanvas.width = window.innerWidth;
+        matrixCanvas.height = window.innerHeight;
+        drawMatrix();
+    };
 </script>
 </body>
 </html>
-�
