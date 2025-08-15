@@ -130,6 +130,27 @@
             opacity: 0.5;
             cursor: not-allowed;
         }
+
+        /* Penyesuaian styling untuk paket pilihan terbaik */
+        .best-deal {
+            border: 4px solid #FCD34D;
+            transform: scale(1.05);
+            position: relative; /* Diperlukan untuk menempatkan badge */
+            overflow: hidden;
+        }
+        .best-deal-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: #FCD34D;
+            color: #19052D;
+            font-weight: bold;
+            padding: 0.5rem 2rem;
+            transform: rotate(45deg) translate(25%, -25%);
+            transform-origin: 100% 0;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
     </style>
 </head>
 <body class="bg-[#19052D] font-inter">
@@ -145,6 +166,7 @@
                 <a href="#" class="hover:text-gray-300 transition duration-300" onclick="renderPage('portofolio')">Portofolio</a>
                 <a href="#" class="hover:text-gray-300 transition duration-300" onclick="renderPage('tentang-kami')">Tentang Kami</a>
                 <a href="#" class="hover:text-gray-300 transition duration-300" onclick="renderPage('layanan')">Layanan & Harga</a>
+                <a href="#" class="hover:text-gray-300 transition duration-300" onclick="renderPage('ulasan-pelanggan')">Testimoni</a>
                 <a href="#" class="hover:text-gray-300 transition duration-300" onclick="renderPage('faq')">FAQ</a>
                 <a href="#" class="hover:text-gray-300 transition duration-300" onclick="renderPage('hubungi-kami')">Hubungi Kami</a>
             </nav>
@@ -162,6 +184,7 @@
                 <li><a href="#" class="hover:text-gray-400 transition duration-300" onclick="renderPage('portofolio')">Portofolio</a></li>
                 <li><a href="#" class="hover:text-gray-400 transition duration-300" onclick="renderPage('tentang-kami')">Tentang Kami</a></li>
                 <li><a href="#" class="hover:text-gray-400 transition duration-300" onclick="renderPage('layanan')">Layanan & Harga</a></li>
+                <li><a href="#" class="hover:text-gray-400 transition duration-300" onclick="renderPage('ulasan-pelanggan')">Testimoni</a></li>
                 <li><a href="#" class="hover:text-gray-400 transition duration-300" onclick="renderPage('faq')">FAQ</a></li>
                 <li><a href="#" class="hover:text-gray-400 transition duration-300" onclick="renderPage('hubungi-kami')">Hubungi Kami</a></li>
             </ul>
@@ -252,7 +275,7 @@
                 </div>
             </div>
             
-            <!-- Halaman Layanan & Harga -->
+            <!-- Halaman Layanan & Harga (DIUPDATE) -->
             <div id="page-layanan" class="page-content hidden flex-1 flex-col pt-16">
                 <h2 class="text-4xl md:text-5xl font-bold mb-4 md:mb-8 text-center reveal-item reveal-delay-0">Layanan & Harga</h2>
                 <p class="text-lg text-gray-300 mb-8 md:mb-12 text-center max-w-3xl mx-auto leading-relaxed reveal-item reveal-delay-1">
@@ -271,11 +294,12 @@
                             <li class="flex items-start"><i class="fas fa-check text-green-400 mr-2 mt-1"></i><span>Integrasi Media Sosial</span></li>
                             <li class="flex items-start"><i class="fas fa-check text-green-400 mr-2 mt-1"></i><span>Gratis Konsultasi</span></li>
                         </ul>
-                        <button class="mt-8 bg-purple-600 text-white font-bold py-3 rounded-lg hover:bg-purple-700 transition-colors" onclick="renderPage('hubungi-kami')">Pilih Paket Ini</button>
+                        <button class="mt-8 bg-purple-600 text-white font-bold py-3 rounded-lg hover:bg-purple-700 transition-colors" onclick="selectAndGoToForm('Paket Starter', 'Rp 2.000.000')">Pilih Paket Ini</button>
                     </div>
 
-                    <!-- Kartu Paket 2 -->
-                    <div class="bg-purple-800 p-8 rounded-2xl shadow-lg flex flex-col transform scale-105 border-4 border-purple-500 reveal-item reveal-delay-3">
+                    <!-- Kartu Paket 2 (DIUPDATE DENGAN BADGE) -->
+                    <div class="bg-purple-800 p-8 rounded-2xl shadow-lg flex flex-col best-deal reveal-item reveal-delay-3">
+                        <div class="best-deal-badge">Pilihan Terbaik</div>
                         <h3 class="text-2xl font-bold mb-2">Paket Bisnis</h3>
                         <p class="text-3xl font-extrabold text-white mb-4">Rp 5.000.000</p>
                         <p class="text-gray-200 mb-6 leading-relaxed">Pilihan ideal untuk bisnis yang ingin tampil profesional dan menjangkau audiens lebih luas.</p>
@@ -287,7 +311,7 @@
                             <li class="flex items-start"><i class="fas fa-check text-white mr-2 mt-1"></i><span>Integrasi Google Analytics</span></li>
                             <li class="flex items-start"><i class="fas fa-check text-white mr-2 mt-1"></i><span>Formulir Kontak Kustom</span></li>
                         </ul>
-                        <button class="mt-8 bg-white text-purple-800 font-bold py-3 rounded-lg hover:bg-gray-200 transition-colors" onclick="renderPage('hubungi-kami')">Pilih Paket Ini</button>
+                        <button class="mt-8 bg-white text-purple-800 font-bold py-3 rounded-lg hover:bg-gray-200 transition-colors" onclick="selectAndGoToForm('Paket Bisnis', 'Rp 5.000.000')">Pilih Paket Ini</button>
                     </div>
 
                     <!-- Kartu Paket 3 -->
@@ -303,11 +327,54 @@
                             <li class="flex items-start"><i class="fas fa-check text-green-400 mr-2 mt-1"></i><span>Fitur Kupon & Diskon</span></li>
                             <li class="flex items-start"><i class="fas fa-check text-green-400 mr-2 mt-1"></i><span>Layanan Tambahan Lainnya</span></li>
                         </ul>
-                        <button class="mt-8 bg-purple-600 text-white font-bold py-3 rounded-lg hover:bg-purple-700 transition-colors" onclick="renderPage('hubungi-kami')">Pilih Paket Ini</button>
+                        <button class="mt-8 bg-purple-600 text-white font-bold py-3 rounded-lg hover:bg-purple-700 transition-colors" onclick="selectAndGoToForm('Paket E-Commerce', 'Rp 10.000.000')">Pilih Paket Ini</button>
                     </div>
                 </div>
             </div>
 
+            <!-- Halaman Testimoni -->
+            <div id="page-ulasan-pelanggan" class="page-content hidden flex-1 flex-col pt-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4 md:mb-8 text-center reveal-item reveal-delay-0">Apa Kata Klien Kami?</h2>
+                <p class="text-lg text-gray-300 mb-8 md:mb-12 text-center max-w-3xl mx-auto leading-relaxed reveal-item reveal-delay-1">
+                    Kepuasan Anda adalah prioritas kami. Baca ulasan dari klien yang telah merasakan langsung dampak positif dari website yang kami bangun.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    <!-- Testimoni 1 -->
+                    <div class="bg-gray-800 p-6 rounded-xl reveal-item reveal-delay-2">
+                        <div class="flex items-center mb-4">
+                            <img src="https://placehold.co/60x60/3a3a3a/FFFFFF?text=JK" alt="Foto Klien" class="w-12 h-12 rounded-full mr-4">
+                            <div>
+                                <h4 class="text-xl font-semibold">Joko Susilo</h4>
+                                <p class="text-purple-400">Direktur, PT. Makmur Jaya</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 italic leading-relaxed">"Desain website yang dibuat Webstroo sangat profesional dan modern. Proses kerjanya cepat dan komunikatif. Hasilnya melebihi ekspektasi kami. Sangat direkomendasikan!"</p>
+                    </div>
+                    <!-- Testimoni 2 -->
+                    <div class="bg-gray-800 p-6 rounded-xl reveal-item reveal-delay-3">
+                        <div class="flex items-center mb-4">
+                            <img src="https://placehold.co/60x60/3a3a3a/FFFFFF?text=SR" alt="Foto Klien" class="w-12 h-12 rounded-full mr-4">
+                            <div>
+                                <h4 class="text-xl font-semibold">Siti Rahmawati</h4>
+                                <p class="text-purple-400">Pemilik, Toko Bunga Indah</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 italic leading-relaxed">"Kami sangat terbantu dengan website e-commerce yang Webstroo bangun. Manajemen produk jadi mudah, dan pesanan meningkat drastis. Terima kasih banyak!"</p>
+                    </div>
+                    <!-- Testimoni 3 -->
+                    <div class="bg-gray-800 p-6 rounded-xl reveal-item reveal-delay-4">
+                        <div class="flex items-center mb-4">
+                            <img src="https://placehold.co/60x60/3a3a3a/FFFFFF?text=AS" alt="Foto Klien" class="w-12 h-12 rounded-full mr-4">
+                            <div>
+                                <h4 class="text-xl font-semibold">Andi Saputra</h4>
+                                <p class="text-purple-400">Travel Blogger</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 italic leading-relaxed">"Blog saya sekarang punya tampilan yang jauh lebih profesional dan cepat. Banyak pembaca baru yang datang karena performa website yang bagus. Salut!"</p>
+                    </div>
+                </div>
+            </div>
+            
             <!-- Halaman FAQ -->
             <div id="page-faq" class="page-content hidden flex-1 flex-col pt-16">
                 <h2 class="text-4xl md:text-5xl font-bold mb-4 md:mb-8 text-center reveal-item reveal-delay-0">Pertanyaan Umum</h2>
@@ -358,7 +425,7 @@
                 </div>
             </div>
 
-            <!-- Halaman Hubungi Kami -->
+            <!-- Halaman Hubungi Kami (DIUPDATE) -->
             <div id="page-hubungi-kami" class="page-content hidden flex-1 flex-col pt-16">
                 <h2 class="text-4xl md:text-5xl font-bold mb-8 reveal-item reveal-delay-0">Wujudkan Impian Website Anda</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -374,24 +441,61 @@
                         </div>
                     </div>
                     <div class="bg-gray-800 p-8 rounded-xl shadow-lg reveal-item reveal-delay-2">
-                        <form class="space-y-6">
+                        <form id="contact-form" class="space-y-6">
+                            <input type="hidden" id="selected-package" name="package">
                             <div>
-                                <label for="nama" class="block text-lg font-medium text-gray-200 mb-1">Nama</label>
-                                <input type="text" id="nama" class="w-full p-3 bg-gray-700 rounded-lg border-2 border-gray-600 focus:outline-none focus:border-purple-500">
+                                <label for="name" class="block text-lg font-medium text-gray-200 mb-1">Nama Lengkap</label>
+                                <input type="text" id="name" name="name" required class="w-full p-3 bg-gray-700 rounded-lg border-2 border-gray-600 focus:outline-none focus:border-purple-500">
                             </div>
                             <div>
                                 <label for="email" class="block text-lg font-medium text-gray-200 mb-1">Email</label>
-                                <input type="email" id="email" class="w-full p-3 bg-gray-700 rounded-lg border-2 border-gray-600 focus:outline-none focus:border-purple-500">
+                                <input type="email" id="email" name="email" required class="w-full p-3 bg-gray-700 rounded-lg border-2 border-gray-600 focus:outline-none focus:border-purple-500">
                             </div>
                             <div>
-                                <label for="pesan" class="block text-lg font-medium text-gray-200 mb-1">Pesan</label>
-                                <textarea id="pesan" rows="4" class="w-full p-3 bg-gray-700 rounded-lg border-2 border-gray-600 focus:outline-none focus:border-purple-500"></textarea>
+                                <label for="message" class="block text-lg font-medium text-gray-200 mb-1">Pesan</label>
+                                <textarea id="message" name="message" rows="4" class="w-full p-3 bg-gray-700 rounded-lg border-2 border-gray-600 focus:outline-none focus:border-purple-500"></textarea>
                             </div>
-                            <button type="submit" class="w-full bg-purple-600 text-white font-bold py-3 rounded-lg hover:bg-purple-700 transition-colors">Kirim Pesan</button>
+                            <p id="package-info" class="text-center text-lg font-semibold text-purple-400 mb-6"></p>
+                            <button type="submit" class="w-full bg-purple-600 text-white font-bold py-3 rounded-lg hover:bg-purple-700 transition-colors">Kirim ke WhatsApp</button>
                         </form>
                     </div>
                 </div>
             </div>
+            
+            <!-- Halaman Proses Kerja -->
+            <div id="page-proses-kerja" class="page-content hidden flex-1 flex-col pt-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4 md:mb-8 text-center reveal-item reveal-delay-0">Proses Kerja Kami</h2>
+                <p class="text-lg text-gray-300 mb-8 md:mb-12 text-center max-w-3xl mx-auto leading-relaxed reveal-item reveal-delay-1">
+                    Kami memastikan setiap proyek berjalan lancar dari awal hingga akhir dengan proses yang terstruktur dan transparan.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                    <!-- Langkah 1 -->
+                    <div class="flex flex-col items-center text-center p-6 bg-gray-800 rounded-xl reveal-item reveal-delay-2">
+                        <div class="flex items-center justify-center w-16 h-16 bg-purple-600 rounded-full text-white text-2xl font-bold mb-4">1</div>
+                        <h4 class="text-xl font-semibold mb-2">Konsultasi & Perencanaan</h4>
+                        <p class="text-gray-300 leading-relaxed">Kami akan mendengarkan kebutuhan dan visi Anda untuk website.</p>
+                    </div>
+                    <!-- Langkah 2 -->
+                    <div class="flex flex-col items-center text-center p-6 bg-gray-800 rounded-xl reveal-item reveal-delay-3">
+                        <div class="flex items-center justify-center w-16 h-16 bg-purple-600 rounded-full text-white text-2xl font-bold mb-4">2</div>
+                        <h4 class="text-xl font-semibold mb-2">Desain & Pengembangan</h4>
+                        <p class="text-gray-300 leading-relaxed">Kami mulai mendesain dan membangun website sesuai kesepakatan.</p>
+                    </div>
+                    <!-- Langkah 3 -->
+                    <div class="flex flex-col items-center text-center p-6 bg-gray-800 rounded-xl reveal-item reveal-delay-4">
+                        <div class="flex items-center justify-center w-16 h-16 bg-purple-600 rounded-full text-white text-2xl font-bold mb-4">3</div>
+                        <h4 class="text-xl font-semibold mb-2">Review & Revisi</h4>
+                        <p class="text-gray-300 leading-relaxed">Anda dapat memberikan masukan untuk memastikan hasilnya sempurna.</p>
+                    </div>
+                    <!-- Langkah 4 -->
+                    <div class="flex flex-col items-center text-center p-6 bg-gray-800 rounded-xl reveal-item reveal-delay-5">
+                        <div class="flex items-center justify-center w-16 h-16 bg-purple-600 rounded-full text-white text-2xl font-bold mb-4">4</div>
+                        <h4 class="text-xl font-semibold mb-2">Peluncuran & Dukungan</h4>
+                        <p class="text-gray-300 leading-relaxed">Website diluncurkan, dan kami siap memberikan dukungan purna jual.</p>
+                    </div>
+                </div>
+            </div>
+            
         </main>
         
         <!-- Footer Indikator Halaman & Ikon Media Sosial -->
@@ -406,17 +510,18 @@
             <div class="flex items-center space-x-4">
                 <span id="current-page-num" class="text-lg">01</span>
                 <div class="w-24 bg-gray-600 rounded-full h-1">
-                    <div id="progress-bar" class="bg-white h-full rounded-full" style="width: 20%;"></div>
+                    <div id="progress-bar" class="bg-white h-full rounded-full" style="width: 16.66%;"></div>
                 </div>
-                <span id="total-page-num" class="text-lg">05</span>
+                <span id="total-page-num" class="text-lg">06</span>
             </div>
         </footer>
     </div>
 
     <!-- JavaScript untuk menangani SPA, menu mobile, dan animasi -->
     <script>
-        const pages = ['utama', 'portofolio', 'tentang-kami', 'layanan', 'faq', 'hubungi-kami'];
+        const pages = ['utama', 'portofolio', 'tentang-kami', 'layanan', 'ulasan-pelanggan', 'faq', 'hubungi-kami'];
         let currentPageIndex = 0;
+        const whatsappNumber = '6285757043312'; // Nomor WhatsApp yang dituju
 
         // Data Portofolio
         const portfolioItems = [
@@ -624,7 +729,69 @@
         document.addEventListener('DOMContentLoaded', () => {
             renderPage('utama');
         });
+        
+        // =========================================================================
+        // SCRIPT BARU UNTUK FITUR LAYANAN & WHATSAPP
+        // =========================================================================
 
+        /**
+         * Fungsi untuk memilih paket dan mengarahkan ke formulir kontak.
+         * @param {string} packageName Nama paket yang dipilih.
+         * @param {string} packagePrice Harga paket yang dipilih.
+         */
+        function selectAndGoToForm(packageName, packagePrice) {
+            // Alihkan ke halaman "Hubungi Kami"
+            renderPage('hubungi-kami');
+            
+            // Tunggu sebentar hingga halaman selesai dirender
+            setTimeout(() => {
+                // Dapatkan elemen-elemen formulir
+                const selectedPackageInput = document.getElementById('selected-package');
+                const packageInfoText = document.getElementById('package-info');
+            
+                // Isi nilai input hidden dengan nama paket yang dipilih
+                selectedPackageInput.value = `${packageName} - ${packagePrice}`;
+
+                // Tampilkan informasi paket yang dipilih di atas tombol kirim
+                packageInfoText.textContent = `Anda memilih: ${packageName} (${packagePrice})`;
+            }, 500); // Penundaan kecil untuk memastikan halaman telah dimuat
+        }
+
+        // Tangani pengiriman formulir untuk mengirim data ke WhatsApp
+        document.getElementById('contact-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Mencegah formulir untuk melakukan submit secara default
+
+            // Dapatkan data dari formulir
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            const selectedPackage = document.getElementById('selected-package').value;
+
+            // Buat pesan untuk WhatsApp
+            let whatsappMessage = `Halo, saya ${name} ingin bertanya tentang paket yang Anda tawarkan.\n\n`;
+            
+            // Tambahkan info paket jika ada yang dipilih
+            if (selectedPackage) {
+                whatsappMessage += `Saya tertarik dengan: *${selectedPackage}*\n\n`;
+            }
+            
+            whatsappMessage += `Nama: ${name}\n`;
+            whatsappMessage += `Email: ${email}\n`;
+            
+            if (message) {
+                 whatsappMessage += `Pesan: ${message}\n`;
+            }
+            whatsappMessage += `\nMohon informasinya lebih lanjut. Terima kasih.`;
+
+            // Enkode pesan agar aman untuk URL
+            const encodedMessage = encodeURIComponent(whatsappMessage);
+
+            // Buat URL WhatsApp
+            const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+
+            // Arahkan pengguna ke URL WhatsApp
+            window.open(whatsappUrl, '_blank');
+        });
     </script>
 </body>
 </html>
