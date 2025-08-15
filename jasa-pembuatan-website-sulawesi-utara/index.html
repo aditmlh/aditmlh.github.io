@@ -1,0 +1,630 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jasa Pembuatan Website Profesional | Webstroo Kotamobagu</title>
+    <!-- Memuat Tailwind CSS dari CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Menggunakan font Inter dari Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <!-- Menggunakan Font Awesome untuk ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #19052D; /* Dark purple background */
+            color: #ffffff;
+            overflow-x: hidden;
+            line-height: 1.6; /* Menambahkan line-height dasar untuk keterbacaan */
+        }
+
+        .gradient-bg {
+            background: radial-gradient(circle at 100% 50%, rgba(128, 0, 128, 0.5) 0%, rgba(128, 0, 128, 0.0) 70%),
+                        radial-gradient(circle at 0% 50%, rgba(128, 0, 128, 0.5) 0%, rgba(128, 0, 128, 0.0) 70%),
+                        #19052D;
+        }
+
+        .logo-text {
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .menu-icon {
+            cursor: pointer;
+            width: 30px;
+            height: 20px;
+            position: relative;
+        }
+
+        .menu-icon span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background-color: white;
+            position: absolute;
+            left: 0;
+            transition: all 0.3s ease;
+        }
+
+        .menu-icon span:nth-child(1) { top: 0; }
+        .menu-icon span:nth-child(2) { top: 50%; transform: translateY(-50%); }
+        .menu-icon span:nth-child(3) { bottom: 0; }
+
+        .menu-icon.open span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+        .menu-icon.open span:nth-child(2) { opacity: 0; }
+        .menu-icon.open span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: #19052D;
+            z-index: 50;
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+            padding: 4rem 2rem;
+        }
+
+        .mobile-menu.open { transform: translateX(0); }
+
+        /* Gaya animasi reveal saat halaman dimuat */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .page-content {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1), transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .page-content.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Gaya untuk elemen-elemen di dalam halaman agar muncul satu per satu */
+        .reveal-item {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+        
+        .reveal-delay-0 { animation-delay: 0.1s; }
+        .reveal-delay-1 { animation-delay: 0.2s; }
+        .reveal-delay-2 { animation-delay: 0.3s; }
+        .reveal-delay-3 { animation-delay: 0.4s; }
+        .reveal-delay-4 { animation-delay: 0.5s; }
+        .reveal-delay-5 { animation-delay: 0.6s; }
+
+        .service-list li {
+            position: relative;
+            padding-left: 24px;
+        }
+
+        .service-list li::before {
+            content: "\f00c";
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: #8B5CF6;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .disabled-btn {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body class="bg-[#19052D] font-inter">
+
+    <!-- Kontainer utama dengan background gradasi -->
+    <div class="min-h-screen relative overflow-hidden flex flex-col p-8 md:p-16 gradient-bg">
+
+        <!-- Navbar -->
+        <header class="flex justify-between items-center mb-16 md:mb-24 relative z-20">
+            <div class="logo-text cursor-pointer" onclick="renderPage('utama')">Webstroo</div>
+            <!-- Menu untuk desktop -->
+            <nav class="hidden md:flex space-x-8 text-white font-medium text-lg">
+                <a href="#" class="hover:text-gray-300 transition duration-300" onclick="renderPage('portofolio')">Portofolio</a>
+                <a href="#" class="hover:text-gray-300 transition duration-300" onclick="renderPage('tentang-kami')">Tentang Kami</a>
+                <a href="#" class="hover:text-gray-300 transition duration-300" onclick="renderPage('layanan')">Layanan & Harga</a>
+                <a href="#" class="hover:text-gray-300 transition duration-300" onclick="renderPage('faq')">FAQ</a>
+                <a href="#" class="hover:text-gray-300 transition duration-300" onclick="renderPage('hubungi-kami')">Hubungi Kami</a>
+            </nav>
+            <!-- Ikon menu untuk mobile -->
+            <div id="mobile-menu-toggle" class="menu-icon md:hidden z-30">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </header>
+
+        <!-- Menu mobile (off-canvas) -->
+        <div id="mobile-menu" class="mobile-menu flex flex-col items-center justify-center">
+            <ul class="space-y-8 text-white text-3xl font-bold text-center">
+                <li><a href="#" class="hover:text-gray-400 transition duration-300" onclick="renderPage('portofolio')">Portofolio</a></li>
+                <li><a href="#" class="hover:text-gray-400 transition duration-300" onclick="renderPage('tentang-kami')">Tentang Kami</a></li>
+                <li><a href="#" class="hover:text-gray-400 transition duration-300" onclick="renderPage('layanan')">Layanan & Harga</a></li>
+                <li><a href="#" class="hover:text-gray-400 transition duration-300" onclick="renderPage('faq')">FAQ</a></li>
+                <li><a href="#" class="hover:text-gray-400 transition duration-300" onclick="renderPage('hubungi-kami')">Hubungi Kami</a></li>
+            </ul>
+        </div>
+        
+        <!-- Kontainer utama untuk semua halaman -->
+        <main id="app-container" class="flex-1 flex flex-col">
+            <!-- Halaman Utama (Hero Section) -->
+            <div id="page-utama" class="page-content flex-1 flex flex-col md:flex-row items-center justify-between">
+                <div class="max-w-xl text-center md:text-left mb-12 md:mb-0 reveal-item">
+                    <p class="text-base tracking-widest text-gray-400 mb-2 md:mb-4">DARI KOTAMOBAGU, SULAWESI UTARA</p>
+                    <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold leading-tight mb-4 md:mb-6 reveal-item">Ciptakan<br>Kehadiran<br>Digital</h1>
+                    <p class="text-lg md:text-xl text-gray-300 max-w-md mx-auto md:mx-0 leading-relaxed reveal-item">
+                        Webstroo hadir untuk membuat website profesional yang dirancang khusus untuk pertumbuhan bisnis Anda. Kami fokus pada kualitas, fungsionalitas, dan desain yang memukau.
+                    </p>
+                    <div class="mt-8 md:mt-12 flex items-center justify-center md:justify-start reveal-item">
+                        <a href="#" class="flex items-center space-x-4 border-2 border-white rounded-full p-2 pr-6 transition duration-300 hover:bg-white hover:text-black" onclick="renderPage('portofolio')">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                            <span class="text-sm md:text-base">Lihat Portofolio</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Bagian gambar dan gradasi di belakangnya -->
+                <div class="relative w-full md:w-1/2 flex justify-center md:justify-end reveal-item">
+                    <div class="absolute inset-0 bg-purple-600 rounded-full opacity-50 blur-3xl" style="width: 80%; height: 80%; transform: translate(20%, -10%);"></div>
+                    <img src="https://placehold.co/500x700/19052D/FFFFFF?text=Website+Desain" alt="Desain website modern" class="relative z-10 w-3/4 md:w-auto h-auto rounded-xl">
+                </div>
+            </div>
+
+            <!-- Halaman Portofolio & Studi Kasus -->
+            <div id="page-portofolio" class="page-content hidden flex-1 flex-col pt-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4 md:mb-8 reveal-item">Portofolio Kami</h2>
+                <p class="text-lg text-gray-300 mb-8 md:mb-12 max-w-2xl reveal-item">
+                    Kami tidak hanya membangun website, kami menciptakan solusi digital yang memberikan hasil nyata. Berikut beberapa karya terbaik kami yang telah membantu klien tumbuh dan berkembang.
+                </p>
+
+                <!-- Kontrol Portofolio: Pencarian & Filter -->
+                <div class="flex flex-col md:flex-row items-center justify-between mb-8 space-y-4 md:space-y-0 reveal-item">
+                    <input type="text" id="search-input" placeholder="Cari portofolio..." class="w-full md:w-1/3 px-4 py-2 rounded-full bg-gray-800 text-white border border-gray-600 focus:outline-none focus:border-purple-500">
+                    <div id="category-filters" class="flex flex-wrap justify-center md:justify-end space-x-2 md:space-x-4">
+                        <button data-category="all" class="filter-btn px-4 py-2 rounded-full font-medium transition-colors bg-purple-600 hover:bg-purple-700 focus:outline-none">Semua</button>
+                        <button data-category="pemerintahan" class="filter-btn px-4 py-2 rounded-full font-medium transition-colors bg-gray-700 hover:bg-purple-700 focus:outline-none">Pemerintahan</button>
+                        <button data-category="e-commerce" class="filter-btn px-4 py-2 rounded-full font-medium transition-colors bg-gray-700 hover:bg-purple-700 focus:outline-none">E-Commerce</button>
+                        <button data-category="blog" class="filter-btn px-4 py-2 rounded-full font-medium transition-colors bg-gray-700 hover:bg-purple-700 focus:outline-none">Blog</button>
+                    </div>
+                </div>
+
+                <!-- Kontainer untuk Item Portofolio yang Dinamis -->
+                <div id="portfolio-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Item portofolio akan dimasukkan di sini oleh JavaScript -->
+                </div>
+
+                <!-- Navigasi Paginasi -->
+                <div class="flex justify-center items-center mt-12 space-x-4">
+                    <button id="prev-btn" class="px-6 py-3 bg-gray-800 text-white rounded-full font-bold hover:bg-gray-700 transition-colors disabled-btn">
+                        Previous
+                    </button>
+                    <span id="page-info" class="text-lg text-gray-300">1 / 2</span>
+                    <button id="next-btn" class="px-6 py-3 bg-purple-600 text-white rounded-full font-bold hover:bg-purple-700 transition-colors">
+                        Next
+                    </button>
+                </div>
+            </div>
+
+            <!-- Halaman Tentang Kami -->
+            <div id="page-tentang-kami" class="page-content hidden flex-1 flex-col pt-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-8 reveal-item reveal-delay-0">Mengapa Memilih Webstroo?</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                    <div class="reveal-item reveal-delay-1">
+                        <p class="text-lg text-gray-300 mb-6 leading-relaxed">
+                            Kami bukan sekadar penyedia jasa website, kami adalah mitra digital Anda. Dengan pengalaman lebih dari 8 tahun di dunia IT, kami memahami bahwa website yang sukses adalah kombinasi dari desain yang memukau, fungsionalitas yang kuat, dan optimasi SEO yang tepat.
+                        </p>
+                        <p class="text-base text-gray-400 reveal-delay-2 leading-relaxed">
+                            Setiap proyek yang kami tangani dibangun dengan teknologi terbaik, memastikan website Anda responsif, cepat, dan mudah ditemukan oleh calon pelanggan di Google. Rekam jejak 100% tingkat keberhasilan proyek adalah bukti komitmen kami terhadap kepuasan klien.
+                        </p>
+                        <h4 class="text-2xl font-bold mt-8 mb-4 reveal-delay-3">Keuntungan yang Anda Dapatkan:</h4>
+                        <ul class="space-y-2 text-gray-300 reveal-delay-4">
+                            <li class="flex items-center"><i class="fas fa-check text-green-400 mr-2"></i><span>Website dengan desain unik dan profesional</span></li>
+                            <li class="flex items-center"><i class="fas fa-check text-green-400 mr-2"></i><span>Sistem yang dioptimasi untuk SEO sejak awal</span></li>
+                            <li class="flex items-center"><i class="fas fa-check text-green-400 mr-2"></i><span>Website yang cepat dan responsif di semua perangkat</span></li>
+                            <li class="flex items-center"><i class="fas fa-check text-green-400 mr-2"></i><span>Konsultasi gratis dan komunikasi yang transparan</span></li>
+                        </ul>
+                    </div>
+                    <img src="https://placehold.co/600x400/19052D/FFFFFF?text=Webstroo+Solusi" alt="Solusi Digital Webstroo" class="rounded-xl shadow-lg reveal-item reveal-delay-1">
+                </div>
+            </div>
+            
+            <!-- Halaman Layanan & Harga -->
+            <div id="page-layanan" class="page-content hidden flex-1 flex-col pt-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4 md:mb-8 text-center reveal-item reveal-delay-0">Layanan & Harga</h2>
+                <p class="text-lg text-gray-300 mb-8 md:mb-12 text-center max-w-3xl mx-auto leading-relaxed reveal-item reveal-delay-1">
+                    Pilih paket yang paling sesuai dengan kebutuhan bisnis Anda. Setiap paket dirancang untuk memberikan hasil terbaik dengan investasi yang terjangkau.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Kartu Paket 1 -->
+                    <div class="bg-gray-800 p-8 rounded-2xl shadow-lg flex flex-col transition-transform duration-300 hover:scale-105 hover:shadow-xl reveal-item reveal-delay-2">
+                        <h3 class="text-2xl font-bold mb-2">Paket Starter</h3>
+                        <p class="text-3xl font-extrabold text-purple-400 mb-4">Rp 2.000.000</p>
+                        <p class="text-gray-300 mb-6 leading-relaxed">Cocok untuk personal branding, portofolio, atau bisnis kecil yang baru memulai.</p>
+                        <ul class="space-y-3 text-gray-300 flex-1">
+                            <li class="flex items-start"><i class="fas fa-check text-green-400 mr-2 mt-1"></i><span>Desain Landing Page 1 Halaman</span></li>
+                            <li class="flex items-start"><i class="fas fa-check text-green-400 mr-2 mt-1"></i><span>Desain Responsif Mobile & Desktop</span></li>
+                            <li class="flex items-start"><i class="fas fa-check text-green-400 mr-2 mt-1"></i><span>Optimasi SEO Dasar</span></li>
+                            <li class="flex items-start"><i class="fas fa-check text-green-400 mr-2 mt-1"></i><span>Integrasi Media Sosial</span></li>
+                            <li class="flex items-start"><i class="fas fa-check text-green-400 mr-2 mt-1"></i><span>Gratis Konsultasi</span></li>
+                        </ul>
+                        <button class="mt-8 bg-purple-600 text-white font-bold py-3 rounded-lg hover:bg-purple-700 transition-colors" onclick="renderPage('hubungi-kami')">Pilih Paket Ini</button>
+                    </div>
+
+                    <!-- Kartu Paket 2 -->
+                    <div class="bg-purple-800 p-8 rounded-2xl shadow-lg flex flex-col transform scale-105 border-4 border-purple-500 reveal-item reveal-delay-3">
+                        <h3 class="text-2xl font-bold mb-2">Paket Bisnis</h3>
+                        <p class="text-3xl font-extrabold text-white mb-4">Rp 5.000.000</p>
+                        <p class="text-gray-200 mb-6 leading-relaxed">Pilihan ideal untuk bisnis yang ingin tampil profesional dan menjangkau audiens lebih luas.</p>
+                        <ul class="space-y-3 text-gray-200 flex-1">
+                            <li class="flex items-start"><i class="fas fa-check text-white mr-2 mt-1"></i><span>Hingga 5 Halaman (Beranda, Profil, Layanan, Blog, Kontak)</span></li>
+                            <li class="flex items-start"><i class="fas fa-check text-white mr-2 mt-1"></i><span>Desain Kustom & Responsif</span></li>
+                            <li class="flex items-start"><i class="fas fa-check text-white mr-2 mt-1"></i><span>Manajemen Konten (CMS)</span></li>
+                            <li class="flex items-start"><i class="fas fa-check text-white mr-2 mt-1"></i><span>Optimasi SEO Lanjutan</span></li>
+                            <li class="flex items-start"><i class="fas fa-check text-white mr-2 mt-1"></i><span>Integrasi Google Analytics</span></li>
+                            <li class="flex items-start"><i class="fas fa-check text-white mr-2 mt-1"></i><span>Formulir Kontak Kustom</span></li>
+                        </ul>
+                        <button class="mt-8 bg-white text-purple-800 font-bold py-3 rounded-lg hover:bg-gray-200 transition-colors" onclick="renderPage('hubungi-kami')">Pilih Paket Ini</button>
+                    </div>
+
+                    <!-- Kartu Paket 3 -->
+                    <div class="bg-gray-800 p-8 rounded-2xl shadow-lg flex flex-col transition-transform duration-300 hover:scale-105 hover:shadow-xl reveal-item reveal-delay-4">
+                        <h3 class="text-2xl font-bold mb-2">Paket E-Commerce</h3>
+                        <p class="text-3xl font-extrabold text-purple-400 mb-4">Rp 10.000.000</p>
+                        <p class="text-gray-300 mb-6 leading-relaxed">Solusi lengkap untuk Anda yang ingin memulai toko online dengan fitur premium.</p>
+                        <ul class="space-y-3 text-gray-300 flex-1">
+                            <li class="flex items-start"><i class="fas fa-check text-green-400 mr-2 mt-1"></i><span>Website E-commerce Fungsional Lengkap</span></li>
+                            <li class="flex items-start"><i class="fas fa-check text-green-400 mr-2 mt-1"></i><span>Manajemen Produk & Pesanan</span></li>
+                            <li class="flex items-start"><i class="fas fa-check text-green-400 mr-2 mt-1"></i><span>Integrasi Pembayaran Otomatis</span></li>
+                            <li class="flex items-start"><i class="fas fa-check text-green-400 mr-2 mt-1"></i><span>Optimasi SEO Produk</span></li>
+                            <li class="flex items-start"><i class="fas fa-check text-green-400 mr-2 mt-1"></i><span>Fitur Kupon & Diskon</span></li>
+                            <li class="flex items-start"><i class="fas fa-check text-green-400 mr-2 mt-1"></i><span>Layanan Tambahan Lainnya</span></li>
+                        </ul>
+                        <button class="mt-8 bg-purple-600 text-white font-bold py-3 rounded-lg hover:bg-purple-700 transition-colors" onclick="renderPage('hubungi-kami')">Pilih Paket Ini</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Halaman FAQ -->
+            <div id="page-faq" class="page-content hidden flex-1 flex-col pt-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4 md:mb-8 text-center reveal-item reveal-delay-0">Pertanyaan Umum</h2>
+                <p class="text-lg text-gray-300 mb-8 md:mb-12 text-center max-w-3xl mx-auto leading-relaxed reveal-item reveal-delay-1">
+                    Temukan jawaban atas pertanyaan paling umum seputar layanan, proses kerja, dan harga kami.
+                </p>
+                <div class="space-y-4 max-w-4xl mx-auto">
+                    <!-- FAQ Item 1 -->
+                    <div class="bg-gray-800 rounded-lg p-6 reveal-item reveal-delay-2">
+                        <button class="flex justify-between items-center w-full text-left font-semibold text-lg" onclick="toggleFAQ(this)">
+                            <span>Berapa lama waktu yang dibutuhkan untuk membuat website?</span>
+                            <span class="text-xl ml-4">+</span>
+                        </button>
+                        <div class="faq-answer hidden text-gray-300 mt-4 leading-relaxed">
+                            <p>Waktu pengerjaan bergantung pada kompleksitas proyek. Untuk landing page sederhana, biasanya 1-2 minggu. Sedangkan untuk website bisnis atau e-commerce yang lebih kompleks, bisa memakan waktu 4-8 minggu.</p>
+                        </div>
+                    </div>
+                    <!-- FAQ Item 2 -->
+                    <div class="bg-gray-800 rounded-lg p-6 reveal-item reveal-delay-3">
+                        <button class="flex justify-between items-center w-full text-left font-semibold text-lg" onclick="toggleFAQ(this)">
+                            <span>Apakah harga yang tercantum sudah termasuk hosting dan domain?</span>
+                            <span class="text-xl ml-4">+</span>
+                        </button>
+                        <div class="faq-answer hidden text-gray-300 mt-4 leading-relaxed">
+                            <p>Harga paket yang tercantum belum termasuk biaya hosting dan domain. Namun, kami akan membantu Anda dalam memilih dan mendaftarkan hosting serta domain yang paling sesuai untuk kebutuhan Anda.</p>
+                        </div>
+                    </div>
+                    <!-- FAQ Item 3 -->
+                    <div class="bg-gray-800 rounded-lg p-6 reveal-item reveal-delay-4">
+                        <button class="flex justify-between items-center w-full text-left font-semibold text-lg" onclick="toggleFAQ(this)">
+                            <span>Apakah website yang dibuat sudah teroptimasi untuk SEO?</span>
+                            <span class="text-xl ml-4">+</span>
+                        </button>
+                        <div class="faq-answer hidden text-gray-300 mt-4 leading-relaxed">
+                            <p>Ya, semua website yang kami bangun dioptimalkan untuk SEO dasar sejak awal, termasuk struktur halaman, kecepatan, dan penggunaan kata kunci. Untuk optimasi SEO lanjutan, kami juga memiliki layanan tambahan.</p>
+                        </div>
+                    </div>
+                    <!-- FAQ Item 4 -->
+                    <div class="bg-gray-800 rounded-lg p-6 reveal-item reveal-delay-5">
+                        <button class="flex justify-between items-center w-full text-left font-semibold text-lg" onclick="toggleFAQ(this)">
+                            <span>Apakah saya akan mendapatkan akses penuh ke website saya?</span>
+                            <span class="text-xl ml-4">+</span>
+                        </button>
+                        <div class="faq-answer hidden text-gray-300 mt-4 leading-relaxed">
+                            <p>Tentu. Setelah proyek selesai dan pelunasan pembayaran, Anda akan mendapatkan akses penuh sebagai administrator ke semua file dan sistem manajemen konten (CMS) website Anda.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Halaman Hubungi Kami -->
+            <div id="page-hubungi-kami" class="page-content hidden flex-1 flex-col pt-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-8 reveal-item reveal-delay-0">Wujudkan Impian Website Anda</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <div class="reveal-item reveal-delay-1">
+                        <p class="text-lg text-gray-300 mb-6 leading-relaxed">
+                            Website yang tepat dapat mengubah bisnis Anda. Mulailah perjalanan digital Anda bersama Webstroo. Kami siap mendengarkan kebutuhan Anda dan memberikan solusi terbaik.
+                        </p>
+                        <div class="space-y-4 text-base">
+                            <p><i class="fas fa-envelope text-purple-400 mr-2"></i> adityam@webstroo.com (contoh)</p>
+                            <p><i class="fas fa-phone-alt text-purple-400 mr-2"></i> +62 812 3456 7890 (contoh)</p>
+                            <p><i class="fas fa-map-marker-alt text-purple-400 mr-2"></i> Kotamobagu, Sulawesi Utara</p>
+                            <p class="pt-4"><a href="#" class="text-purple-400 hover:text-purple-300 transition-colors">Tanya di sini</a></p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-800 p-8 rounded-xl shadow-lg reveal-item reveal-delay-2">
+                        <form class="space-y-6">
+                            <div>
+                                <label for="nama" class="block text-lg font-medium text-gray-200 mb-1">Nama</label>
+                                <input type="text" id="nama" class="w-full p-3 bg-gray-700 rounded-lg border-2 border-gray-600 focus:outline-none focus:border-purple-500">
+                            </div>
+                            <div>
+                                <label for="email" class="block text-lg font-medium text-gray-200 mb-1">Email</label>
+                                <input type="email" id="email" class="w-full p-3 bg-gray-700 rounded-lg border-2 border-gray-600 focus:outline-none focus:border-purple-500">
+                            </div>
+                            <div>
+                                <label for="pesan" class="block text-lg font-medium text-gray-200 mb-1">Pesan</label>
+                                <textarea id="pesan" rows="4" class="w-full p-3 bg-gray-700 rounded-lg border-2 border-gray-600 focus:outline-none focus:border-purple-500"></textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-purple-600 text-white font-bold py-3 rounded-lg hover:bg-purple-700 transition-colors">Kirim Pesan</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Footer Indikator Halaman & Ikon Media Sosial -->
+        <footer id="footer-indicator" class="flex justify-between items-center mt-16 md:mt-24">
+            <!-- Ikon Media Sosial -->
+            <div class="flex items-center space-x-6">
+                <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-facebook-f text-xl"></i></a>
+                <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-instagram text-xl"></i></a>
+                <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-linkedin-in text-xl"></i></a>
+            </div>
+            <!-- Indikator Halaman -->
+            <div class="flex items-center space-x-4">
+                <span id="current-page-num" class="text-lg">01</span>
+                <div class="w-24 bg-gray-600 rounded-full h-1">
+                    <div id="progress-bar" class="bg-white h-full rounded-full" style="width: 20%;"></div>
+                </div>
+                <span id="total-page-num" class="text-lg">05</span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- JavaScript untuk menangani SPA, menu mobile, dan animasi -->
+    <script>
+        const pages = ['utama', 'portofolio', 'tentang-kami', 'layanan', 'faq', 'hubungi-kami'];
+        let currentPageIndex = 0;
+
+        // Data Portofolio
+        const portfolioItems = [
+            { title: 'Pemerintahan Kotamobagu', category: 'pemerintahan', description: 'Website resmi pemerintah yang informatif dan mudah diakses publik. (https://kotamobagukota.go.id/)', image: 'https://placehold.co/600x400/2D0544/FFFFFF?text=Pemerintah' },
+            { title: 'Solusi E-Commerce', category: 'e-commerce', description: 'Sistem penjualan online yang efisien dan menarik, meningkatkan konversi dan penjualan.', image: 'https://placehold.co/600x400/2D0544/FFFFFF?text=E-Commerce' },
+            { title: 'Web News Portal', category: 'blog', description: 'Platform berita dengan performa tinggi, dirancang untuk kecepatan dan visibilitas SEO.', image: 'https://placehold.co/600x400/2D0544/FFFFFF?text=Berita' },
+            { title: 'Landing Page Branding', category: 'lain-lain', description: 'Halaman yang berfokus untuk konversi, dioptimalkan untuk menghasilkan leads dan penjualan.', image: 'https://placehold.co/600x400/2D0544/FFFFFF?text=Landing+Page' },
+            { title: 'Sistem Informasi Medis', category: 'pemerintahan', description: 'Aplikasi web yang dibuat khusus untuk manajemen rekam medis Puskesmas Tanoyan Utara.', image: 'https://placehold.co/600x400/2D0544/FFFFFF?text=Sistem+Informasi' },
+            { title: 'Website Pendidikan', category: 'blog', description: 'Platform komunikasi dan informasi yang modern untuk sekolah.', image: 'https://placehold.co/600x400/2D0544/FFFFFF?text=Sekolah' },
+            { title: 'Website Produk Makanan', category: 'e-commerce', description: 'Website katalog produk dengan fitur pemesanan online untuk bisnis makanan lokal.', image: 'https://placehold.co/600x400/2D0544/FFFFFF?text=Makanan' },
+            { title: 'Blog Perjalanan', category: 'blog', description: 'Blog pribadi dengan desain modern untuk berbagi cerita dan tips perjalanan.', image: 'https://placehold.co/600x400/2D0544/FFFFFF?text=Travel+Blog' },
+            { title: 'Portfolio Fotografer', category: 'lain-lain', description: 'Galeri online untuk menampilkan hasil karya fotografi dengan tampilan yang bersih.', image: 'https://placehold.co/600x400/2D0544/FFFFFF?text=Fotografi' },
+            { title: 'Sistem Manajemen Proyek', category: 'pemerintahan', description: 'Aplikasi web untuk mengelola proyek dan tim secara efisien.', image: 'https://placehold.co/600x400/2D0544/FFFFFF?text=Proyek' },
+            { title: 'Toko Bunga Online', category: 'e-commerce', description: 'Toko bunga online dengan sistem pengiriman terintegrasi dan desain yang menarik.', image: 'https://placehold.co/600x400/2D0544/FFFFFF?text=Toko+Bunga' },
+            { title: 'Website Perusahaan Jasa', category: 'lain-lain', description: 'Website perusahaan jasa profesional dengan informasi layanan dan kontak yang jelas.', image: 'https://placehold.co/600x400/2D0544/FFFFFF?text=Jasa' }
+        ];
+
+        let currentPortfolioPage = 1;
+        const itemsPerPage = 6;
+        let currentCategory = 'all';
+        let searchQuery = '';
+
+        /**
+         * Mengubah tampilan halaman berdasarkan nama halaman yang diberikan.
+         * @param {string} pageName Nama halaman yang akan ditampilkan.
+         */
+        function renderPage(pageName) {
+            // Sembunyikan semua halaman
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.classList.add('hidden');
+                page.classList.remove('active');
+            });
+
+            // Tampilkan halaman yang diminta
+            const newPage = document.getElementById(`page-${pageName}`);
+            if (newPage) {
+                newPage.classList.remove('hidden');
+                
+                // Jika halaman yang dituju adalah portofolio, render portofolio
+                if (pageName === 'portofolio') {
+                    renderPortfolio();
+                }
+
+                // Beri sedikit jeda untuk transisi
+                setTimeout(() => {
+                    newPage.classList.add('active');
+                    // Terapkan animasi reveal ke elemen-elemen di dalamnya
+                    newPage.querySelectorAll('.reveal-item').forEach(item => {
+                        item.style.animation = ''; // Reset animation
+                        void item.offsetWidth; // Trigger reflow
+                        item.style.animation = 'fadeInUp 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards';
+                    });
+                }, 10);
+            }
+            
+            // Perbarui indikator footer
+            updateFooterIndicator(pageName);
+            
+            // Tutup menu mobile jika terbuka
+            closeMobileMenu();
+        }
+
+        /**
+         * Merender daftar portofolio berdasarkan pencarian, filter, dan halaman saat ini.
+         */
+        function renderPortfolio() {
+            const portfolioGrid = document.getElementById('portfolio-grid');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const pageInfo = document.getElementById('page-info');
+
+            // Filter item berdasarkan kategori dan pencarian
+            const filteredItems = portfolioItems.filter(item => {
+                const categoryMatch = currentCategory === 'all' || item.category === currentCategory;
+                const searchMatch = item.title.toLowerCase().includes(searchQuery) || item.description.toLowerCase().includes(searchQuery);
+                return categoryMatch && searchMatch;
+            });
+            
+            const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+            const startIndex = (currentPortfolioPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const itemsToShow = filteredItems.slice(startIndex, endIndex);
+
+            portfolioGrid.innerHTML = '';
+            itemsToShow.forEach((item, index) => {
+                const card = `
+                    <div class="bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105 reveal-item reveal-delay-${index % 6}">
+                        <img src="${item.image}" alt="${item.title}" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h4 class="text-xl font-semibold mb-2">${item.title}</h4>
+                            <p class="text-gray-400 text-sm leading-relaxed">${item.description}</p>
+                        </div>
+                    </div>
+                `;
+                portfolioGrid.innerHTML += card;
+            });
+
+            // Update status tombol paginasi
+            prevBtn.classList.toggle('disabled-btn', currentPortfolioPage === 1);
+            nextBtn.classList.toggle('disabled-btn', currentPortfolioPage === totalPages || totalPages === 0);
+            pageInfo.innerText = `${currentPortfolioPage} / ${totalPages > 0 ? totalPages : 1}`;
+
+            // Tambahkan event listener untuk tombol next
+            nextBtn.onclick = () => {
+                if (currentPortfolioPage < totalPages) {
+                    currentPortfolioPage++;
+                    renderPortfolio();
+                }
+            };
+            // Tambahkan event listener untuk tombol previous
+            prevBtn.onclick = () => {
+                if (currentPortfolioPage > 1) {
+                    currentPortfolioPage--;
+                    renderPortfolio();
+                }
+            };
+        }
+
+        /**
+         * Mengupdate indikator footer sesuai halaman yang sedang aktif.
+         * @param {string} pageName Nama halaman yang sedang aktif.
+         */
+        function updateFooterIndicator(pageName) {
+            const index = pages.indexOf(pageName);
+            if (index !== -1) {
+                const totalPages = pages.length;
+                const progress = ((index + 1) / totalPages) * 100;
+                
+                document.getElementById('current-page-num').innerText = String(index + 1).padStart(2, '0');
+                document.getElementById('total-page-num').innerText = String(totalPages).padStart(2, '0');
+                document.getElementById('progress-bar').style.width = `${progress}%`;
+            }
+        }
+        
+        /**
+         * Menangani fungsi toggle untuk menu mobile.
+         */
+        function closeMobileMenu() {
+            const menuToggle = document.getElementById('mobile-menu-toggle');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (menuToggle.classList.contains('open')) {
+                menuToggle.classList.remove('open');
+                mobileMenu.classList.remove('open');
+            }
+        }
+
+        /**
+         * Menangani fungsi toggle untuk FAQ.
+         * @param {HTMLElement} element Elemen FAQ yang diklik.
+         */
+        function toggleFAQ(element) {
+            const answer = element.nextElementSibling;
+            const icon = element.querySelector('span:last-child');
+
+            // Tutup semua FAQ lainnya
+            document.querySelectorAll('.faq-answer').forEach(ans => {
+                if (ans !== answer) {
+                    ans.classList.add('hidden');
+                    ans.previousElementSibling.querySelector('span:last-child').innerText = '+';
+                }
+            });
+
+            if (answer.classList.contains('hidden')) {
+                answer.classList.remove('hidden');
+                icon.innerText = '−'; // Menggunakan unicode minus
+            } else {
+                answer.classList.add('hidden');
+                icon.innerText = '+';
+            }
+        }
+        
+        // Event listener untuk tombol menu mobile
+        document.getElementById('mobile-menu-toggle').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            this.classList.toggle('open');
+            menu.classList.toggle('open');
+        });
+
+        // Event listener untuk filter kategori
+        document.getElementById('category-filters').addEventListener('click', (e) => {
+            if (e.target.classList.contains('filter-btn')) {
+                // Hapus kelas 'active' dari semua tombol
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.classList.remove('bg-purple-600', 'hover:bg-purple-700');
+                    btn.classList.add('bg-gray-700', 'hover:bg-purple-700');
+                });
+                // Tambahkan kelas 'active' ke tombol yang diklik
+                e.target.classList.remove('bg-gray-700');
+                e.target.classList.add('bg-purple-600');
+
+                currentCategory = e.target.dataset.category;
+                currentPortfolioPage = 1; // Reset ke halaman 1 setiap kali filter berubah
+                renderPortfolio();
+            }
+        });
+
+        // Event listener untuk pencarian
+        document.getElementById('search-input').addEventListener('input', (e) => {
+            searchQuery = e.target.value.toLowerCase();
+            currentPortfolioPage = 1; // Reset ke halaman 1 setiap kali pencarian berubah
+            renderPortfolio();
+        });
+
+        // Tampilkan halaman utama saat pertama kali dimuat
+        document.addEventListener('DOMContentLoaded', () => {
+            renderPage('utama');
+        });
+
+    </script>
+</body>
+</html>
