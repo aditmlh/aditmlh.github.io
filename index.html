@@ -1,914 +1,640 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en" class="scroll-smooth">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ADITYA MALAH</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap">
-<script src="https://cdn.tailwindcss.com"></script>
-<style>
-/* Perbaikan CSS: Menambahkan fallback font, animasi, dan skema warna */
-:root {
-    --bg-dark: #0a0a0a;
-    --cyan: #00ffc2;
-    --blue: #4d7eff;
-    --pink: #ff0054;
-    --text-main: #e0e0e0;
-    --text-sub: #a0a0a0;
-}
-body {
-    background: var(--bg-dark);
-    color: var(--text-main);
-    font-family: 'Roboto Mono', monospace, sans-serif;
-    margin: 0;
-    overflow: hidden;
-}
-.crt::after {
-    content: "";
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: repeating-linear-gradient(
-        0deg,
-        rgba(255,255,255,0.02) 0,
-        rgba(255,255,255,0.02) 1px,
-        transparent 2px
-    );
-    pointer-events: none;
-    z-index: 10;
-}
-.neon-text {
-    text-shadow: 0 0 5px var(--cyan), 0 0 10px var(--cyan), 0 0 20px var(--cyan);
-}
-.button-container {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding: 1.5rem;
-    background: rgba(10, 10, 10, 0.8);
-    border: 2px solid var(--blue);
-    border-radius: 12px;
-    box-shadow: 0 0 20px rgba(77, 126, 255, 0.5);
-    backdrop-filter: blur(5px);
-}
-.game-button {
-    padding: 1.2rem 2.5rem;
-    font-size: 1.25rem;
-    font-weight: bold;
-    color: var(--bg-dark);
-    background: var(--cyan);
-    border: none;
-    border-radius: 9999px;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    box-shadow: 0 4px 15px rgba(0, 255, 194, 0.3);
-}
-.game-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(0, 255, 194, 0.5);
-    background: var(--blue);
-    color: white;
-}
-.hidden {
-    display: none;
-}
-.game-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-}
-.modal {
-    background: rgba(10, 10, 10, 0.9);
-    border: 2px solid var(--pink);
-    border-radius: 12px;
-    box-shadow: 0 0 20px rgba(255, 0, 84, 0.5);
-    padding: 2rem;
-    text-align: center;
-    max-width: 90%;
-    width: 400px;
-    position: relative;
-    z-index: 50;
-    animation: fadeIn 0.5s ease-out;
-}
-@keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.95); }
-    to { opacity: 1; transform: scale(1); }
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADITYA MALAH | SUPREME ARCHITECT & WEB AGENCY</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Syne:wght@400;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --acid-lime: #d4ff00;
+            --deep-black: #050505;
+            --accent-pink: #ff0055;
+            --electric-blue: #22d3ee;
+            --bg-dark: #0a0a0a;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
 
-/* === CYBER TERMINAL GAME STYLING === */
-#cyberTerminalGame #game-board {
-    border: 2px solid var(--cyan);
-    box-shadow: 0 0 15px var(--cyan);
-    background: #000;
-    image-rendering: pixelated;
-}
-#cyberTerminalGame #next-piece-canvas {
-    border: 1px solid var(--blue);
-    background: rgba(0,0,0,0.5);
-    image-rendering: pixelated;
-}
-#cyberTerminalGame .link-panel {
-    background: rgba(0,0,0,0.7);
-    border: 2px solid var(--blue);
-    border-radius: 10px;
-    padding: 1rem;
-    box-shadow: 0 0 10px rgba(77, 126, 255, 0.3);
-}
-#cyberTerminalGame #terminal-log {
-    font-size: 0.85rem;
-    color: var(--text-sub);
-    background: rgba(0,0,0,0.5);
-    padding: 0.5rem;
-    height: 120px;
-    overflow-y: auto;
-    border: 1px solid var(--cyan);
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-}
-#cyberTerminalGame #terminal-log::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera */
-}
-.link-locked {
-    opacity: 0.4;
-    pointer-events: none;
-}
-.link-unlocked {
-    opacity: 1;
-    pointer-events: auto;
-    animation: glow 1s infinite alternate;
-}
-@keyframes glow {
-    from { box-shadow: 0 0 5px var(--cyan); }
-    to { box-shadow: 0 0 15px var(--cyan); }
-}
+        * {
+            cursor: none !important;
+            box-sizing: border-box;
+        }
 
-/* === DATA STREAM RUNNER STYLING === */
-#dataStreamGame canvas {
-    --ui-color: #00ffc2;
-    --player-color: #4d7eff;
-    --obstacle-color: #ff0054;
-    --pickup-color: #ffff00;
-    border: 2px solid var(--ui-color);
-    box-shadow: 0 0 10px var(--ui-color);
-    background: rgba(0,0,0,0.8);
-    margin-top: 1rem;
-}
-#dataStreamGame .ui-panel {
-    text-align: center;
-    color: var(--ui-color);
-}
-#dataStreamGame .ui-panel h1 {
-    font-size: 2.5rem;
-    text-shadow: 0 0 5px var(--ui-color);
-}
-#dataStreamGame .ui-panel p {
-    font-size: 1.2rem;
-}
-#dataStreamGame .score-display {
-    color: var(--player-color);
-    font-size: 2rem;
-    font-weight: bold;
-}
-#dataStreamGame .modal {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(10, 10, 10, 0.9);
-    border: 2px solid var(--obstacle-color);
-    box-shadow: 0 0 20px var(--obstacle-color);
-    padding: 2rem;
-    text-align: center;
-    border-radius: 10px;
-    z-index: 10;
-}
-#dataStreamGame .modal h2 {
-    font-size: 2rem;
-    color: var(--obstacle-color);
-    text-shadow: 0 0 5px var(--obstacle-color);
-}
-#dataStreamGame .modal button, .game-button.back-btn {
-    margin-top: 1rem;
-    padding: 0.75rem 2rem;
-    background: var(--ui-color);
-    color: var(--bg-dark);
-    font-weight: bold;
-    border-radius: 9999px;
-    transition: transform 0.2s ease-in-out;
-    border: none;
-}
-#dataStreamGame .modal button:hover, .game-button.back-btn:hover {
-    transform: scale(1.05);
-}
-</style>
+        body {
+            background-color: var(--deep-black);
+            color: white;
+            font-family: 'Syne', sans-serif;
+            overflow-x: hidden; 
+            margin: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .mono { font-family: 'Space Mono', monospace; }
+        .archivo { font-family: 'Archivo Black', sans-serif; }
+
+        /* Custom Cursor */
+        #cursor {
+            width: 8px;
+            height: 8px;
+            background: var(--acid-lime);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+            transition: transform 0.1s ease-out;
+        }
+
+        #cursor-follower {
+            width: 32px;
+            height: 32px;
+            border: 1px solid rgba(255,255,255,0.5);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1), border-color 0.2s;
+        }
+
+        /* Typography */
+        .huge-text {
+            font-size: clamp(3rem, 8vw, 10rem);
+            line-height: 0.85;
+            letter-spacing: -0.05em;
+            text-transform: uppercase;
+        }
+
+        .outline-text {
+            -webkit-text-stroke: 1px rgba(255,255,255,0.3);
+            color: transparent;
+            transition: all 0.3s ease;
+        }
+
+        .outline-text:hover {
+            -webkit-text-stroke: 1px var(--acid-lime);
+            color: rgba(212, 255, 0, 0.1);
+        }
+
+        /* Nav */
+        .hud-nav {
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* Cards */
+        .card-brutal {
+            background: #0f0f0f;
+            border: 1px solid #1a1a1a;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-brutal:hover {
+            background: #151515;
+            border-color: var(--acid-lime);
+            transform: translateY(-5px);
+        }
+
+        .card-brutal::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 3px;
+            background: var(--acid-lime);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .card-brutal:hover::before {
+            transform: scaleX(1);
+        }
+
+        /* Table Specs */
+        .spec-row {
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.2s;
+        }
+        .spec-row:hover {
+            background-color: rgba(255,255,255,0.02);
+        }
+
+        /* Noise Bg */
+        .noise-bg {
+            position: fixed;
+            inset: 0;
+            background: url('data:image/svg+xml;utf8,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E');
+            opacity: 0.04;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .highlight-text {
+            color: var(--acid-lime);
+        }
+
+        /* Animations */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
 </head>
-<body class="crt">
+<body class="selection:bg-acid-lime selection:text-black">
+    <div id="cursor"></div>
+    <div id="cursor-follower"></div>
+    <div class="noise-bg"></div>
 
-<!-- MATRIX BACKGROUND -->
-<canvas id="matrix-bg" aria-hidden="true" class="fixed inset-0 w-full h-full z-0"></canvas>
-
-<!-- AUDIO TOGGLE -->
-<button id="audio-btn" aria-label="Toggle Audio" class="fixed top-4 right-4 bg-black bg-opacity-60 border border-cyan-400 text-cyan-400 p-2 rounded-md z-50">🔊</button>
-
-<!-- MAIN GAME HUB -->
-<div id="gameHub" class="game-container relative z-10">
-    <h1 class="text-5xl font-bold neon-text text-center mb-6">ADIT HUB</h1>
-    <p class="text-blue-400 text-lg mb-8">[ Pilih Misi ]</p>
-    <div class="button-container w-full max-w-sm">
-        <button id="startCyberTerminal" class="game-button">Cyber Terminal Quest</button>
-        <button id="startDataStreamRunner" class="game-button">Data Stream Runner</button>
-    </div>
-</div>
-
-<!-- ==================================== -->
-<!-- CYBER TERMINAL GAME -->
-<!-- ==================================== -->
-<div id="cyberTerminalGame" class="game-container hidden relative z-10">
-    <!-- INTRO MODAL -->
-    <div id="intro-modal" class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-70">
-        <div class="modal p-6 rounded-lg text-center max-w-md w-full">
-            <h1 class="text-3xl font-bold neon-text mb-4">ADIT HUB</h1>
-            <p class="mb-4 text-sm text-blue-400">[ Cyber Terminal Quest ]</p>
-            <p class="mb-4">
-                Akses ditolak. Saya adalah AI penjaga "Adit Hub". Untuk membuka data modul, Anda harus menghancurkan baris kode yang jatuh.
-                Setiap baris yang dihancurkan akan melemahkan firewall.
-            </p>
-            <p class="mb-4 text-xs text-sub-main">
-                <strong>Kontrol:</strong>
-                <br>Panah Kiri/Kanan: Pindah
-                <br>Panah Bawah: Jatuh Cepat
-                <br>Panah Atas: Putar
-                <br>Spasi: Hard Drop
-            </p>
-            <div id="start-options" class="flex flex-col gap-2 mt-4">
-                <label for="difficulty-select" class="text-white text-sm">Pilih Tingkat Kesulitan:</label>
-                <select id="difficulty-select" class="px-4 py-2 bg-gray-800 text-cyan-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500">
-                    <option value="easy">Mudah</option>
-                    <option value="normal" selected>Normal</option>
-                    <option value="hard">Sulit</option>
-                    <option value="extreme">Ekstrim</option>
-                </select>
-                <button id="continue-game-btn" class="hidden px-6 py-3 bg-blue-500 text-black font-bold rounded-full hover:bg-blue-400 transition-colors duration-300">Lanjutkan Misi</button>
-                <button id="start-new-game-btn" class="px-6 py-3 bg-cyan-500 text-black font-bold rounded-full hover:bg-cyan-400 transition-colors duration-300">Mulai Misi Baru</button>
-                <button id="back-to-menu-ct" class="px-6 py-3 bg-gray-500 text-black font-bold rounded-full hover:bg-gray-400 transition-colors duration-300">Kembali ke Menu</button>
-            </div>
+    <!-- STICKY HUD NAVIGATION -->
+    <nav class="hud-nav fixed top-0 w-full z-50 px-4 py-4 md:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="flex flex-col">
+            <a href="#" class="archivo text-2xl tracking-tighter hover:text-[#d4ff00] transition-colors pointer-events-auto">ADITYA.MALAH</a>
+            <div class="mono text-[10px] text-zinc-500">SUPREME_ARCHITECT // WEB AGENCY</div>
         </div>
-    </div>
-    
-    <!-- VICTORY MODAL -->
-    <div id="victory-modal" class="hidden fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-70">
-        <div class="modal p-6 rounded-lg text-center max-w-md w-full">
-            <h1 class="text-3xl font-bold neon-text mb-4">Misi Selesai</h1>
-            <p class="mb-4 text-blue-400">Selamat! Anda telah membuka semua modul data dan berhasil menembus firewall.</p>
-            <p class="mb-4">"Adit Hub" sekarang terbuka sepenuhnya. Anda dapat menjelajahi data yang ada.</p>
-            <button id="restart-game-btn-ct" class="px-6 py-3 mt-4 bg-cyan-500 text-black font-bold rounded-full hover:bg-cyan-400 transition-colors duration-300">Mulai Ulang</button>
-            <button id="back-to-menu-victory-ct" class="px-6 py-3 mt-4 bg-gray-500 text-black font-bold rounded-full hover:bg-gray-400 transition-colors duration-300">Kembali ke Menu</button>
+        
+        <div class="flex flex-wrap justify-center gap-3 pointer-events-auto">
+            <a href="#why-website" class="mono text-[10px] uppercase font-bold border border-zinc-800 px-3 py-2 hover:bg-white hover:text-black transition-colors">Why Build?</a>
+            <a href="#performance" class="mono text-[10px] uppercase font-bold border border-zinc-800 px-3 py-2 hover:bg-white hover:text-black transition-colors">Performance</a>
+            <a href="#packages" class="mono text-[10px] uppercase font-bold border border-[#d4ff00] text-[#d4ff00] px-3 py-2 hover:bg-[#d4ff00] hover:text-black transition-colors">Pricing</a>
+            <a href="#specs" class="mono text-[10px] uppercase font-bold border border-zinc-800 px-3 py-2 hover:bg-white hover:text-black transition-colors">Specs</a>
         </div>
-    </div>
 
-    <!-- MAIN CONTENT -->
-    <main class="flex flex-col items-center p-4 gap-4 relative z-10 min-h-screen justify-center">
-        <h1 class="text-5xl font-bold neon-text text-center">ADIT HUB</h1>
-        <p class="text-blue-400 text-lg">[ Terminal Interaktif ]</p>
-        <div class="flex flex-col md:flex-row gap-6 w-full max-w-5xl justify-center items-center md:items-start mt-8">
-            <!-- Link Panel -->
-            <aside id="link-panel" class="flex flex-col gap-2 w-full max-w-xs md:w-60 link-panel">
-                <h2 class="text-xl text-blue-400 text-center">Data Modules</h2>
-                <a href="https://example.com/portofolio" id="link-1" class="link-locked px-3 py-2 bg-gray-800 rounded hover:bg-gray-700 transition-colors duration-200">Portofolio</a>
-                <a href="https://linkedin.com/in/example" id="link-2" class="link-locked px-3 py-2 bg-gray-800 rounded hover:bg-gray-700 transition-colors duration-200">LinkedIn</a>
-                <a href="mailto:example@example.com" id="link-3" class="link-locked px-3 py-2 bg-gray-800 rounded hover:bg-gray-700 transition-colors duration-200">Email</a>
-                <a href="https://github.com/example" id="link-4" class="link-locked px-3 py-2 bg-gray-800 rounded hover:bg-gray-700 transition-colors duration-200">GitHub</a>
-                <a href="https://example.com/blog" id="link-5" class="link-locked px-3 py-2 bg-gray-800 rounded hover:bg-gray-700 transition-colors duration-200">Blog</a>
-                <a href="https://twitter.com/example" id="link-6" class="link-locked px-3 py-2 bg-gray-800 rounded hover:bg-gray-700 transition-colors duration-200">Twitter</a>
-                <a href="https://instagram.com/example" id="link-7" class="link-locked px-3 py-2 bg-gray-800 rounded hover:bg-gray-700 transition-colors duration-200">Instagram</a>
-            </aside>
+        <div class="flex flex-col items-end pointer-events-auto text-right">
+            <a href="https://instagram.com/aditmlh" target="_blank" class="mono text-[11px] font-bold hover:text-[#d4ff00] flex items-center gap-2">
+                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                @aditmlh
+            </a>
+            <a href="https://wa.me/6285757043312" target="_blank" class="mono text-[11px] font-bold hover:text-[#d4ff00] flex items-center gap-2 mt-1">
+                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 0C5.388 0 0 5.388 0 12.032c0 2.128.553 4.195 1.6 6.012L.182 23.332l5.438-1.427c1.745.961 3.712 1.47 5.729 1.47 6.641 0 12.03-5.388 12.03-12.031C23.379 5.388 17.99 0 12.031 0zm.012 21.411c-1.803 0-3.568-.485-5.114-1.403l-.367-.217-3.8.997.995-3.71-.238-.379c-.997-1.587-1.523-3.431-1.523-5.34 0-5.545 4.512-10.057 10.057-10.057 5.545 0 10.057 4.512 10.057 10.057 0 5.546-4.512 10.057-10.057 10.057zm5.525-7.552c-.303-.152-1.794-.886-2.074-.987-.279-.101-.482-.152-.684.152-.202.303-.784.987-.962 1.189-.177.202-.355.228-.658.076-2.123-1.066-3.411-2.483-4.321-4.045-.101-.177.012-.278.152-.429.215-.228.455-.53.684-.784.202-.253.278-.429.405-.708.127-.278.063-.53-.012-.683-.076-.152-.684-1.644-.936-2.251-.253-.582-.506-.506-.684-.506l-.582-.012c-.202 0-.53.076-.809.379-.279.303-1.063 1.037-1.063 2.53 0 1.492 1.088 2.934 1.24 3.136.152.202 2.124 3.238 5.158 4.545.721.316 1.289.506 1.732.645.721.228 1.378.19 1.897.114.582-.089 1.794-.734 2.048-1.442.253-.708.253-1.315.177-1.442-.076-.126-.279-.202-.582-.354z"/></svg>
+                0857-5704-3312
+            </a>
+        </div>
+    </nav>
 
-            <!-- Game & Info -->
-            <div class="flex flex-col md:flex-row gap-4">
-                <div class="flex flex-col items-center gap-4 order-2 md:order-1">
-                    <canvas id="game-board" width="240" height="480"></canvas>
-                </div>
-                <div class="flex flex-col gap-4 order-1 md:order-2">
-                    <div class="flex flex-col items-center">
-                        <h3 class="text-lg text-blue-400">Next Code Block</h3>
-                        <canvas id="next-piece-canvas" width="96" height="96"></canvas>
-                    </div>
-                    <div class="flex flex-col items-center">
-                        <p>Skor: <span id="score" class="text-cyan-400 font-bold">0</span></p>
-                        <p>Level: <span id="level" class="text-cyan-400 font-bold">1</span></p>
-                        <div id="terminal-log" class="mt-2 w-full"></div>
-                    </div>
+    <!-- HERO SECTION -->
+    <section class="min-h-screen flex flex-col justify-center px-4 md:px-12 pt-32 pb-20 relative z-10">
+        <div class="fade-in-up">
+            <h1 class="huge-text archivo">DIGITAL</h1>
+            <h1 class="huge-text outline-text archivo mb-8">MONOLITH</h1>
+            
+            <div class="max-w-3xl">
+                <p class="text-2xl md:text-4xl font-light italic leading-tight text-zinc-300 mb-8">
+                    "Building information ecosystems that transcend conventional visual standards. We craft professional digital identities."
+                </p>
+                <div class="flex flex-wrap gap-4 mt-10">
+                    <a href="#packages" class="px-8 py-4 bg-[#d4ff00] text-black archivo text-xl hover:bg-white transition-colors pointer-events-auto">DEPLOY PROJECT</a>
+                    <div class="px-6 py-4 border border-zinc-800 mono text-xs text-zinc-400 flex items-center">BASED IN NORTH SULAWESI, ID</div>
                 </div>
             </div>
         </div>
-        <button id="back-to-menu-game-ct" class="game-button back-btn mt-6">Kembali ke Menu</button>
-    </main>
-</div>
+    </section>
 
-<!-- ==================================== -->
-<!-- DATA STREAM RUNNER GAME -->
-<!-- ==================================== -->
-<div id="dataStreamGame" class="game-container hidden relative z-10">
-    <div class="ui-panel">
-        <h1 class="text-4xl">DATA STREAM RUNNER</h1>
-        <p>Skor: <span id="score-display">0</span></p>
-        <p>Skor Tertinggi: <span id="high-score-display">0</span></p>
-    </div>
-    <canvas id="gameCanvas" width="300" height="500"></canvas>
-    <p class="text-sm text-center text-ui-color mt-2">Gunakan panah kiri/kanan atau sentuh layar untuk bergerak.</p>
-    <button id="back-to-menu-dsr" class="game-button back-btn mt-6">Kembali ke Menu</button>
+    <!-- WHY YOU NEED A WEBSITE -->
+    <section id="why-website" class="py-24 px-4 md:px-12 bg-[#0a0a0a] border-t border-zinc-900 relative z-10">
+        <div class="max-w-7xl mx-auto">
+            <div class="mb-16 fade-in-up">
+                <div class="mono text-[#d4ff00] text-sm font-bold uppercase tracking-widest mb-4">// CORE ADVANTAGE</div>
+                <h2 class="archivo text-5xl md:text-7xl mb-6">WHY A DIGITAL PRESENCE IS <span class="text-[#d4ff00]">MANDATORY</span></h2>
+                <p class="text-xl text-zinc-400 max-w-2xl leading-relaxed">
+                    If you want to start or expand your business branding, having your own website is the ultimate choice. It establishes independence, projects extreme professionalism, and ensures your products or services are easily discovered by your entire audience.
+                </p>
+            </div>
 
-    <div id="gameOverModal" class="modal">
-        <h2 id="gameOverTitle">GAME OVER</h2>
-        <p id="finalScoreText" class="text-ui-color mt-2">Skor Akhir: <strong><span id="finalScore">0</span></strong></p>
-        <button id="restartButton">Mulai Ulang</button>
-        <button id="back-to-menu-gameover-dsr" class="game-button back-btn">Kembali ke Menu</button>
-    </div>
-</div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Card 1 -->
+                <div class="card-brutal p-8 fade-in-up">
+                    <div class="archivo text-5xl text-zinc-800 mb-6">01</div>
+                    <h3 class="text-2xl archivo mb-4">Massive Reach</h3>
+                    <p class="text-zinc-400 text-sm leading-relaxed">
+                        Establish an online presence to reach the ever-growing population of internet users across Indonesia and globally. Break physical boundaries.
+                    </p>
+                </div>
+                <!-- Card 2 -->
+                <div class="card-brutal p-8 fade-in-up" style="transition-delay: 100ms;">
+                    <div class="archivo text-5xl text-zinc-800 mb-6">02</div>
+                    <h3 class="text-2xl archivo mb-4">Business Credibility</h3>
+                    <p class="text-zinc-400 text-sm leading-relaxed">
+                        An online presence drastically elevates your business credibility. As internet usage grows, a professional website proves you are trustworthy and established.
+                    </p>
+                </div>
+                <!-- Card 3 -->
+                <div class="card-brutal p-8 fade-in-up" style="transition-delay: 200ms;">
+                    <div class="archivo text-5xl text-zinc-800 mb-6">03</div>
+                    <h3 class="text-2xl archivo mb-4">24/7 Accessibility</h3>
+                    <p class="text-zinc-400 text-sm leading-relaxed">
+                        Your website allows customers to access information about your products or services whenever they want, unrestricted by time zones or physical locations.
+                    </p>
+                </div>
+                <!-- Card 4 -->
+                <div class="card-brutal p-8 fade-in-up" style="transition-delay: 0ms;">
+                    <div class="archivo text-5xl text-zinc-800 mb-6">04</div>
+                    <h3 class="text-2xl archivo mb-4">Tactical Marketing</h3>
+                    <p class="text-zinc-400 text-sm leading-relaxed">
+                        Execute highly effective online marketing strategies like SEO (Search Engine Optimization), PPC (Pay-Per-Click), and social media integration to target your specific market.
+                    </p>
+                </div>
+                <!-- Card 5 -->
+                <div class="card-brutal p-8 fade-in-up" style="transition-delay: 100ms;">
+                    <div class="archivo text-5xl text-zinc-800 mb-6">05</div>
+                    <h3 class="text-2xl archivo mb-4">Direct Interaction</h3>
+                    <p class="text-zinc-400 text-sm leading-relaxed">
+                        Facilitate seamless interaction with your customers through integrated contact forms, live chat systems, or community platforms built directly into your architecture.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<script>
-    // GLOBAL GAME STATE AND UTILITIES
-    let activeGame = null;
-    let gameLoops = {};
-    let soundEnabled = true;
+    <!-- PERFORMANCE & SEO -->
+    <section id="performance" class="py-32 px-4 md:px-12 bg-[#d4ff00] text-black relative z-10">
+        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-16 items-center">
+            <div class="flex-1 fade-in-up">
+                <h2 class="archivo text-6xl md:text-8xl leading-none mb-8">SPEED<br>DICTATES<br>DISCOVERY.</h2>
+                <div class="w-20 h-2 bg-black mb-8"></div>
+                <div class="bg-black text-white px-4 py-2 inline-block mono text-sm mb-6">GOOGLE PAGESPEED INSIGHTS: TARGET 80-100</div>
+            </div>
+            
+            <div class="flex-1 space-y-8 fade-in-up font-medium">
+                <p class="text-xl leading-relaxed">
+                    By leveraging <span class="font-bold">Cloud Hosting Server</span> technology, our systems are highly optimized for high-traffic websites. We prioritize core aspects like <strong>Website Performance and UI/UX</strong> to ensure the final product is efficient, SEO friendly, and delivers ultimate user comfort.
+                </p>
+                <p class="text-lg leading-relaxed opacity-80">
+                    Beyond aesthetics, performance is a critical quality factor. Many developers ignore this to save time, resulting in slow sites. We utilize expert teams to maximize backend parameters.
+                </p>
+                <p class="text-lg leading-relaxed opacity-80">
+                    High performance yields positive impacts: it heavily supports <strong>SEO</strong>, secures top positions in search engines, and guarantees user retention.
+                </p>
+            </div>
+        </div>
+    </section>
 
-    // PENTING: Ganti URL base64 di bawah dengan file audio yang sebenarnya.
-    const sounds = {
-        ct_click: new Audio("data:audio/mp3;base64,..."),
-        ct_unlock: new Audio("data:audio/mp3;base64,..."),
-        ct_gameover: new Audio("data:audio/mp3;base64,..."),
-        ct_type: new Audio("data:audio/mp3;base64,..."),
-        ct_music: new Audio("data:audio/mp3;base64,..."),
-        ct_clear: new Audio("data:audio/mp3;base64,..."),
-        dsr_pickup: new Audio('data:audio/mp3;base64,...'),
-        dsr_gameover: new Audio('data:audio/mp3;base64,...')
-    };
-    Object.values(sounds).forEach(s => { s.volume = 0.5; });
-    if (sounds.ct_music) sounds.ct_music.loop = true;
+    <!-- PACKAGES / PRICING -->
+    <section id="packages" class="py-24 px-4 md:px-12 relative z-10">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-20 fade-in-up">
+                <h2 class="archivo text-5xl md:text-7xl mb-4">DEPLOYMENT <span class="outline-text">TIERS</span></h2>
+                <p class="mono text-zinc-400 uppercase tracking-widest text-sm">Select your system architecture</p>
+            </div>
 
-    function playSound(name) {
-        if (!soundEnabled) return;
-        if (sounds[name] && sounds[name].readyState >= 2) {
-            sounds[name].currentTime = 0;
-            sounds[name].play().catch(e => console.error("Audio playback failed:", e));
-        }
-    }
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <!-- Basic Package -->
+                <div class="card-brutal p-10 flex flex-col fade-in-up">
+                    <div class="mono text-zinc-500 mb-2">TIER 01</div>
+                    <h3 class="archivo text-4xl mb-2">WEB BASIC</h3>
+                    <div class="archivo text-3xl text-[#d4ff00] mb-6">Rp. 2.800.000</div>
+                    <p class="text-zinc-400 text-sm mb-8 flex-grow">
+                        Designed for small-scale businesses aiming to expand their online presence quickly. Offers comprehensive features at an highly accessible price point.
+                    </p>
+                    <a href="https://wa.me/6285757043312?text=Hello,%20I%20am%20interested%20in%20the%20WEB%20BASIC%20Package" target="_blank" class="w-full text-center py-4 border border-zinc-600 hover:bg-white hover:text-black hover:border-white transition-all mono font-bold uppercase pointer-events-auto">
+                        Initiate Build
+                    </a>
+                </div>
 
-    // TOGGLE AUDIO BUTTON
-    const audioBtn = document.getElementById('audio-btn');
-    audioBtn.addEventListener('click', () => {
-        soundEnabled = !soundEnabled;
-        audioBtn.textContent = soundEnabled ? "🔊" : "🔇";
-        if (!soundEnabled) {
-            Object.values(sounds).forEach(s => s.pause());
-        } else if (activeGame === 'cyberTerminal' && sounds.ct_music.paused) {
-            sounds.ct_music.play();
-        }
-    });
+                <!-- Compro Package (Featured) -->
+                <div class="card-brutal p-10 flex flex-col border-[#d4ff00] transform lg:-translate-y-4 shadow-[0_0_30px_rgba(212,255,0,0.1)] fade-in-up" style="transition-delay: 100ms;">
+                    <div class="absolute top-0 right-0 bg-[#d4ff00] text-black mono text-[10px] font-bold px-3 py-1 uppercase">Recommended</div>
+                    <div class="mono text-[#d4ff00] mb-2">TIER 03 // ENTERPRISE</div>
+                    <h3 class="archivo text-4xl mb-2">WEB COMPRO</h3>
+                    <div class="archivo text-4xl text-white mb-6">Rp. 15.500.000</div>
+                    <p class="text-zinc-300 text-sm mb-8 flex-grow">
+                        The ultimate architecture. Designed for corporations requiring a fully-featured, highly attractive digital monolith. Perfect for establishing a powerful, dominant professional presence.
+                    </p>
+                    <a href="https://wa.me/6285757043312?text=Hello,%20I%20am%20interested%20in%20the%20WEB%20COMPRO%20Package" target="_blank" class="w-full text-center py-4 bg-[#d4ff00] text-black hover:bg-white transition-all archivo text-xl pointer-events-auto">
+                        INITIATE COMPRO
+                    </a>
+                </div>
 
-    // GAME NAVIGATION LOGIC
-    const gameHub = document.getElementById('gameHub');
-    const cyberTerminalGame = document.getElementById('cyberTerminalGame');
-    const dataStreamGame = document.getElementById('dataStreamGame');
-    const startCyberTerminalBtn = document.getElementById('startCyberTerminal');
-    const startDataStreamRunnerBtn = document.getElementById('startDataStreamRunner');
+                <!-- Grow Package -->
+                <div class="card-brutal p-10 flex flex-col fade-in-up" style="transition-delay: 200ms;">
+                    <div class="mono text-zinc-500 mb-2">TIER 02</div>
+                    <h3 class="archivo text-4xl mb-2">WEB GROW</h3>
+                    <div class="archivo text-3xl text-[#d4ff00] mb-6">Rp. 3.800.000</div>
+                    <p class="text-zinc-400 text-sm mb-8 flex-grow">
+                        Optimized for medium-scale businesses ready to scale their digital footprint. Strikes the perfect balance between advanced features and cost-efficiency.
+                    </p>
+                    <a href="https://wa.me/6285757043312?text=Hello,%20I%20am%20interested%20in%20the%20WEB%20GROW%20Package" target="_blank" class="w-full text-center py-4 border border-zinc-600 hover:bg-white hover:text-black hover:border-white transition-all mono font-bold uppercase pointer-events-auto">
+                        Initiate Build
+                    </a>
+                </div>
 
-    function showGame(gameId) {
-        gameHub.classList.add('hidden');
-        cyberTerminalGame.classList.add('hidden');
-        dataStreamGame.classList.add('hidden');
+            </div>
+        </div>
+    </section>
 
-        if (gameId === 'cyberTerminal') {
-            cyberTerminalGame.classList.remove('hidden');
-            activeGame = 'cyberTerminal';
-            initCyberTerminal();
-        } else if (gameId === 'dataStreamRunner') {
-            dataStreamGame.classList.remove('hidden');
-            activeGame = 'dataStreamRunner';
-            initDataStreamRunner();
-        }
-    }
+    <!-- SPECIFICATIONS TABLE -->
+    <section id="specs" class="py-24 px-4 md:px-12 bg-[#0a0a0a] relative z-10 border-t border-b border-zinc-900">
+        <div class="max-w-7xl mx-auto">
+            <div class="mb-16 fade-in-up">
+                <h2 class="archivo text-4xl md:text-6xl mb-4">SYSTEM <span class="text-zinc-600">SPECIFICATIONS</span></h2>
+                <p class="text-zinc-400 max-w-3xl">Professional, responsive, SEO-optimized builds with modern elegance. Boost marketing strategies and customer trust through an authoritative Company Profile.</p>
+            </div>
 
-    function showGameHub() {
-        gameHub.classList.remove('hidden');
-        cyberTerminalGame.classList.add('hidden');
-        dataStreamGame.classList.add('hidden');
-        activeGame = null;
-        Object.values(gameLoops).forEach(cancelAnimationFrame);
-        Object.values(sounds).forEach(s => s.pause());
-    }
+            <div class="overflow-x-auto pb-8 fade-in-up">
+                <table class="w-full text-left min-w-[800px] border-collapse">
+                    <thead>
+                        <tr class="mono text-[10px] text-zinc-500 uppercase tracking-widest border-b-2 border-zinc-800">
+                            <th class="py-6 px-4 w-1/4">Feature Parameter</th>
+                            <th class="py-6 px-4 text-[#d4ff00]">COMPRO</th>
+                            <th class="py-6 px-4 text-white">GROW</th>
+                            <th class="py-6 px-4 text-white">BASIC</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm">
+                        <!-- Pricing Row -->
+                        <tr class="spec-row font-bold archivo text-lg">
+                            <td class="py-4 px-4 text-zinc-400 font-normal font-sans text-sm">Initial Setup<br><span class="text-[10px] mono">*Excludes 11% VAT</span></td>
+                            <td class="py-4 px-4 text-[#d4ff00]">Rp. 15.500.000</td>
+                            <td class="py-4 px-4">Rp. 5.800.000 <span class="text-xs text-red-500 line-through block font-normal font-sans">Rp. 3.800.000?</span></td>
+                            <td class="py-4 px-4">Rp. 2.800.000</td>
+                        </tr>
+                        <tr class="spec-row font-bold archivo text-md">
+                            <td class="py-4 px-4 text-zinc-400 font-normal font-sans text-sm">Annual Renewal</td>
+                            <td class="py-4 px-4 text-[#d4ff00]">Rp. 4.800.000/Yr</td>
+                            <td class="py-4 px-4">Rp. 2.500.000/Yr</td>
+                            <td class="py-4 px-4">Rp. 1.200.000/Yr</td>
+                        </tr>
 
-    startCyberTerminalBtn.addEventListener('click', () => showGame('cyberTerminal'));
-    startDataStreamRunnerBtn.addEventListener('click', () => showGame('dataStreamRunner'));
+                        <!-- Core Setup -->
+                        <tr class="spec-row">
+                            <td class="py-4 px-4 font-bold text-zinc-300">Free Domain</td>
+                            <td class="py-4 px-4 text-zinc-400">.com / .net / .org / .co.id / .id</td>
+                            <td class="py-4 px-4 text-zinc-400">.com / .net / .org</td>
+                            <td class="py-4 px-4 text-zinc-400">.com / .net / .org</td>
+                        </tr>
+                        <tr class="spec-row">
+                            <td class="py-4 px-4 font-bold text-zinc-300">Storage Capacity</td>
+                            <td class="py-4 px-4 text-[#d4ff00]">250 GB NVMe Storage</td>
+                            <td class="py-4 px-4 text-zinc-400">200 GB NVMe Storage</td>
+                            <td class="py-4 px-4 text-zinc-400">200 GB NVMe Storage</td>
+                        </tr>
+                        <tr class="spec-row">
+                            <td class="py-4 px-4 font-bold text-zinc-300">Server Specs</td>
+                            <td class="py-4 px-4 text-[#d4ff00]">RAM 6 GB & 4 CPU Core<br>Cloud Hosting</td>
+                            <td class="py-4 px-4 text-zinc-400">RAM 3 GB & 2 CPU Core<br>Cloud Hosting</td>
+                            <td class="py-4 px-4 text-zinc-400">RAM 2 GB & 1 CPU Core<br>Shared Hosting</td>
+                        </tr>
+                        <tr class="spec-row">
+                            <td class="py-4 px-4 font-bold text-zinc-300">Web Design</td>
+                            <td class="py-4 px-4 text-[#d4ff00]">Premium / Custom</td>
+                            <td class="py-4 px-4 text-zinc-400">Premium Design</td>
+                            <td class="py-4 px-4 text-zinc-400">Premium Design</td>
+                        </tr>
+                        <tr class="spec-row">
+                            <td class="py-4 px-4 font-bold text-zinc-300">Business Email</td>
+                            <td class="py-4 px-4 text-zinc-400">100 Accounts</td>
+                            <td class="py-4 px-4 text-zinc-400">100 Accounts</td>
+                            <td class="py-4 px-4 text-zinc-400">100 Accounts</td>
+                        </tr>
+                        <tr class="spec-row">
+                            <td class="py-4 px-4 font-bold text-zinc-300">CMS Engine</td>
+                            <td class="py-4 px-4 text-[#d4ff00]">WordPress / Custom Engine</td>
+                            <td class="py-4 px-4 text-zinc-400">WordPress</td>
+                            <td class="py-4 px-4 text-zinc-400">WordPress</td>
+                        </tr>
+                        <tr class="spec-row">
+                            <td class="py-4 px-4 font-bold text-zinc-300">SSL Certificate</td>
+                            <td class="py-4 px-4 text-lime-400">✔ Included</td>
+                            <td class="py-4 px-4 text-lime-400">✔ Included</td>
+                            <td class="py-4 px-4 text-lime-400">✔ Included</td>
+                        </tr>
+                        <tr class="spec-row">
+                            <td class="py-4 px-4 font-bold text-zinc-300">Hacker Warranty</td>
+                            <td class="py-4 px-4 text-[#d4ff00]">1 Year Free Maintenance</td>
+                            <td class="py-4 px-4 text-zinc-400">6 Months Free Maintenance</td>
+                            <td class="py-4 px-4 text-zinc-400">2 Months Free Maintenance</td>
+                        </tr>
+                        
+                        <!-- Design & Features -->
+                        <tr class="bg-[#111]"><td colspan="4" class="py-2 px-4 mono text-[10px] text-[#d4ff00] font-bold">// UI & DESIGN EXTRAS</td></tr>
+                        <tr class="spec-row">
+                            <td class="py-4 px-4 font-bold text-zinc-300">Logo Design</td>
+                            <td class="py-4 px-4 text-[#d4ff00]">✔ 3 Design Options</td>
+                            <td class="py-4 px-4 text-zinc-400">✔ 2 Design Options</td>
+                            <td class="py-4 px-4 text-red-500">✘ Not Included</td>
+                        </tr>
+                        <tr class="spec-row">
+                            <td class="py-4 px-4 font-bold text-zinc-300">Business Card Design</td>
+                            <td class="py-4 px-4 text-[#d4ff00]">✔ 3 Design Options</td>
+                            <td class="py-4 px-4 text-zinc-400">✔ 2 Design Options</td>
+                            <td class="py-4 px-4 text-red-500">✘ Not Included</td>
+                        </tr>
+                        <tr class="spec-row">
+                            <td class="py-4 px-4 font-bold text-zinc-300">Banner/Slider Design</td>
+                            <td class="py-4 px-4 text-[#d4ff00]">✔ 5 Designs</td>
+                            <td class="py-4 px-4 text-zinc-400">✔ 3 Designs</td>
+                            <td class="py-4 px-4 text-red-500">✘ Not Included</td>
+                        </tr>
 
-    // Event listener untuk tombol 'Kembali ke Menu' di semua tempat
-    document.querySelectorAll('[id^="back-to-menu"]').forEach(btn => {
-        btn.addEventListener('click', showGameHub);
-    });
+                        <!-- Advanced Features -->
+                        <tr class="bg-[#111]"><td colspan="4" class="py-2 px-4 mono text-[10px] text-[#d4ff00] font-bold">// ADVANCED SYSTEM MODULES</td></tr>
+                        <tr class="spec-row">
+                            <td class="py-4 px-4 font-bold text-zinc-300">SEO Tools & On-Page</td>
+                            <td class="py-4 px-4 text-lime-400">✔ Advanced Tools</td>
+                            <td class="py-4 px-4 text-lime-400">✔ Standard Tools</td>
+                            <td class="py-4 px-4 text-zinc-400">On-Page Only</td>
+                        </tr>
+                        <tr class="spec-row">
+                            <td class="py-4 px-4 font-bold text-zinc-300">Facebook Pixel & Schema</td>
+                            <td class="py-4 px-4 text-lime-400">✔ Included</td>
+                            <td class="py-4 px-4 text-lime-400">✔ Included</td>
+                            <td class="py-4 px-4 text-red-500">✘ Not Included</td>
+                        </tr>
+                        <tr class="spec-row">
+                            <td class="py-4 px-4 font-bold text-zinc-300">Dual Language Support</td>
+                            <td class="py-4 px-4 text-lime-400">✔ Included</td>
+                            <td class="py-4 px-4 text-lime-400">✔ Included</td>
+                            <td class="py-4 px-4 text-red-500">✘ Not Included</td>
+                        </tr>
+                        <tr class="spec-row">
+                            <td class="py-4 px-4 font-bold text-zinc-300">Anti-Copy Protection</td>
+                            <td class="py-4 px-4 text-lime-400">✔ Included</td>
+                            <td class="py-4 px-4 text-lime-400">✔ Included</td>
+                            <td class="py-4 px-4 text-lime-400">✔ Included</td>
+                        </tr>
 
-    /* === MATRIX RAIN BACKGROUND === */
-    const matrixCanvas = document.getElementById("matrix-bg");
-    const matrixCtx = matrixCanvas.getContext("2d");
-    const letters = "アァイィウヴエェオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂッヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモヤユヨラリルレロワヰヱヲンABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    const matrix = letters.split("");
-    const fontSize = 14;
-    let columns = Math.floor(window.innerWidth / fontSize);
-    let drops = Array(columns).fill(1);
+                        <!-- Promos -->
+                        <tr class="bg-[#111]"><td colspan="4" class="py-2 px-4 mono text-[10px] text-[#ff0055] font-bold">// BONUSES</td></tr>
+                        <tr class="spec-row">
+                            <td class="py-4 px-4 font-bold text-zinc-300">Free SEO Articles</td>
+                            <td class="py-4 px-4 text-[#ff0055]">5 Premium Articles</td>
+                            <td class="py-4 px-4 text-zinc-400">3 Premium Articles</td>
+                            <td class="py-4 px-4 text-lime-400">✔ Included (Basic)</td>
+                        </tr>
+                        <tr class="spec-row">
+                            <td class="py-4 px-4 font-bold text-zinc-300">Android App Output</td>
+                            <td class="py-4 px-4 text-[#ff0055]">✔ Webview (APK Only)</td>
+                            <td class="py-4 px-4 text-zinc-400">✔ Webview (APK Only)</td>
+                            <td class="py-4 px-4 text-red-500">✘ Not Included</td>
+                        </tr>
+                        <tr class="spec-row">
+                            <td class="py-4 px-4 font-bold text-zinc-300">Max Revisions</td>
+                            <td class="py-4 px-4 text-[#ff0055] archivo text-2xl">4</td>
+                            <td class="py-4 px-4 text-zinc-400 archivo text-xl">2</td>
+                            <td class="py-4 px-4 text-zinc-400 archivo text-xl">1</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-center text-xs text-zinc-600 mt-4 mono">*All packages include responsive design, mobile optimization, Google Analytics, Cpanel access (except Basic), auto-backup, and admin control panels for content management.</p>
+        </div>
+    </section>
 
-    function drawMatrix() {
-        if (activeGame) {
-            matrixCtx.fillStyle = "rgba(0,0,0,0.05)";
-        } else {
-            matrixCtx.fillStyle = "rgba(0,0,0,0.1)";
-        }
-        matrixCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
-        matrixCtx.fillStyle = "#0F0";
-        matrixCtx.font = fontSize + "px monospace";
-        for(let i = 0; i < drops.length; i++) {
-            const text = matrix[Math.floor(Math.random() * matrix.length)];
-            matrixCtx.fillText(text, i * fontSize, drops[i] * fontSize);
-            if(drops[i] * fontSize > matrixCanvas.height && Math.random() > 0.975) {
-                drops[i] = 0;
-            }
-            drops[i]++;
-        }
-        gameLoops.matrix = requestAnimationFrame(drawMatrix);
-    }
-    window.addEventListener("resize", () => {
-        matrixCanvas.width = window.innerWidth;
-        matrixCanvas.height = window.innerHeight;
-        columns = Math.floor(window.innerWidth / fontSize);
-        drops = Array(columns).fill(1);
-    });
+    <!-- DEVELOPMENT PROCESS -->
+    <section class="py-32 px-4 md:px-12 relative z-10">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="archivo text-5xl md:text-7xl mb-16 text-center fade-in-up">DEVELOPMENT <br><span class="text-zinc-600 outline-text">PROTOCOL</span></h2>
+            
+            <div class="space-y-8 relative before:content-[''] before:absolute before:left-[23px] before:top-2 before:bottom-2 before:w-[2px] before:bg-zinc-800">
+                
+                <!-- Step 1 -->
+                <div class="flex gap-8 relative fade-in-up">
+                    <div class="w-12 h-12 bg-[#0a0a0a] border-2 border-[#d4ff00] rounded-full flex items-center justify-center archivo text-[#d4ff00] z-10 shrink-0 mt-1">1</div>
+                    <div>
+                        <h4 class="text-2xl archivo mb-2">Consultation & Scope Definition</h4>
+                        <p class="text-zinc-400 text-sm leading-relaxed">Initial meeting to understand requirements, goals, target markets, and design preferences. Defining exact features, functionality, and required content.</p>
+                    </div>
+                </div>
 
-    /* ========================================================== */
-    /* GAME 1: CYBER TERMINAL QUEST LOGIC */
-    /* ========================================================== */
-    function initCyberTerminal() {
-        const canvas = document.getElementById('game-board');
-        const ctx = canvas.getContext('2d');
-        const nextCanvas = document.getElementById('next-piece-canvas');
-        const nextCtx = nextCanvas.getContext('2d');
-        const introModal = document.getElementById('intro-modal');
-        const victoryModal = document.getElementById('victory-modal');
-        const continueGameBtn = document.getElementById('continue-game-btn');
-        const startNewGameBtn = document.getElementById('start-new-game-btn');
-        const restartGameBtn = document.getElementById('restart-game-btn-ct');
-        const terminalLogElem = document.getElementById("terminal-log");
-        const scoreElem = document.getElementById('score');
-        const levelElem = document.getElementById('level');
-        const difficultySelect = document.getElementById('difficulty-select');
+                <!-- Step 2 -->
+                <div class="flex gap-8 relative fade-in-up" style="transition-delay: 50ms;">
+                    <div class="w-12 h-12 bg-[#0a0a0a] border-2 border-zinc-700 rounded-full flex items-center justify-center archivo text-zinc-500 z-10 shrink-0 mt-1">2</div>
+                    <div>
+                        <h4 class="text-2xl archivo mb-2">Architecture Planning</h4>
+                        <p class="text-zinc-400 text-sm leading-relaxed">Analyzing requirements to draft a detailed project plan. Creating the site structure (wireframing), navigation logic, and content hierarchy.</p>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="flex gap-8 relative fade-in-up" style="transition-delay: 100ms;">
+                    <div class="w-12 h-12 bg-[#0a0a0a] border-2 border-zinc-700 rounded-full flex items-center justify-center archivo text-zinc-500 z-10 shrink-0 mt-1">3</div>
+                    <div>
+                        <h4 class="text-2xl archivo mb-2">Visual Design Prototyping</h4>
+                        <p class="text-zinc-400 text-sm leading-relaxed">Designing layouts, typography, and graphic elements based on the brief. Developing interactive prototypes or static mockups for client approval before coding.</p>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="flex gap-8 relative fade-in-up" style="transition-delay: 150ms;">
+                    <div class="w-12 h-12 bg-[#0a0a0a] border-2 border-zinc-700 rounded-full flex items-center justify-center archivo text-zinc-500 z-10 shrink-0 mt-1">4</div>
+                    <div>
+                        <h4 class="text-2xl archivo mb-2">Core Development</h4>
+                        <p class="text-zinc-400 text-sm leading-relaxed">Translating design into code (HTML, CSS, JS, PHP). Integrating functionalities (forms, CMS). Ensuring absolute responsive behavior across desktop, tablet, and mobile.</p>
+                    </div>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="flex gap-8 relative fade-in-up" style="transition-delay: 200ms;">
+                    <div class="w-12 h-12 bg-[#0a0a0a] border-2 border-zinc-700 rounded-full flex items-center justify-center archivo text-zinc-500 z-10 shrink-0 mt-1">5</div>
+                    <div>
+                        <h4 class="text-2xl archivo mb-2">Quality Assurance Testing</h4>
+                        <p class="text-zinc-400 text-sm leading-relaxed">Rigorous functional testing. Checking cross-browser compatibility. Stress-testing performance speed to guarantee rapid load times and flawless execution.</p>
+                    </div>
+                </div>
+
+                <!-- Step 6 -->
+                <div class="flex gap-8 relative fade-in-up" style="transition-delay: 250ms;">
+                    <div class="w-12 h-12 bg-[#0a0a0a] border-2 border-zinc-700 rounded-full flex items-center justify-center archivo text-zinc-500 z-10 shrink-0 mt-1">6</div>
+                    <div>
+                        <h4 class="text-2xl archivo mb-2">Server Deployment</h4>
+                        <p class="text-zinc-400 text-sm leading-relaxed">Configuring domain and hosting environments. Uploading all system files to the live server. Final post-launch functionality sweep.</p>
+                    </div>
+                </div>
+
+                <!-- Step 7 -->
+                <div class="flex gap-8 relative fade-in-up" style="transition-delay: 300ms;">
+                    <div class="w-12 h-12 bg-[#0a0a0a] border-2 border-[#ff0055] rounded-full flex items-center justify-center archivo text-[#ff0055] z-10 shrink-0 mt-1">7</div>
+                    <div>
+                        <h4 class="text-2xl archivo mb-2">Training & Ongoing Support</h4>
+                        <p class="text-zinc-400 text-sm leading-relaxed">Client training for CMS usage. Providing technical support and maintenance post-launch, including bug tracking and software updates to ensure system longevity.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER CTA -->
+    <footer class="py-32 px-4 bg-[#050505] border-t border-zinc-900 relative z-10 flex flex-col items-center justify-center text-center">
+        <h2 class="huge-text archivo mb-8 fade-in-up">INITIATE <br><span class="text-[#d4ff00]">CONTACT</span></h2>
         
-        const grid = 24;
-        const COLS = 10;
-        const ROWS = 20;
-        canvas.width = grid * COLS;
-        canvas.height = grid * ROWS;
-        const tetrominoes = [
-            { shape: [[1,1,1,1]], color: '#00ffff' }, { shape: [[1,1],[1,1]], color: '#ffff00' },
-            { shape: [[0,1,0],[1,1,1]], color: '#ff00ff' }, { shape: [[1,0,0],[1,1,1]], color: '#0000ff' },
-            { shape: [[0,0,1],[1,1,1]], color: '#ff7f00' }, { shape: [[1,1,0],[0,1,1]], color: '#00ff00' },
-            { shape: [[0,1,1],[1,1,0]], color: '#ff0000' }
-        ];
-        let board, piece, nextPiece, ghostPiece, score, level, linesCleared, dropCounter, dropInterval, lastTime, gameOver, unlockedLinks, linesToLevelUp;
-        let typingInterval = null;
-        const storyline = [
-            "[1/7] Firewall level 1 terhancurkan. Data modul 1 terbuka. ✅",
-            "[2/7] Firewall level 2 terhancurkan. Data modul 2 terbuka. ✅",
-            "[3/7] Firewall level 3 terhancurkan. Data modul 3 terbuka. ✅",
-            "[4/7] Firewall level 4 terhancurkan. Data modul 4 terbuka. ✅",
-            "[5/7] Firewall level 5 terhancurkan. Data modul 5 terbuka. ✅",
-            "[6/7] Firewall level 6 terhancurkan. Data modul 6 terbuka. ✅",
-            "[7/7] Firewall level 7 terhancurkan. Semua modul data terbuka. ✅"
-        ];
-        const STORAGE_KEY = 'cyberTerminalQuest_unlockedLinks';
-        const DIFFICULTY_KEY = 'cyberTerminalQuest_difficulty';
-        
-        function typeLog(text) {
-            if (typingInterval) clearInterval(typingInterval);
-            let i = 0;
-            terminalLogElem.innerHTML += "<span class='text-cyan-400'>></span> ";
-            typingInterval = setInterval(() => {
-                terminalLogElem.innerHTML += text.charAt(i);
-                playSound('ct_type');
-                i++;
-                if (i >= text.length) {
-                    terminalLogElem.innerHTML += "<br>";
-                    terminalLogElem.scrollTop = terminalLogElem.scrollHeight;
-                    clearInterval(typingInterval);
-                }
-            }, 30);
-        }
+        <div class="flex flex-col md:flex-row gap-6 mb-16 fade-in-up" style="transition-delay: 100ms;">
+            <a href="https://wa.me/6285757043312" target="_blank" class="px-10 py-5 bg-white text-black archivo text-2xl hover:bg-[#d4ff00] transition-colors pointer-events-auto flex items-center justify-center gap-3">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 0C5.388 0 0 5.388 0 12.032c0 2.128.553 4.195 1.6 6.012L.182 23.332l5.438-1.427c1.745.961 3.712 1.47 5.729 1.47 6.641 0 12.03-5.388 12.03-12.031C23.379 5.388 17.99 0 12.031 0zm.012 21.411c-1.803 0-3.568-.485-5.114-1.403l-.367-.217-3.8.997.995-3.71-.238-.379c-.997-1.587-1.523-3.431-1.523-5.34 0-5.545 4.512-10.057 10.057-10.057 5.545 0 10.057 4.512 10.057 10.057 0 5.546-4.512 10.057-10.057 10.057zm5.525-7.552c-.303-.152-1.794-.886-2.074-.987-.279-.101-.482-.152-.684.152-.202.303-.784.987-.962 1.189-.177.202-.355.228-.658.076-2.123-1.066-3.411-2.483-4.321-4.045-.101-.177.012-.278.152-.429.215-.228.455-.53.684-.784.202-.253.278-.429.405-.708.127-.278.063-.53-.012-.683-.076-.152-.684-1.644-.936-2.251-.253-.582-.506-.506-.684-.506l-.582-.012c-.202 0-.53.076-.809.379-.279.303-1.063 1.037-1.063 2.53 0 1.492 1.088 2.934 1.24 3.136.152.202 2.124 3.238 5.158 4.545.721.316 1.289.506 1.732.645.721.228 1.378.19 1.897.114.582-.089 1.794-.734 2.048-1.442.253-.708.253-1.315.177-1.442-.076-.126-.279-.202-.582-.354z"/></svg>
+                WhatsApp Us
+            </a>
+            <a href="https://instagram.com/aditmlh" target="_blank" class="px-10 py-5 border-2 border-zinc-700 text-white archivo text-2xl hover:border-white transition-colors pointer-events-auto flex items-center justify-center gap-3">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                @aditmlh
+            </a>
+        </div>
 
-        function createPiece() {
-            const pieceData = tetrominoes[Math.floor(Math.random() * tetrominoes.length)];
-            const shape = pieceData.shape;
-            const x = Math.floor(COLS / 2) - Math.ceil(shape[0].length / 2);
-            const y = 0;
-            return { shape, x, y, color: pieceData.color };
-        }
-        function collide(board, piece) {
-            if (!piece) return false;
-            for (let y = 0; y < piece.shape.length; y++) {
-                for (let x = 0; x < piece.shape[y].length; x++) {
-                    if (piece.shape[y][x]) {
-                        const boardX = piece.x + x;
-                        const boardY = piece.y + y;
-                        if (boardX < 0 || boardX >= COLS || boardY >= ROWS || (board[boardY] && board[boardY][boardX] !== 0)) {
-                            return true;
-                        }
-                    }
-                }
-            }
-            return false;
-        }
-        function merge(board, piece) {
-            if (!piece) return;
-            piece.shape.forEach((row, dy) => {
-                row.forEach((value, dx) => {
-                    if (value) {
-                        board[dy + piece.y][dx + piece.x] = 1;
-                    }
-                });
-            });
-        }
-        function drawMatrixBlock(ctx, matrix, offset, color, opacity = 1) {
-            ctx.globalAlpha = opacity;
-            ctx.fillStyle = color;
-            matrix.forEach((row, y) => {
-                row.forEach((value, x) => {
-                    if (value) {
-                        ctx.fillRect((x + offset.x) * grid, (y + offset.y) * grid, grid - 1, grid - 1);
-                    }
-                });
-            });
-            ctx.globalAlpha = 1;
-        }
-        function draw() {
-            ctx.fillStyle = '#000';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            board.forEach((row, y) => {
-                row.forEach((value, x) => {
-                    if (value) {
-                        ctx.fillStyle = '#ff0054';
-                        ctx.fillRect(x * grid, y * grid, grid - 1, grid - 1);
-                    }
-                });
-            });
-            if (ghostPiece) {
-                drawMatrixBlock(ctx, ghostPiece.shape, { x: ghostPiece.x, y: ghostPiece.y }, piece.color, 0.3);
-            }
-            if (piece) {
-                drawMatrixBlock(ctx, piece.shape, { x: piece.x, y: piece.y }, piece.color);
-            }
-        }
-        function drawNextPiece() {
-            nextCtx.clearRect(0, 0, nextCanvas.width, nextCanvas.height);
-            if (nextPiece) {
-                const shapeWidth = nextPiece.shape[0].length;
-                const shapeHeight = nextPiece.shape.length;
-                const offsetX = (nextCanvas.width / grid - shapeWidth) / 2;
-                const offsetY = (nextCanvas.height / grid - shapeHeight) / 2;
-                drawMatrixBlock(nextCtx, nextPiece.shape, { x: offsetX, y: offsetY }, nextPiece.color);
-            }
-        }
-        function drop() {
-            piece.y++;
-            if (collide(board, piece)) {
-                piece.y--;
-                merge(board, piece);
-                lineClear();
-                piece = nextPiece;
-                nextPiece = createPiece();
-                drawNextPiece();
-                if (collide(board, piece)) {
-                    gameOver = true;
-                    playSound('ct_gameover');
-                    typeLog("[!] Error: Firewall terdeteksi! Sistem overload. Misi gagal.");
-                }
-            }
-            updateGhostPiece();
-            dropCounter = 0;
-        }
-        function hardDrop() {
-            if (!piece) return;
-            playSound('ct_click');
-            let finalY = piece.y;
-            while (!collide(board, { ...piece, y: finalY + 1 })) {
-                finalY++;
-            }
-            piece.y = finalY;
-            drop();
-        }
-        function lineClear() {
-            let rowsCleared = 0;
-            for (let y = ROWS - 1; y >= 0; y--) {
-                if (board[y].every(val => val !== 0)) {
-                    board.splice(y, 1);
-                    board.unshift(Array(COLS).fill(0));
-                    rowsCleared++;
-                    y++;
-                }
-            }
-            if (rowsCleared > 0) {
-                playSound('ct_clear');
-                score += rowsCleared * 10 * level;
-                scoreElem.textContent = score;
-                linesCleared += rowsCleared;
-                if (linesCleared >= linesToLevelUp) {
-                    linesCleared = 0;
-                    levelUp();
-                }
-                unlockLink(rowsCleared);
-            }
-        }
-        function levelUp() {
-            level++;
-            levelElem.textContent = level;
-            let speedFactor = 0.85;
-            const difficulty = localStorage.getItem(DIFFICULTY_KEY) || 'normal';
-            if (difficulty === 'easy') { speedFactor = 0.90; }
-            else if (difficulty === 'hard') { speedFactor = 0.80; }
-            else if (difficulty === 'extreme') { speedFactor = 0.75; }
-            dropInterval *= speedFactor;
-            typeLog(`Level ${level} tercapai. Kecepatan firewall meningkat.`);
-        }
-        function unlockLink(count) {
-            for (let i = 0; i < count; i++) {
-                if (unlockedLinks < 7) {
-                    unlockedLinks++;
-                    const link = document.getElementById(`link-${unlockedLinks}`);
-                    link.classList.remove('link-locked');
-                    link.classList.add('link-unlocked');
-                    playSound('ct_unlock');
-                    typeLog(storyline[unlockedLinks - 1]);
-                }
-            }
-            localStorage.setItem(STORAGE_KEY, unlockedLinks);
-            if (unlockedLinks === 7) {
-                gameOver = true;
-                victoryModal.classList.remove('hidden');
-                typeLog("Semua modul data telah terbuka. Misi selesai!");
-            }
-        }
-        function rotatePiece() {
-            const prevShape = piece.shape;
-            const newShape = prevShape[0].map((_, i) => prevShape.map(row => row[i]).reverse());
-            const kickTests = [0, -1, 1, -2, 2];
-            for (const kick of kickTests) {
-                piece.shape = newShape;
-                piece.x += kick;
-                if (!collide(board, piece)) {
-                    return;
-                }
-                piece.x -= kick;
-            }
-            piece.shape = prevShape;
-        }
-        function updateGhostPiece() {
-            if (!piece) { ghostPiece = null; return; }
-            ghostPiece = { ...piece };
-            while (!collide(board, { ...ghostPiece, y: ghostPiece.y + 1 })) {
-                ghostPiece.y++;
-            }
-        }
-        function update(time = 0) {
-            if (gameOver || activeGame !== 'cyberTerminal') return;
-            const delta = time - lastTime;
-            lastTime = time;
-            dropCounter += delta;
-            if (dropCounter > dropInterval) drop();
-            draw();
-            gameLoops.cyberTerminal = requestAnimationFrame(update);
-        }
-        
-        function loadGame() {
-            const savedLinks = localStorage.getItem(STORAGE_KEY);
-            const savedDifficulty = localStorage.getItem(DIFFICULTY_KEY);
-            if (savedLinks) {
-                const numLinks = parseInt(savedLinks, 10);
-                for (let i = 1; i <= numLinks; i++) {
-                    unlockedLinks = i;
-                    const link = document.getElementById(`link-${unlockedLinks}`);
-                    link.classList.remove('link-locked');
-                    link.classList.add('link-unlocked');
-                }
-            }
-            if (savedDifficulty) { difficultySelect.value = savedDifficulty; }
-            introModal.classList.add('hidden');
-            typeLog("[*] Melanjutkan misi. Firewall telah ditembus hingga level " + unlockedLinks + ".");
-            if (soundEnabled) sounds.ct_music.play();
-            piece = createPiece();
-            nextPiece = createPiece();
-            drawNextPiece();
-            updateGhostPiece();
-            update();
-        }
+        <div class="mono text-xs text-zinc-600 uppercase tracking-widest mt-10">
+            © 2026 ADITYA MALAH SYSTEM ARCHITECTURE. All Rights Reserved.
+        </div>
+    </footer>
 
-        function startNewGame() {
-            localStorage.removeItem(STORAGE_KEY);
-            const selectedDifficulty = difficultySelect.value;
-            localStorage.setItem(DIFFICULTY_KEY, selectedDifficulty);
-            if (selectedDifficulty === 'easy') { dropInterval = 1200; linesToLevelUp = 8; }
-            else if (selectedDifficulty === 'normal') { dropInterval = 1000; linesToLevelUp = 10; }
-            else if (selectedDifficulty === 'hard') { dropInterval = 800; linesToLevelUp = 12; }
-            else if (selectedDifficulty === 'extreme') { dropInterval = 600; linesToLevelUp = 15; }
-            board = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
-            score = 0; level = 1; linesCleared = 0; gameOver = false; unlockedLinks = 0;
-            scoreElem.textContent = score; levelElem.textContent = level; terminalLogElem.innerHTML = '';
-            document.querySelectorAll('#cyberTerminalGame .link-unlocked').forEach(link => {
-                link.classList.remove('link-unlocked');
-                link.classList.add('link-locked');
-            });
-            victoryModal.classList.add('hidden');
-            introModal.classList.add('hidden');
-            typeLog(`[*] Misi ${selectedDifficulty.toUpperCase()} dimulai - Hancurkan baris untuk menembus firewall...`);
-            if (soundEnabled) sounds.ct_music.play();
-            piece = createPiece();
-            nextPiece = createPiece();
-            drawNextPiece();
-            updateGhostPiece();
-            update();
-        }
+    <script>
+        // Custom Cursor Logic
+        const cursor = document.getElementById('cursor');
+        const cursorFollower = document.getElementById('cursor-follower');
         
-        document.addEventListener('keydown', e => {
-            if (activeGame !== 'cyberTerminal' || gameOver || !introModal.classList.contains('hidden') || !victoryModal.classList.contains('hidden')) return;
-            const prevX = piece.x; const prevShape = piece.shape;
-            if (e.key === 'ArrowLeft') { piece.x--; }
-            else if (e.key === 'ArrowRight') { piece.x++; }
-            else if (e.key === 'ArrowDown') { drop(); }
-            else if (e.key === 'ArrowUp') { rotatePiece(); }
-            else if (e.key === ' ') { e.preventDefault(); hardDrop(); }
-            if (collide(board, piece)) { piece.x = prevX; piece.shape = prevShape; }
-            updateGhostPiece();
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.transform = `translate(${e.clientX - 4}px, ${e.clientY - 4}px)`;
+            
+            // Follower lag effect
+            setTimeout(() => {
+                cursorFollower.style.transform = `translate(${e.clientX - 16}px, ${e.clientY - 16}px)`;
+            }, 60);
         });
-        
-        continueGameBtn.addEventListener('click', loadGame);
-        startNewGameBtn.addEventListener('click', startNewGame);
-        restartGameBtn.addEventListener('click', startNewGame);
 
-        // Tampilkan modal intro saat game dimulai
-        const savedLinks = localStorage.getItem(STORAGE_KEY);
-        const savedDifficulty = localStorage.getItem(DIFFICULTY_KEY);
-        if (savedLinks && parseInt(savedLinks, 10) > 0 && parseInt(savedLinks, 10) < 7) {
-            continueGameBtn.classList.remove('hidden');
-            document.querySelector('#intro-modal p:nth-of-type(2)').textContent = "Kemajuan misi Anda ditemukan.";
-        } else {
-            continueGameBtn.classList.add('hidden');
-        }
-        if (savedDifficulty) { difficultySelect.value = savedDifficulty; }
-        introModal.classList.remove('hidden');
-    }
-
-    /* ========================================================== */
-    /* GAME 2: DATA STREAM RUNNER LOGIC */
-    /* ========================================================== */
-    function initDataStreamRunner() {
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
-        const scoreDisplay = document.getElementById('score-display');
-        const highScoreDisplay = document.getElementById('high-score-display');
-        const gameOverModal = document.getElementById('gameOverModal');
-        const finalScoreText = document.getElementById('finalScoreText');
-        const restartButton = document.getElementById('restartButton');
-        const HIGH_SCORE_KEY = 'dataStreamRunner_highScore';
-        
-        let score = 0, highScore = localStorage.getItem(HIGH_SCORE_KEY) || 0, gameOver = false, speed = 1.5;
-        const player = { x: canvas.width / 2, y: canvas.height - 30, width: 15, height: 15, dx: 0, speed: 5 };
-        const obstacles = [], pickups = [];
-        let obstacleSpawnRate = 120, lastObstacleSpawn = 0;
-        let pickupSpawnRate = 300, lastPickupSpawn = 0;
-        
-        highScoreDisplay.textContent = highScore;
-        
-        function resetGame() {
-            score = 0; speed = 1.5; gameOver = false; obstacles.length = 0; pickups.length = 0;
-            player.x = canvas.width / 2; player.dx = 0;
-            scoreDisplay.textContent = score; gameOverModal.style.display = 'none';
-            gameLoop();
-        }
-
-        function drawPlayer() {
-            ctx.fillStyle = '#4d7eff';
-            ctx.beginPath();
-            ctx.moveTo(player.x, player.y);
-            ctx.lineTo(player.x + player.width, player.y);
-            ctx.lineTo(player.x + player.width / 2, player.y - player.height * 1.5);
-            ctx.closePath();
-            ctx.fill();
-        }
-        function drawObstacles() {
-            ctx.fillStyle = '#ff0054';
-            obstacles.forEach(obstacle => { ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height); });
-        }
-        function drawPickups() {
-            ctx.fillStyle = '#ffff00';
-            pickups.forEach(pickup => {
-                ctx.beginPath();
-                ctx.arc(pickup.x + pickup.size / 2, pickup.y + pickup.size / 2, pickup.size / 2, 0, Math.PI * 2);
-                ctx.fill();
+        // Hover Effect on Links and Buttons
+        document.querySelectorAll('a, button, .card-brutal').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursorFollower.style.width = '60px';
+                cursorFollower.style.height = '60px';
+                cursorFollower.style.marginLeft = '-14px';
+                cursorFollower.style.marginTop = '-14px';
+                cursorFollower.style.borderColor = '#d4ff00';
+                cursorFollower.style.backgroundColor = 'rgba(212, 255, 0, 0.05)';
             });
-        }
-        function update() {
-            player.x += player.dx;
-            if (player.x < 0) player.x = 0;
-            if (player.x + player.width > canvas.width) player.x = canvas.width - player.width;
-            for (let i = obstacles.length - 1; i >= 0; i--) {
-                obstacles[i].y += speed;
-                if (obstacles[i].y > canvas.height) { obstacles.splice(i, 1); }
-            }
-            for (let i = pickups.length - 1; i >= 0; i--) {
-                pickups[i].y += speed;
-                if (pickups[i].y > canvas.height) { pickups.splice(i, 1); }
-            }
-            checkCollisions();
-            score++;
-            scoreDisplay.textContent = Math.floor(score / 10);
-            speed += 0.0005;
-            if (lastObstacleSpawn >= obstacleSpawnRate) { spawnObstacle(); lastObstacleSpawn = 0; } else { lastObstacleSpawn++; }
-            if (lastPickupSpawn >= pickupSpawnRate) { spawnPickup(); lastPickupSpawn = 0; } else { lastPickupSpawn++; }
-        }
-        function checkCollisions() {
-            obstacles.forEach(obstacle => {
-                if ( player.x < obstacle.x + obstacle.width && player.x + player.width > obstacle.x && player.y < obstacle.y + obstacle.height && player.y + player.height > obstacle.y) {
-                    endGame();
+            el.addEventListener('mouseleave', () => {
+                cursorFollower.style.width = '32px';
+                cursorFollower.style.height = '32px';
+                cursorFollower.style.marginLeft = '0px';
+                cursorFollower.style.marginTop = '0px';
+                cursorFollower.style.borderColor = 'rgba(255,255,255,0.5)';
+                cursorFollower.style.backgroundColor = 'transparent';
+            });
+        });
+
+        // Scroll Animation Observer (Fade In Up)
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
                 }
             });
-            for (let i = pickups.length - 1; i >= 0; i--) {
-                const pickup = pickups[i];
-                if ( player.x < pickup.x + pickup.size && player.x + player.width > pickup.x && player.y < pickup.y + pickup.size && player.y + player.height > pickup.y) {
-                    score += 50;
-                    playSound('dsr_pickup');
-                    pickups.splice(i, 1);
-                }
-            }
-        }
-        function spawnObstacle() {
-            const size = 20 + Math.random() * 20;
-            const x = Math.random() * (canvas.width - size);
-            obstacles.push({ x: x, y: -size, width: size, height: size });
-        }
-        function spawnPickup() {
-            const size = 15;
-            const x = Math.random() * (canvas.width - size);
-            pickups.push({ x: x, y: -size, size: size });
-        }
-        function endGame() {
-            gameOver = true;
-            playSound('dsr_gameover');
-            finalScoreText.textContent = Math.floor(score / 10);
-            gameOverModal.style.display = 'block';
-            if (Math.floor(score / 10) > highScore) {
-                highScore = Math.floor(score / 10);
-                localStorage.setItem(HIGH_SCORE_KEY, highScore);
-                highScoreDisplay.textContent = highScore;
-                document.getElementById('gameOverTitle').textContent = "SKOR TERTINGGI BARU!";
-            } else {
-                document.getElementById('gameOverTitle').textContent = "GAME OVER";
-            }
-        }
-        function gameLoop() {
-            if (gameOver || activeGame !== 'dataStreamRunner') return;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = 'var(--bg-dark)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            update();
-            drawObstacles();
-            drawPickups();
-            drawPlayer();
-            gameLoops.dataStreamRunner = requestAnimationFrame(gameLoop);
-        }
-        
-        document.addEventListener('keydown', e => {
-            if (activeGame !== 'dataStreamRunner') return;
-            if (e.key === 'ArrowLeft') { player.dx = -player.speed; }
-            else if (e.key === 'ArrowRight') { player.dx = player.speed; }
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in-up').forEach(el => {
+            observer.observe(el);
         });
-        document.addEventListener('keyup', e => {
-            if (activeGame !== 'dataStreamRunner') return;
-            if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { player.dx = 0; }
-        });
-        canvas.addEventListener('touchstart', e => {
-            const touchX = e.touches[0].clientX - canvas.offsetLeft;
-            const midPoint = canvas.width / 2;
-            if (touchX < midPoint) { player.dx = -player.speed; }
-            else { player.dx = player.speed; }
-        });
-        canvas.addEventListener('touchend', () => { player.dx = 0; });
-        restartButton.addEventListener('click', () => { resetGame(); });
-        
-        resetGame();
-    }
-    
-    // Initial setup
-    window.onload = () => {
-        matrixCanvas.width = window.innerWidth;
-        matrixCanvas.height = window.innerHeight;
-        drawMatrix();
-    };
-</script>
+    </script>
 </body>
 </html>
