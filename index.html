@@ -132,10 +132,6 @@
             z-index: 1;
         }
 
-        .highlight-text {
-            color: var(--acid-lime);
-        }
-
         /* Animations */
         .fade-in-up {
             opacity: 0;
@@ -146,6 +142,12 @@
             opacity: 1;
             transform: translateY(0);
         }
+
+        .pill-badge {
+            background: rgba(212, 255, 0, 0.1);
+            border: 1px solid var(--acid-lime);
+            color: var(--acid-lime);
+        }
     </style>
 </head>
 <body class="selection:bg-acid-lime selection:text-black">
@@ -155,19 +157,19 @@
 
     <!-- STICKY HUD NAVIGATION -->
     <nav class="hud-nav fixed top-0 w-full z-50 px-4 py-4 md:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
-        <div class="flex flex-col">
+        <div class="flex flex-col text-center md:text-left">
             <a href="#" class="archivo text-2xl tracking-tighter hover:text-[#d4ff00] transition-colors pointer-events-auto">ADITYA.MALAH</a>
             <div class="mono text-[10px] text-zinc-500">SUPREME_ARCHITECT // WEB AGENCY</div>
         </div>
         
-        <div class="flex flex-wrap justify-center gap-3 pointer-events-auto">
+        <div class="flex flex-wrap justify-center gap-2 md:gap-3 pointer-events-auto">
+            <a href="#architect" class="mono text-[10px] uppercase font-bold border border-zinc-800 px-3 py-2 hover:bg-white hover:text-black transition-colors">The Architect</a>
             <a href="#why-website" class="mono text-[10px] uppercase font-bold border border-zinc-800 px-3 py-2 hover:bg-white hover:text-black transition-colors">Why Build?</a>
-            <a href="#performance" class="mono text-[10px] uppercase font-bold border border-zinc-800 px-3 py-2 hover:bg-white hover:text-black transition-colors">Performance</a>
             <a href="#packages" class="mono text-[10px] uppercase font-bold border border-[#d4ff00] text-[#d4ff00] px-3 py-2 hover:bg-[#d4ff00] hover:text-black transition-colors">Pricing</a>
             <a href="#specs" class="mono text-[10px] uppercase font-bold border border-zinc-800 px-3 py-2 hover:bg-white hover:text-black transition-colors">Specs</a>
         </div>
 
-        <div class="flex flex-col items-end pointer-events-auto text-right">
+        <div class="flex flex-col items-center md:items-end pointer-events-auto text-right">
             <a href="https://instagram.com/aditmlh" target="_blank" class="mono text-[11px] font-bold hover:text-[#d4ff00] flex items-center gap-2">
                 <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
                 @aditmlh
@@ -197,8 +199,124 @@
         </div>
     </section>
 
+    <!-- THE ARCHITECT (CV PROFILE) -->
+    <section id="architect" class="py-24 px-4 md:px-12 bg-[#0a0a0a] border-t border-zinc-900 relative z-10">
+        <div class="max-w-7xl mx-auto">
+            <div class="mb-16 fade-in-up">
+                <div class="mono text-[#d4ff00] text-sm font-bold uppercase tracking-widest mb-4">// SYS_ADMIN PROFILE</div>
+                <h2 class="archivo text-5xl md:text-7xl mb-6">THE <span class="text-[#d4ff00]">ARCHITECT</span></h2>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                <!-- Left Column: Bio & Stats -->
+                <div class="lg:col-span-4 fade-in-up">
+                    <div class="card-brutal p-8 sticky top-32">
+                        <h3 class="archivo text-3xl mb-2">ADITYA P. MALAH</h3>
+                        <p class="mono text-zinc-400 text-xs mb-6 uppercase tracking-wider">Senior Web Developer & UI/UX Designer</p>
+                        
+                        <p class="text-zinc-300 text-sm leading-relaxed mb-8">
+                            Hi, I’m Aditya, a dedicated professional with 8+ years of real-world experience. I specialize in computer networks, system security, full-stack web development, and graphic design. I help businesses scale through creative, secure, and highly efficient digital solutions.
+                        </p>
+
+                        <div class="grid grid-cols-2 gap-4 mb-8">
+                            <div class="bg-black border border-zinc-800 p-4 text-center">
+                                <div class="archivo text-3xl text-[#d4ff00] mb-1">5.0</div>
+                                <div class="mono text-[9px] text-zinc-500 uppercase font-bold">Rating ⭐</div>
+                            </div>
+                            <div class="bg-black border border-zinc-800 p-4 text-center">
+                                <div class="archivo text-3xl text-white mb-1">100%</div>
+                                <div class="mono text-[9px] text-zinc-500 uppercase font-bold">Job Success</div>
+                            </div>
+                            <div class="bg-black border border-zinc-800 p-4 text-center col-span-2">
+                                <div class="archivo text-2xl text-[#d4ff00] mb-1">$17 USD <span class="text-sm text-zinc-500">/ HR</span></div>
+                                <div class="mono text-[9px] text-zinc-500 uppercase font-bold">Freelance Rate</div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col gap-3 mono text-[11px] font-bold">
+                            <a href="mailto:Biangkerok.ngek@gmail.com" class="text-zinc-400 hover:text-white transition-colors pointer-events-auto block">Email: Biangkerok.ngek@gmail.com</a>
+                            <a href="https://www.linkedin.com/in/aditya-pratama-malah/" target="_blank" class="text-zinc-400 hover:text-white transition-colors pointer-events-auto block">LinkedIn: aditya-pratama-malah</a>
+                            <a href="https://www.facebook.com/adtmlh/" target="_blank" class="text-zinc-400 hover:text-white transition-colors pointer-events-auto block">Facebook: @adtmlh</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Experience, Skills, Education -->
+                <div class="lg:col-span-8 space-y-12 fade-in-up" style="transition-delay: 100ms;">
+                    
+                    <!-- Tech Stack & Skills -->
+                    <div>
+                        <h4 class="archivo text-2xl mb-6 text-white border-b border-zinc-800 pb-4">CORE CAPABILITIES</h4>
+                        <div class="flex flex-wrap gap-3">
+                            <span class="pill-badge px-4 py-2 mono text-xs font-bold pointer-events-auto">PHP (Laravel, CI)</span>
+                            <span class="pill-badge px-4 py-2 mono text-xs font-bold pointer-events-auto">Python</span>
+                            <span class="pill-badge px-4 py-2 mono text-xs font-bold pointer-events-auto">WordPress Dev</span>
+                            <span class="pill-badge px-4 py-2 mono text-xs font-bold pointer-events-auto">UI/UX Design</span>
+                            <span class="pill-badge px-4 py-2 mono text-xs font-bold pointer-events-auto">Network & Web Security</span>
+                            <span class="pill-badge px-4 py-2 mono text-xs font-bold pointer-events-auto">Server Mgt (Linux/Windows)</span>
+                            <span class="pill-badge px-4 py-2 mono text-xs font-bold pointer-events-auto">Adobe Suite (PS, AI, AE, PR)</span>
+                        </div>
+                    </div>
+
+                    <!-- Work Experience -->
+                    <div>
+                        <h4 class="archivo text-2xl mb-6 text-white border-b border-zinc-800 pb-4">WORK EXPERIENCE</h4>
+                        <div class="space-y-8 relative before:content-[''] before:absolute before:left-[7px] before:top-2 before:bottom-2 before:w-[2px] before:bg-zinc-800">
+                            
+                            <div class="relative pl-8">
+                                <div class="absolute left-0 top-1.5 w-4 h-4 bg-[#d4ff00] rounded-full"></div>
+                                <div class="mono text-[10px] text-[#d4ff00] font-bold mb-1">Jan 2021 – Feb 2024</div>
+                                <h5 class="archivo text-xl text-white mb-1">Senior Web Developer</h5>
+                                <p class="text-zinc-400 text-sm italic mb-2">PT. Kontras Karya Media (Kontras.co.id)</p>
+                                <p class="text-sm text-zinc-500 leading-relaxed">Lead web developer for the online media platform, ensuring high performance, security, and consistent technical growth.</p>
+                            </div>
+
+                            <div class="relative pl-8">
+                                <div class="absolute left-0 top-1.5 w-4 h-4 bg-zinc-700 rounded-full"></div>
+                                <div class="mono text-[10px] text-zinc-500 font-bold mb-1">Dec 2016 – Apr 2023</div>
+                                <h5 class="archivo text-xl text-white mb-1">Web Developer & Graphic Designer</h5>
+                                <p class="text-zinc-400 text-sm italic mb-2">PT. Moroton Morigon (Kroniktotabuan.com)</p>
+                                <p class="text-sm text-zinc-500 leading-relaxed">Managed digital portal infrastructure, UI/UX aesthetics, and creative graphic designs for daily news operations.</p>
+                            </div>
+
+                            <div class="relative pl-8">
+                                <div class="absolute left-0 top-1.5 w-4 h-4 bg-zinc-700 rounded-full"></div>
+                                <div class="mono text-[10px] text-zinc-500 font-bold mb-1">May 2016 – Jan 2018</div>
+                                <h5 class="archivo text-xl text-white mb-1">IT Operator, Web Dev & Documentation</h5>
+                                <p class="text-zinc-400 text-sm italic mb-2">Public Relations (HUMAS), Kotamobagu City Government</p>
+                                <p class="text-sm text-zinc-500 leading-relaxed">Captured key government events, engineered promotional content, executed video/photo editing, and managed the city's official web & app infrastructure.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Education -->
+                        <div>
+                            <h4 class="archivo text-2xl mb-6 text-white border-b border-zinc-800 pb-4">EDUCATION</h4>
+                            <div class="mono text-[10px] text-zinc-500 font-bold mb-1">Aug 2013 – May 2016</div>
+                            <h5 class="archivo text-lg text-white mb-1">Computer & Network Engineering</h5>
+                            <p class="text-zinc-400 text-sm">SMK Cokroaminoto Kotamobagu</p>
+                        </div>
+                        
+                        <!-- Portfolio Stats -->
+                        <div>
+                            <h4 class="archivo text-2xl mb-6 text-white border-b border-zinc-800 pb-4">PORTFOLIO HIGHLIGHTS</h4>
+                            <ul class="text-sm text-zinc-400 space-y-2 mono tracking-tight">
+                                <li><span class="text-[#d4ff00]">✔</span> 3+ Gov Portals (Kotamobagu Official, PPID, HUMAS)</li>
+                                <li><span class="text-[#d4ff00]">✔</span> Medical Records App (North Tanoyan)</li>
+                                <li><span class="text-[#d4ff00]">✔</span> 12+ Sales Marketing Websites</li>
+                                <li><span class="text-[#d4ff00]">✔</span> 8+ E-commerce Sites & 16 Landing Pages</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- WHY YOU NEED A WEBSITE -->
-    <section id="why-website" class="py-24 px-4 md:px-12 bg-[#0a0a0a] border-t border-zinc-900 relative z-10">
+    <section id="why-website" class="py-24 px-4 md:px-12 bg-[#050505] border-t border-zinc-900 relative z-10">
         <div class="max-w-7xl mx-auto">
             <div class="mb-16 fade-in-up">
                 <div class="mono text-[#d4ff00] text-sm font-bold uppercase tracking-widest mb-4">// CORE ADVANTAGE</div>
@@ -209,45 +327,30 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Card 1 -->
                 <div class="card-brutal p-8 fade-in-up">
                     <div class="archivo text-5xl text-zinc-800 mb-6">01</div>
                     <h3 class="text-2xl archivo mb-4">Massive Reach</h3>
-                    <p class="text-zinc-400 text-sm leading-relaxed">
-                        Establish an online presence to reach the ever-growing population of internet users across Indonesia and globally. Break physical boundaries.
-                    </p>
+                    <p class="text-zinc-400 text-sm leading-relaxed">Establish an online presence to reach the ever-growing population of internet users across Indonesia and globally. Break physical boundaries.</p>
                 </div>
-                <!-- Card 2 -->
                 <div class="card-brutal p-8 fade-in-up" style="transition-delay: 100ms;">
                     <div class="archivo text-5xl text-zinc-800 mb-6">02</div>
                     <h3 class="text-2xl archivo mb-4">Business Credibility</h3>
-                    <p class="text-zinc-400 text-sm leading-relaxed">
-                        An online presence drastically elevates your business credibility. As internet usage grows, a professional website proves you are trustworthy and established.
-                    </p>
+                    <p class="text-zinc-400 text-sm leading-relaxed">An online presence drastically elevates your business credibility. As internet usage grows, a professional website proves you are trustworthy and established.</p>
                 </div>
-                <!-- Card 3 -->
                 <div class="card-brutal p-8 fade-in-up" style="transition-delay: 200ms;">
                     <div class="archivo text-5xl text-zinc-800 mb-6">03</div>
                     <h3 class="text-2xl archivo mb-4">24/7 Accessibility</h3>
-                    <p class="text-zinc-400 text-sm leading-relaxed">
-                        Your website allows customers to access information about your products or services whenever they want, unrestricted by time zones or physical locations.
-                    </p>
+                    <p class="text-zinc-400 text-sm leading-relaxed">Your website allows customers to access information about your products or services whenever they want, unrestricted by time zones or physical locations.</p>
                 </div>
-                <!-- Card 4 -->
                 <div class="card-brutal p-8 fade-in-up" style="transition-delay: 0ms;">
                     <div class="archivo text-5xl text-zinc-800 mb-6">04</div>
                     <h3 class="text-2xl archivo mb-4">Tactical Marketing</h3>
-                    <p class="text-zinc-400 text-sm leading-relaxed">
-                        Execute highly effective online marketing strategies like SEO (Search Engine Optimization), PPC (Pay-Per-Click), and social media integration to target your specific market.
-                    </p>
+                    <p class="text-zinc-400 text-sm leading-relaxed">Execute highly effective online marketing strategies like SEO (Search Engine Optimization), PPC (Pay-Per-Click), and social media integration to target your specific market.</p>
                 </div>
-                <!-- Card 5 -->
                 <div class="card-brutal p-8 fade-in-up" style="transition-delay: 100ms;">
                     <div class="archivo text-5xl text-zinc-800 mb-6">05</div>
                     <h3 class="text-2xl archivo mb-4">Direct Interaction</h3>
-                    <p class="text-zinc-400 text-sm leading-relaxed">
-                        Facilitate seamless interaction with your customers through integrated contact forms, live chat systems, or community platforms built directly into your architecture.
-                    </p>
+                    <p class="text-zinc-400 text-sm leading-relaxed">Facilitate seamless interaction with your customers through integrated contact forms, live chat systems, or community platforms built directly into your architecture.</p>
                 </div>
             </div>
         </div>
@@ -276,8 +379,8 @@
         </div>
     </section>
 
-    <!-- PACKAGES / PRICING -->
-    <section id="packages" class="py-24 px-4 md:px-12 relative z-10">
+    <!-- PACKAGES / PRICING (USD CONVERSION) -->
+    <section id="packages" class="py-24 px-4 md:px-12 bg-[#050505] relative z-10">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-20 fade-in-up">
                 <h2 class="archivo text-5xl md:text-7xl mb-4">DEPLOYMENT <span class="outline-text">TIERS</span></h2>
@@ -290,7 +393,7 @@
                 <div class="card-brutal p-10 flex flex-col fade-in-up">
                     <div class="mono text-zinc-500 mb-2">TIER 01</div>
                     <h3 class="archivo text-4xl mb-2">WEB BASIC</h3>
-                    <div class="archivo text-3xl text-[#d4ff00] mb-6">Rp. 2.800.000</div>
+                    <div class="archivo text-4xl text-[#d4ff00] mb-6">$185 <span class="text-sm text-zinc-500 font-sans font-normal uppercase">USD</span></div>
                     <p class="text-zinc-400 text-sm mb-8 flex-grow">
                         Designed for small-scale businesses aiming to expand their online presence quickly. Offers comprehensive features at an highly accessible price point.
                     </p>
@@ -304,7 +407,7 @@
                     <div class="absolute top-0 right-0 bg-[#d4ff00] text-black mono text-[10px] font-bold px-3 py-1 uppercase">Recommended</div>
                     <div class="mono text-[#d4ff00] mb-2">TIER 03 // ENTERPRISE</div>
                     <h3 class="archivo text-4xl mb-2">WEB COMPRO</h3>
-                    <div class="archivo text-4xl text-white mb-6">Rp. 15.500.000</div>
+                    <div class="archivo text-5xl text-white mb-6">$995 <span class="text-sm text-zinc-400 font-sans font-normal uppercase">USD</span></div>
                     <p class="text-zinc-300 text-sm mb-8 flex-grow">
                         The ultimate architecture. Designed for corporations requiring a fully-featured, highly attractive digital monolith. Perfect for establishing a powerful, dominant professional presence.
                     </p>
@@ -317,7 +420,7 @@
                 <div class="card-brutal p-10 flex flex-col fade-in-up" style="transition-delay: 200ms;">
                     <div class="mono text-zinc-500 mb-2">TIER 02</div>
                     <h3 class="archivo text-4xl mb-2">WEB GROW</h3>
-                    <div class="archivo text-3xl text-[#d4ff00] mb-6">Rp. 3.800.000</div>
+                    <div class="archivo text-4xl text-[#d4ff00] mb-6">$385 <span class="text-sm text-zinc-500 font-sans font-normal uppercase">USD</span></div>
                     <p class="text-zinc-400 text-sm mb-8 flex-grow">
                         Optimized for medium-scale businesses ready to scale their digital footprint. Strikes the perfect balance between advanced features and cost-efficiency.
                     </p>
@@ -352,15 +455,15 @@
                         <!-- Pricing Row -->
                         <tr class="spec-row font-bold archivo text-lg">
                             <td class="py-4 px-4 text-zinc-400 font-normal font-sans text-sm">Initial Setup<br><span class="text-[10px] mono">*Excludes 11% VAT</span></td>
-                            <td class="py-4 px-4 text-[#d4ff00]">Rp. 15.500.000</td>
-                            <td class="py-4 px-4">Rp. 5.800.000 <span class="text-xs text-red-500 line-through block font-normal font-sans">Rp. 3.800.000?</span></td>
-                            <td class="py-4 px-4">Rp. 2.800.000</td>
+                            <td class="py-4 px-4 text-[#d4ff00]">$995 USD</td>
+                            <td class="py-4 px-4">$385 USD</td>
+                            <td class="py-4 px-4">$185 USD</td>
                         </tr>
                         <tr class="spec-row font-bold archivo text-md">
                             <td class="py-4 px-4 text-zinc-400 font-normal font-sans text-sm">Annual Renewal</td>
-                            <td class="py-4 px-4 text-[#d4ff00]">Rp. 4.800.000/Yr</td>
-                            <td class="py-4 px-4">Rp. 2.500.000/Yr</td>
-                            <td class="py-4 px-4">Rp. 1.200.000/Yr</td>
+                            <td class="py-4 px-4 text-[#d4ff00]">$320 USD / Yr</td>
+                            <td class="py-4 px-4">$160 USD / Yr</td>
+                            <td class="py-4 px-4">$80 USD / Yr</td>
                         </tr>
 
                         <!-- Core Setup -->
@@ -489,13 +592,12 @@
     </section>
 
     <!-- DEVELOPMENT PROCESS -->
-    <section class="py-32 px-4 md:px-12 relative z-10">
+    <section class="py-32 px-4 md:px-12 bg-[#050505] relative z-10">
         <div class="max-w-4xl mx-auto">
             <h2 class="archivo text-5xl md:text-7xl mb-16 text-center fade-in-up">DEVELOPMENT <br><span class="text-zinc-600 outline-text">PROTOCOL</span></h2>
             
             <div class="space-y-8 relative before:content-[''] before:absolute before:left-[23px] before:top-2 before:bottom-2 before:w-[2px] before:bg-zinc-800">
                 
-                <!-- Step 1 -->
                 <div class="flex gap-8 relative fade-in-up">
                     <div class="w-12 h-12 bg-[#0a0a0a] border-2 border-[#d4ff00] rounded-full flex items-center justify-center archivo text-[#d4ff00] z-10 shrink-0 mt-1">1</div>
                     <div>
@@ -504,7 +606,6 @@
                     </div>
                 </div>
 
-                <!-- Step 2 -->
                 <div class="flex gap-8 relative fade-in-up" style="transition-delay: 50ms;">
                     <div class="w-12 h-12 bg-[#0a0a0a] border-2 border-zinc-700 rounded-full flex items-center justify-center archivo text-zinc-500 z-10 shrink-0 mt-1">2</div>
                     <div>
@@ -513,7 +614,6 @@
                     </div>
                 </div>
 
-                <!-- Step 3 -->
                 <div class="flex gap-8 relative fade-in-up" style="transition-delay: 100ms;">
                     <div class="w-12 h-12 bg-[#0a0a0a] border-2 border-zinc-700 rounded-full flex items-center justify-center archivo text-zinc-500 z-10 shrink-0 mt-1">3</div>
                     <div>
@@ -522,7 +622,6 @@
                     </div>
                 </div>
 
-                <!-- Step 4 -->
                 <div class="flex gap-8 relative fade-in-up" style="transition-delay: 150ms;">
                     <div class="w-12 h-12 bg-[#0a0a0a] border-2 border-zinc-700 rounded-full flex items-center justify-center archivo text-zinc-500 z-10 shrink-0 mt-1">4</div>
                     <div>
@@ -531,7 +630,6 @@
                     </div>
                 </div>
 
-                <!-- Step 5 -->
                 <div class="flex gap-8 relative fade-in-up" style="transition-delay: 200ms;">
                     <div class="w-12 h-12 bg-[#0a0a0a] border-2 border-zinc-700 rounded-full flex items-center justify-center archivo text-zinc-500 z-10 shrink-0 mt-1">5</div>
                     <div>
@@ -540,7 +638,6 @@
                     </div>
                 </div>
 
-                <!-- Step 6 -->
                 <div class="flex gap-8 relative fade-in-up" style="transition-delay: 250ms;">
                     <div class="w-12 h-12 bg-[#0a0a0a] border-2 border-zinc-700 rounded-full flex items-center justify-center archivo text-zinc-500 z-10 shrink-0 mt-1">6</div>
                     <div>
@@ -549,7 +646,6 @@
                     </div>
                 </div>
 
-                <!-- Step 7 -->
                 <div class="flex gap-8 relative fade-in-up" style="transition-delay: 300ms;">
                     <div class="w-12 h-12 bg-[#0a0a0a] border-2 border-[#ff0055] rounded-full flex items-center justify-center archivo text-[#ff0055] z-10 shrink-0 mt-1">7</div>
                     <div>
@@ -563,7 +659,7 @@
     </section>
 
     <!-- FOOTER CTA -->
-    <footer class="py-32 px-4 bg-[#050505] border-t border-zinc-900 relative z-10 flex flex-col items-center justify-center text-center">
+    <footer class="py-32 px-4 bg-[#0a0a0a] border-t border-zinc-900 relative z-10 flex flex-col items-center justify-center text-center">
         <h2 class="huge-text archivo mb-8 fade-in-up">INITIATE <br><span class="text-[#d4ff00]">CONTACT</span></h2>
         
         <div class="flex flex-col md:flex-row gap-6 mb-16 fade-in-up" style="transition-delay: 100ms;">
@@ -578,7 +674,7 @@
         </div>
 
         <div class="mono text-xs text-zinc-600 uppercase tracking-widest mt-10">
-            © 2026 ADITYA MALAH SYSTEM ARCHITECTURE. All Rights Reserved.
+            © 2026 ADITYA P. MALAH SYSTEM ARCHITECTURE. All Rights Reserved.
         </div>
     </footer>
 
@@ -597,7 +693,7 @@
         });
 
         // Hover Effect on Links and Buttons
-        document.querySelectorAll('a, button, .card-brutal').forEach(el => {
+        document.querySelectorAll('a, button, .card-brutal, .pill-badge').forEach(el => {
             el.addEventListener('mouseenter', () => {
                 cursorFollower.style.width = '60px';
                 cursorFollower.style.height = '60px';
